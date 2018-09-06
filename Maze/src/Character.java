@@ -1,34 +1,40 @@
 
 public class Character {
 	
-	// don't know how to store coordinates yet
-	int[][] coordinates = new int[1][2];
+	CoOrd coordinates; 
 	 
 	public Character(int x, int y) {
-		this.coordinates[0][0] = x;
-		this.coordinates[0][1] = y;
+		this.coordinates = new CoOrd(x, y);
 	}
 	
-	public int[][] getCoordinates() {
-		return coordinates;
+	public CoOrd get_character_coordinates() {
+		return this.coordinates;
+	}
+	
+	public void set_character_coordinates(int x, int y) {
+		this.coordinates.setXY(x, y);;
 	}
 
-	public void setCoordinates(int x, int y) {
-		this.coordinates[0][0] = x;
-		this.coordinates[0][1] = y;
-	}
-	
-	public void move() {
-		/*if (blocked path) {
-			// do nothing
+	public void move(int x, int y) {
+		if (x >= 0) {
+			this.coordinates.moveRight();
 		}
 		else {
-			
-		}*/
+			this.coordinates.moveLeft();
+		}
+		
+		if (y>=0) {
+			this.coordinates.moveUp();
+		}
+		else {
+			this.coordinates.moveDown();
+		}
+		
 	}
 	
 	public void pick_up_weapon(Weapon w) {
-		
+		// check what type of item it is
+		// add item to the inventory
 	}
 	
 	public void stop_using_weapon(Weapon w) {
@@ -43,8 +49,8 @@ public class Character {
 		
 	}
 	
-	public void destroy_character() {
-		
+	public void destroy_character(Character player) {
+		player = null;
 	}
 
 }
