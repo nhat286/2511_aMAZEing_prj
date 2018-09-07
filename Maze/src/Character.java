@@ -16,6 +16,7 @@ public class Character {
 	}
 
 	public void move(int x, int y) {
+		
 		if (x >= 0) {
 			this.coordinates.moveRight();
 		}

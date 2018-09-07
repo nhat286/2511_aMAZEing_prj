@@ -5,8 +5,31 @@ public class Arrow extends Weapon {
 		super(x, y);
 	}
 	
-	public void action() {
+	@Override
+	public int action() {
 		
+		// if (character facing right) {
+			coordinates.moveRight();
+		//}
+			
+		// else if (character facing left) {
+			coordinates.moveLeft();
+		//}
+			
+		// else if (character facing up) {
+			coordinates.moveUp();
+		//}
+			
+		// else if (character facing down) {
+			coordinates.moveDown();
+		//}
+		
+		// else {
+			// do nothing
+		//}
+			
+		return 0;
+			
 	}
 	
 }

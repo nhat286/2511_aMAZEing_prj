@@ -1,24 +1,23 @@
 
 public abstract class SpecialItems {
 	
-	int[][] coordinates = new int[1][2];
-	
+	CoOrd coordinates;
 	
 	public SpecialItems(int x, int y) {
-		this.coordinates[0][0] = x;
-		this.coordinates[0][1] = y;
+		this.coordinates = new CoOrd(x, y);
 	}
 
-	public int[][] getCoordinates() {
-		return coordinates;
+	public CoOrd get_item_coordinates() {
+		return this.coordinates;
 	}
 
-	public void setCoordinates(int x, int y) {
-		this.coordinates[0][0] = x;
-		this.coordinates[0][1] = y;
+	public void set_item_coordinates(int x, int y) {
+		this.coordinates.setXY(x, y);
 	}
 	
-	public void special_effect() {
-		
+	public void set_item_coordinates(CoOrd co) {
+		this.coordinates.setCoOrd(co);
 	}
+	
+	public abstract void special_effect();
 }

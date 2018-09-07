@@ -6,7 +6,7 @@ public class HoverPotion extends SpecialItems {
 	}
 	
 	public void special_effect() {
-		
+		// hover over pits???
 	}
 
 }

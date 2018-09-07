@@ -11,8 +11,23 @@ public class Inventory {
 		this.weapon_list = new ArrayList<Weapon>();
 	}
 	
-	public HashMap<String, Integer> get_item_list() {
-		HashMap<String, Integer> map = new HashMap<>();
+	public HashMap<SpecialItems, Integer> get_item_list() {
+		HashMap<SpecialItems, Integer> map = new HashMap<>();
+		int i=0;
+		for (SpecialItems s: item_list) {
+			map.put(s, i);
+			i++;
+		}
+		return map;
+	}
+	
+	public HashMap<Weapon, Integer> get_weapon_list() {
+		HashMap<Weapon, Integer> map = new HashMap<>();
+		int i=0;
+		for (Weapon s: weapon_list) {
+			map.put(s, i);
+			i++;
+		}
 		return map;
 	}
 	

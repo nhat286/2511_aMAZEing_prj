@@ -8,12 +8,20 @@ public class Sword extends Weapon {
 		this.durability = 5;
 	}
 	
-	public void decrease_durability() {
+	private void decrease_durability() {
 		this.durability = this.durability - 1;
 	}
 	
-	public void action() {
-		
+	@Override
+	public int action() {
+		if (durability>=0) {
+			/* if (enemy.getX() == Weapon.getX() + 1) {
+			 * 	destroy enemy; 
+			 * }
+			 */
+			decrease_durability();
+		}
+		return this.durability;
 	}
 
 }
