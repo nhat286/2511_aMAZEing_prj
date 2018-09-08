@@ -1,3 +1,5 @@
+/* note
+*/
 
 public class Sword extends Weapon {
 

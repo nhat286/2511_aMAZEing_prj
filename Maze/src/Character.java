@@ -33,22 +33,23 @@ public class Character {
 		
 	}
 	
-	public void pick_up_weapon(Weapon w) {
-		// check what type of item it is
-		// add item to the inventory
+	public void pick_up_weapon(Inventory i, Weapon w) {
+		i.add_weapon(w);
 	}
 	
-	public void stop_using_weapon(Weapon w) {
-		
+	/*public void stop_using_weapon(Weapon w) {
+		not necessary as to use for arrow
+		for sword - the func in sword class takes care of it
+	}*/
+	
+	public void pick_up_specialised_item(Inventory i, SpecialItems si) {
+		i.add_special_item(si);
 	}
 	
-	public void pick_up_specialised_weapon(Weapon w) {
-		
-	}
-	
-	public void stop_using_specialised_weapon(Weapon w) {
-		
-	}
+	/*public void stop_using_specialised_weapon(Weapon w) {
+		not necessary unless player has control over when to 
+		use/stop using hover potion multiple times
+	}*/
 	
 	public void destroy_character(Character player) {
 		player = null;
