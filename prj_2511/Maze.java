@@ -1,19 +1,20 @@
 package prj_2511;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Maze {
-	/*
-	 * Character player;
-	 * ArrayList<Item> item_drops;
-	 * ArrayList<Weapon> weapon_drops;
-	 * ArrayList<Enemy> enemies;
-	 * ArrayList<Obstacle> obstacles;
-	 */
+	
+	Character player;
+	ArrayList<SpecialItems> item_drops;
+	ArrayList<Weapon> weapon_drops;
+	//ArrayList<Enemy> enemies;
+	//ArrayList<Obstacle> obstacles;
 	
 	private char[][] map;
 	private int size;
 	
-	public Maze(int size) {//Character c, int size) {
-		//this.player = c;
+	public Maze(int size) {
 		this.size = size;
 		this.map = new char[size][size];
 	}
@@ -45,12 +46,88 @@ public class Maze {
 	}
 	
 	public void updateMap() {
+		CoOrd player = this.player.getCoordinates();
+		this.map[player.getX()][player.getY()] = this.player.getIcon();
 		
+		CoOrd entity = null;
+		for (SpecialItems i : this.item_drops) {
+			entity = i.getCoordinates();
+			this.map[entity.getX()][entity.getY()] = i.getIcon();
+		}
+		
+		for (Weapon i : this.weapon_drops) {
+			entity = i.getCoordinates();
+			this.map[entity.getX()][entity.getY()] = i.getIcon();
+		}
+		
+		/*for (Enemy i : this.enemies) {
+			entity = i.getCoordinates();
+			this.map[entity.getX()][entity.getY()] = i.getIcon();
+		}*/
+		
+		/*for (Obstacle i : this.obstacles) {
+			entity = i.getCoordinates();
+			this.map[entity.getX()][entity.getY()] = i.getIcon();
+		}*/
 	}
 	
-	/*
-	 * public HashMap<Enemy : Integer> enemyStat() {
-	 *     //doing sth here
-	 * }
-	 */
+	public void addCharacter(Character c) {
+		this.player = c;
+	}
+	
+	public void addItemDrop(SpecialItems i) {
+		this.item_drops.add(i);
+	}
+	
+	public void addWeaponDrop(Weapon w) {
+		this.weapon_drops.add(w);
+	}
+	
+	/*public void addEnemy(Enemy e) {
+		this.enemies.add(e);
+	}*/
+	
+	/*public void addObstacle(Obstacle o) {
+		this.obstacles.add(o);
+	}*/
+	
+	public HashMap<SpecialItems, Integer> itemStat() {
+		HashMap<SpecialItems, Integer> dict = new HashMap<>();
+		for (SpecialItems i : this.item_drops) {
+			if (!dict.containsKey(i))
+				dict.put(i, new Integer(0));
+			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+		}
+		return dict;
+	}
+	
+	public HashMap<Weapon, Integer> weaponStat() {
+		HashMap<Weapon, Integer> dict = new HashMap<>();
+		for (Weapon i : this.weapon_drops) {
+			if (!dict.containsKey(i))
+				dict.put(i, new Integer(0));
+			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+		}
+		return dict;
+	}
+	
+	/*public HashMap<Obstacle, Integer> obstacleStat() {
+		HashMap<Obstacle, Integer> dict = new HashMap<>();
+		for (Obstacle i : this.obstacles) {
+			if (!dict.containsKey(i))
+				dict.put(i, new Integer(0));
+			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+		}
+		return dict;
+	}*/
+	
+	/*public HashMap<Enemy, Integer> enemyStat() {
+		HashMap<Enemy, Integer> dict = new HashMap<>();
+		for (Enemy i : this.enemies) {
+			if (!dict.containsKey(i))
+				dict.put(i, new Integer(0));
+			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+		}
+		return dict;
+	}*/
 }
