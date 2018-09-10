@@ -2,6 +2,11 @@ import java.util.Timer;
 
 public class InvincibilityPotion extends SpecialItems {
 	
+	int action;
+	// 0 == don't die
+	// 1 == enemy dies
+	// 2 == nothing happens
+	
 	Timer time_limit; // change to time type?
 
 	public InvincibilityPotion(int x, int y) {
@@ -13,8 +18,29 @@ public class InvincibilityPotion extends SpecialItems {
 		return this.time_limit;
 	}
 	
-	public void special_effect() {
-		
+	/*
+	 * 
+	 * @see SpecialItems#special_effect(Obstacle)
+	 */
+	@Override
+	public int special_effect(Obstacle o) {
+		action = 2;
+		return action;
+	}
+	
+	public int special_effect(Enemy e) {
+		e.destroyEnemy();
+		action = 1;
+		return action;
+	}
+	
+	public int special_effect(Weapon w) {
+		if (((w.getClass()).toString()).equals("Bomb")) {
+			action = 0;
+			return action;
+		}
+		action = 2;
+		return action;
 	}
 
 }

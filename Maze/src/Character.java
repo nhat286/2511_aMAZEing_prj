@@ -2,9 +2,12 @@
 public class Character {
 	
 	CoOrd coordinates; 
+	Inventory inventory;
 	 
 	public Character(int x, int y) {
 		this.coordinates = new CoOrd(x, y);
+		this.inventory = new Inventory();
+		
 	}
 	
 	public CoOrd get_character_coordinates() {
@@ -33,8 +36,8 @@ public class Character {
 		
 	}
 	
-	public void pick_up_weapon(Inventory i, Weapon w) {
-		i.add_weapon(w);
+	public void pick_up_weapon(Weapon w) {
+		this.inventory.add_weapon(w);
 	}
 	
 	/*public void stop_using_weapon(Weapon w) {
@@ -42,8 +45,8 @@ public class Character {
 		for sword - the func in sword class takes care of it
 	}*/
 	
-	public void pick_up_specialised_item(Inventory i, SpecialItems si) {
-		i.add_special_item(si);
+	public void pick_up_specialised_item(SpecialItems si) {
+		this.inventory.add_special_item(si);
 	}
 	
 	/*public void stop_using_specialised_weapon(Weapon w) {

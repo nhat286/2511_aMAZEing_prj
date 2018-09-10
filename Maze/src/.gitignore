@@ -11,3 +11,5 @@
 /Sword.class
 /Weapon.class
 /Bomb$destroy_surroundings.class
+/Obstacle.class
+/Enemy.class

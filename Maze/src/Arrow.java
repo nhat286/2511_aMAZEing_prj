@@ -6,7 +6,7 @@ public class Arrow extends Weapon {
 	}
 	
 	@Override
-	public int action() {
+	public int action(Enemy e) {
 		
 		// if (character facing right) {
 			coordinates.moveRight();
@@ -27,7 +27,7 @@ public class Arrow extends Weapon {
 		// else {
 			// do nothing
 		//}
-			
+		e.destroyEnemy();	
 		return 0;
 			
 	}

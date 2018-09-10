@@ -3,6 +3,11 @@ import java.util.TimerTask;
 
 public class Bomb extends SpecialItems {
 	
+	
+	int action;
+	// 0 == don't destroy
+	// 1 == destroy
+	
 	boolean lit;
 	Timer burn_timer;
 	
@@ -20,11 +25,34 @@ public class Bomb extends SpecialItems {
 		return this.burn_timer;
 	}
 
-	public void special_effect(){
+	@Override
+	public int special_effect(Obstacle o) {
+		if (lit == false && (((o.getClass()).toString()).equals("Boulder"))) {
+			this.lit = true;
+			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);;
+			action = 1;
+			return action;
+		}
+		
+		action = 0;
+		return action;
+	}
+
+	@Override
+	public int special_effect(Weapon w) {
+		action = 0;
+		return 0;
+	}
+
+	@Override
+	public int special_effect(Enemy e) {
 		if (lit == false) {
 			this.lit = true;
 			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);;
 		}
+		
+		action = 1;
+		return action;
 	}
 	
 	class destroy_surroundings extends TimerTask {
@@ -33,4 +61,6 @@ public class Bomb extends SpecialItems {
             burn_timer.cancel();
         }
 	}
+
+	
 }

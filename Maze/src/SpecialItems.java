@@ -19,5 +19,7 @@ public abstract class SpecialItems {
 		this.coordinates.setCoOrd(co);
 	}
 	
-	public abstract void special_effect();
+	public abstract int special_effect(Weapon w);
+	public abstract int special_effect(Obstacle o);
+	public abstract int special_effect(Enemy e);
 }

@@ -2,6 +2,10 @@
 */
 
 public class Sword extends Weapon {
+	
+	int action;
+	// 0 == don't destroy
+	// 1 == destroy
 
 	int durability;
 
@@ -15,15 +19,16 @@ public class Sword extends Weapon {
 	}
 	
 	@Override
-	public int action() {
+	public int action(Enemy e) {
 		if (durability>=0) {
-			/* if (enemy.getX() == Weapon.getX() + 1) {
-			 * 	destroy enemy; 
-			 * }
-			 */
+			e.destroyEnemy();
 			decrease_durability();
+			action = 1;
 		}
-		return this.durability;
+		else {
+			action = 0;
+		}
+		return action;
 	}
 
 }

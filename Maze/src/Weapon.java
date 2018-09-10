@@ -20,6 +20,6 @@ public abstract class Weapon {
 		this.coordinates.setCoOrd(co);
 	}
 	
-	public abstract int action();
+	public abstract int action(Enemy e);
 
 }
