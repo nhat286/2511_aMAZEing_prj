@@ -5,11 +5,11 @@ import java.util.HashMap;
 
 public class Maze {
 	
-	Character player;
-	ArrayList<SpecialItems> item_drops;
-	ArrayList<Weapon> weapon_drops;
-	//ArrayList<Enemy> enemies;
-	//ArrayList<Obstacle> obstacles;
+	private Character player;
+	private ArrayList<SpecialItems> item_drops;
+	private ArrayList<Weapon> weapon_drops;
+	ArrayList<Enemy> enemies;
+	ArrayList<Obstacle> obstacles;
 	
 	private char[][] map;
 	private int size;
@@ -17,11 +17,16 @@ public class Maze {
 	public Maze(int size) {
 		this.size = size;
 		this.map = new char[size][size];
+		drawMap();
+		this.item_drops = new ArrayList<SpecialItems>();
+		this.weapon_drops = new ArrayList<Weapon>();
+		this.enemies = new ArrayList<Enemy>();
+		this.obstacles = new ArrayList<Obstacle>();
 	}
 	
 	public void printMap() {
 		updateMap();
-		this.map = drawMap();
+		//this.map = drawMap();
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				System.out.print(this.map[i][j]);
@@ -60,15 +65,15 @@ public class Maze {
 			this.map[entity.getX()][entity.getY()] = i.getIcon();
 		}
 		
-		/*for (Enemy i : this.enemies) {
+		for (Enemy i : this.enemies) {
 			entity = i.getCoordinates();
 			this.map[entity.getX()][entity.getY()] = i.getIcon();
-		}*/
+		}
 		
-		/*for (Obstacle i : this.obstacles) {
+		for (Obstacle i : this.obstacles) {
 			entity = i.getCoordinates();
 			this.map[entity.getX()][entity.getY()] = i.getIcon();
-		}*/
+		}
 	}
 	
 	public void addCharacter(Character c) {
@@ -83,13 +88,13 @@ public class Maze {
 		this.weapon_drops.add(w);
 	}
 	
-	/*public void addEnemy(Enemy e) {
+	public void addEnemy(Enemy e) {
 		this.enemies.add(e);
-	}*/
+	}
 	
-	/*public void addObstacle(Obstacle o) {
+	public void addObstacle(Obstacle o) {
 		this.obstacles.add(o);
-	}*/
+	}
 	
 	public HashMap<SpecialItems, Integer> itemStat() {
 		HashMap<SpecialItems, Integer> dict = new HashMap<>();
@@ -111,7 +116,7 @@ public class Maze {
 		return dict;
 	}
 	
-	/*public HashMap<Obstacle, Integer> obstacleStat() {
+	public HashMap<Obstacle, Integer> obstacleStat() {
 		HashMap<Obstacle, Integer> dict = new HashMap<>();
 		for (Obstacle i : this.obstacles) {
 			if (!dict.containsKey(i))
@@ -119,9 +124,9 @@ public class Maze {
 			dict.put(i, new Integer(dict.get(i).intValue() + 1));
 		}
 		return dict;
-	}*/
+	}
 	
-	/*public HashMap<Enemy, Integer> enemyStat() {
+	public HashMap<Enemy, Integer> enemyStat() {
 		HashMap<Enemy, Integer> dict = new HashMap<>();
 		for (Enemy i : this.enemies) {
 			if (!dict.containsKey(i))
@@ -129,5 +134,5 @@ public class Maze {
 			dict.put(i, new Integer(dict.get(i).intValue() + 1));
 		}
 		return dict;
-	}*/
+	}
 }

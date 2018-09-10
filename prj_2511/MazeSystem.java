@@ -18,11 +18,21 @@ public class MazeSystem implements KeyListener, ActionListener {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Character user = new Character(1, 1);
 		Maze curr = new Maze(40);
 		assert (curr != null);
+		
+		Character user = new Character(1, 1);
 		curr.addCharacter(user);
 		curr.printMap();
+		
+		Enemy e1 = new Enemy(3, 4, 'A');
+		curr.addEnemy(e1);
+		Enemy e2 = new Enemy(7, 21, 'A');
+		curr.addEnemy(e2);
+		Enemy e3 = new Enemy(11, 17, 'A');
+		curr.addEnemy(e3);
+		curr.printMap();
+		
 		//clearScreen();
 		//curr.printMap();
 		/*
