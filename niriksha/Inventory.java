@@ -1,4 +1,4 @@
-package prj_2511;
+package niriksha;
 
 import java.util.ArrayList;
 import java.util.HashMap;

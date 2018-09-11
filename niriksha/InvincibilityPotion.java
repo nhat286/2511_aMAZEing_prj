@@ -1,6 +1,9 @@
-package prj_2511;
+package niriksha;
 
 import java.util.Timer;
+
+import prj_2511.Enemy;
+import prj_2511.Obstacle;
 
 public class InvincibilityPotion extends SpecialItems {
 	

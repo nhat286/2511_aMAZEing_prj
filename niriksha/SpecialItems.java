@@ -1,4 +1,8 @@
-package prj_2511;
+package niriksha;
+
+import prj_2511.CoOrd;
+import prj_2511.Enemy;
+import prj_2511.Obstacle;
 
 public abstract class SpecialItems {
 	

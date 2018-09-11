@@ -1,4 +1,6 @@
-package prj_2511;
+package niriksha;
+
+import prj_2511.CoOrd;
 
 public class Character {
 	

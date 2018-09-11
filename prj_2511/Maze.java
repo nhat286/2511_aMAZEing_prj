@@ -3,6 +3,10 @@ package prj_2511;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import niriksha.Character;
+import niriksha.SpecialItems;
+import niriksha.Weapon;
+
 public class Maze {
 	
 	private Character player;

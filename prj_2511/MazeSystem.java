@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import niriksha.Character;
+
 public class MazeSystem implements KeyListener, ActionListener {
 
 	/**
