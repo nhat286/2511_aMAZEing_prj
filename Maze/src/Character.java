@@ -1,61 +1,116 @@
+package niriksha;
+
+import java.util.ArrayList;
+
+import eric.CoOrd;
 
 public class Character {
 	
-	CoOrd coordinates; 
-	Inventory inventory;
+	private CoOrd co_ord;
+	private Inventory bag;
+	private char icon;
+	private direction d;
+	private enum direction {UP, RIGHT, DOWN, LEFT}; 
+	
+	public Weapon w;
+	public ArrayList<SpecialItems> si;
 	 
 	public Character(int x, int y) {
-		this.coordinates = new CoOrd(x, y);
-		this.inventory = new Inventory();
-		
+		this.co_ord = new CoOrd(x, y);
+		this.bag = new Inventory();
+		this.icon = '@';
+		this.d = direction.DOWN;
+		this.w = null;
+		this.si = new ArrayList<SpecialItems>();
 	}
 	
-	public CoOrd get_character_coordinates() {
-		return this.coordinates;
-	}
-	
-	public void set_character_coordinates(int x, int y) {
-		this.coordinates.setXY(x, y);;
+	public CoOrd getCoordinates() {
+		return this.co_ord;
 	}
 
-	public void move(int x, int y) {
+	public void setCoordinates(int x, int y) {
+		this.co_ord.setXY(x, y);
+	}
+	
+	public void move(String s, char object) {
 		
-		if (x >= 0) {
-			this.coordinates.moveRight();
-		}
-		else {
-			this.coordinates.moveLeft();
-		}
+		switch(s) {
 		
-		if (y>=0) {
-			this.coordinates.moveUp();
-		}
-		else {
-			this.coordinates.moveDown();
+			case "right":
+				if (this.d == direction.RIGHT) {
+					if (object == ' ') {
+						co_ord.moveRight();
+					}
+				}
+				else {
+					this.d = direction.RIGHT;
+				}
+				break;
+				
+			case "left":
+				if (this.d == direction.LEFT) {
+					if (object == ' ') {
+						co_ord.moveLeft();
+					}
+				}
+				else {
+					this.d = direction.LEFT;
+				}
+				break;
+				
+			case "up":
+				if (this.d == direction.UP) {
+					if (object == ' ') {
+						co_ord.moveUp();
+					}
+				}
+				else {
+					this.d = direction.UP;
+				}
+				break;
+				
+			case "down":
+				if (this.d == direction.DOWN) {
+					if (object == ' ') {
+						co_ord.moveDown();
+					}
+				}
+				else {
+					this.d = direction.DOWN;
+				}
+				break;
+				
+			default:	
+				System.out.println("Invalid move\n");
 		}
 		
 	}
 	
-	public void pick_up_weapon(Weapon w) {
-		this.inventory.add_weapon(w);
+	public char getIcon() {
+		return this.icon;
 	}
 	
-	/*public void stop_using_weapon(Weapon w) {
-		not necessary as to use for arrow
-		for sword - the func in sword class takes care of it
-	}*/
-	
-	public void pick_up_specialised_item(SpecialItems si) {
-		this.inventory.add_special_item(si);
+	public void pickUpWeapon(Weapon w) {
+		this.bag.addWeapon(w);
 	}
 	
-	/*public void stop_using_specialised_weapon(Weapon w) {
-		not necessary unless player has control over when to 
-		use/stop using hover potion multiple times
-	}*/
+	public void useWeapon(Weapon w) {
+		this.w = w;
+		w.weapon_action();
+	}
+	
+	public void pickUpSpecialisedItem(SpecialItems i) {
+		this.bag.addItem(i);
+	}
+	
+	public void useSpecialisedItem(SpecialItems i) {
+		this.si.add(i);
+		i.special_effect();
+	}
 	
 	public void destroy_character(Character player) {
 		player = null;
 	}
 
 }
+
