@@ -1,9 +1,9 @@
 package kyle_maze;
 
-import prj_2511.Inventory;
-import prj_2511.SpecialItems;
-import prj_2511.Weapon;
-import prj_2511.Character;
+import niriksha.Character;
+import niriksha.Inventory;
+import niriksha.SpecialItems;
+import niriksha.Weapon;
 
 public class inventoryMenu implements Menu{
 	private Inventory inventory;
