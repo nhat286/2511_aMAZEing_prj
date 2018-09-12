@@ -13,7 +13,14 @@ public class Character {
 	private enum direction {UP, RIGHT, DOWN, LEFT}; 
 	
 	public Weapon w;
+	public ArrayList<Potions> p;
 	public ArrayList<SpecialItems> si;
+	
+	enum action {
+		PUSH_BOULDER, PICK_UP_WEAPON, PICK_UP_POTION, PICK_UP_ITEM,
+		MOVE, HOVER, DIE, DESTROY, 
+		GAME_COMPLETE, NOTHING;
+	}
 	 
 	public Character(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
@@ -21,6 +28,7 @@ public class Character {
 		this.icon = '@';
 		this.d = direction.DOWN;
 		this.w = null;
+		this.p = new ArrayList<Potions>();
 		this.si = new ArrayList<SpecialItems>();
 	}
 	
@@ -32,56 +40,121 @@ public class Character {
 		this.co_ord.setXY(x, y);
 	}
 	
-	public void move(String s, char object) {
+	public action move(String s, char object) {
 		
-		switch(s) {
+		switch(object) {
 		
-			case "right":
-				if (this.d == direction.RIGHT) {
-					if (object == ' ') {
-						co_ord.moveRight();
+			// nothing in front
+			case ' ':
+				move_chara(s);
+				return action.MOVE;
+			
+			// A is enemy
+			case 'A':
+				for (int i=0; i<p.size(); i++) {
+					if ((p.get(i).getClass().toString()).equals("InvincibiltyPotion")) {
+						usePotion(p.get(i));
+						return action.DESTROY;
 					}
 				}
-				else {
-					this.d = direction.RIGHT;
+				if (w != null) {
+					useWeapon(w, object);
+					return action.DIE;
 				}
-				break;
-				
-			case "left":
-				if (this.d == direction.LEFT) {
-					if (object == ' ') {
-						co_ord.moveLeft();
+				else {
+					destroy_character(this);
+					return action.DIE;
+				}
+			
+			// B is pit
+			case 'B':
+				int flag = -1;
+				for (int i=0; i<p.size(); i++) {
+					if ((p.get(i).getClass().toString()).equals("HoverPotion")) {
+						flag = 0;
+						move_chara(s);
 					}
 				}
-				else {
-					this.d = direction.LEFT;
-				}
-				break;
-				
-			case "up":
-				if (this.d == direction.UP) {
-					if (object == ' ') {
-						co_ord.moveUp();
-					}
+				if (flag == -1) {
+					destroy_character(this);
+					return action.DIE;
 				}
 				else {
-					this.d = direction.UP;
+					return action.HOVER;
 				}
-				break;
 				
-			case "down":
-				if (this.d == direction.DOWN) {
-					if (object == ' ') {
-						co_ord.moveDown();
-					}
-				}
-				else {
-					this.d = direction.DOWN;
-				}
-				break;
+			// C is wall
+			case 'C':
+				return action.NOTHING;
 				
-			default:	
+			// D is boulder
+			case 'D':
+				return action.PUSH_BOULDER;
+			
+			// E is door
+			case 'E':
+				// door open then move else don't move?
+				return action.NOTHING;
+			
+			// F is exit
+			case 'F':
+				move_chara(s);
+				return action.GAME_COMPLETE;
+					
+			// G is weapon	
+			case 'G':
+				return action.PICK_UP_WEAPON;
+				
+			// H is potion
+			case 'H':
+				return action.PICK_UP_POTION;
+				
+			case 'I':
+				return action.PICK_UP_ITEM; 
+			
+			default:
 				System.out.println("Invalid move\n");
+				return action.NOTHING;
+		}
+	}
+	
+	public void move_chara(String s) {
+		
+		if (s == "right") {
+			if (this.d == direction.RIGHT) {
+				co_ord.moveRight();
+			}
+			else {
+				this.d = direction.RIGHT;
+			}
+		}
+		else if (s == "left") {
+			if (this.d == direction.LEFT) {
+				co_ord.moveRight();
+			}
+			else {
+				this.d = direction.LEFT;
+			}
+		}
+		else if (s == "up") {
+			if (this.d == direction.UP) {
+				co_ord.moveRight();
+			}
+			else {
+				this.d = direction.UP;
+			}
+		}
+		else if (s == "down") {
+			if (this.d == direction.DOWN) {
+				co_ord.moveRight();
+			}
+			else {
+				this.d = direction.DOWN;
+			}
+		}
+		else {
+			// do nothing
+			System.out.println("Invalid move\n");
 		}
 		
 	}
@@ -94,9 +167,23 @@ public class Character {
 		this.bag.addWeapon(w);
 	}
 	
-	public void useWeapon(Weapon w) {
-		this.w = w;
-		w.weapon_action();
+	public void useWeapon(Weapon w, char object) {
+		if (this.w == null) {
+			this.w = w;
+			w.weapon_action(object);
+			this.w = null;
+		}
+	}
+	
+	public void pickUpPotion(Potions p) {
+		this.bag.addPotion(p);
+	}
+	
+	public void usePotion(Potions p) {
+		if (!this.p.contains(p)) {
+			this.p.add(p);
+			p.potion_effect();
+		}
 	}
 	
 	public void pickUpSpecialisedItem(SpecialItems i) {
@@ -113,4 +200,5 @@ public class Character {
 	}
 
 }
+
 
