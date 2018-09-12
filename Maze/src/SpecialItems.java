@@ -1,25 +1,35 @@
 
+package niriksha;
+
+import eric.CoOrd;
+
 public abstract class SpecialItems {
 	
-	CoOrd coordinates;
+	enum action {
+		OPEN, N_OPEN, PICKUP, N_PICKUP, NOTHING;
+	}
 	
-	public SpecialItems(int x, int y) {
-		this.coordinates = new CoOrd(x, y);
+	private CoOrd co_ord;
+	private char icon;
+	
+	public SpecialItems(int x, int y, char c) {
+		this.co_ord = new CoOrd(x, y);
+		this.icon = c;
 	}
 
-	public CoOrd get_item_coordinates() {
-		return this.coordinates;
+	public CoOrd getCoordinates() {
+		return co_ord;
+	}
+	
+	public char getIcon() {
+		return this.icon;
 	}
 
-	public void set_item_coordinates(int x, int y) {
-		this.coordinates.setXY(x, y);
+	public void setCoordinates(int x, int y) {
+		this.co_ord.setXY(x, y);
 	}
 	
-	public void set_item_coordinates(CoOrd co) {
-		this.coordinates.setCoOrd(co);
-	}
-	
-	public abstract int special_effect(Weapon w);
-	public abstract int special_effect(Obstacle o);
-	public abstract int special_effect(Enemy e);
+	public abstract void special_effect();
+
 }
+
