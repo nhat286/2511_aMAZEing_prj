@@ -1,17 +1,21 @@
+package niriksha;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Inventory {
 	
-	ArrayList<SpecialItems> item_list;
-	ArrayList<Weapon> weapon_list;
+	private ArrayList<SpecialItems> item_list;
+	private ArrayList<Weapon> weapon_list;
+	private ArrayList<Potions> potion_list;
 	
 	public Inventory() {
 		this.item_list = new ArrayList<SpecialItems>();
 		this.weapon_list = new ArrayList<Weapon>();
+		this.potion_list = new ArrayList<Potions>();
 	}
 	
-	public HashMap<SpecialItems, Integer> get_item_list() {
+	public HashMap<SpecialItems, Integer> getItemList() {
 		HashMap<SpecialItems, Integer> map = new HashMap<>();
 		int i=0;
 		for (SpecialItems s: item_list) {
@@ -21,7 +25,7 @@ public class Inventory {
 		return map;
 	}
 	
-	public HashMap<Weapon, Integer> get_weapon_list() {
+	public HashMap<Weapon, Integer> getWeaponList() {
 		HashMap<Weapon, Integer> map = new HashMap<>();
 		int i=0;
 		for (Weapon s: weapon_list) {
@@ -31,31 +35,54 @@ public class Inventory {
 		return map;
 	}
 	
-	public int no_total_items() {
-		return this.item_list.size() + this.weapon_list.size();
+	public HashMap<Potions, Integer> getPotionList() {
+		HashMap<Potions, Integer> map = new HashMap<>();
+		int i=0;
+		for (Potions s: potion_list) {
+			map.put(s, i);
+			i++;
+		}
+		return map;
 	}
 	
-	public int no_special_items() {
+	public int getTotalItems() {
+		return this.item_list.size() + this.weapon_list.size() + this.potion_list.size();
+	}
+	
+	public int getNoSpecialItems() {
 		return this.item_list.size();
 	}
 	
-	public int no_weapon() {
+	public int getNoWeapons() {
 		return this.weapon_list.size();
 	}
 	
-	public void add_special_item(SpecialItems i) {
+	public int getNoPotions() {
+		return this.potion_list.size();
+	}
+	
+	public void addItem(SpecialItems i) {
 		this.item_list.add(i);
 	}
 	
-	public void add_weapon(Weapon w) {
+	public void addWeapon(Weapon w) {
 		this.weapon_list.add(w);
 	}
 	
-	public void remove_special_item(SpecialItems i) {
+	public void addPotion(Potions p) {
+		this.potion_list.add(p);
+	}
+	
+	public void deleteItem(SpecialItems i) {
 		this.item_list.remove(i);
 	}
 	
-	public void remove_weapon(Weapon w) {
+	public void deleteWeapon(Weapon w) {
 		this.weapon_list.remove(w);
 	}
+	
+	public void deletePotion(Potions p) {
+		this.potion_list.remove(p);
+	}
 }
+
