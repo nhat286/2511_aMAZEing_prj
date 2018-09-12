@@ -1,4 +1,4 @@
-package prj_2511;
+package eric;
 
 public class CoOrd {
 	private int x;
@@ -10,19 +10,19 @@ public class CoOrd {
 	}
 	
 	public void moveLeft() {
-		this.x--;
+		if (this.y > 1) this.y--;
 	}
 	
-	public void moveRight() {
-		this.x++;
+	public void moveRight(int border) {
+		if (this.y < border - 1) this.y++;
 	}
 	
 	public void moveUp() {
-		this.y++;
+		if (this.x > 1) this.x--;
 	}
 	
-	public void moveDown() {
-		this.y--;
+	public void moveDown(int border) {
+		if (this.x < border - 1) this.x++;
 	}
 	
 	public int getX() {
@@ -45,5 +45,14 @@ public class CoOrd {
 	
 	public void setCoOrd(CoOrd co) {
 		setXY(co.getX(), co.getY());
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		if (!(arg0 instanceof CoOrd)) return false;
+		if (arg0 == this) return true;
+		CoOrd co = (CoOrd) arg0;
+		if (co.x == this.x && co.y == this.y) return true;
+		return false;
 	}
 }

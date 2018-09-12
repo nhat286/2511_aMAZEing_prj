@@ -1,12 +1,6 @@
 package niriksha;
 
-import prj_2511.Enemy;
-
 public class Sword extends Weapon {
-	
-	private int action;
-	// 0 == don't destroy
-	// 1 == destroy
 
 	private int durability;
 
@@ -20,7 +14,33 @@ public class Sword extends Weapon {
 	}
 	
 	@Override
-	public int action(Enemy e) {
+	public action weapon_action(char object) {
+		
+		if (this.durability >= 0 && object == 'A') {
+			decrease_durability();
+			return action.DESTROY;
+		}
+		
+		else if (this.durability == 0 && object == 'A') {
+			return action.DIE;
+		}
+		
+		// decrease as sword is used even if it did nothing;
+		decrease_durability();
+		return action.NOTHING;
+	}
+	
+	public void destroy_sword(Weapon w) {
+		w = null;
+	}
+
+	public int getDurability() {
+		return durability;
+	}
+	
+	
+	/*@Override
+	public int action() {
 		if (durability>=0) {
 			e.destroyEnemy();
 			decrease_durability();
@@ -30,6 +50,6 @@ public class Sword extends Weapon {
 			action = 0;
 		}
 		return action;
-	}
+	}*/
 
 }

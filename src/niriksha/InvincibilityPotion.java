@@ -1,34 +1,49 @@
 package niriksha;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
-import prj_2511.Enemy;
-import prj_2511.Obstacle;
+public class InvincibilityPotion extends Potions {
 
-public class InvincibilityPotion extends SpecialItems {
-	
-	private int action;
-	// 0 == don't die
-	// 1 == enemy dies
-	// 2 == nothing happens
-	
-	Timer time_limit; // change to time type?
+	private boolean used;
+	Timer time_limit;
 
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
+		this.used = false;
 		this.time_limit = new Timer();
 	}
+	
+	// only destroy enemy if potion hasn't been used
+	public action potion_effect() {
+		
+		if (this.used == false) {
+			this.time_limit.schedule(new timing(), 1000*10);
+			this.used = true;
+			return action.INVINCIBLE;
+		}
+		
+		return action.NOTHING;
+	}
+	
+	// start/stop timer
+	class timing extends TimerTask {
+		public void run() {
+            time_limit.cancel();
+        }
+	}
 
+	public boolean isUsed() {
+		return used;
+	}
+	
 	public Timer getTime_limit() {
 		return this.time_limit;
 	}
 	
-	/*
-	 * 
-	 * @see SpecialItems#special_effect(Obstacle)
-	 */
-	@Override
-	public int special_effect(Obstacle o) {
+	
+	/*@Override
+	public int special_effect(Object o) {
 		action = 2;
 		return action;
 	}
@@ -46,6 +61,7 @@ public class InvincibilityPotion extends SpecialItems {
 		}
 		action = 2;
 		return action;
-	}
+	}*/
 
 }
+

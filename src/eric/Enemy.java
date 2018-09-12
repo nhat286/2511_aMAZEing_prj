@@ -1,17 +1,15 @@
-package prj_2511;
+package eric;
 
 public class Enemy {
 	
 	private CoOrd co_ord;
 	private char icon;
-	private String type;
 	
-	public Enemy(int x, int y, char c, String type) {
+	public Enemy(int x, int y, char c) {
 		this.co_ord = new CoOrd(x, y);
 		this.icon = c;
-		this.type = type;
 	}
-
+	
 	public CoOrd getCoordinates() {
 		return this.co_ord;
 	}
@@ -20,8 +18,8 @@ public class Enemy {
 		return this.icon;
 	}
 	
-	public String getType() {
-		return this.type;
+	public void move() {
+		
 	}
 	
 	public void destroyEnemy() {
