@@ -12,14 +12,24 @@ public class Maze {
 	private Character player;
 	private ArrayList<SpecialItems> item_drops;
 	private ArrayList<Weapon> weapon_drops;
-	ArrayList<Enemy> enemies;
-	ArrayList<Obstacle> obstacles;
+	private ArrayList<Enemy> enemies;
+	private ArrayList<Obstacle> obstacles;
+	private int goal;
+	/*
+	 * Win Condition:
+	 * 00001 -> MazeRunner (just find the door)
+	 * 00010 -> TreasureHunter (collect all treasures)
+	 * 00100 -> EnemySlayer (kill all enemies)
+	 * 01000 -> Detective (find the key to unlock door)
+	 * 10000 -> Brainer (solve puzzle to unlock door)
+	 */
 	
-	public Maze() {
+	public Maze(int winning_goal) {
 		this.item_drops = new ArrayList<SpecialItems>();
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
+		this.goal = winning_goal;
 	}
 	
 	public void updateMap(char[][] map) {
@@ -134,5 +144,9 @@ public class Maze {
 			dict.put(i, new Integer(dict.get(i).intValue() + 1));
 		}
 		return dict;
+	}
+	
+	public int getWinCond() {
+		return this.goal;
 	}
 }
