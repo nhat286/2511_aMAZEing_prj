@@ -1,4 +1,7 @@
-package prj_2511;
+package niriksha;
+
+import eric.CoOrd;
+import eric.Enemy;
 
 public abstract class Weapon {
 	

@@ -1,4 +1,4 @@
-package prj_2511;
+package eric;
 
 public abstract class Obstacle {
 	private CoOrd co_ord;

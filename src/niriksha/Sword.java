@@ -1,4 +1,6 @@
-package prj_2511;
+package niriksha;
+
+import eric.Enemy;
 
 public class Sword extends Weapon {
 	

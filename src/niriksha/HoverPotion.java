@@ -1,4 +1,7 @@
-package prj_2511;
+package niriksha;
+
+import eric.Enemy;
+import eric.Obstacle;
 
 public class HoverPotion extends SpecialItems {
 	

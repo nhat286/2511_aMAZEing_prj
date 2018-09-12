@@ -1,4 +1,4 @@
-package prj_2511;
+package eric;
 
 public class Enemy {
 	
@@ -16,6 +16,10 @@ public class Enemy {
 	
 	public char getIcon() {
 		return this.icon;
+	}
+	
+	public void move() {
+		
 	}
 	
 	public void destroyEnemy() {

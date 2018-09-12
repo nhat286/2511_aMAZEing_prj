@@ -1,7 +1,11 @@
-package prj_2511;
+package eric;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import niriksha.Character;
+import niriksha.SpecialItems;
+import niriksha.Weapon;
 
 public class Maze {
 	
@@ -11,68 +15,48 @@ public class Maze {
 	ArrayList<Enemy> enemies;
 	ArrayList<Obstacle> obstacles;
 	
-	private char[][] map;
-	private int size;
-	
-	public Maze(int size) {
-		this.size = size;
-		this.map = new char[size][size];
-		drawMap();
+	public Maze() {
 		this.item_drops = new ArrayList<SpecialItems>();
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
 	}
 	
-	public void printMap() {
-		updateMap();
-		//this.map = drawMap();
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				System.out.print(this.map[i][j]);
-			}
-			System.out.print("\n");
-		}
-	}
-	
-	public char[][] drawMap() {
-		/*
-		 * read co-ords
-		 */
-		for (int i = 0; i < this.size; i++) {
-			for (int j = 0; j < this.size; j++) {
-				if (i == 0 || i == this.size - 1 || j == 0 || j == this.size - 1)
-					this.map[i][j] = '#';
-				else
-					this.map[i][j] = ' ';
-			}
-		}
-		return this.map;
-	}
-	
-	public void updateMap() {
+	public void updateMap(char[][] map) {
 		CoOrd player = this.player.getCoordinates();
-		this.map[player.getX()][player.getY()] = this.player.getIcon();
+		map[player.getX()][player.getY()] = this.player.getIcon();
 		
 		CoOrd entity = null;
+		int count = 0;
 		for (SpecialItems i : this.item_drops) {
 			entity = i.getCoordinates();
-			this.map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() < 0) this.item_drops.remove(count);
+			else map[entity.getX()][entity.getY()] = i.getIcon();
+			count++;
 		}
 		
+		count = 0;
 		for (Weapon i : this.weapon_drops) {
 			entity = i.getCoordinates();
-			this.map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() < 0) this.weapon_drops.remove(count);
+			else map[entity.getX()][entity.getY()] = i.getIcon();
+			count++;
 		}
 		
+		count = 0;
 		for (Enemy i : this.enemies) {
 			entity = i.getCoordinates();
-			this.map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() < 0) this.enemies.remove(count);
+			else map[entity.getX()][entity.getY()] = i.getIcon();
+			count++;
 		}
 		
+		count = 0;
 		for (Obstacle i : this.obstacles) {
 			entity = i.getCoordinates();
-			this.map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() < 0) this.obstacles.remove(count);
+			else map[entity.getX()][entity.getY()] = i.getIcon();
+			count++;
 		}
 	}
 	
@@ -94,6 +78,22 @@ public class Maze {
 	
 	public void addObstacle(Obstacle o) {
 		this.obstacles.add(o);
+	}
+	
+	public Object getEntity(CoOrd co) {
+		for (SpecialItems i : this.item_drops) {
+			if (i.getCoordinates().equals(co)) return i;
+		}
+		for (Weapon w : this.weapon_drops) {
+			if (w.getCoordinates().equals(co)) return w;
+		}
+		for (Enemy e : this.enemies) {
+			if (e.getCoordinates().equals(co)) return e;
+		}
+		for (Obstacle o : this.obstacles) {
+			if (o.getCoordinates().equals(co)) return o;
+		}
+		return null;
 	}
 	
 	public HashMap<SpecialItems, Integer> itemStat() {

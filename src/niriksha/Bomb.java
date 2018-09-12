@@ -1,7 +1,10 @@
-package prj_2511;
+package niriksha;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import eric.Enemy;
+import eric.Obstacle;
 
 public class Bomb extends SpecialItems {
 	
