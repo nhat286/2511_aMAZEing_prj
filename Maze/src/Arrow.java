@@ -1,35 +1,27 @@
 
+package niriksha;
+
 public class Arrow extends Weapon {
 	
-	public Arrow(int x, int y) {
-		super(x, y);
+	public Arrow(int x, int y, char c) {
+		super(x, y, '^');
+	}
+
+	@Override
+	public action weapon_action(char object) {
+		
+		if (object == 'A') {
+			destroy_arrow(this);
+			return action.DESTROY;
+		}
+		
+		return action.NOTHING;
 	}
 	
-	@Override
-	public int action(Enemy e) {
-		
-		// if (character facing right) {
-			coordinates.moveRight();
-		//}
-			
-		// else if (character facing left) {
-			coordinates.moveLeft();
-		//}
-			
-		// else if (character facing up) {
-			coordinates.moveUp();
-		//}
-			
-		// else if (character facing down) {
-			coordinates.moveDown();
-		//}
-		
-		// else {
-			// do nothing
-		//}
-		e.destroyEnemy();	
-		return 0;
-			
+	// arrow has to be destroyed every time its fired
+	public void destroy_arrow(Weapon w) {
+		w = null;
 	}
+	
 	
 }
