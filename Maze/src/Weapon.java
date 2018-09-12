@@ -1,25 +1,43 @@
 
+package niriksha;
+
+import eric.CoOrd;
+
 public abstract class Weapon {
 	
-	CoOrd coordinates;
-	boolean picked_up;
+	enum action {
+		DESTROY, DIE, NOTHING;
+	}
+	
+	private CoOrd co_ord;
+	private boolean picked_up;
+	private char icon;
 		 
-	public Weapon(int x, int y) {
-		this.coordinates = new CoOrd(x, y); 
+	public Weapon(int x, int y, char c) {
+		this.co_ord = new CoOrd(x, y);
+		this.picked_up = false;
+		this.icon = c;
 	}
 
-	public CoOrd get_weapon_coordinates() {
-		return this.coordinates;
-	}
-
-	public void set_weapon_coordinates(int x, int y) {
-		this.coordinates.setXY(x, y);
+	public CoOrd getCoordinates() {
+		return co_ord;
 	}
 	
-	public void set_weapon_coordinates(CoOrd co) {
-		this.coordinates.setCoOrd(co);
+	public char getIcon() {
+		return this.icon;
+	}
+
+	public CoOrd getCo_ord() {
+		return co_ord;
+	}
+
+	public boolean isPicked_up() {
+		return picked_up;
+	}
+
+	public void setCoordinates(int x, int y) {
+		this.co_ord.setXY(x, y);
 	}
 	
-	public abstract int action(Enemy e);
-
+	public abstract action weapon_action(char object);
 }
