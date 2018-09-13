@@ -1,3 +1,4 @@
+
 package niriksha;
 
 import java.util.Timer;
@@ -62,6 +63,11 @@ public class InvincibilityPotion extends Potions {
 		action = 2;
 		return action;
 	}*/
+	
+	@Override
+	public String getType() {
+		return "InvinciblePotion";
+	}
 
 }
 
