@@ -3,18 +3,21 @@ package niriksha;
 import java.util.ArrayList;
 
 import eric.CoOrd;
+import jae.Door;
 import jae.Enemy;
 
 public class Character {
 	
-	// don't know how to store coordinates yet
 	private CoOrd co_ord;
 	private Inventory bag;
 	private char icon;
+	
 	private direction d;
 	private enum direction {UP, RIGHT, DOWN, LEFT}; 
+	
 	public Weapon equip_weapon;
 	public ArrayList<Potions> active_potions;
+	public Key holding_key;
 	
 	public Character(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
@@ -23,6 +26,7 @@ public class Character {
 		this.d = direction.DOWN;
 		this.equip_weapon = null;
 		this.active_potions = new ArrayList<Potions>();
+		this.holding_key = null;
 	}
 	
 	public CoOrd getCoordinates() {
@@ -33,17 +37,10 @@ public class Character {
 		this.co_ord.setXY(x, y);
 	}
 	
-	//*********
 	public ACTION move(char direction, char type, Object object, int border) {
 		
 		switch(type) {
-			/*
-			// nothing in front
-			case ' ':
-				moveCoOrd(direction, border);
-				return ACTION.MOVE;
-			*/
-			// A is enemy
+		
 			case 'H':
 			case 'S':
 				if (direction == this.icon) {
@@ -54,21 +51,13 @@ public class Character {
 							return ACTION.DESTROY;
 						}
 					}
-					/*
-					if (w != null) {
-						useWeapon(w, object);
-						return action.DIE;
-					}
-					else {
-						destroy_character(this);
-						return action.DIE;
-					}*/
 					destroy_character(this);
 					return ACTION.DIE;
 				} else {
 					moveCoOrd(direction, border);
 					return ACTION.MOVE;
 				}
+				
 			// B is pit
 			case 'B':
 				int flag = -1;
@@ -96,31 +85,35 @@ public class Character {
 			
 			// E is door
 			case 'E':
-				// door open then move else don't move?
-				return ACTION.NOTHING;
+				if (((Door) object).isDoor_open()) {
+					moveCoOrd(direction, border);
+					return ACTION.MOVE;
+				}
+				else {
+					if (holding_key != null && holding_key.checkDoor((Door) object)) {
+						return ACTION.MOVE;
+					}
+					else {
+						return ACTION.NOTHING;
+					}
+				}
 			
 			// F is exit
 			case 'F':
 				moveCoOrd(direction, border);
 				return ACTION.GAME_COMPLETE;
-			/*
-			// G is weapon	
+				
+			// G is treasure
 			case 'G':
-				return ACTION.PICK_UP_WEAPON;
-				
-			// H is potion
-			case 'H':
-				return ACTION.PICK_UP_POTION;
-				
-			case 'I':
-				return ACTION.PICK_UP_ITEM; 
-			*/
+				((Treasure) object).pickUp();
+				moveCoOrd(direction, border);
+				return ACTION.MOVE;
+			
 			default:
 				moveCoOrd(direction, border);
 				return ACTION.MOVE;
 		}
 	}
-	//*********
 	
 	public void moveCoOrd(char movement, int border) {
 		if (movement == '<') {
@@ -181,13 +174,13 @@ public class Character {
 		p.potion_effect();
 	}
 	
-	public void pickUpSpecialisedItem(SpecialItems i) {
+	/*public void pickUpSpecialisedItem(SpecialItems i) {
 		this.bag.addItem(i);
 	}
 	
 	public void useSpecialisedItem(SpecialItems i) {
 		i.special_effect();
-	}
+	}*/
 	
 	public void destroy_character(Character player) {
 		player = null;
