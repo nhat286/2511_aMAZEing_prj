@@ -103,12 +103,10 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.printMap();
 	
 		
-		Timer timer = new Timer("Timer");
+		Timer timer = new Timer();
 		long delay  = 100L;
 	    long period = 100L;
 	    timer.scheduleAtFixedRate(this, delay, period);
-		if (pause == 1)
-			timer.cancel();
 		
 		return -2;
 	}
@@ -176,7 +174,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		System.out.println("Press q to quit!");
 		System.out.println("Press m to design your own maze!");
 
-		while (input != 'q') {
+		while (input != 'q'||sys.pause == 1) {
 			clearScreen();
 			System.out.println("******aMAZEing******");
 			System.out.println("Press y to start!");
@@ -267,6 +265,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			break;
 		case 'q':
 			this.pause = 1;
+			this.cancel();
 			break;
 		default:
 			break;
