@@ -3,8 +3,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import eric.Enemy;
 import eric.Maze;
+import eric.Enemy;
 
 public class EnemyStat implements Menu{
 	

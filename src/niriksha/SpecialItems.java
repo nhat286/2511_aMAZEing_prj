@@ -30,6 +30,9 @@ public abstract class SpecialItems {
 	}
 	
 	public abstract void special_effect();
-
+	
+	public String getType() {
+		return "SpecialItem";
+	}
 }
 

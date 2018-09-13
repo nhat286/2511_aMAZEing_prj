@@ -15,7 +15,10 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import kyle_maze.inventoryMenu;
 import niriksha.Character;
+import niriksha.HoverPotion;
+import niriksha.InvincibilityPotion;
 import niriksha.SpecialItems;
 import niriksha.Weapon;
 
@@ -100,14 +103,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	 * if quit => return -2
 	 */
 	public int gameLoop(Scanner sc) {
-		Enemy e1 = new Enemy(3, 4, 'A');
-		this.curr.addEnemy(e1);
-		Enemy e2 = new Enemy(7, 12, 'A');
-		this.curr.addEnemy(e2);
-		Enemy e3 = new Enemy(11, 17, 'A');
-		this.curr.addEnemy(e3);
-		this.printMap();
-	
 		executor = Executors.newSingleThreadScheduledExecutor();
 		long delay  = 100L;
 	    long period = 100L;
@@ -179,7 +174,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		System.out.println("Press q to quit!");
 		System.out.println("Press m to design your own maze!");
 
-		while (input != 'q'||sys.pause == 1) {
+		while (input != 'q') {
 			clearScreen();
 			System.out.println("******aMAZEing******");
 			System.out.println("Press y to start!");
@@ -189,6 +184,9 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			switch (input) {
 			case 'y':
 				int result;
+				if(sys.pause == 0) {
+					sys.gameInitiate();
+				}
 				do {
 					result = sys.gameLoop(sc);
 					if (result == -1) {
@@ -201,6 +199,10 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			case 'm':
 				System.out.println("Design time!");
 				sys.design(sc);
+				break;
+			case 'i':
+				inventoryMenu iM = new inventoryMenu(sys.getUser(),sc);
+				iM.displayMenu();
 				break;
 			case 'q':
 				sc.close();
@@ -236,6 +238,10 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Character getUser() {
+		return user;
 	}
 
 	@Override
@@ -279,7 +285,19 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 //		e1.move(); e2.move(); e3.move();
 		this.printMap();
 	}
-
+	
+	public void gameInitiate() {
+		Enemy e1 = new Enemy(3, 4, 'A');
+		this.curr.addEnemy(e1);
+		Enemy e2 = new Enemy(7, 12, 'A');
+		this.curr.addEnemy(e2);
+		Enemy e3 = new Enemy(11, 17, 'A');
+		this.curr.addEnemy(e3);
+		this.user.getBag().addPotion(new HoverPotion(-2,-2));
+		this.user.getBag().addPotion(new HoverPotion(-2,-2));
+		this.user.getBag().addPotion(new InvincibilityPotion(-2,-2));
+	}
+		
 
 }
 

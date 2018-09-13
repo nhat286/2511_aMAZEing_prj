@@ -28,4 +28,8 @@ public abstract class Potions {
 	}
 	
 	public abstract action potion_effect();
+	
+	public String getType() {
+		return "Potion";
+	}
 }

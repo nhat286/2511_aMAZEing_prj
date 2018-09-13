@@ -16,7 +16,7 @@ public class inventoryMenu implements Menu{
 	private Character character;
 	private Scanner sc;
 	
-	inventoryMenu(Character cha,Scanner sc){
+	public inventoryMenu(Character cha,Scanner sc){
 		this.character = cha;
 		this.sc = sc;
 	}
@@ -24,66 +24,128 @@ public class inventoryMenu implements Menu{
 	@Override
 	public void displayMenu() {
 		Inventory inventory = character.getBag();
-		HashMap<SpecialItems, Integer> itemHash = inventory.getItemListHash();
-		HashMap<Weapon,Integer> weaponHash = inventory.getWeaponListHash();
-		HashMap<Potions,Integer> potionHash = inventory.getPotionListHash();
+		String selected;
 
+		ArrayList<Weapon> weaponList = inventory.getWeapon_list();
+		ArrayList<Potions> potionList = inventory.getPotion_list();
+		ArrayList<SpecialItems> itemList = inventory.getItem_list();
+		ArrayList<String> currList = new ArrayList<String>();
 		
-		int i = 0;
+		HashMap<String, Integer> weaponHash = new HashMap<>();
+		HashMap<String, Integer> itemHash = new HashMap<>();
+		HashMap<String, Integer> potionHash = new HashMap<>();
 		
-		System.out.println("You have Special Items: ");
-		for (Entry e : itemHash.entrySet()) {
-			System.out.println(e.getKey().toString()+": "+e.getValue().toString());
-		}
+		Integer i;
 		
-		ArrayList<Weapon> weaponListTmp = new ArrayList<Weapon>();
-		System.out.println("You have Weapons: ");
-		for (Entry e : weaponHash.entrySet()) {
-			System.out.println(i+' '+e.getKey().toString()+": "+e.getValue().toString());
-			weaponListTmp.add((Weapon) e);
-		}
 		
-		i = 0;
-		ArrayList<Potions> itemListTmp = new ArrayList<Potions>();
-		System.out.println("You have Items: ");
-		for (Entry e : potionHash.entrySet()) {
-			System.out.println(i+' '+e.getKey().toString()+": "+e.getValue().toString());
-			itemListTmp.add((Potions) e);
-		}
-		
-		System.out.println("To select an item , input i");
-		System.out.println("To select a weapon , input w");
 		char inputType = '.';
-		char inputIndex = '.';
+		int inputIndex = '.';
 		char inputAct = '.';
 		while (inputType != 'q') {
+			for (Weapon o : weaponList) {
+				if (!weaponHash.containsKey(o.getType()))
+					weaponHash.put(o.getType(), new Integer(0));
+				weaponHash.put(o.getType(), new Integer(weaponHash.get(o.getType()).intValue() + 1));
+			}
+			
+			for (Potions o : potionList) {
+				if (!potionHash.containsKey(o.getType()))
+					potionHash.put(o.getType(), new Integer(0));
+				potionHash.put(o.getType(), new Integer(potionHash.get(o.getType()).intValue() + 1));
+			}
+			
+			for (SpecialItems o : itemList) {
+				if (!itemHash.containsKey(o.getType()))
+					itemHash.put(o.getType(), new Integer(0));
+				itemHash.put(o.getType(), new Integer(itemHash.get(o.getType()).intValue() + 1));
+			}
+			
+			i = 0;
+			System.out.println("You have Special Items: ");
+			for (Entry e : itemHash.entrySet()) {
+				System.out.println(i.toString()+". "+e.getKey().toString()+": "+e.getValue().toString());
+				currList.add((String) e.getKey());
+				i++;
+			}
+			System.out.println("------------------------------------------------------------");
+			System.out.println("You have Weapons: ");
+			for (Entry e : weaponHash.entrySet()) {
+				System.out.println(i.toString()+". "+e.getKey().toString()+": "+e.getValue().toString());
+				currList.add((String) e.getKey());
+				i++;
+			}
+			System.out.println("------------------------------------------------------------");
+			System.out.println("You have Potions: ");
+			for (Entry e : potionHash.entrySet()) {
+				System.out.println(i.toString()+". "+e.getKey().toString()+": "+e.getValue().toString());
+				currList.add((String) e.getKey());
+				i++;
+			}
+			
+			itemHash.clear();
+			weaponHash.clear();
+			potionHash.clear();
+			
+			
+			System.out.println("------------------------------------------------------------");
+			System.out.println("To select a special item , input s");
+			System.out.println("To select a weapon , input w");
+			System.out.println("To select a potion , input p");
+			System.out.println("------------------------------------------------------------");
 			inputType = sc.next().charAt(0);
 			switch (inputType) {
 			case 'w':
 				System.out.println("Input index");
-				inputIndex = sc.next().charAt(0);
-				Weapon w = weaponListTmp.get(inputIndex);
-				System.out.println("e: Equip, d: drop");
-				inputAct = sc.next().charAt(0);
-				if(inputAct == 'e')
-					character.useWeapon(w);
-				if(inputAct == 'd')
-					inventory.deleteWeapon(w);
+				inputIndex = sc.nextInt();
+				selected = currList.get(inputIndex);
+				for(Weapon w : weaponList) {
+					if(w.getType().equals(selected)) {
+						System.out.println("e: Equip, d: drop");
+						inputAct = sc.next().charAt(0);
+						if(inputAct == 'e')
+							character.useWeapon(w);
+						if(inputAct == 'd')
+							inventory.deleteWeapon(w);
+						break;
+					}
+				}
 				break;
-			case 'i':
+			case 'p':
 				System.out.println("Input index");
-				inputIndex = sc.next().charAt(0);
-				Potions s = itemListTmp.get(inputIndex);
-				System.out.println("e: Use, d: drop");
-				inputAct = sc.next().charAt(0);
-				if(inputAct == 'e')
-					character.usePotion(s);
-				if(inputAct == 'e')
-					inventory.deletePotion(s);
+				inputIndex = sc.nextInt();
+				selected = currList.get(inputIndex);
+				for(Potions p : potionList) {
+					if(p.getType().equals(selected)) {
+						System.out.println("e: Use, d: drop");
+						inputAct = sc.next().charAt(0);
+						if(inputAct == 'e')
+							character.usePotion(p);
+						if(inputAct == 'd')
+							inventory.deletePotion(p);
+						break;
+					}
+				}
+				break;
+			case 's':
+				System.out.println("Input index");
+				inputIndex = sc.nextInt();
+				selected = currList.get(inputIndex);
+				for(SpecialItems s : itemList) {
+					if(s.getType().equals(selected)) {
+						System.out.println("e: Use, d: drop");
+						inputAct = sc.next().charAt(0);
+						if(inputAct == 'e')
+							character.useSpecialisedItem();
+						if(inputAct == 'd')
+							inventory.deleteItem(s);;
+						break;
+					}
+				}
 				break;
 			default:
 				break;
 			}
+			currList.clear();
 			
 		}
 		

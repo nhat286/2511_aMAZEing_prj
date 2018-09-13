@@ -39,5 +39,9 @@ public abstract class Weapon {
 		this.co_ord.setXY(x, y);
 	}
 	
-	public abstract action weapon_action(char object);
+	public abstract action weapon_action(Object object);
+	
+	public String getType() {
+		return "Weapon";
+	}
 }

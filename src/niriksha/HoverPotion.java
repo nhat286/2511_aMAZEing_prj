@@ -53,4 +53,9 @@ public class HoverPotion extends Potions {
 		return 0;
 	}
 	*/
+	
+	@Override
+	public String getType() {
+		return "HoverPotion";
+	}
 }
