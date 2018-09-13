@@ -1,8 +1,12 @@
 package jae;
 
-public class Door extends Obstacle {
+public class Door extends Obstacles {
 	
 	boolean door_open;
+	
+	public Door(int x, int y) {
+		super(x, y, 'E');
+	}
 	
 	public boolean isDoor_open() {
 		return door_open;
