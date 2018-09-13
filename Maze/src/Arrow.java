@@ -1,16 +1,17 @@
-
 package niriksha;
+
+import jae.Enemy;
 
 public class Arrow extends Weapon {
 	
 	public Arrow(int x, int y, char c) {
-		super(x, y, '^');
+		super(x, y, '%');
 	}
 
 	@Override
-	public action weapon_action(char object) {
+	public action weapon_action(Object object) {
 		
-		if (object == 'A') {
+		if (object instanceof Enemy) {
 			destroy_arrow(this);
 			return action.DESTROY;
 		}
@@ -23,5 +24,9 @@ public class Arrow extends Weapon {
 		w = null;
 	}
 	
+	@Override
+	public String getType() {
+		return "Arrow";
+	}
 	
 }
