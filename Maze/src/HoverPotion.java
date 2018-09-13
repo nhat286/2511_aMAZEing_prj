@@ -40,17 +40,20 @@ public class HoverPotion extends Potions {
 		}
 		return action;
 	}
-
 	@Override
 	public int special_effect(Weapon w) {
 		// do nothing
 		return 0;
 	}
-
 	@Override
 	public int special_effect(Enemy e) {
 		// do nothing
 		return 0;
 	}
 	*/
+	
+	@Override
+	public String getType() {
+		return "HoverPotion";
+	}
 }
