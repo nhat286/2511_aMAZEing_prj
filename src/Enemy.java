@@ -1,20 +1,16 @@
 package ass2package;
 
-public abstract class Enemy {
+public abstract class Enemy{
 	private float speedX, speedY;
 	private CoOrd currPos; 	//position of the enemy
-	private CoOrd startPos;
-	private int width, height;
+
 	
-	public Enemy(float speedX, float speedY, CoOrd currPos, CoOrd startPos, int width, int height) {
+	public Enemy(float speedX, float speedY, CoOrd currPos) {
 		this.speedX = speedX;
 		this.speedY = speedY;
 		this.currPos = currPos;
-		this.startPos = startPos;
-		this.width = width;
-		this.height = height;
 	}
-	
+
 	public float getSpeedX() {
 		return speedX;
 	}
@@ -26,7 +22,7 @@ public abstract class Enemy {
 	public float getSpeedY() {
 		return speedY;
 	}
-
+	//speed will change the coordinates of the enemy
 	public void setSpeedY(float speedY) {
 		this.speedY = speedY;
 	}
@@ -39,35 +35,8 @@ public abstract class Enemy {
 		this.currPos = currPos;
 	}
 
-	public CoOrd getStartPos() {
-		return startPos;
-	}
-
-	public void setStartPos(CoOrd startPos) {
-		this.startPos = startPos;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	public Enemy() {
-		
-	}
-
-	abstract void enemyMovement();
+	public abstract void enemyMovement(CoOrd target);
+	public abstract String getEnemyType();
 	
 	public void enemyDies() {
 		//how to delete the enemy???
