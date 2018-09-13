@@ -8,6 +8,10 @@ import java.awt.event.KeyListener;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
@@ -28,6 +32,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	private Character user;
 	private char keyPressed;
 	private int pause;
+	ScheduledExecutorService executor;
 	
 	public void setPause(int pause) {
 		this.pause = pause;
@@ -45,6 +50,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.curr.addCharacter(this.user);
 		keyPressed = '.';
 		pause = 0;
+		
 	}
 	
 	public static void clearScreen() {  
@@ -102,11 +108,10 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.curr.addEnemy(e3);
 		this.printMap();
 	
-		
-		Timer timer = new Timer();
+		executor = Executors.newSingleThreadScheduledExecutor();
 		long delay  = 100L;
 	    long period = 100L;
-	    timer.scheduleAtFixedRate(this, delay, period);
+	    executor.scheduleAtFixedRate(this, delay, period, TimeUnit.MILLISECONDS);
 		
 		return -2;
 	}
@@ -265,7 +270,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			break;
 		case 'q':
 			this.pause = 1;
-			this.cancel();
+			executor.shutdown();
 			break;
 		default:
 			break;
