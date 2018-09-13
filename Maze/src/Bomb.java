@@ -18,7 +18,7 @@ public class Bomb extends Weapon {
 	
 	// only destroy if bomb hasn't been used before
 	@Override
-	public action weapon_action(char object) {
+	public action weapon_action(Object object) {
 		if (this.lit == false) {
 			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);	
 			this.lit = true;
@@ -58,13 +58,11 @@ public class Bomb extends Weapon {
 		return action.N_DESTROY;
 		
 	}
-
 	@Override
 	public int special_effect(Weapon w) {
 		action = 0;
 		return 0;
 	}
-
 	@Override
 	public int special_effect(Enemy e) {
 		if (lit == false) {
@@ -75,7 +73,10 @@ public class Bomb extends Weapon {
 		action = 1;
 		return action;
 	}*/
-
+	
+	@Override
+	public String getType() {
+		return "Bomb";
+	}
 	
 }
-
