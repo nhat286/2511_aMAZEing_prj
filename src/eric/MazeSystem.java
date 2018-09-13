@@ -26,8 +26,13 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	private Maze curr;
 	//private Timer clock;
 	private Character user;
-	public static char keyPressed;
+	private char keyPressed;
+	private int pause;
 	
+	public void setPause(int pause) {
+		this.pause = pause;
+	}
+
 	public MazeSystem() {		
 		//drawMap();
 	}
@@ -39,6 +44,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.user = new Character(1, 1);
 		this.curr.addCharacter(this.user);
 		keyPressed = '.';
+		pause = 0;
 	}
 	
 	public static void clearScreen() {  
@@ -101,6 +107,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		long delay  = 100L;
 	    long period = 100L;
 	    timer.scheduleAtFixedRate(this, delay, period);
+		if (pause == 1)
+			timer.cancel();
 		
 		return -2;
 	}
@@ -256,6 +264,9 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 				this.user.pickUpSpecialisedItem((SpecialItems) o);
 			else if (o instanceof Weapon)
 				this.user.pickUpWeapon((Weapon) o);
+			break;
+		case 'q':
+			this.pause = 1;
 			break;
 		default:
 			break;

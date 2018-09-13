@@ -15,7 +15,7 @@ public class Inventory {
 		this.potion_list = new ArrayList<Potions>();
 	}
 	
-	public HashMap<SpecialItems, Integer> getItemList() {
+	public HashMap<SpecialItems, Integer> getItemListHash() {
 		HashMap<SpecialItems, Integer> map = new HashMap<>();
 		int i=0;
 		for (SpecialItems s: item_list) {
@@ -25,7 +25,7 @@ public class Inventory {
 		return map;
 	}
 	
-	public HashMap<Weapon, Integer> getWeaponList() {
+	public HashMap<Weapon, Integer> getWeaponListHash() {
 		HashMap<Weapon, Integer> map = new HashMap<>();
 		int i=0;
 		for (Weapon s: weapon_list) {
@@ -35,7 +35,7 @@ public class Inventory {
 		return map;
 	}
 	
-	public HashMap<Potions, Integer> getPotionList() {
+	public HashMap<Potions, Integer> getPotionListHash() {
 		HashMap<Potions, Integer> map = new HashMap<>();
 		int i=0;
 		for (Potions s: potion_list) {
@@ -45,6 +45,19 @@ public class Inventory {
 		return map;
 	}
 	
+	
+	public ArrayList<SpecialItems> getItem_list() {
+		return item_list;
+	}
+
+	public ArrayList<Weapon> getWeapon_list() {
+		return weapon_list;
+	}
+
+	public ArrayList<Potions> getPotion_list() {
+		return potion_list;
+	}
+
 	public int getTotalItems() {
 		return this.item_list.size() + this.weapon_list.size() + this.potion_list.size();
 	}

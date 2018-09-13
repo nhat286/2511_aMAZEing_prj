@@ -1,6 +1,6 @@
 package kyle_maze;
 
-import prj_2511.Maze;
+import eric.Maze;
 
 public class SaveLoad implements Menu{
 	Maze currentMaze;
@@ -15,12 +15,7 @@ public class SaveLoad implements Menu{
 		
 	}
 
-	@Override
-	public void pauseGame() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void LoadGame() {
 		
 	}

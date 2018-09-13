@@ -7,6 +7,8 @@ public class Character {
 	// don't know how to store coordinates yet
 	private CoOrd co_ord;
 	private Inventory bag;
+	
+
 	private char icon;
 	private int direction;
 	 
@@ -88,5 +90,12 @@ public class Character {
 	public void destroy_character(Character player) {
 		player = null;
 	}
+	
+	public Inventory getBag() {
+		return bag;
+	}
 
+	public void usePotion(Object o) {
+		
+	}
 }

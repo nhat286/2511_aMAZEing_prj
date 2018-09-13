@@ -3,13 +3,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import prj_2511.Enemy;
-import prj_2511.Maze;
+import eric.Enemy;
+import eric.Maze;
 
 public class EnemyStat implements Menu{
 	
 	private String[] EnemyDescript;
-	private HashMap<String, Integer> hashMap;
+	private HashMap<Enemy, Integer> hashMap;
 	
 	public EnemyStat(Maze maze){
 		EnemyDescript = new String [4];
@@ -28,13 +28,8 @@ public class EnemyStat implements Menu{
 		}
 	}
 
-	@Override
-	public void pauseGame() {
-		// TODO Auto-generated method stub
-		
-	}
 	
-	public HashMap<String, Integer> getEnemyHash(Maze maze) {
+	public HashMap<Enemy, Integer> getEnemyHash(Maze maze) {
 		return maze.enemyStat();
 	}
 	
