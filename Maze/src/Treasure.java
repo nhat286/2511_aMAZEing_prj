@@ -2,55 +2,41 @@ package niriksha;
 
 import eric.CoOrd;
 
-public class Treasure {
+public abstract class Weapon {
 	
-	private static int points;
-
+	enum action {
+		DESTROY, DIE, NOTHING;
+	}
+	
 	private CoOrd co_ord;
+	private boolean picked_up;
 	private char icon;
-	boolean picked_up;
-
-	public Treasure(int x, int y, char c) {
+		 
+	public Weapon(int x, int y, char c) {
 		this.co_ord = new CoOrd(x, y);
-		this.icon = c;
 		this.picked_up = false;
+		this.icon = c;
 	}
 
-	public void pickUp() {
-		this.picked_up = true;
-		incrementPoints();
-	}
-	
-	private static void incrementPoints() {
-		points++;
-	}
-	
-	public void removeTreasure(Treasure t) {
-		t = null;
-	}
-
-	public CoOrd getCo_ord() {
+	public CoOrd getCoordinates() {
 		return co_ord;
 	}
-
+	
 	public char getIcon() {
-		return icon;
-	}
-
-	public void setCoordinates(int x, int y) {
-		this.co_ord.setXY(x, y);
+		return this.icon;
 	}
 
 	public boolean isPicked_up() {
 		return picked_up;
 	}
+
+	public void setCoordinates(int x, int y) {
+		this.co_ord.setXY(x, y);
+	}
 	
-	public static int getPoints() {
-		return points;
-	}
-
+	public abstract action weapon_action(Object object);
+	
 	public String getType() {
-		return "Key";
+		return "Weapon";
 	}
-
 }
