@@ -17,9 +17,5 @@ public class Rules implements Menu{
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
-	public void pauseGame() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

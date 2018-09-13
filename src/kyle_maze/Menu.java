@@ -1,10 +1,12 @@
 package kyle_maze;
 
+import eric.MazeSystem;
+
 public interface Menu {
-	default void display() {
-		pauseGame();
-		displayMenu();
-	}
+
 	void displayMenu();
-	void pauseGame();
+	
+	/*default void pauseGame(MazeSystem ms) {
+		ms.setPause(1);
+	}*/
 }

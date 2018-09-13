@@ -1,7 +1,10 @@
-package eric;
+package niriksha;
+
+import eric.CoOrd;
 
 public abstract class Obstacle {
-	private CoOrd co_ord;
+	
+	protected CoOrd co_ord;
 	private char icon;
 	
 	public Obstacle(int x, int y, char c) {
@@ -10,12 +13,18 @@ public abstract class Obstacle {
 	}
 	
 	public CoOrd getCoordinates() {
-		return this.co_ord;
+		return co_ord;
 	}
 	
 	public char getIcon() {
 		return this.icon;
 	}
 	
-	public abstract String getType();
+	public void setCoordinates(int x, int y) {
+		this.co_ord.setXY(x, y);
+	}
+	
+	public String getType() {
+		return "Obstacle";
+	}
 }

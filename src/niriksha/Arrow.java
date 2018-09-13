@@ -5,7 +5,7 @@ import jae.Enemy;
 
 public class Arrow extends Weapon {
 	
-	public Arrow(int x, int y, char c) {
+	public Arrow(int x, int y) {
 		super(x, y, '%');
 	}
 

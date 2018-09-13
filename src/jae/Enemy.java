@@ -1,25 +1,19 @@
 package jae;
 
 import eric.CoOrd;
+import niriksha.Character;
 
 public abstract class Enemy {
-	private float speedX, speedY;
-	private CoOrd currPos; 	//position of the enemy
-	private CoOrd startPos;
-	private int width, height;
-	
-	//Eric's
+	//private float speedX, speedY;
+	private CoOrd currPos; //position of the enemy
 	private char icon;
-	private CoOrd co_ord;
-	//
+	private char direction;
 	
-	public Enemy(float speedX, float speedY, CoOrd currPos, CoOrd startPos, int width, int height) {
+	/*public Enemy(float speedX, float speedY, CoOrd currPos, char icon) {
 		this.speedX = speedX;
 		this.speedY = speedY;
 		this.currPos = currPos;
-		this.startPos = startPos;
-		this.width = width;
-		this.height = height;
+		this.icon = icon;
 	}
 	
 	public float getSpeedX() {
@@ -33,11 +27,17 @@ public abstract class Enemy {
 	public float getSpeedY() {
 		return speedY;
 	}
-
+	//speed will change the coordinates of the enemy
 	public void setSpeedY(float speedY) {
 		this.speedY = speedY;
 	}
-
+	*/
+	public Enemy(CoOrd currPos, char icon) {
+		this.currPos = currPos;
+		this.icon = icon;
+		this.direction = 'v';
+	}
+	
 	public CoOrd getCurrPos() {
 		return currPos;
 	}
@@ -45,65 +45,25 @@ public abstract class Enemy {
 	public void setCurrPos(CoOrd currPos) {
 		this.currPos = currPos;
 	}
-
-	public CoOrd getStartPos() {
-		return startPos;
-	}
-
-	public void setStartPos(CoOrd startPos) {
-		this.startPos = startPos;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	// Eric's
-	public Enemy(int x, int y, char c) {
-		this.co_ord = new CoOrd(x, y);
-		this.icon = c;
+	
+	public char getDirection() {
+		return this.direction;
 	}
 	
-	public CoOrd getCoordinates() {
-		return this.co_ord;
-	}
-	
-	public char getIcon() {
-		return this.icon;
-	}
-	
-	public void move() {
-		
-	}
-	
-	public String getType() {
-		return "Enenmy";
-	}
-	
-	public void enemyDestroy() {
-		this.co_ord.setXY(-1, -1);
-	}
-	//
-	public Enemy() {
-		
+	public void setDirection(char direction) {
+		this.direction = direction;
 	}
 
-	public abstract void enemyMovement(CoOrd target);
+	public abstract void enemyMovement(Character target, int border);
+	public abstract String getEnemyType();
 	
 	public void enemyDies() {
 		//how to delete the enemy???
 		currPos.setXY(-1, -1);
+	}
+	
+	public char getIcon() {
+		return this.icon;
 	}
 }
 

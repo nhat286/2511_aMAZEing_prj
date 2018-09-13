@@ -15,12 +15,7 @@ public class SaveLoad implements Menu{
 		
 	}
 
-	@Override
-	public void pauseGame() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void LoadGame() {
 		
 	}

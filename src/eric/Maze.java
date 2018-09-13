@@ -7,6 +7,7 @@ import niriksha.Character;
 import niriksha.Potions;
 import niriksha.SpecialItems;
 import niriksha.Weapon;
+import niriksha.Obstacle;
 
 import jae.Enemy;
 
@@ -38,9 +39,6 @@ public class Maze {
 	}
 	
 	public void updateMap(char[][] map) {
-		CoOrd player = this.player.getCoordinates();
-		map[player.getX()][player.getY()] = this.player.getIcon();
-		
 		CoOrd entity = null;
 		int count = 0;
 		for (SpecialItems i : this.item_drops) {
@@ -51,6 +49,16 @@ public class Maze {
 		}
 		
 		count = 0;
+		entity = null;
+		for (Potions i : this.potion_drops) {
+			entity = i.getCoordinates();
+			if (entity.getX() == -1) this.potion_drops.remove(count);
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
+			count++;
+		}
+		
+		count = 0;
+		entity = null;
 		for (Weapon i : this.weapon_drops) {
 			entity = i.getCoordinates();
 			if (entity.getX() == -1) this.weapon_drops.remove(count);
@@ -59,14 +67,19 @@ public class Maze {
 		}
 		
 		count = 0;
+		entity = null;
 		for (Enemy i : this.enemies) {
-			entity = i.getCoordinates();
+			entity = i.getCurrPos();
 			if (entity.getX() == -1) this.enemies.remove(count);
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
+			else if (entity.getX() >= 0) {
+				i.enemyMovement(this.player, map.length);
+				map[entity.getX()][entity.getY()] = i.getIcon();
+			}
 			count++;
 		}
 		
 		count = 0;
+		entity = null;
 		for (Obstacle i : this.obstacles) {
 			entity = i.getCoordinates();
 			if (entity.getX() == -1) this.obstacles.remove(count);
@@ -74,13 +87,8 @@ public class Maze {
 			count++;
 		}
 		
-		count = 0;
-		for (Potions i : this.potion_drops) {
-			entity = i.getCoordinates();
-			if (entity.getX() == -1) this.potion_drops.remove(count);
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
-			count++;
-		}
+		CoOrd player = this.player.getCoordinates();
+		map[player.getX()][player.getY()] = this.player.getIcon();
 	}
 	
 	public void addCharacter(Character c) {
@@ -115,7 +123,7 @@ public class Maze {
 			if (w.getCoordinates().equals(co)) return w;
 		}
 		for (Enemy e : this.enemies) {
-			if (e.getCoordinates().equals(co)) return e;
+			if (e.getCurrPos().equals(co)) return e;
 		}
 		for (Obstacle o : this.obstacles) {
 			if (o.getCoordinates().equals(co)) return o;
@@ -159,9 +167,9 @@ public class Maze {
 	public HashMap<String, Integer> enemyStat() {
 		HashMap<String, Integer> dict = new HashMap<>();
 		for (Enemy i : this.enemies) {
-			if (!dict.containsKey(i.getType()))
-				dict.put(i.getType(), new Integer(0));
-			dict.put(i.getType(), new Integer(dict.get(i.getType()).intValue() + 1));
+			if (!dict.containsKey(i.getEnemyType()))
+				dict.put(i.getEnemyType(), new Integer(0));
+			dict.put(i.getEnemyType(), new Integer(dict.get(i.getEnemyType()).intValue() + 1));
 		}
 		return dict;
 	}
@@ -178,5 +186,9 @@ public class Maze {
 	
 	public int getWinCond() {
 		return this.goal;
+	}
+	
+	public void resetCharCoOrd() {
+		this.player.setCoordinates(1, 1);
 	}
 }
