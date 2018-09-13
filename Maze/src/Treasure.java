@@ -1,17 +1,56 @@
 package niriksha;
 
-public class Treasure extends SpecialItems {
+import eric.CoOrd;
+
+public class Treasure {
 	
+	private static int points;
+
+	private CoOrd co_ord;
+	private char icon;
 	boolean picked_up;
 
 	public Treasure(int x, int y, char c) {
-		super(x, y, c);
+		this.co_ord = new CoOrd(x, y);
+		this.icon = c;
 		this.picked_up = false;
 	}
 
-	@Override
-	public void special_effect() {
+	public void pickUp() {
 		this.picked_up = true;
+		incrementPoints();
+	}
+	
+	private static void incrementPoints() {
+		points++;
+	}
+	
+	public void removeTreasure(Treasure t) {
+		t = null;
+	}
+
+	public CoOrd getCo_ord() {
+		return co_ord;
+	}
+
+	public char getIcon() {
+		return icon;
+	}
+
+	public void setCoordinates(int x, int y) {
+		this.co_ord.setXY(x, y);
+	}
+
+	public boolean isPicked_up() {
+		return picked_up;
+	}
+	
+	public static int getPoints() {
+		return points;
+	}
+
+	public String getType() {
+		return "Key";
 	}
 
 }
