@@ -8,6 +8,11 @@ public abstract class Enemy {
 	private CoOrd startPos;
 	private int width, height;
 	
+	//Eric's
+	private char icon;
+	private CoOrd co_ord;
+	//
+	
 	public Enemy(float speedX, float speedY, CoOrd currPos, CoOrd startPos, int width, int height) {
 		this.speedX = speedX;
 		this.speedY = speedY;
@@ -64,7 +69,32 @@ public abstract class Enemy {
 	public void setHeight(int height) {
 		this.height = height;
 	}
-
+	// Eric's
+	public Enemy(int x, int y, char c) {
+		this.co_ord = new CoOrd(x, y);
+		this.icon = c;
+	}
+	
+	public CoOrd getCoordinates() {
+		return this.co_ord;
+	}
+	
+	public char getIcon() {
+		return this.icon;
+	}
+	
+	public void move() {
+		
+	}
+	
+	public String getType() {
+		return "Enenmy";
+	}
+	
+	public void enemyDestroy() {
+		this.co_ord.setXY(-1, -1);
+	}
+	//
 	public Enemy() {
 		
 	}

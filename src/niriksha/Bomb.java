@@ -3,15 +3,7 @@ package niriksha;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import eric.Enemy;
-import eric.Obstacle;
-
-public class Bomb extends SpecialItems {
-	
-	
-	private int action;
-	// 0 == don't destroy
-	// 1 == destroy
+public class Bomb extends Weapon {
 	
 	private boolean lit;
 	private Timer burn_timer;
@@ -22,6 +14,26 @@ public class Bomb extends SpecialItems {
 		this.burn_timer = new Timer();
 	}
 	
+	
+	
+	// only destroy if bomb hasn't been used before
+	@Override
+	public action weapon_action(Object object) {
+		if (this.lit == false) {
+			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);	
+			this.lit = true;
+			return action.DESTROY;
+		}
+		return action.NOTHING;
+	}
+	
+	// used to run and then stop the timer
+	class destroy_surroundings extends TimerTask {
+		public void run() {
+            burn_timer.cancel();
+        }
+	}
+	
 	public boolean isLit() {
 		return this.lit;
 	}
@@ -30,17 +42,21 @@ public class Bomb extends SpecialItems {
 		return this.burn_timer;
 	}
 
-	@Override
-	public int special_effect(Obstacle o) {
-		if (lit == false && (((o.getClass()).toString()).equals("Boulder"))) {
+	
+	
+	
+	
+	
+	/*@Override
+	public action special_effect() {
+		if (this.lit == false && (((o.getClass()).toString()).equals("Boulder"))) {
 			this.lit = true;
 			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);;
-			action = 1;
-			return action;
+			return action.DESTROY;
 		}
 		
-		action = 0;
-		return action;
+		return action.N_DESTROY;
+		
 	}
 
 	@Override
@@ -58,14 +74,12 @@ public class Bomb extends SpecialItems {
 		
 		action = 1;
 		return action;
-	}
+	}*/
 	
-	class destroy_surroundings extends TimerTask {
-		public void run() {
-            // destroy anything on the surrounding squares
-            burn_timer.cancel();
-        }
+	@Override
+	public String getType() {
+		return "Bomb";
 	}
-
 	
 }
+

@@ -1,11 +1,14 @@
+
 package niriksha;
 
 import eric.CoOrd;
-import eric.Enemy;
 
 public abstract class Weapon {
 	
-	// don't know how to store coordinates yet
+	enum action {
+		DESTROY, DIE, NOTHING;
+	}
+	
 	private CoOrd co_ord;
 	private boolean picked_up;
 	private char icon;
@@ -24,9 +27,21 @@ public abstract class Weapon {
 		return this.icon;
 	}
 
+	public CoOrd getCo_ord() {
+		return co_ord;
+	}
+
+	public boolean isPicked_up() {
+		return picked_up;
+	}
+
 	public void setCoordinates(int x, int y) {
 		this.co_ord.setXY(x, y);
 	}
 	
-	public abstract int action(Enemy e);
+	public abstract action weapon_action(Object object);
+	
+	public String getType() {
+		return "Weapon";
+	}
 }

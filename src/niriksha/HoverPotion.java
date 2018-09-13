@@ -1,24 +1,32 @@
 package niriksha;
 
-import eric.Enemy;
-import eric.Obstacle;
-
-public class HoverPotion extends SpecialItems {
+public class HoverPotion extends Potions {
 	
-	private int action;
-	// 0 == don't die
-	// 1 == die
-	// 2 == nothing happens
-
+	private boolean used;
+	
 	public HoverPotion(int x, int y) {
 		super(x, y, '~');
+		this.used = false;
 	}
 	
-	/*
-	 * @pre: assuming the coordinates of obstacle is given
-	 * @see SpecialItems#special_effect()
-	 */
+	// can only hover if the potion hasn't been used
 	@Override
+	public action potion_effect() {
+		
+		if (this.used == false) {
+			this.used = true;
+			return action.HOVER;
+		}
+		
+		return action.NOTHING;
+	}
+
+	public boolean isUsed() {
+		return used;
+	}
+	
+	
+	/*@Override
 	public int special_effect(Obstacle o) {
 		
 		if ((o.getType()).equals("Pit")) {
@@ -44,5 +52,10 @@ public class HoverPotion extends SpecialItems {
 		// do nothing
 		return 0;
 	}
-
+	*/
+	
+	@Override
+	public String getType() {
+		return "HoverPotion";
+	}
 }

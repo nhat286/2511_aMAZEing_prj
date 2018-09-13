@@ -1,15 +1,17 @@
 package kyle_maze;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import eric.Enemy;
+import jae.Enemy;
 import eric.Maze;
 
 public class EnemyStat implements Menu{
 	
 	private String[] EnemyDescript;
-	private HashMap<Enemy, Integer> hashMap;
+	private HashMap<String, Integer> hashMap;
 	
-	EnemyStat(Maze maze){
+	public EnemyStat(Maze maze){
 		EnemyDescript = new String [4];
 		EnemyDescript[0] = "Hunter: ...";
 		EnemyDescript[1] = "Hound: ...";
@@ -21,7 +23,9 @@ public class EnemyStat implements Menu{
 	@Override
 	public void displayMenu() {
 		// TODO Auto-generated method stub
-		
+		for (Entry e : hashMap.entrySet()) {
+			System.out.println(e.getKey().toString()+": "+e.getValue().toString());
+		}
 	}
 
 	@Override
@@ -30,7 +34,7 @@ public class EnemyStat implements Menu{
 		
 	}
 	
-	public HashMap<Enemy, Integer> getEnemyHash(Maze maze) {
+	public HashMap<String, Integer> getEnemyHash(Maze maze) {
 		return maze.enemyStat();
 	}
 	

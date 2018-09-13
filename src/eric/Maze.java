@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import niriksha.Character;
+import niriksha.Potions;
 import niriksha.SpecialItems;
 import niriksha.Weapon;
+
+import jae.Enemy;
 
 public class Maze {
 	
@@ -14,6 +17,7 @@ public class Maze {
 	private ArrayList<Weapon> weapon_drops;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Obstacle> obstacles;
+	private ArrayList<Potions> potion_drops;
 	private int goal;
 	/*
 	 * Win Condition:
@@ -29,6 +33,7 @@ public class Maze {
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
+		this.potion_drops = new ArrayList<Potions>();
 		this.goal = winning_goal;
 	}
 	
@@ -40,32 +45,40 @@ public class Maze {
 		int count = 0;
 		for (SpecialItems i : this.item_drops) {
 			entity = i.getCoordinates();
-			if (entity.getX() < 0) this.item_drops.remove(count);
-			else map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() == -1) this.item_drops.remove(count);
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
 			count++;
 		}
 		
 		count = 0;
 		for (Weapon i : this.weapon_drops) {
 			entity = i.getCoordinates();
-			if (entity.getX() < 0) this.weapon_drops.remove(count);
-			else map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() == -1) this.weapon_drops.remove(count);
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
 			count++;
 		}
 		
 		count = 0;
 		for (Enemy i : this.enemies) {
 			entity = i.getCoordinates();
-			if (entity.getX() < 0) this.enemies.remove(count);
-			else map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() == -1) this.enemies.remove(count);
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
 			count++;
 		}
 		
 		count = 0;
 		for (Obstacle i : this.obstacles) {
 			entity = i.getCoordinates();
-			if (entity.getX() < 0) this.obstacles.remove(count);
-			else map[entity.getX()][entity.getY()] = i.getIcon();
+			if (entity.getX() == -1) this.obstacles.remove(count);
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
+			count++;
+		}
+		
+		count = 0;
+		for (Potions i : this.potion_drops) {
+			entity = i.getCoordinates();
+			if (entity.getX() == -1) this.potion_drops.remove(count);
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
 			count++;
 		}
 	}
@@ -90,6 +103,10 @@ public class Maze {
 		this.obstacles.add(o);
 	}
 	
+	public void addPotion(Potions p) {
+		this.potion_drops.add(p);
+	}
+	
 	public Object getEntity(CoOrd co) {
 		for (SpecialItems i : this.item_drops) {
 			if (i.getCoordinates().equals(co)) return i;
@@ -103,45 +120,58 @@ public class Maze {
 		for (Obstacle o : this.obstacles) {
 			if (o.getCoordinates().equals(co)) return o;
 		}
+		for (Potions p : this.potion_drops) {
+			if (p.getCoordinates().equals(co)) return p;
+		}
 		return null;
 	}
 	
-	public HashMap<SpecialItems, Integer> itemStat() {
-		HashMap<SpecialItems, Integer> dict = new HashMap<>();
+	public HashMap<String, Integer> itemStat() {
+		HashMap<String, Integer> dict = new HashMap<>();
 		for (SpecialItems i : this.item_drops) {
-			if (!dict.containsKey(i))
-				dict.put(i, new Integer(0));
-			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+			if (!dict.containsKey(i.getType()))
+				dict.put(i.getType(), new Integer(0));
+			dict.put(i.getType(), new Integer(dict.get(i.getType()).intValue() + 1));
 		}
 		return dict;
 	}
 	
-	public HashMap<Weapon, Integer> weaponStat() {
-		HashMap<Weapon, Integer> dict = new HashMap<>();
+	public HashMap<String, Integer> weaponStat() {
+		HashMap<String, Integer> dict = new HashMap<>();
 		for (Weapon i : this.weapon_drops) {
-			if (!dict.containsKey(i))
-				dict.put(i, new Integer(0));
-			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+			if (!dict.containsKey(i.getType()))
+				dict.put(i.getType(), new Integer(0));
+			dict.put(i.getType(), new Integer(dict.get(i.getType()).intValue() + 1));
 		}
 		return dict;
 	}
 	
-	public HashMap<Obstacle, Integer> obstacleStat() {
-		HashMap<Obstacle, Integer> dict = new HashMap<>();
+	public HashMap<String, Integer> obstacleStat() {
+		HashMap<String, Integer> dict = new HashMap<>();
 		for (Obstacle i : this.obstacles) {
-			if (!dict.containsKey(i))
-				dict.put(i, new Integer(0));
-			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+			if (!dict.containsKey(i.getType()))
+				dict.put(i.getType(), new Integer(0));
+			dict.put(i.getType(), new Integer(dict.get(i.getType()).intValue() + 1));
 		}
 		return dict;
 	}
 	
-	public HashMap<Enemy, Integer> enemyStat() {
-		HashMap<Enemy, Integer> dict = new HashMap<>();
+	public HashMap<String, Integer> enemyStat() {
+		HashMap<String, Integer> dict = new HashMap<>();
 		for (Enemy i : this.enemies) {
-			if (!dict.containsKey(i))
-				dict.put(i, new Integer(0));
-			dict.put(i, new Integer(dict.get(i).intValue() + 1));
+			if (!dict.containsKey(i.getType()))
+				dict.put(i.getType(), new Integer(0));
+			dict.put(i.getType(), new Integer(dict.get(i.getType()).intValue() + 1));
+		}
+		return dict;
+	}
+	
+	public HashMap<String, Integer> potionStat() {
+		HashMap<String, Integer> dict = new HashMap<>();
+		for (Potions i : this.potion_drops) {
+			if (!dict.containsKey(i.getType()))
+				dict.put(i.getType(), new Integer(0));
+			dict.put(i.getType(), new Integer(dict.get(i.getType()).intValue() + 1));
 		}
 		return dict;
 	}

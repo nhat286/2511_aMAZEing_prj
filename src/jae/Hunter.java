@@ -7,6 +7,10 @@ public class Hunter extends Enemy{
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Hunter(int x, int y) {
+		super(x, y, 'H');
+	}
 
 	boolean isResting;
 	

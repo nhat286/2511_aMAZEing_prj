@@ -34,11 +34,11 @@ public class InventoryMenu implements Menu{
 		inventory.deleteItem(i);
 	}
 	
-	public void equipWeapon(Weapon w) {
-		character.useWeapon(w);
+	public void equipWeapon(Weapon w, Object o) {
+		character.useWeapon(w, o);
 	}
 	
 	public void useItem(SpecialItems i) {
-		character.useSpecialisedItem();
+		character.useSpecialisedItem(i);
 	}
 }
