@@ -1,0 +1,7 @@
+package niriksha;
+
+public enum ACTION {
+	PUSH_BOULDER, PICK_UP_WEAPON, PICK_UP_POTION,
+	MOVE, HOVER, DIE, DESTROY, 
+	GAME_COMPLETE, NOTHING;
+}
