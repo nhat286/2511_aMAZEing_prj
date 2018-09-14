@@ -199,6 +199,10 @@ public class Character {
 		player = null;
 	}
 	
+	public ArrayList<Potions> getActivePotion() {
+		return this.active_potions;
+	}
+	
 	public Inventory getBag() {
 		return this.bag;
 	}

@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -116,6 +117,30 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
  		this.pause = pause;
 	}
 	
+	public int checkGoal() {
+		int goal = 0;
+		int cond = this.curr.getWinCond();
+		if ((cond & 0b00001) > 0) {
+			
+		}
+		if ((cond & 0b00010) > 0) {
+			
+		}
+		if ((cond & 0b00100) > 0) {
+			if (this.curr.getEnemyList().size() == 0)
+				goal = 1;
+			else
+				return 0;
+		}
+		if ((cond & 0b01000) > 0) {
+			
+		}
+		if ((cond & 0b10000) > 0) {
+			
+		}
+		return goal;
+	}
+	
 	public int pauseGame(Scanner sc) {
 		int option = -1;
 			while (option < 0) {
@@ -165,7 +190,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	}
 	
 	public void gameInitiate() {
-		this.start(20, 0b00001);
+		this.start(20, 0b00100);
 		Enemy e1 = new Hunter(new CoOrd(3, 4));
 		this.curr.addEnemy(e1);
 		Enemy e2 = new Strategist(new CoOrd(7, 12));
@@ -262,6 +287,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			default:
 				break;
 			}
+			if (this.checkGoal() > 0)
+				return OUTCOME.WIN;
 			this.printMap();
 			input = sc.next().charAt(0);
 		}
@@ -511,6 +538,13 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 					} else if (result == OUTCOME.WIN) {
 						clearScreen();
 						System.out.println("CONGRATULATIONS! YOU WIN!!!");
+						System.out.println("Press any key to continue");
+						try {
+							System.in.read();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						break;
 					}
 				} while (result != OUTCOME.QUIT);

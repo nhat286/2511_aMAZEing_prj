@@ -39,7 +39,7 @@ public class Maze {
 	}
 	
 	public void updateCharacterBag() {
-		ArrayList<Weapon> wp = this.player.getBag().getWeaponList();
+		/*ArrayList<Weapon> wp = this.player.getBag().getWeaponList();
 		for (Weapon w : wp) {
 			if (w.getCoordinates().getX() == -1) {
 				this.player.getBag().deleteWeapon(w);
@@ -47,15 +47,36 @@ public class Maze {
 					this.player.removeEquipped();
 				w.destroyWeapon(w);
 			}
+		}*/
+		Iterator<Weapon> wp = this.player.getBag().getWeaponList().iterator();
+		while (wp.hasNext()) {
+			Weapon w = wp.next();
+			if (w.getCoordinates().getX() == -1) {
+				wp.remove();
+				if (this.player.weaponEquipped() && w == this.player.equip_weapon)
+					this.player.removeEquipped();
+				w.destroyWeapon(w);
+			}
 		}
 		
-		ArrayList<Potions> pt = this.player.getBag().getPotionList();
+		Iterator<Potions> pt = this.player.getBag().getPotionList().iterator();
+		ArrayList<Potions> active = this.player.getActivePotion();
+		while (pt.hasNext()) {
+			Potions p = pt.next();
+			if (p.getCoordinates().getX() == -1) {
+				pt.remove();
+				active.remove(p);
+				p.destroyPotion(p);
+			}
+		}
+		
+		/*ArrayList<Potions> pt = this.player.getBag().getPotionList();
 		for (Potions p : pt) {
 			if (p.getCoordinates().getX() == -1) {
 				this.player.getBag().deletePotion(p);
 				p.destroyPotion(p);
 			}
-		}
+		}*/
 	}
 	
 	public void updateMap(char[][] map) {
@@ -216,5 +237,9 @@ public class Maze {
 	
 	public void resetCharCoOrd(int x, int y) {
 		this.player.setCoordinates(x, y);
+	}
+	
+	public ArrayList<Enemy> getEnemyList() {
+		return this.enemies;
 	}
 }
