@@ -7,12 +7,11 @@ import jae.Enemy;
 
 public class Character {
 	
-	// don't know how to store coordinates yet
 	private CoOrd co_ord;
 	private Inventory bag;
 	private char icon;
-	private direction d;
-	private enum direction {UP, RIGHT, DOWN, LEFT}; 
+	//private direction d;
+	//private enum direction {UP, RIGHT, DOWN, LEFT}; 
 	public Weapon equip_weapon;
 	public ArrayList<Potions> active_potions;
 	public Key holding_key;
@@ -21,7 +20,7 @@ public class Character {
 		this.co_ord = new CoOrd(x, y);
 		this.bag = new Inventory();
 		this.icon = 'v';
-		this.d = direction.DOWN;
+		//this.d = direction.DOWN;
 		this.equip_weapon = null;
 		this.active_potions = new ArrayList<Potions>();
 		this.holding_key = null;
@@ -169,14 +168,6 @@ public class Character {
 	private void usePotion(Potions p) {
 		p.potion_effect();
 	}
-	
-	/*public void pickUpSpecialisedItem(SpecialItems i) {
-		this.bag.addItem(i);
-	}
-	
-	public void useSpecialisedItem(SpecialItems i) {
-		i.special_effect();
-	}*/
 	
 	public void destroy_character(Character player) {
 		player = null;

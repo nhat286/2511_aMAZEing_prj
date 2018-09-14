@@ -3,29 +3,15 @@ package niriksha;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import jae.Enemy;
-
 public class Inventory {
 	
-	//private ArrayList<SpecialItems> item_list;
 	private ArrayList<Weapon> weapon_list;
 	private ArrayList<Potions> potion_list;
 	
 	public Inventory() {
-		//this.item_list = new ArrayList<SpecialItems>();
 		this.weapon_list = new ArrayList<Weapon>();
 		this.potion_list = new ArrayList<Potions>();
 	}
-	
-	/*public HashMap<String, Integer> getItemList() {
-		HashMap<String, Integer> map = new HashMap<>();
-		for (SpecialItems i : this.item_list) {
-			if (!map.containsKey(i.getType()))
-				map.put(i.getType(), new Integer(0));
-			map.put(i.getType(), new Integer(map.get(i.getType()).intValue() + 1));
-		}
-		return map;
-	}*/
 	
 	public ArrayList<Weapon> getWeaponList() {
 		return this.weapon_list;
@@ -55,14 +41,6 @@ public class Inventory {
 		return map;
 	}
 	
-	/*public int getTotalItems() {
-		return this.item_list.size() + this.weapon_list.size() + this.potion_list.size();
-	}
-	
-	public int getNoSpecialItems() {
-		return this.item_list.size();
-	}*/
-	
 	public int getNoWeapons() {
 		return this.weapon_list.size();
 	}
@@ -79,14 +57,6 @@ public class Inventory {
 		return potion_list.get(index);
 	}
 	
-	/*public SpecialItems getSpecialItem(int index) {
-	return item_list.get(index);
-	}
-	
-	public void addItem(SpecialItems i) {
-		this.item_list.add(i);
-	}*/
-	
 	public void addWeapon(Weapon w) {
 		this.weapon_list.add(w);
 	}
@@ -94,10 +64,6 @@ public class Inventory {
 	public void addPotion(Potions p) {
 		this.potion_list.add(p);
 	}
-	
-	/*public void deleteItem(SpecialItems i) {
-		this.item_list.remove(i);
-	}*/
 	
 	public void deleteWeapon(Weapon w) {
 		this.weapon_list.remove(w);

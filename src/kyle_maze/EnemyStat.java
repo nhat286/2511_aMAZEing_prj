@@ -1,10 +1,10 @@
 package kyle_maze;
 import java.util.HashMap;
-import java.util.Map;
+//import java.util.Map;
 import java.util.Map.Entry;
 
 import eric.Maze;
-import jae.Enemy;
+//import jae.Enemy;
 
 public class EnemyStat implements Menu{
 	
@@ -23,7 +23,7 @@ public class EnemyStat implements Menu{
 	@Override
 	public void displayMenu() {
 		// TODO Auto-generated method stub
-		for (Entry e : hashMap.entrySet()) {
+		for (Entry<String, Integer> e : hashMap.entrySet()) {
 			System.out.println(e.getKey().toString()+": "+e.getValue().toString());
 		}
 	}

@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import niriksha.Character;
 import niriksha.Potions;
-import niriksha.SpecialItems;
 import niriksha.Weapon;
 import niriksha.Obstacle;
 
@@ -14,7 +13,6 @@ import jae.Enemy;
 public class Maze {
 	
 	private Character player;
-	private ArrayList<SpecialItems> item_drops;
 	private ArrayList<Weapon> weapon_drops;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Obstacle> obstacles;
@@ -30,7 +28,6 @@ public class Maze {
 	 */
 	
 	public Maze(int winning_goal) {
-		this.item_drops = new ArrayList<SpecialItems>();
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
@@ -40,15 +37,8 @@ public class Maze {
 	
 	public void updateMap(char[][] map) {
 		CoOrd entity = null;
-		int count = 0;
-		for (SpecialItems i : this.item_drops) {
-			entity = i.getCoordinates();
-			if (entity.getX() == -1) this.item_drops.remove(count);
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
-			count++;
-		}
 		
-		count = 0;
+		int count = 0;
 		entity = null;
 		for (Potions i : this.potion_drops) {
 			entity = i.getCoordinates();
@@ -95,10 +85,6 @@ public class Maze {
 		this.player = c;
 	}
 	
-	public void addItemDrop(SpecialItems i) {
-		this.item_drops.add(i);
-	}
-	
 	public void addWeaponDrop(Weapon w) {
 		this.weapon_drops.add(w);
 	}
@@ -116,9 +102,6 @@ public class Maze {
 	}
 	
 	public Object getEntity(CoOrd co) {
-		for (SpecialItems i : this.item_drops) {
-			if (i.getCoordinates().equals(co)) return i;
-		}
 		for (Weapon w : this.weapon_drops) {
 			if (w.getCoordinates().equals(co)) return w;
 		}
@@ -132,16 +115,6 @@ public class Maze {
 			if (p.getCoordinates().equals(co)) return p;
 		}
 		return null;
-	}
-	
-	public HashMap<String, Integer> itemStat() {
-		HashMap<String, Integer> dict = new HashMap<>();
-		for (SpecialItems i : this.item_drops) {
-			if (!dict.containsKey(i.getType()))
-				dict.put(i.getType(), new Integer(0));
-			dict.put(i.getType(), new Integer(dict.get(i.getType()).intValue() + 1));
-		}
-		return dict;
 	}
 	
 	public HashMap<String, Integer> weaponStat() {

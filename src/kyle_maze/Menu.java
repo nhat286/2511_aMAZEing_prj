@@ -6,7 +6,7 @@ public interface Menu {
 
 	void displayMenu();
 	
-	/*default void pauseGame(MazeSystem ms) {
+	default void pauseGame(MazeSystem ms) {
 		ms.setPause(1);
-	}*/
+	}
 }

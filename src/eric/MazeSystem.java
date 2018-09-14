@@ -18,7 +18,6 @@ import niriksha.Character;
 import niriksha.HoverPotion;
 import niriksha.InvincibilityPotion;
 import niriksha.Potions;
-import niriksha.SpecialItems;
 import niriksha.Sword;
 import niriksha.Weapon;
 import niriksha.ACTION;
@@ -41,9 +40,9 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	private Maze curr;
 	//private Timer clock;
 	private Character user;
-	//private static char keyPressed;
-	//private int pause;
-	//ScheduledExecutorService executor;
+	private static char keyPressed;
+	private int pause;
+	ScheduledExecutorService executor;
 	
 	public MazeSystem() {		
 		//drawMap();
@@ -55,8 +54,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.map = new char[size][size];
 		this.user = new Character(1, 1);
 		this.curr.addCharacter(this.user);
-		//this.keyPressed = '.';
-		//this.pause = 0;
+		this.keyPressed = '.';
+		this.pause = 0;
 	}
 	
 	public static void clearScreen() {  
@@ -101,9 +100,9 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		}
 	}
 	
-	/*public void setPause(int pause) {
+	public void setPause(int pause) {
  		this.pause = pause;
-	}*/
+	}
 	
 	public void gameInitiate() {
 		this.start(20, 0b00001);
@@ -113,17 +112,12 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.curr.addEnemy(e2);
 		Enemy e3 = new Hunter(new CoOrd(11, 17));
 		this.curr.addEnemy(e3);
-		this.user.getBag().addPotion(new HoverPotion(-2,-2));
-		this.user.getBag().addPotion(new HoverPotion(-2,-2));
-		//this.user.getBag().addPotion(new InvincibilityPotion(-2,-2));
+		this.user.pickUpPotion(new HoverPotion(-2,-2));
+		this.user.pickUpPotion(new HoverPotion(-2,-2));
+		this.user.pickUpPotion(new InvincibilityPotion(-2,-2));
 	}
 	
 	public OUTCOME gameLoop(Scanner sc) {
-		/*this.clock = new Timer("Timer");
-		long delay  = 100L;
-	    long period = 100L;
-	    clock.scheduleAtFixedRate(this, delay, period);*/
-		
 		/*executor = Executors.newSingleThreadScheduledExecutor();
 		long delay  = 100L;
 	    long period = 100L;
@@ -151,18 +145,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			case ' ':
 				this.user.useWeapon(o);
 				break;
-//			case 'c':
-//				this.user.useSpecialisedItem((SpecialItems) o);
-//				break;
-//			case 'z':
-//				this.user.usePotion();
-//				break;
 			case 'j':
-//				if (o instanceof SpecialItems) {
-//					this.user.pickUpSpecialisedItem((SpecialItems) o);
-//					((SpecialItems) o).setCoordinates(-2, -2);
-//				}
-//				else
 				if (o instanceof Weapon) {
 					this.user.pickUpWeapon((Weapon) o);
 					((Weapon) o).setCoordinates(-2, -2);
@@ -379,9 +362,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		if (o == null)
 			return false;
 		
-		if (o instanceof SpecialItems) {
-			((SpecialItems) o).setCoordinates(-1, -1);
-		} else if (o instanceof Weapon) {
+		if (o instanceof Weapon) {
 			((Weapon) o).setCoordinates(-1, -1);
 		} else if (o instanceof Potions) {
 			((Potions) o).setCoordinates(-1, -1);
@@ -446,10 +427,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 					}
 				} while (result != OUTCOME.QUIT);
 				break;
-			/*case 'i':
-				InventoryMenu iM = new InventoryMenu(sys.user, sc);
-				iM.displayMenu();
-				break;*/
 			case 'm':
 				System.out.println("Design time!");
 				sys.design(sc);
@@ -475,7 +452,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		//System.out.println("Pressed: " + arg0.getKeyChar());
-		//keyPressed = arg0.getKeyChar();
+		keyPressed = arg0.getKeyChar();
 	}
 
 	@Override
