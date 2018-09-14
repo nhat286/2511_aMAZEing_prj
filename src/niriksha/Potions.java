@@ -29,6 +29,10 @@ public abstract class Potions {
 	
 	public abstract action potion_effect();
 	
+	public void destroyPotion(Potions p) {
+		p = null;
+	}
+	
 	public String getType() {
 		return "Potion";
 	}

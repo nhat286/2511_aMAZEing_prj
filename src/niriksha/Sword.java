@@ -18,8 +18,11 @@ public class Sword extends Weapon {
 	@Override
 	public action weapon_action(Object object) {
 		
-		if (this.durability >= 0 && object instanceof Enemy) {
+		if (this.durability > 0 && object instanceof Enemy) {
 			decrease_durability();
+			((Enemy) object).enemyDies();
+			if (this.durability == 0)
+				this.setCoordinates(-1, -1);
 			return action.DESTROY;
 		}
 		
@@ -30,10 +33,6 @@ public class Sword extends Weapon {
 		// decrease as sword is used even if it did nothing;
 		decrease_durability();
 		return action.NOTHING;
-	}
-	
-	public void destroy_sword(Weapon w) {
-		w = null;
 	}
 
 	public int getDurability() {

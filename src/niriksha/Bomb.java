@@ -20,8 +20,9 @@ public class Bomb extends Weapon {
 	@Override
 	public action weapon_action(Object object) {
 		if (this.lit == false) {
-			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);	
 			this.lit = true;
+			this.burn_timer.schedule(new destroy_surroundings(), 1000*5);
+			this.setCoordinates(-1, -1);
 			return action.DESTROY;
 		}
 		return action.NOTHING;

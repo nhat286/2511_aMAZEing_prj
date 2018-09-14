@@ -2,12 +2,13 @@ package eric;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import niriksha.Character;
 import niriksha.Potions;
 import niriksha.Weapon;
 import niriksha.Obstacle;
-
+import niriksha.Pit;
 import jae.Enemy;
 
 public class Maze {
@@ -16,6 +17,7 @@ public class Maze {
 	private ArrayList<Weapon> weapon_drops;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Obstacle> obstacles;
+	private ArrayList<Pit> pits;
 	private ArrayList<Potions> potion_drops;
 	private int goal;
 	/*
@@ -31,50 +33,79 @@ public class Maze {
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
+		this.pits = new ArrayList<Pit>();
 		this.potion_drops = new ArrayList<Potions>();
 		this.goal = winning_goal;
 	}
 	
+	public void updateCharacterBag() {
+		ArrayList<Weapon> wp = this.player.getBag().getWeaponList();
+		for (Weapon w : wp) {
+			if (w.getCoordinates().getX() == -1) {
+				this.player.getBag().deleteWeapon(w);
+				if (this.player.weaponEquipped() && w == this.player.equip_weapon)
+					this.player.removeEquipped();
+				w.destroyWeapon(w);
+			}
+		}
+		
+		ArrayList<Potions> pt = this.player.getBag().getPotionList();
+		for (Potions p : pt) {
+			if (p.getCoordinates().getX() == -1) {
+				this.player.getBag().deletePotion(p);
+				p.destroyPotion(p);
+			}
+		}
+	}
+	
 	public void updateMap(char[][] map) {
 		CoOrd entity = null;
+		updateCharacterBag();
 		
-		int count = 0;
 		entity = null;
-		for (Potions i : this.potion_drops) {
-			entity = i.getCoordinates();
-			if (entity.getX() == -1) this.potion_drops.remove(count);
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
-			count++;
+		Iterator<Potions> pt_iter = this.potion_drops.iterator();
+		while (pt_iter.hasNext()) {
+			Potions p = pt_iter.next();
+			entity = p.getCoordinates();
+			if (entity.getX() < 0) pt_iter.remove();
+			else map[entity.getX()][entity.getY()] = p.getIcon();
 		}
 		
-		count = 0;
 		entity = null;
-		for (Weapon i : this.weapon_drops) {
-			entity = i.getCoordinates();
-			if (entity.getX() == -1) this.weapon_drops.remove(count);
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
-			count++;
+		Iterator<Weapon> wp_iter = this.weapon_drops.iterator();
+		while (wp_iter.hasNext()) {
+			Weapon w = wp_iter.next();
+			entity = w.getCoordinates();
+			if (entity.getX() < 0) wp_iter.remove();
+			else map[entity.getX()][entity.getY()] = w.getIcon();
 		}
 		
-		count = 0;
 		entity = null;
-		for (Enemy i : this.enemies) {
-			entity = i.getCurrPos();
-			if (entity.getX() == -1) this.enemies.remove(count);
+		Iterator<Enemy> e_iter = this.enemies.iterator();
+		while (e_iter.hasNext()) {
+			Enemy e = e_iter.next();
+			entity = e.getCurrPos();
+			if (entity.getX() == -1) e_iter.remove();
 			else if (entity.getX() >= 0) {
-				i.enemyMovement(this.player, map.length);
-				map[entity.getX()][entity.getY()] = i.getIcon();
+				e.enemyMovement(this.player, map.length);
+				boolean die = false;
+				for (Pit p : this.pits) {
+					if (e.getCurrPos().equals(p.getCoordinates())) {
+						e_iter.remove();
+						die = true;
+					}
+				}
+				if (!die) map[entity.getX()][entity.getY()] = e.getIcon();
 			}
-			count++;
 		}
 		
-		count = 0;
 		entity = null;
-		for (Obstacle i : this.obstacles) {
-			entity = i.getCoordinates();
-			if (entity.getX() == -1) this.obstacles.remove(count);
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = i.getIcon();
-			count++;
+		Iterator<Obstacle> o_iter = this.obstacles.iterator();
+		while (o_iter.hasNext()) {
+			Obstacle o = o_iter.next();
+			entity = o.getCoordinates();
+			if (entity.getX() < 0) o_iter.remove();
+			else map[entity.getX()][entity.getY()] = o.getIcon();
 		}
 		
 		CoOrd player = this.player.getCoordinates();
@@ -95,24 +126,46 @@ public class Maze {
 	
 	public void addObstacle(Obstacle o) {
 		this.obstacles.add(o);
+		if (o instanceof Pit) {
+			this.pits.add((Pit) o);
+		}
 	}
 	
 	public void addPotion(Potions p) {
 		this.potion_drops.add(p);
 	}
 	
+	public void deleteWeaponDrop(Weapon w) {
+		this.weapon_drops.remove(w);
+	}
+	
+	public void deleteEnemy(Enemy e) {
+		this.enemies.remove(e);
+	}
+	
+	public void deleteObstacle(Obstacle o) {
+		this.obstacles.remove(o);
+		if (o instanceof Pit) {
+			this.pits.remove((Pit) o);
+		}
+	}
+	
+	public void deletePotion(Potions p) {
+		this.potion_drops.remove(p);
+	}
+	
 	public Object getEntity(CoOrd co) {
 		for (Weapon w : this.weapon_drops) {
 			if (w.getCoordinates().equals(co)) return w;
+		}
+		for (Potions p : this.potion_drops) {
+			if (p.getCoordinates().equals(co)) return p;
 		}
 		for (Enemy e : this.enemies) {
 			if (e.getCurrPos().equals(co)) return e;
 		}
 		for (Obstacle o : this.obstacles) {
 			if (o.getCoordinates().equals(co)) return o;
-		}
-		for (Potions p : this.potion_drops) {
-			if (p.getCoordinates().equals(co)) return p;
 		}
 		return null;
 	}
@@ -161,7 +214,7 @@ public class Maze {
 		return this.goal;
 	}
 	
-	public void resetCharCoOrd() {
-		this.player.setCoordinates(1, 1);
+	public void resetCharCoOrd(int x, int y) {
+		this.player.setCoordinates(x, y);
 	}
 }

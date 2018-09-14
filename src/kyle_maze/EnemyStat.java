@@ -1,4 +1,5 @@
 package kyle_maze;
+import java.io.IOException;
 import java.util.HashMap;
 //import java.util.Map;
 import java.util.Map.Entry;
@@ -16,7 +17,7 @@ public class EnemyStat implements Menu{
 		EnemyDescript[0] = "Hunter: ...";
 		EnemyDescript[1] = "Hound: ...";
 		EnemyDescript[2] = "Coward: ...";
-		EnemyDescript[3] = "???: ...";
+		EnemyDescript[3] = "Strategist: ...";
 		hashMap = getEnemyHash(maze);
 	}
 	
@@ -25,6 +26,12 @@ public class EnemyStat implements Menu{
 		// TODO Auto-generated method stub
 		for (Entry<String, Integer> e : hashMap.entrySet()) {
 			System.out.println(e.getKey().toString()+": "+e.getValue().toString());
+		}
+		try {
+			pause1Sec();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 

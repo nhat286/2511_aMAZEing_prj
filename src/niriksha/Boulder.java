@@ -10,14 +10,14 @@ public class Boulder extends Obstacle {
 	}
 	
 	public Boulder(int x, int y) {
-		super(x, y, 'D');
+		super(x, y, 'O');
 		this.on_switch = false;
 	}
 	
 	public action push_boulder(char direction, char type, Object object, int border) {
 		switch (type) {
-			case 'C':
-			case 'D':
+			case '#':
+			case 'O':
 			case 'E':
 			case 'F':
 			case 'G':

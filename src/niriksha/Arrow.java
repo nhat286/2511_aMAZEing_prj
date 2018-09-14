@@ -13,7 +13,7 @@ public class Arrow extends Weapon {
 	public action weapon_action(Object object) {
 		
 		if (object instanceof Enemy) {
-			destroy_arrow(this);
+			//destroy_arrow(this);
 			return action.DESTROY;
 		}
 		

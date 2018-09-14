@@ -59,7 +59,34 @@ public class Hound extends Enemy{
 	
 	@Override
 	public void enemyMovement(Character target, int border) {
-		this.setCurrPos(calculateTargetLocation(target.getCoordinates()));
+		//this.setCurrPos(calculateTargetLocation(target.getCoordinates()));
+		CoOrd ch = target.getCoordinates();
+		CoOrd me = this.getCurrPos();
+		if (this.hunterCoOrd.getY() < ch.getY()) {
+			if (me.getY() < ch.getY()) {
+				this.getCurrPos().moveRight(border);
+			} else if (me.getY() > ch.getY()) {
+				this.getCurrPos().moveLeft();
+			}
+		} else if (this.hunterCoOrd.getY() > ch.getY()) {
+			if (me.getY() > ch.getY()) {
+				this.getCurrPos().moveLeft();
+			} else if (me.getY() < ch.getY()) {
+				this.getCurrPos().moveRight(border);
+			}
+		} else if (this.hunterCoOrd.getX() < ch.getX()) {
+			if (me.getX() < ch.getX()) {
+				this.getCurrPos().moveDown(border);
+			} else if (me.getX() > ch.getX()) {
+				this.getCurrPos().moveUp();
+			}
+		} else if (this.hunterCoOrd.getX() > ch.getX()) {
+			if (me.getX() < ch.getX()) {
+				this.getCurrPos().moveDown(border);
+			} else if (me.getX() > ch.getX()) {
+				this.getCurrPos().moveUp();
+			}
+		}
 	}
 	
 	@Override

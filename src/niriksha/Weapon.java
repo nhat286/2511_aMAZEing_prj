@@ -41,6 +41,10 @@ public abstract class Weapon {
 	
 	public abstract action weapon_action(Object object);
 	
+	public void destroyWeapon(Weapon w) {
+		w = null;
+	}
+	
 	public String getType() {
 		return "Weapon";
 	}

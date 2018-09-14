@@ -18,8 +18,9 @@ public class InvincibilityPotion extends Potions {
 	public action potion_effect() {
 		this.time_limit = new Timer();
 		if (this.used == false) {
-			this.time_limit.schedule(new timing(), 1000*10);
 			this.used = true;
+			this.time_limit.schedule(new timing(), 1000*5);
+			this.setCoordinates(-1, -1);
 			return action.INVINCIBLE;
 		}
 		

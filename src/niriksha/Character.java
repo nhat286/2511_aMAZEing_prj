@@ -10,8 +10,8 @@ public class Character {
 	private CoOrd co_ord;
 	private Inventory bag;
 	private char icon;
-	private direction d;
-	private enum direction {UP, RIGHT, DOWN, LEFT}; 
+	//private direction d;
+	//private enum direction {UP, RIGHT, DOWN, LEFT}; 
 	public Weapon equip_weapon;
 	public ArrayList<Potions> active_potions;
 	public Key holding_key;
@@ -20,10 +20,32 @@ public class Character {
 		this.co_ord = new CoOrd(x, y);
 		this.bag = new Inventory();
 		this.icon = 'v';
-		this.d = direction.DOWN;
+		//this.d = direction.DOWN;
 		this.equip_weapon = null;
 		this.active_potions = new ArrayList<Potions>();
 		this.holding_key = null;
+	}
+	
+	public CoOrd getCoordinates() {
+		return this.co_ord;
+	}
+
+	public void setCoordinates(int x, int y) {
+		this.co_ord.setXY(x, y);
+	}
+	
+	public Key getHolding_key() {
+		return holding_key;
+	}
+	
+	public void setHolding_key(Key k) {
+		this.holding_key = k;
+	}
+	public boolean hasKey() {
+		if (this.holding_key == null) {
+			return false;
+		}
+		return true;
 	}
 	
 	public ACTION move(char direction, char type, Object object, int border) {
@@ -64,12 +86,12 @@ public class Character {
 				case '#':
 					return ACTION.NOTHING;
 					
-				// D is boulder
+				// O is boulder
 				case 'O':
 					return ACTION.PUSH_BOULDER;
 				
 				// E is door
-				case '0':
+				case 'E':
 					if (((Door) object).isDoor_open()) {
 						moveCoOrd(direction, border);
 						return ACTION.MOVE;
@@ -127,31 +149,8 @@ public class Character {
 		return co;
 	}
 	
-	public CoOrd getCoordinates() {
-		return this.co_ord;
-	}
-
-	public void setCoordinates(int x, int y) {
-		this.co_ord.setXY(x, y);
-	}
-	
 	public char getIcon() {
 		return this.icon;
-	}
-	
-	public Key getHolding_key() {
-		return holding_key;
-	}
-	
-	public void setHolding_key(Key k) {
-		this.holding_key = k;
-	}
-
-	public boolean hasKey() {
-		if (this.holding_key == null) {
-			return false;
-		}
-		return true;
 	}
 	
 	public void pickUpWeapon(Weapon w) {
@@ -164,8 +163,12 @@ public class Character {
 		}
 	}
 	
-	public void useWeapon(Object object) {
-		this.equip_weapon.weapon_action(object);
+	public int useWeapon(Object object) {
+		if (this.equip_weapon != null)
+			this.equip_weapon.weapon_action(object);
+		if (this.equip_weapon instanceof Bomb)
+			return 1;
+		return 0;
 		//this.equip_weapon = null;
 	}
 	
@@ -179,17 +182,25 @@ public class Character {
 			this.usePotion(this.bag.getPotion(index));
 		}
 	}
-
+	
 	private void usePotion(Potions p) {
 		p.potion_effect();
 	}
 	
-	public Inventory getBag() {
-		return this.bag;
+	public boolean weaponEquipped() {
+		return this.equip_weapon != null;
+	}
+	
+	public void removeEquipped() {
+		this.equip_weapon = null;
 	}
 	
 	public void destroy_character(Character player) {
 		player = null;
+	}
+	
+	public Inventory getBag() {
+		return this.bag;
 	}
 
 }
