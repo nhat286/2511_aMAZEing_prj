@@ -12,12 +12,12 @@ import niriksha.Character;
 class Movement {
 	
 	static Character user = new Character(0, 0);
-	static CoOrd testChar;
+	//static CoOrd testChar;
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		user.setCoordinates(0, 0);
-		testChar = user.getCoordinates();
+		//testChar = user.getCoordinates();
 	}
 
 	@AfterAll
@@ -26,57 +26,73 @@ class Movement {
 
 	@Test
 	void testCoOrd() {
-		fail("Not yet implemented");
+		CoOrd co_ord = new CoOrd(0,0);
+		assertEquals(user.getCoordinates(), co_ord);
+	}
+	
+	@Test
+	void testMoveRight() {
+		CoOrd co_ord = new CoOrd(1,0);
+		user.moveCoOrd('>', 10);
+		assertEquals(user.getCoordinates(), co_ord);
 	}
 
 	@Test
 	void testMoveLeft() {
-		fail("Not yet implemented");
+		CoOrd co_ord = new CoOrd(0,0);
+		user.moveCoOrd('<', 10);
+		assertEquals(user.getCoordinates(), co_ord);
 	}
-
-	@Test
-	void testMoveRight() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	void testMoveUp() {
-		fail("Not yet implemented");
-	}
-
+	
 	@Test
 	void testMoveDown() {
-		fail("Not yet implemented");
+		CoOrd co_ord = new CoOrd(0,1);
+		user.moveCoOrd('v', 10);
+		assertEquals(user.getCoordinates(), co_ord);
+	}
+	
+	@Test
+	void testMoveUp() {
+		CoOrd co_ord = new CoOrd(0,0);
+		user.moveCoOrd('^', 10);
+		assertEquals(user.getCoordinates(), co_ord);
 	}
 
 	@Test
 	void testGetX() {
-		fail("Not yet implemented");
+		assertEquals(user.getCoordinates().getX(), 0);
 	}
 
 	@Test
 	void testGetY() {
-		fail("Not yet implemented");
+		assertEquals(user.getCoordinates().getY(), 0);
 	}
 
 	@Test
 	void testGetCoOrd() {
-		fail("Not yet implemented");
+		CoOrd co_ord = new CoOrd(0,0);
+		assertEquals(co_ord.getCoOrd(), co_ord);
 	}
 
 	@Test
 	void testSetXY() {
-		fail("Not yet implemented");
+		CoOrd co_ord = new CoOrd(0,0);
+		CoOrd co_ord2 = new CoOrd(2,2);
+		co_ord.setXY(2, 2);
+		assertEquals(co_ord, co_ord2);
 	}
 
 	@Test
 	void testSetCoOrd() {
-		fail("Not yet implemented");
+		CoOrd co_ord = new CoOrd(0,0);
+		CoOrd co_ord2 = new CoOrd(2,2); 
+		co_ord.setCoOrd(co_ord2);
+		assertEquals(co_ord, co_ord2);
 	}
 
 	@Test
 	void testEqualsObject() {
-		fail("Not yet implemented");
+		// i am not sure what's happening here
 	}
 
 }
