@@ -13,6 +13,10 @@ public class FloorSwitch extends Obstacle {
 		this.trigger = true;
 	}
 	
+	public void deactivateTrigger() {
+		this.trigger = false;
+	}
+	
 	public boolean triggered() {
 		return this.trigger;
 	}
