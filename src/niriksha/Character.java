@@ -152,6 +152,7 @@ public class Character {
 	
 	public void pickUpWeapon(Weapon w) {
 		this.bag.addWeapon(w);
+		w.setCoordinates(-2, -2);
 	}
 	
 	public void equipWeapon(String item) {
@@ -177,6 +178,7 @@ public class Character {
 	
 	public void pickUpPotion(Potions p) {
 		this.bag.addPotion(p);
+		p.setCoordinates(-2, -2);
 	}
 	
 	public void equipPotion(String item) {

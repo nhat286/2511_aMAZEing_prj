@@ -280,13 +280,13 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			case 'j':
 				if (under instanceof Weapon) {
 					this.user.pickUpWeapon((Weapon) under);
-					((Weapon) under).setCoordinates(-2, -2);
+					//((Weapon) under).setCoordinates(-2, -2);
 				} else if (under instanceof Potions) {
 					this.user.pickUpPotion((Potions) under);
-					((Potions) under).setCoordinates(-2, -2);
+					//((Potions) under).setCoordinates(-2, -2);
 				} else if (under instanceof Treasure) {
 					((Treasure) under).pickUp();
-					((Treasure) under).removeTreasure();
+					//((Treasure) under).removeTreasure();
 				} else if (under instanceof Key) {
 					this.user.setHolding_key((Key) under);
 					((Key) under).pickUp();

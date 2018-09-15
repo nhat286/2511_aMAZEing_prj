@@ -17,6 +17,7 @@ public class Treasure {
 	
 	public void pickUp() {
 		this.picked_up = true;
+		this.removeTreasure();
 		//incrementPoints();
 	}
 	
