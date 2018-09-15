@@ -65,7 +65,6 @@ public class Maze {
 				wp.remove();
 				if (this.player.weaponEquipped() && w == this.player.equip_weapon)
 					this.player.removeEquipped();
-				w.destroyWeapon(w);
 			}
 		}
 		
@@ -76,7 +75,6 @@ public class Maze {
 			if (p.getCoordinates().getX() == -1) {
 				pt.remove();
 				active.remove(p);
-				p.destroyPotion(p);
 			}
 		}
 	}
@@ -120,8 +118,8 @@ public class Maze {
 		while (k_iter.hasNext()) {
 			Key k = k_iter.next();
 			entity = k.getCoordinates();
-			if (entity.getX() < 0) k_iter.remove();
-			else map[entity.getX()][entity.getY()] = k.getIcon();
+			if (entity.getX() == -1) k_iter.remove();
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = k.getIcon();
 		}
 		
 		entity = null;

@@ -14,7 +14,7 @@ class KeyFunctionality {
 	
 	static Door door1 = new Door(6,5);
 	static Door door2 = new Door(4,5);
-	static Key key = new Key(4, 4, door1);
+	static Key key = new Key(4, 4);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -45,6 +45,7 @@ class KeyFunctionality {
 	
 	@Test
 	void testcheckDoor() {
+		key.linkDoor(door1);
 		assertEquals(key.checkDoor(door2), false);
 		assertEquals(key.checkDoor(door1), true);
 	}

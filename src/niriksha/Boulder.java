@@ -76,9 +76,10 @@ public class Boulder extends Obstacle {
 		}
 	}
 	
-	public void destroyBoulder(Boulder b) {
-		b = null;
-	}
+	/*public void destroyBoulder() {//Boulder b) {
+		//b = null;
+		this.setCoordinates(-1, -1);
+	}*/
 	
 	public CoOrd getInfront(char direction) {
 		CoOrd co = new CoOrd(this.getCoordinates().getX(), this.getCoordinates().getY());

@@ -51,7 +51,9 @@ class SwordFunctionality {
 	
 	@Test
 	void testdestroy_arrow() {
-		sword.destroyWeapon(sword);
+		CoOrd co_ord = new CoOrd(-1, -1);
+		sword.destroyWeapon();
+		assertEquals(sword.getCoordinates(), co_ord);
 	}
 	
 	@Test

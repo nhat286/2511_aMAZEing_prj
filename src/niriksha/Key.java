@@ -8,19 +8,24 @@ public class Key {
 	private char icon;
 	Door door;
 	
-	public Key(int x, int y, Door d) {
+	public Key(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
 		this.icon = '&';
-		this.door = d;
+		this.door = null;
 	}
 
 	// check if door is the one assigned to this key - if it is open the door 
 	public boolean checkDoor(Door d) {
-		if (this.door.equals(d)) {
+		if (this.door != null && this.door.equals(d)) {
 			d.openDoor();
+			this.setCoordinates(-1, -1);
 			return true;
 		}
 		return false;
+	}
+	
+	public void linkDoor(Door d) {
+		this.door = d;
 	}
 	
 	public CoOrd getCoordinates() {
@@ -36,7 +41,7 @@ public class Key {
 	}
 	
 	public void pickUp() {
-		this.setCoordinates(-1, -1);
+		this.setCoordinates(-2, -2);
 	}
 	
 	public String getType() {

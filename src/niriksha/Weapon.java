@@ -5,8 +5,8 @@ import eric.CoOrd;
 
 public abstract class Weapon {
 	
-	enum action {
-		DESTROY, DIE, NOTHING;
+	public enum action {
+		DESTROY, DIE, NOTHING, BOMB_DESTROY;
 	}
 	
 	private CoOrd getCoordinates;
@@ -41,8 +41,9 @@ public abstract class Weapon {
 	
 	public abstract action weapon_action(Object object);
 	
-	public void destroyWeapon(Weapon w) {
-		w = null;
+	public void destroyWeapon() {//Weapon w) {
+		//w = null;
+		this.setCoordinates(-1, -1);
 	}
 	
 	public String getType() {

@@ -78,6 +78,7 @@ public class InventoryMenu implements Menu{
 			System.out.println("------------------------------------------------------------");
 			System.out.println("To select a weapon , input w");
 			System.out.println("To select a potion , input p");
+			System.out.println("To exit inventory , input q");
 			System.out.println("------------------------------------------------------------");
 			inputType = sc.next().charAt(0);
 			switch (inputType) {

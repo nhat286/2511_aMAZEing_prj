@@ -14,7 +14,7 @@ import niriksha.Bomb;
 
 class BombFunctionality {
 	
-	static Bomb bomb = new Bomb(3, 5);
+	static Bomb bomb = new Bomb(3, 5, null);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
