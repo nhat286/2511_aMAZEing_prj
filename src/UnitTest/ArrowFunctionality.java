@@ -14,9 +14,9 @@ import niriksha.Arrow;
 
 class ArrowFunctionality {
 	
-	static Arrow arrow = new Arrow(1, 1);
-	static Arrow arrow2 = new Arrow(3, 5);
-	static Arrow arrow3 = new Arrow(0, 0);
+	static Arrow arrow = new Arrow(1, 1, null);
+	static Arrow arrow2 = new Arrow(3, 5, null);
+	static Arrow arrow3 = new Arrow(0, 0, null);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {

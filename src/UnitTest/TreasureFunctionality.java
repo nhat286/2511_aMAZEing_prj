@@ -25,14 +25,14 @@ class TreasureFunctionality {
 	@Test
 	void testgetCoordinates() {
 		CoOrd co_ord = new CoOrd(4,4);
-		assertEquals(t.getCoordinates(), co_ord);
+		assertEquals(t.getCoord(), co_ord);
 	}
 	
 	@Test
 	void testsetCoordinates() {
 		CoOrd co_ord = new CoOrd(4,5); 
 		t.setCoordinates(4, 5);
-		assertEquals(t.getCoordinates(), co_ord);
+		assertEquals(t.getCoord(), co_ord);
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ class TreasureFunctionality {
 	void testremoveTreasure() {
 		CoOrd co_ord = new CoOrd(-1,-1);
 		t.removeTreasure();
-		assertEquals(t.getCoordinates(), co_ord);
+		assertEquals(t.getCoord(), co_ord);
 	}
 	
 	

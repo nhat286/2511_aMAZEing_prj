@@ -170,6 +170,10 @@ public class Character {
 			this.equip_weapon = null;
 		else if (this.equip_weapon instanceof Bomb)
 			return 1;
+		else if (this.equip_weapon instanceof Sword) {
+			if (((Sword) this.equip_weapon).getDurability() == 0)
+				removeEquipped();
+		}
 		return 0;
 		//this.equip_weapon = null;
 	}

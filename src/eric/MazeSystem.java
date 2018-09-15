@@ -16,15 +16,18 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import niriksha.Character;
+import niriksha.FloorSwitch;
 import niriksha.HoverPotion;
 import niriksha.InvincibilityPotion;
 import niriksha.Obstacle;
 import niriksha.Pit;
 import niriksha.Potions;
 import niriksha.Sword;
+import niriksha.Wall;
 import niriksha.Weapon;
 import niriksha.ACTION;
 import niriksha.Arrow;
+import niriksha.Boulder;
 import jae.Coward;
 import jae.Enemy;
 import jae.Hound;
@@ -61,6 +64,14 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.map = new char[size][size];
 		this.user = new Character(1, 1);
 		this.curr.addCharacter(this.user);
+		for (int i = 0; i < size; i++) {
+			this.curr.addObstacle(new Wall(0, i));
+			this.curr.addObstacle(new Wall(size - 1, i));
+		}
+		for (int i = 1; i < size - 1; i++) {
+			this.curr.addObstacle(new Wall(i, 0));
+			this.curr.addObstacle(new Wall(i, size - 1));
+		}
 		this.keyPressed = '.';
 		this.pause = 0;
 	}
@@ -73,10 +84,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	public char[][] drawMap() {
 		for (int i = 0; i < this.map_size; i++) {
 			for (int j = 0; j < this.map_size; j++) {
-				if (i == 0 || i == this.map_size - 1 || j == 0 || j == this.map_size - 1)
-					this.map[i][j] = '#';
-				else
-					this.map[i][j] = ' ';
+				this.map[i][j] = ' ';
 			}
 		}
 		return this.map;
@@ -84,10 +92,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	
 	public void printMap() {
 		clearScreen();
-		this.map = drawMap();
-		this.curr.updateMap(map);
-		if (this.curr.checkGoal() != 0)
-			return;
 		System.out.println("To win, you have to complete the option(s) below");
 		int cond = this.curr.getWinCond();
 		if ((cond & 0b00001) > 0)
@@ -174,6 +178,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	
 	public void level1Initiate() {
 		this.start(20, 0b00100);
+		
 		Enemy e1 = new Hunter(new CoOrd(3, 4));
 		this.curr.addEnemy(e1);
 		Enemy e2 = new Strategist(new CoOrd(7, 12));
@@ -186,11 +191,41 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.curr.addObstacle(o1);
 		Weapon w1 = new Sword(8, 1);
 		this.curr.addWeaponDrop(w1);
-		Weapon w2 = new Arrow(5, 1);
+		Weapon w2 = new Arrow(5, 1, this.user);
 		this.curr.addWeaponDrop(w2);
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new InvincibilityPotion(-2,-2));
+	}
+	
+	public void level2Initiate() {
+		this.start(17, 0b10000);
+		
+		Obstacle o1 = new Pit(10, 10);
+		this.curr.addObstacle(o1);
+		Obstacle o2 = new Pit(13, 4);
+		this.curr.addObstacle(o2);
+		Obstacle o3 = new Pit(3, 8);
+		this.curr.addObstacle(o3);
+		Potions p1 = new HoverPotion(8, 14);
+		this.curr.addPotion(p1);
+		Obstacle o4 = new FloorSwitch(3, 2);
+		this.curr.addObstacle(o4);
+		Obstacle o5 = new FloorSwitch(9, 11);
+		this.curr.addObstacle(o5);
+		Obstacle o6 = new Boulder(2, 5);
+		this.curr.addObstacle(o6);
+		Obstacle o7 = new Boulder(15, 6);
+		this.curr.addObstacle(o7);
+		Obstacle o8 = new Boulder(7, 13);
+		this.curr.addObstacle(o8);
+		Weapon ar = new Arrow(6, 4, this.user);
+		this.curr.addWeaponDrop(ar);
+	}
+	
+	public void leve3Initiate() {
+		this.start(20, 0b01011);
+		
 	}
 	
 	public OUTCOME gameLoop(Scanner sc) {
@@ -198,7 +233,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		long delay  = 100L;
 	    long period = 100L;
 	    executor.scheduleAtFixedRate(this, delay, period, TimeUnit.MILLISECONDS);*/
-		
+		this.map = drawMap();
+		this.curr.updateMap(map);
 	    this.printMap();
 		char input = sc.next().charAt(0);
 		while (input != 'q') {
@@ -268,15 +304,23 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			case PICK_UP_WEAPON:
 				break;
 			case PUSH_BOULDER:
+				Boulder b = (Boulder) ahead;
+				CoOrd next_to = b.getInfront(this.user.getIcon());
+				if (b.push_boulder(this.user.getIcon(), this.map[next_to.getX()][next_to.getY()],
+						this.curr.getEntity(next_to), this.map_size) != Boulder.action.NOTHING) {
+					this.user.move(this.user.getIcon(), ' ', null, this.map_size);
+				}
 				break;
 			default:
 				break;
 			}
-			this.printMap();
+			this.map = drawMap();
+			this.curr.updateMap(map);
 			if (this.curr.checkGoal() == 1)
 				return OUTCOME.WIN;
 			else if (this.curr.checkGoal() == -1)
 				return OUTCOME.LOSE;
+			this.printMap();
 			input = sc.next().charAt(0);
 		}
 		
@@ -308,10 +352,14 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			goal += 0b10000;
 		
 		this.start(size, goal);
-		this.printMap();
+		//this.map = drawMap();
+		//this.curr.updateMap(map);
+		//this.printMap();
 		
 		char input;
 		do {
+			this.map = drawMap();
+			this.curr.updateMap(map);
 			this.printMap();
 			System.out.println("Design options:");
 			System.out.println("\tSet character coordinates (s)");
@@ -436,7 +484,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 				this.curr.addWeaponDrop(new Sword(x, y));
 				break;
 			case 'a':
-				this.curr.addWeaponDrop(new Arrow(x, y));
+				this.curr.addWeaponDrop(new Arrow(x, y, this.user));
 				break;
 			default:
 				return false;
@@ -511,12 +559,33 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			input = sc.next().charAt(0);
 			switch (input) {
 			case 'y':
+				System.out.println("Choose your level:");
+				System.out.println("\tLevel 1: Kill all enemies!");
+				System.out.println("\tLevel 2: Solve the mysterious puzzle!");
+				System.out.println("\tLevel 3: Find the hidden treasures!");
+				System.out.print("Type level number> ");
+				int lv = sc.nextInt();
+				while (lv < 0 || lv > 3) {
+					System.out.println("Can't setup maze, not found level!");
+					System.out.print("Type level number> ");
+					lv = sc.nextInt();
+				}
 				OUTCOME result;
 				/*if(sys.pause == 0) {
 					sys.gameInitiate();
 				}*/
 				do {
-					sys.level1Initiate();
+					switch (lv) {
+					case 1:
+						sys.level1Initiate();
+						break;
+					case 2:
+						sys.level2Initiate();
+						break;
+					case 3:
+						sys.leve3Initiate();
+						break;
+					}
 					result = sys.gameLoop(sc);
 					if (result == OUTCOME.LOSE) {
 						clearScreen();

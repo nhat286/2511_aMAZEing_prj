@@ -62,7 +62,7 @@ class BoulderFunctionality {
 		
 		// pit
 		Pit p = new Pit(3, 3);
-		assertEquals(boulder.push_boulder('>', 'B', p, 10), ACTION.DESTROYED);
+		assertEquals(boulder.push_boulder('>', 'B', p, 10), ACTION.DESTROY);
 	}
 	
 	@Test

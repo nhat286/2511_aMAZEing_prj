@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import niriksha.Arrow;
 import niriksha.Character;
+import niriksha.FloorSwitch;
 import niriksha.Potions;
 import niriksha.Weapon;
 import niriksha.Obstacle;
@@ -15,10 +17,11 @@ public class Maze {
 	
 	private Character player;
 	private ArrayList<Weapon> weapon_drops;
+	private ArrayList<Arrow> available_arrows;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Obstacle> obstacles;
-	private ArrayList<Pit> pits;
 	private ArrayList<Potions> potion_drops;
+	private ArrayList<FloorSwitch> switches;
 	private int goal;
 	private int current_cond;
 	/*
@@ -32,24 +35,16 @@ public class Maze {
 	
 	public Maze(int winning_goal) {
 		this.weapon_drops = new ArrayList<Weapon>();
+		this.available_arrows = new ArrayList<Arrow>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
-		this.pits = new ArrayList<Pit>();
+		this.switches = new ArrayList<FloorSwitch>();
 		this.potion_drops = new ArrayList<Potions>();
 		this.goal = winning_goal;
 		this.current_cond = 0;
 	}
 	
 	public void updateCharacterBag() {
-		/*ArrayList<Weapon> wp = this.player.getBag().getWeaponList();
-		for (Weapon w : wp) {
-			if (w.getCoordinates().getX() == -1) {
-				this.player.getBag().deleteWeapon(w);
-				if (this.player.weaponEquipped() && w == this.player.equip_weapon)
-					this.player.removeEquipped();
-				w.destroyWeapon(w);
-			}
-		}*/
 		Iterator<Weapon> wp = this.player.getBag().getWeaponList().iterator();
 		while (wp.hasNext()) {
 			Weapon w = wp.next();
@@ -71,21 +66,12 @@ public class Maze {
 				p.destroyPotion(p);
 			}
 		}
-		
-		/*ArrayList<Potions> pt = this.player.getBag().getPotionList();
-		for (Potions p : pt) {
-			if (p.getCoordinates().getX() == -1) {
-				this.player.getBag().deletePotion(p);
-				p.destroyPotion(p);
-			}
-		}*/
 	}
 	
 	public void updateMap(char[][] map) {
 		CoOrd entity = null;
 		updateCharacterBag();
 		CoOrd player = this.player.getCoordinates();
-		
 		
 		entity = null;
 		Iterator<Potions> pt_iter = this.potion_drops.iterator();
@@ -116,8 +102,8 @@ public class Maze {
 				if (e.getCurrPos().equals(player))
 					this.current_cond = -1;
 				boolean die = false;
-				for (Pit p : this.pits) {
-					if (e.getCurrPos().equals(p.getCoordinates())) {
+				for (Obstacle o : this.obstacles) {
+					if (o instanceof Pit && e.getCurrPos().equals(((Pit) o).getCoordinates())) {
 						e_iter.remove();
 						die = true;
 					}
@@ -134,6 +120,21 @@ public class Maze {
 			if (entity.getX() < 0) o_iter.remove();
 			else map[entity.getX()][entity.getY()] = o.getIcon();
 		}
+
+		entity = null;
+		Iterator<Arrow> a_iter = this.available_arrows.iterator();
+		while (a_iter.hasNext()) {
+			Arrow a = a_iter.next();
+			entity = a.getCoordinates();
+			if (a.isUsed()) {
+				CoOrd in_front = a.getInfront();
+				if (a.moving(getEntity(in_front), map.length) == 1) {
+					map[in_front.getX()][in_front.getY()] = ' ';
+				}
+			}
+			if (entity.getX() == -1) a_iter.remove();
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = a.getIcon();
+		}
 		
 		map[player.getX()][player.getY()] = this.player.getIcon();
 	}
@@ -144,6 +145,8 @@ public class Maze {
 	
 	public void addWeaponDrop(Weapon w) {
 		this.weapon_drops.add(w);
+		if (w instanceof Arrow)
+			this.available_arrows.add((Arrow) w);
 	}
 	
 	public void addEnemy(Enemy e) {
@@ -152,9 +155,8 @@ public class Maze {
 	
 	public void addObstacle(Obstacle o) {
 		this.obstacles.add(o);
-		if (o instanceof Pit) {
-			this.pits.add((Pit) o);
-		}
+		if (o instanceof FloorSwitch)
+			this.switches.add((FloorSwitch) o);
 	}
 	
 	public void addPotion(Potions p) {
@@ -171,9 +173,6 @@ public class Maze {
 	
 	public void deleteObstacle(Obstacle o) {
 		this.obstacles.remove(o);
-		if (o instanceof Pit) {
-			this.pits.remove((Pit) o);
-		}
 	}
 	
 	public void deletePotion(Potions p) {
@@ -251,7 +250,7 @@ public class Maze {
 		}
 		if ((this.goal & 0b00100) > 0) {
 			if (this.enemies.size() == 0)
-				goal = 1;
+				this.goal = 1;
 			else
 				return 0;
 		}
@@ -259,9 +258,13 @@ public class Maze {
 			
 		}
 		if ((this.goal & 0b10000) > 0) {
-			
+			for (FloorSwitch fs : this.switches) {
+				if (!fs.triggered())
+					return 0;
+			}
+			goal = 1;
 		}
-		return goal;
+		return this.goal;
 	}
 	
 	public void resetCharCoOrd(int x, int y) {

@@ -39,6 +39,11 @@ public class Sword extends Weapon {
 		return durability;
 	}
 	
+	@Override
+	public String getType() {
+		return "Sword";
+	}
+	
 	
 	/*@Override
 	public int action() {

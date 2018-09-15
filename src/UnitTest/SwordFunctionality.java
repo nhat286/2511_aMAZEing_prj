@@ -51,7 +51,7 @@ class SwordFunctionality {
 	
 	@Test
 	void testdestroy_arrow() {
-		sword.destroy_sword(sword);
+		sword.destroyWeapon(sword);
 	}
 	
 	@Test
