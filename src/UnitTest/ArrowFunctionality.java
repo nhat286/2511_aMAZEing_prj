@@ -14,9 +14,9 @@ import niriksha.Arrow;
 
 class ArrowFunctionality {
 	
-	static Arrow arrow = new Arrow(1, 1, null);
-	static Arrow arrow2 = new Arrow(3, 5, null);
-	static Arrow arrow3 = new Arrow(0, 0, null);
+	static Arrow arrow = new Arrow(1, 1);
+	static Arrow arrow2 = new Arrow(3, 5);
+	static Arrow arrow3 = new Arrow(0, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -29,6 +29,7 @@ class ArrowFunctionality {
 	
 	@Test
 	void testgetCoordinates() {
+		Arrow arrow = new Arrow(1, 1);
 		CoOrd co_ord = new CoOrd(1,1);
 		assertEquals(arrow.getCoordinates(), co_ord);
 	}
@@ -53,6 +54,7 @@ class ArrowFunctionality {
 	@Test
 	void testdestroy_arrow() {
 		arrow.destroy_arrow(arrow);
+		assertEquals(arrow,null);
 	}
 	
 	@Test

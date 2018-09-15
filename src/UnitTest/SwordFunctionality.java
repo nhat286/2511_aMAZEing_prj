@@ -49,10 +49,10 @@ class SwordFunctionality {
 		assertEquals(sword.isPicked_up(), false);
 	}
 	
-	@Test
-	void testdestroy_arrow() {
-		sword.destroyWeapon(sword);
-	}
+//	@Test
+//	void testdestroy_arrow() {
+//		sword.destroy_sword(sword);
+//	}
 	
 	@Test
 	void testweapon_action() {

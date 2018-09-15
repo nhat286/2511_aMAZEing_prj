@@ -11,7 +11,7 @@ import niriksha.Treasure;
 
 class TreasureFunctionality {
 	
-	static Treasure t = new Treasure(4, 4);
+	static Treasure t = new Treasure(4, 4, '*');
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -51,10 +51,10 @@ class TreasureFunctionality {
 		assertEquals(t.isPickedUp(), true);
 	}
 	
-//	@Test
-//	void testgetPoints() {
-//		assertEquals(t.getPoints(), 1);
-//	}
+	@Test
+	void testgetPoints() {
+		assertEquals(t.getPoints(), 1);
+	}
 	
 	@Test
 	void testgetType() {

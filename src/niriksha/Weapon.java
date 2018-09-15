@@ -9,26 +9,26 @@ public abstract class Weapon {
 		DESTROY, DIE, NOTHING;
 	}
 	
-	private CoOrd getCoordinates;
+	private CoOrd co_ord;
 	private boolean picked_up;
-	private char direction;
+	private char icon;
 		 
 	public Weapon(int x, int y, char c) {
-		this.getCoordinates = new CoOrd(x, y);
+		this.co_ord = new CoOrd(x, y);
 		this.picked_up = false;
-		this.direction = c;
+		this.icon = c;
 	}
 
 	public CoOrd getCoordinates() {
-		return getCoordinates;
+		return co_ord;
 	}
 	
 	public char getIcon() {
-		return this.direction;
+		return this.icon;
 	}
 
 	public CoOrd getCo_ord() {
-		return getCoordinates;
+		return co_ord;
 	}
 
 	public boolean isPicked_up() {
@@ -36,10 +36,10 @@ public abstract class Weapon {
 	}
 
 	public void setCoordinates(int x, int y) {
-		this.getCoordinates.setXY(x, y);
+		this.co_ord.setXY(x, y);
 	}
 	
-	public abstract action weapon_action(Object object);
+	public abstract ACTION weapon_action(Object object);
 	
 	public void destroyWeapon(Weapon w) {
 		w = null;

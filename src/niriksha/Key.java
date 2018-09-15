@@ -35,10 +35,6 @@ public class Key {
 		this.co_ord.setXY(x, y);
 	}
 	
-	public void pickUp() {
-		this.setCoordinates(-1, -1);
-	}
-	
 	public String getType() {
 		return "Key";
 	}

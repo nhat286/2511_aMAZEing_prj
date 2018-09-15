@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import niriksha.Arrow;
 import niriksha.Character;
-import niriksha.FloorSwitch;
-import niriksha.Key;
 import niriksha.Potions;
-import niriksha.Treasure;
 import niriksha.Weapon;
 import niriksha.Obstacle;
 import niriksha.Pit;
@@ -19,16 +15,11 @@ public class Maze {
 	
 	private Character player;
 	private ArrayList<Weapon> weapon_drops;
-	private ArrayList<Arrow> available_arrows;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Obstacle> obstacles;
+	private ArrayList<Pit> pits;
 	private ArrayList<Potions> potion_drops;
-	private ArrayList<FloorSwitch> switches;
-	private ArrayList<Treasure> loots;
-	private ArrayList<Exit> exits;
-	private ArrayList<Key> keys;
 	private int goal;
-	private int current_cond;
 	/*
 	 * Win Condition:
 	 * 00001 -> MazeRunner (just find the door)
@@ -37,27 +28,26 @@ public class Maze {
 	 * 01000 -> Detective (find the key to unlock door)
 	 * 10000 -> Brainer (solve puzzle to unlock door)
 	 */
-	public static final int RUNNER    = 0b00001;
-	public static final int COLLECTOR = 0b00010;
-	public static final int SLAYER    = 0b00100;
-	public static final int DETECTIVE = 0b01000;
-	public static final int BRAINER   = 0b10000;
 	
 	public Maze(int winning_goal) {
 		this.weapon_drops = new ArrayList<Weapon>();
-		this.available_arrows = new ArrayList<Arrow>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
-		this.switches = new ArrayList<FloorSwitch>();
-		this.loots = new ArrayList<Treasure>();
+		this.pits = new ArrayList<Pit>();
 		this.potion_drops = new ArrayList<Potions>();
-		this.exits = new ArrayList<Exit>();
-		this.keys = new ArrayList<Key>();
 		this.goal = winning_goal;
-		this.current_cond = 0;
 	}
 	
 	public void updateCharacterBag() {
+		/*ArrayList<Weapon> wp = this.player.getBag().getWeaponList();
+		for (Weapon w : wp) {
+			if (w.getCoordinates().getX() == -1) {
+				this.player.getBag().deleteWeapon(w);
+				if (this.player.weaponEquipped() && w == this.player.equip_weapon)
+					this.player.removeEquipped();
+				w.destroyWeapon(w);
+			}
+		}*/
 		Iterator<Weapon> wp = this.player.getBag().getWeaponList().iterator();
 		while (wp.hasNext()) {
 			Weapon w = wp.next();
@@ -79,12 +69,19 @@ public class Maze {
 				p.destroyPotion(p);
 			}
 		}
+		
+		/*ArrayList<Potions> pt = this.player.getBag().getPotionList();
+		for (Potions p : pt) {
+			if (p.getCoordinates().getX() == -1) {
+				this.player.getBag().deletePotion(p);
+				p.destroyPotion(p);
+			}
+		}*/
 	}
 	
 	public void updateMap(char[][] map) {
 		CoOrd entity = null;
 		updateCharacterBag();
-		CoOrd player = this.player.getCoordinates();
 		
 		entity = null;
 		Iterator<Potions> pt_iter = this.potion_drops.iterator();
@@ -100,36 +97,8 @@ public class Maze {
 		while (wp_iter.hasNext()) {
 			Weapon w = wp_iter.next();
 			entity = w.getCoordinates();
-			if (entity.getX() < 0) {
-				wp_iter.remove();
-			}
+			if (entity.getX() < 0) wp_iter.remove();
 			else map[entity.getX()][entity.getY()] = w.getIcon();
-		}
-		
-		entity = null;
-		Iterator<Treasure> ts_iter = this.loots.iterator();
-		while (ts_iter.hasNext()) {
-			Treasure t = ts_iter.next();
-			entity = t.getCoord();
-			if (entity.getX() < 0) ts_iter.remove();
-			else map[entity.getX()][entity.getY()] = t.getIcon();
-		}
-		
-		entity = null;
-		Iterator<Key> k_iter = this.keys.iterator();
-		while (k_iter.hasNext()) {
-			Key k = k_iter.next();
-			entity = k.getCoordinates();
-			if (entity.getX() < 0) k_iter.remove();
-			else map[entity.getX()][entity.getY()] = k.getIcon();
-		}
-		
-		entity = null;
-		Iterator<Exit> ex_iter = this.exits.iterator();
-		while (ex_iter.hasNext()) {
-			Exit ex = ex_iter.next();
-			entity = ex.getCoordinates();
-			map[entity.getX()][entity.getY()] = ex.getIcon();
 		}
 		
 		entity = null;
@@ -140,11 +109,9 @@ public class Maze {
 			if (entity.getX() == -1) e_iter.remove();
 			else if (entity.getX() >= 0) {
 				e.enemyMovement(this.player, map.length);
-				if (e.getCurrPos().equals(player))
-					this.current_cond = -1;
 				boolean die = false;
-				for (Obstacle o : this.obstacles) {
-					if (o instanceof Pit && e.getCurrPos().equals(((Pit) o).getCoordinates())) {
+				for (Pit p : this.pits) {
+					if (e.getCurrPos().equals(p.getCoordinates())) {
 						e_iter.remove();
 						die = true;
 					}
@@ -161,22 +128,8 @@ public class Maze {
 			if (entity.getX() < 0) o_iter.remove();
 			else map[entity.getX()][entity.getY()] = o.getIcon();
 		}
-
-		entity = null;
-		Iterator<Arrow> a_iter = this.available_arrows.iterator();
-		while (a_iter.hasNext()) {
-			Arrow a = a_iter.next();
-			if (a.isUsed()) {
-				CoOrd in_front = a.getInfront();
-				if (a.moving(getEntity(in_front), map.length) == 1) {
-					map[in_front.getX()][in_front.getY()] = ' ';
-				}
-			}
-			entity = a.getCoordinates();
-			if (entity.getX() == -1) a_iter.remove();
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = a.getIcon();
-		}
 		
+		CoOrd player = this.player.getCoordinates();
 		map[player.getX()][player.getY()] = this.player.getIcon();
 	}
 	
@@ -186,8 +139,6 @@ public class Maze {
 	
 	public void addWeaponDrop(Weapon w) {
 		this.weapon_drops.add(w);
-		if (w instanceof Arrow)
-			this.available_arrows.add((Arrow) w);
 	}
 	
 	public void addEnemy(Enemy e) {
@@ -196,24 +147,13 @@ public class Maze {
 	
 	public void addObstacle(Obstacle o) {
 		this.obstacles.add(o);
-		if (o instanceof FloorSwitch)
-			this.switches.add((FloorSwitch) o);
+		if (o instanceof Pit) {
+			this.pits.add((Pit) o);
+		}
 	}
 	
 	public void addPotion(Potions p) {
 		this.potion_drops.add(p);
-	}
-	
-	public void addTreasure(Treasure t) {
-		this.loots.add(t);
-	}
-	
-	public void addExit(Exit e) {
-		this.exits.add(e);
-	}
-	
-	public void addKey(Key k) {
-		this.keys.add(k);
 	}
 	
 	public void deleteWeaponDrop(Weapon w) {
@@ -226,6 +166,9 @@ public class Maze {
 	
 	public void deleteObstacle(Obstacle o) {
 		this.obstacles.remove(o);
+		if (o instanceof Pit) {
+			this.pits.remove((Pit) o);
+		}
 	}
 	
 	public void deletePotion(Potions p) {
@@ -233,29 +176,17 @@ public class Maze {
 	}
 	
 	public Object getEntity(CoOrd co) {
-		for (Enemy e : this.enemies) {
-			if (e.getCurrPos().equals(co)) return e;
-		}
-		for (Obstacle o : this.obstacles) {
-			if (!(o instanceof FloorSwitch) && o.getCoordinates().equals(co)) return o;
-		}
 		for (Weapon w : this.weapon_drops) {
 			if (w.getCoordinates().equals(co)) return w;
 		}
 		for (Potions p : this.potion_drops) {
 			if (p.getCoordinates().equals(co)) return p;
 		}
-		for (FloorSwitch fs : this.switches) {
-			if (fs.getCoordinates().equals(co)) return fs;
+		for (Enemy e : this.enemies) {
+			if (e.getCurrPos().equals(co)) return e;
 		}
-		for (Treasure t : this.loots) {
-			if (t.getCoord().equals(co)) return t;
-		}
-		for (Key k : this.keys) {
-			if (k.getCoordinates().equals(co)) return k;
-		}
-		for (Exit e : this.exits) {
-			if (e.getCoordinates().equals(co)) return e;
+		for (Obstacle o : this.obstacles) {
+			if (o.getCoordinates().equals(co)) return o;
 		}
 		return null;
 	}
@@ -302,45 +233,6 @@ public class Maze {
 	
 	public int getWinCond() {
 		return this.goal;
-	}
-	
-	public int checkGoal() {
-		if (this.current_cond == -1)
-			return -1;
-		if ((this.goal & RUNNER) > 0) {
-			for (Exit ex : this.exits) {
-				if (ex.getCoordinates().equals(this.player.getCoordinates())) {
-					this.current_cond += RUNNER;
-					break;
-				}
-			}
-		}
-		if ((this.goal & COLLECTOR) > 0) {
-			if (this.loots.size() == 0)
-				this.current_cond += COLLECTOR;
-			else
-				return 0;
-		}
-		if ((this.goal & SLAYER) > 0) {
-			if (this.enemies.size() == 0)
-				this.goal += SLAYER;
-			else
-				return 0;
-		}
-		if ((this.goal & DETECTIVE) > 0) {
-			if (this.keys.size() == 0)
-				this.current_cond += DETECTIVE;
-			else
-				return 0;
-		}
-		if ((this.goal & BRAINER) > 0) {
-			for (FloorSwitch fs : this.switches) {
-				if (!fs.triggered())
-					return 0;
-			}
-			this.current_cond += BRAINER;
-		}
-		return this.current_cond;
 	}
 	
 	public void resetCharCoOrd(int x, int y) {

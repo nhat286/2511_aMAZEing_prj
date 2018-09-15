@@ -42,7 +42,10 @@ public class Character {
 		this.holding_key = k;
 	}
 	public boolean hasKey() {
-		return this.holding_key != null;
+		if (this.holding_key == null) {
+			return false;
+		}
+		return true;
 	}
 	
 	public ACTION move(char direction, char type, Object object, int border) {
@@ -105,8 +108,8 @@ public class Character {
 				case 'F':
 					moveCoOrd(direction, border);
 					return ACTION.GAME_COMPLETE;
-				// $ is treasure
-				case '$':
+				// G is treasure
+				case 'G':
 					((Treasure) object).pickUp();
 					moveCoOrd(direction, border);
 					return ACTION.MOVE;
@@ -152,47 +155,31 @@ public class Character {
 	
 	public void pickUpWeapon(Weapon w) {
 		this.bag.addWeapon(w);
-		w.setCoordinates(-2, -2);
 	}
 	
-	public void equipWeapon(String item) {
+	public void equipWeapon(int index) {
 		if (this.equip_weapon == null) {
-			this.equip_weapon = this.bag.getWeapon(item);
+			this.equip_weapon = this.bag.getWeapon(index);
 		}
 	}
 	
 	public int useWeapon(Object object) {
 		if (this.equip_weapon != null)
 			this.equip_weapon.weapon_action(object);
-		if (this.equip_weapon instanceof Arrow)
-			this.equip_weapon = null;
-		else if (this.equip_weapon instanceof Bomb)
+		if (this.equip_weapon instanceof Bomb)
 			return 1;
-		else if (this.equip_weapon instanceof Sword) {
-			if (((Sword) this.equip_weapon).getDurability() == 0)
-				removeEquipped();
-		}
 		return 0;
 		//this.equip_weapon = null;
 	}
 	
 	public void pickUpPotion(Potions p) {
 		this.bag.addPotion(p);
-		p.setCoordinates(-2, -2);
 	}
 	
-	public void equipPotion(String item) {
-		int index = -1;
-		for (Potions p : this.active_potions) {
-			if (p.getType().equals(item)) {
-				index = this.active_potions.indexOf(p);
-			}
-		}
-		if (index == -1) {
-			Potions p = this.bag.getPotion(item);
-			this.active_potions.add(p);
-			this.bag.deletePotion(p);
-			this.usePotion(p);
+	public void equipPotion(int index) {
+		if (!this.active_potions.contains(this.bag.getPotion(index))) {
+			this.active_potions.add(this.bag.getPotion(index));
+			this.usePotion(this.bag.getPotion(index));
 		}
 	}
 	

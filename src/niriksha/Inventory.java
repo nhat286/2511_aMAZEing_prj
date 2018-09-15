@@ -49,20 +49,12 @@ public class Inventory {
 		return this.potion_list.size();
 	}
 	
-	public Weapon getWeapon(String item) {
-		for (Weapon w : this.weapon_list) {
-			if (w.getType().equals(item))
-				return w;
-		}
-		return null;
+	public Weapon getWeapon(int index) {
+		return weapon_list.get(index);
 	}
 	
-	public Potions getPotion(String item) {
-		for (Potions p : this.potion_list) {
-			if (p.getType().equals(item))
-				return p;
-		}
-		return null;
+	public Potions getPotion(int index) {
+		return potion_list.get(index);
 	}
 	
 	public void addWeapon(Weapon w) {

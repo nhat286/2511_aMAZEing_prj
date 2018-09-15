@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import eric.CoOrd;
+import niriksha.ACTION;
 import niriksha.InvincibilityPotion;
-import niriksha.Potions;
 
 class InvincibilityPotionFunctionality {
 	
@@ -43,7 +43,7 @@ class InvincibilityPotionFunctionality {
 	
 	@Test
 	void testpotion_effect() {
-		assertEquals(potion.potion_effect(), Potions.action.INVINCIBLE);
+		assertEquals(potion.potion_effect(), ACTION.INVINCIBLE);
 	}
 	
 	void testisUsed() {

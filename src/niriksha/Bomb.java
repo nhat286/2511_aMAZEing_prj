@@ -18,14 +18,14 @@ public class Bomb extends Weapon {
 	
 	// only destroy if bomb hasn't been used before
 	@Override
-	public action weapon_action(Object object) {
+	public ACTION weapon_action(Object object) {
 		if (this.lit == false) {
 			this.lit = true;
 			this.burn_timer.schedule(new destroy_surroundings(), 1000*5);
 			this.setCoordinates(-1, -1);
-			return action.DESTROY;
+			return ACTION.DESTROY;
 		}
-		return action.NOTHING;
+		return ACTION.NOTHING;
 	}
 	
 	// used to run and then stop the timer
