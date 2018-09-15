@@ -1,5 +1,7 @@
 package niriksha;
 
+import jae.Enemy;
+
 public class Sword extends Weapon {
 
 	private int durability;
@@ -14,14 +16,17 @@ public class Sword extends Weapon {
 	}
 	
 	@Override
-	public action weapon_action(char object) {
+	public action weapon_action(Object object) {
 		
-		if (this.durability >= 0 && object == 'A') {
+		if (this.durability > 0 && object instanceof Enemy) {
 			decrease_durability();
+			((Enemy) object).enemyDies();
+			if (this.durability == 0)
+				this.setCoordinates(-1, -1);
 			return action.DESTROY;
 		}
 		
-		else if (this.durability == 0 && object == 'A') {
+		else if (this.durability == 0 && object instanceof Enemy) {
 			return action.DIE;
 		}
 		
@@ -29,13 +34,14 @@ public class Sword extends Weapon {
 		decrease_durability();
 		return action.NOTHING;
 	}
-	
-	public void destroy_sword(Weapon w) {
-		w = null;
-	}
 
 	public int getDurability() {
 		return durability;
+	}
+	
+	@Override
+	public String getType() {
+		return "Sword";
 	}
 	
 	

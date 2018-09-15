@@ -5,65 +5,40 @@ import java.util.HashMap;
 
 public class Inventory {
 	
-	private ArrayList<SpecialItems> item_list;
 	private ArrayList<Weapon> weapon_list;
 	private ArrayList<Potions> potion_list;
 	
 	public Inventory() {
-		this.item_list = new ArrayList<SpecialItems>();
 		this.weapon_list = new ArrayList<Weapon>();
 		this.potion_list = new ArrayList<Potions>();
 	}
 	
-	public HashMap<SpecialItems, Integer> getItemListHash() {
-		HashMap<SpecialItems, Integer> map = new HashMap<>();
-		int i=0;
-		for (SpecialItems s: item_list) {
-			map.put(s, i);
-			i++;
+	public ArrayList<Weapon> getWeaponList() {
+		return this.weapon_list;
+	}
+	
+	public ArrayList<Potions> getPotionList() {
+		return this.potion_list;
+	}
+	
+	public HashMap<String, Integer> getWeaponHashmap() {
+		HashMap<String, Integer> map = new HashMap<>();
+		for (Weapon i : this.weapon_list) {
+			if (!map.containsKey(i.getType()))
+				map.put(i.getType(), new Integer(0));
+			map.put(i.getType(), new Integer(map.get(i.getType()).intValue() + 1));
 		}
 		return map;
 	}
 	
-	public HashMap<Weapon, Integer> getWeaponListHash() {
-		HashMap<Weapon, Integer> map = new HashMap<>();
-		int i=0;
-		for (Weapon s: weapon_list) {
-			map.put(s, i);
-			i++;
+	public HashMap<String, Integer> getPotionHashmap() {
+		HashMap<String, Integer> map = new HashMap<>();
+		for (Potions i : this.potion_list) {
+			if (!map.containsKey(i.getType()))
+				map.put(i.getType(), new Integer(0));
+			map.put(i.getType(), new Integer(map.get(i.getType()).intValue() + 1));
 		}
 		return map;
-	}
-	
-	public HashMap<Potions, Integer> getPotionListHash() {
-		HashMap<Potions, Integer> map = new HashMap<>();
-		int i=0;
-		for (Potions s: potion_list) {
-			map.put(s, i);
-			i++;
-		}
-		return map;
-	}
-	
-	
-	public ArrayList<SpecialItems> getItem_list() {
-		return item_list;
-	}
-
-	public ArrayList<Weapon> getWeapon_list() {
-		return weapon_list;
-	}
-
-	public ArrayList<Potions> getPotion_list() {
-		return potion_list;
-	}
-
-	public int getTotalItems() {
-		return this.item_list.size() + this.weapon_list.size() + this.potion_list.size();
-	}
-	
-	public int getNoSpecialItems() {
-		return this.item_list.size();
 	}
 	
 	public int getNoWeapons() {
@@ -74,8 +49,20 @@ public class Inventory {
 		return this.potion_list.size();
 	}
 	
-	public void addItem(SpecialItems i) {
-		this.item_list.add(i);
+	public Weapon getWeapon(String item) {
+		for (Weapon w : this.weapon_list) {
+			if (w.getType().equals(item))
+				return w;
+		}
+		return null;
+	}
+	
+	public Potions getPotion(String item) {
+		for (Potions p : this.potion_list) {
+			if (p.getType().equals(item))
+				return p;
+		}
+		return null;
 	}
 	
 	public void addWeapon(Weapon w) {
@@ -84,10 +71,6 @@ public class Inventory {
 	
 	public void addPotion(Potions p) {
 		this.potion_list.add(p);
-	}
-	
-	public void deleteItem(SpecialItems i) {
-		this.item_list.remove(i);
 	}
 	
 	public void deleteWeapon(Weapon w) {

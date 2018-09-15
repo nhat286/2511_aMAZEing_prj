@@ -11,15 +11,16 @@ public class InvincibilityPotion extends Potions {
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
 		this.used = false;
-		this.time_limit = new Timer();
+		//this.time_limit = new Timer();
 	}
 	
 	// only destroy enemy if potion hasn't been used
 	public action potion_effect() {
-		
+		this.time_limit = new Timer();
 		if (this.used == false) {
-			this.time_limit.schedule(new timing(), 1000*10);
 			this.used = true;
+			this.time_limit.schedule(new timing(), 1000 * 10);
+			this.setCoordinates(-1, -1);
 			return action.INVINCIBLE;
 		}
 		

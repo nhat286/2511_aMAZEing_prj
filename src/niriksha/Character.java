@@ -1,22 +1,29 @@
 package niriksha;
 
+import java.util.ArrayList;
+
 import eric.CoOrd;
+import jae.Enemy;
 
 public class Character {
 	
-	// don't know how to store coordinates yet
 	private CoOrd co_ord;
 	private Inventory bag;
-	
-
 	private char icon;
-	private int direction;
-	 
+	//private direction d;
+	//private enum direction {UP, RIGHT, DOWN, LEFT}; 
+	public Weapon equip_weapon;
+	public ArrayList<Potions> active_potions;
+	public Key holding_key;
+	
 	public Character(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
 		this.bag = new Inventory();
 		this.icon = 'v';
-		this.direction = 3;
+		//this.d = direction.DOWN;
+		this.equip_weapon = null;
+		this.active_potions = new ArrayList<Potions>();
+		this.holding_key = null;
 	}
 	
 	public CoOrd getCoordinates() {
@@ -27,30 +34,104 @@ public class Character {
 		this.co_ord.setXY(x, y);
 	}
 	
-	public void move(String movement, Object o, int border) {
-		/*if (movement.equals("left")) {
-			if (this.direction != 4) this.direction = 4;
-			else this.co_ord.moveLeft();
-		} else if (movement.equals("right")) {
-			if (this.direction != 2) this.direction = 2;
-			else this.co_ord.moveRight();
-		} else if (movement.equals("up")) {
-			if (this.direction != 1) this.direction = 1;
-			else this.co_ord.moveUp();
-		} else if (movement.equals("down")) {
-			if (this.direction != 3) this.direction = 3;
-			else this.co_ord.moveDown();
-		}*/
-		if (movement.equals("left")) {
+	public Key getHolding_key() {
+		return holding_key;
+	}
+	
+	public void setHolding_key(Key k) {
+		this.holding_key = k;
+	}
+	public boolean hasKey() {
+		return this.holding_key != null;
+	}
+	
+	public ACTION move(char direction, char type, Object object, int border) {
+		// if the character actually moves
+		if (direction == this.icon) {
+			switch(type) {
+				case 'H':
+				case 'S':
+				case 'D':
+				case 'C':
+					for (int i=0; i < active_potions.size(); i++) {
+						if (active_potions.get(i).getType().equals("InvincibiltyPotion")) {
+							usePotion(active_potions.get(i));
+							((Enemy) object).enemyDies();
+							return ACTION.DESTROY;
+						}
+					}
+					destroy_character(this);
+					return ACTION.DIE;
+				// B is pit
+				case 'B':
+					int flag = -1;
+					for (int i=0; i < active_potions.size(); i++) {
+						if (active_potions.get(i).getType().equals("HoverPotion")) {
+							flag = 0;
+							moveCoOrd(direction, border);
+						}
+					}
+					if (flag == -1) {
+						destroy_character(this);
+						return ACTION.DIE;
+					}
+					else {
+						return ACTION.HOVER;
+					}
+					
+				// C is wall
+				case '#':
+					return ACTION.NOTHING;
+					
+				// O is boulder
+				case 'O':
+					return ACTION.PUSH_BOULDER;
+				
+				// E is door
+				case 'E':
+					if (((Door) object).isDoor_open()) {
+						moveCoOrd(direction, border);
+						return ACTION.MOVE;
+					}
+					else {
+						if (holding_key != null && holding_key.checkDoor((Door) object)) {
+							return ACTION.MOVE;
+						}
+						else {
+							return ACTION.NOTHING;
+						}
+					}
+				// F is exit
+				case 'F':
+					moveCoOrd(direction, border);
+					return ACTION.GAME_COMPLETE;
+				// $ is treasure
+				case '$':
+					((Treasure) object).pickUp();
+					moveCoOrd(direction, border);
+					return ACTION.MOVE;
+				default:
+					moveCoOrd(direction, border);
+					return ACTION.MOVE;
+			}
+		} else {
+			// only changes direction
+			moveCoOrd(direction, border);
+			return ACTION.NOTHING;
+		}
+	}
+	
+	public void moveCoOrd(char movement, int border) {
+		if (movement == '<') {
 			if (this.icon != '<') this.icon = '<';
 			else this.co_ord.moveLeft();
-		} else if (movement.equals("right")) {
+		} else if (movement == '>') {
 			if (this.icon != '>') this.icon = '>';
 			else this.co_ord.moveRight(border);
-		} else if (movement.equals("up")) {
+		} else if (movement == '^') {
 			if (this.icon != '^') this.icon = '^';
 			else this.co_ord.moveUp();
-		} else if (movement.equals("down")) {
+		} else if (movement == 'v') {
 			if (this.icon != 'v') this.icon = 'v';
 			else this.co_ord.moveDown(border);
 		}
@@ -74,28 +155,69 @@ public class Character {
 		w.setCoordinates(-2, -2);
 	}
 	
-	public void useWeapon(Object o) {
-		
+	public void equipWeapon(String item) {
+		if (this.equip_weapon == null) {
+			this.equip_weapon = this.bag.getWeapon(item);
+		}
 	}
 	
-	public void pickUpSpecialisedItem(SpecialItems i) {
-		this.bag.addItem(i);
-		i.setCoordinates(-2, -2);
+	public int useWeapon(Object object) {
+		if (this.equip_weapon != null)
+			this.equip_weapon.weapon_action(object);
+		if (this.equip_weapon instanceof Arrow)
+			this.equip_weapon = null;
+		else if (this.equip_weapon instanceof Bomb)
+			return 1;
+		else if (this.equip_weapon instanceof Sword) {
+			if (((Sword) this.equip_weapon).getDurability() == 0)
+				removeEquipped();
+		}
+		return 0;
+		//this.equip_weapon = null;
 	}
 	
-	public void useSpecialisedItem() {
-		
+	public void pickUpPotion(Potions p) {
+		this.bag.addPotion(p);
+		p.setCoordinates(-2, -2);
+	}
+	
+	public void equipPotion(String item) {
+		int index = -1;
+		for (Potions p : this.active_potions) {
+			if (p.getType().equals(item)) {
+				index = this.active_potions.indexOf(p);
+			}
+		}
+		if (index == -1) {
+			Potions p = this.bag.getPotion(item);
+			this.active_potions.add(p);
+			this.bag.deletePotion(p);
+			this.usePotion(p);
+		}
+	}
+	
+	private void usePotion(Potions p) {
+		p.potion_effect();
+	}
+	
+	public boolean weaponEquipped() {
+		return this.equip_weapon != null;
+	}
+	
+	public void removeEquipped() {
+		this.equip_weapon = null;
 	}
 	
 	public void destroy_character(Character player) {
 		player = null;
 	}
 	
+	public ArrayList<Potions> getActivePotion() {
+		return this.active_potions;
+	}
+	
 	public Inventory getBag() {
-		return bag;
+		return this.bag;
 	}
 
-	public void usePotion(Object o) {
-		
-	}
 }
