@@ -16,13 +16,16 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import niriksha.Character;
+import niriksha.Door;
 import niriksha.FloorSwitch;
 import niriksha.HoverPotion;
 import niriksha.InvincibilityPotion;
+import niriksha.Key;
 import niriksha.Obstacle;
 import niriksha.Pit;
 import niriksha.Potions;
 import niriksha.Sword;
+import niriksha.Treasure;
 import niriksha.Wall;
 import niriksha.Weapon;
 import niriksha.ACTION;
@@ -94,15 +97,15 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		clearScreen();
 		System.out.println("To win, you have to complete the option(s) below");
 		int cond = this.curr.getWinCond();
-		if ((cond & 0b00001) > 0)
+		if ((cond & Maze.RUNNER) > 0)
 			System.out.println("\tFind the door to win!");
-		if ((cond & 0b00010) > 0)
+		if ((cond & Maze.COLLECTOR) > 0)
 			System.out.println("\tCollect all treasures to finish the maze!");
-		if ((cond & 0b00100) > 0)
+		if ((cond & Maze.SLAYER) > 0)
 			System.out.println("\tKill all enemies to pass!");
-		if ((cond & 0b01000) > 0)
+		if ((cond & Maze.DETECTIVE) > 0)
 			System.out.println("\tFind the key to open the door!");
-		if ((cond & 0b10000) > 0)
+		if ((cond & Maze.BRAINER) > 0)
 			System.out.println("\tSolve the puzzle to unlock the door!");
 		System.out.println("Press i to check inventory!");
 		if (this.user.weaponEquipped()) {
@@ -177,7 +180,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	}
 	
 	public void level1Initiate() {
-		this.start(20, 0b00100);
+		this.start(20, Maze.SLAYER);
 		
 		Enemy e1 = new Hunter(new CoOrd(3, 4));
 		this.curr.addEnemy(e1);
@@ -199,7 +202,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	}
 	
 	public void level2Initiate() {
-		this.start(17, 0b10000);
+		this.start(17, Maze.BRAINER);
 		
 		Obstacle o1 = new Pit(10, 10);
 		this.curr.addObstacle(o1);
@@ -224,8 +227,24 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	}
 	
 	public void leve3Initiate() {
-		this.start(20, 0b01011);
+		this.start(20, Maze.RUNNER + Maze.COLLECTOR + Maze.DETECTIVE);
 		
+		Door d1 = new Door(5, 8);
+		this.curr.addObstacle(d1);
+		Exit e = new Exit(18, 18);
+		this.curr.addExit(e);
+		for (int i = 14; i < this.map_size - 1; i++) {
+			if (i == 17) continue;
+			this.curr.addObstacle(new Wall(16, i));
+		}
+		Door d2 = new Door(16, 17);
+		this.curr.addObstacle(d2);
+		this.curr.addObstacle(new Wall(17, 14));
+		this.curr.addObstacle(new Wall(18, 14));
+		Key k1 = new Key(4, 7, d2);
+		this.curr.addKey(k1);
+		this.curr.addTreasure(new Treasure(11, 7));
+		this.curr.addTreasure(new Treasure(8, 15));
 	}
 	
 	public OUTCOME gameLoop(Scanner sc) {
@@ -262,12 +281,15 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 				if (under instanceof Weapon) {
 					this.user.pickUpWeapon((Weapon) under);
 					((Weapon) under).setCoordinates(-2, -2);
-					//this.curr.deleteWeaponDrop((Weapon) under);
-				}
-				else if (under instanceof Potions) {
+				} else if (under instanceof Potions) {
 					this.user.pickUpPotion((Potions) under);
 					((Potions) under).setCoordinates(-2, -2);
-					//this.curr.deletePotion((Potions) under);
+				} else if (under instanceof Treasure) {
+					((Treasure) under).pickUp();
+					((Treasure) under).removeTreasure();
+				} else if (under instanceof Key) {
+					this.user.setHolding_key((Key) under);
+					((Key) under).pickUp();
 				}
 				break;
 			case 'i':
@@ -316,7 +338,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			}
 			this.map = drawMap();
 			this.curr.updateMap(map);
-			if (this.curr.checkGoal() == 1)
+			if (this.curr.checkGoal() == this.curr.getWinCond())
 				return OUTCOME.WIN;
 			else if (this.curr.checkGoal() == -1)
 				return OUTCOME.LOSE;
@@ -337,19 +359,19 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		System.out.println("How to win your maze?");
 		System.out.print("Find the door to win? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b00001;
+			goal += Maze.RUNNER;
 		System.out.print("Collect all treasures to finish the maze? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b00010;
+			goal += Maze.COLLECTOR;
 		System.out.print("Kill all enemies to pass? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b00100;
+			goal += Maze.SLAYER;
 		System.out.print("Find the key to open the door? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b01000;
+			goal += Maze.DETECTIVE;
 		System.out.print("Solve the puzzle to unlock the door? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b10000;
+			goal += Maze.BRAINER;
 		
 		this.start(size, goal);
 		//this.map = drawMap();

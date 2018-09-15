@@ -38,9 +38,10 @@ public class CoOrd {
 	}
 	
 	public void setXY(int x, int y) {
-		this.x = x;
-		this.y = y;
-		// or call Constructor?
+		if (x >= 0 && y >= 0) {
+			this.x = x;
+			this.y = y;
+		}
 	}
 	
 	public void setCoOrd(CoOrd co) {

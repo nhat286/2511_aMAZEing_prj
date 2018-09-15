@@ -3,7 +3,7 @@ package niriksha;
 import eric.CoOrd;
 
 public abstract class Potions {
-	enum action {
+	public enum action {
 		INVINCIBLE, HOVER, NOTHING;
 	}
 	

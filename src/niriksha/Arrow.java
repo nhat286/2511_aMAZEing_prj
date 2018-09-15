@@ -21,17 +21,6 @@ public class Arrow extends Weapon {
 		this.direction = this.user.getIcon();
 		this.setCoordinates(this.user.getCoordinates().getX(), this.user.getCoordinates().getY());
 		used = true;
-//		if (object != null) {
-//			if (object instanceof Enemy) {
-//				//destroy_arrow(this);
-//				((Enemy) object).enemyDies();
-//				this.setCoordinates(-1, -1);
-//				return action.DESTROY;
-//			} else if (object instanceof Obstacle) {
-//				this.setCoordinates(-1, -1);
-//				return action.DESTROY;
-//			}
-//		}
 		
 		return action.NOTHING;
 	}
@@ -46,16 +35,16 @@ public class Arrow extends Weapon {
 	}
 	
 	public int moving(Object object, int border) {
-		int kill = 0;
 		if (object != null) {
 			if (object instanceof Enemy) {
 				//destroy_arrow(this);
 				((Enemy) object).enemyDies();
-				kill = 1;
 				this.setCoordinates(-1, -1);
+				return 1;
 				//return action.DESTROY;
-			} else if (object instanceof Obstacle) {
+			} else if (object instanceof Obstacle && !(object instanceof Pit)) {
 				this.setCoordinates(-1, -1);
+				return 0;
 				//return action.DESTROY;
 			}
 		}
@@ -81,7 +70,7 @@ public class Arrow extends Weapon {
 			else this.getCoordinates().moveDown(border);
 			break;
 		}
-		return kill;
+		return 0;
 	}
 	
 	public CoOrd getInfront() {

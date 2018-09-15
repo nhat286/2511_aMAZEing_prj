@@ -42,10 +42,7 @@ public class Character {
 		this.holding_key = k;
 	}
 	public boolean hasKey() {
-		if (this.holding_key == null) {
-			return false;
-		}
-		return true;
+		return this.holding_key != null;
 	}
 	
 	public ACTION move(char direction, char type, Object object, int border) {
@@ -108,8 +105,8 @@ public class Character {
 				case 'F':
 					moveCoOrd(direction, border);
 					return ACTION.GAME_COMPLETE;
-				// G is treasure
-				case 'G':
+				// $ is treasure
+				case '$':
 					((Treasure) object).pickUp();
 					moveCoOrd(direction, border);
 					return ACTION.MOVE;
