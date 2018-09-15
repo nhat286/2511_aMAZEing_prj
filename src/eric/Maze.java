@@ -20,6 +20,7 @@ public class Maze {
 	private ArrayList<Pit> pits;
 	private ArrayList<Potions> potion_drops;
 	private int goal;
+	private int current_cond;
 	/*
 	 * Win Condition:
 	 * 00001 -> MazeRunner (just find the door)
@@ -36,6 +37,7 @@ public class Maze {
 		this.pits = new ArrayList<Pit>();
 		this.potion_drops = new ArrayList<Potions>();
 		this.goal = winning_goal;
+		this.current_cond = 0;
 	}
 	
 	public void updateCharacterBag() {
@@ -82,6 +84,8 @@ public class Maze {
 	public void updateMap(char[][] map) {
 		CoOrd entity = null;
 		updateCharacterBag();
+		CoOrd player = this.player.getCoordinates();
+		
 		
 		entity = null;
 		Iterator<Potions> pt_iter = this.potion_drops.iterator();
@@ -109,6 +113,8 @@ public class Maze {
 			if (entity.getX() == -1) e_iter.remove();
 			else if (entity.getX() >= 0) {
 				e.enemyMovement(this.player, map.length);
+				if (e.getCurrPos().equals(player))
+					this.current_cond = -1;
 				boolean die = false;
 				for (Pit p : this.pits) {
 					if (e.getCurrPos().equals(p.getCoordinates())) {
@@ -129,7 +135,6 @@ public class Maze {
 			else map[entity.getX()][entity.getY()] = o.getIcon();
 		}
 		
-		CoOrd player = this.player.getCoordinates();
 		map[player.getX()][player.getY()] = this.player.getIcon();
 	}
 	
@@ -233,6 +238,30 @@ public class Maze {
 	
 	public int getWinCond() {
 		return this.goal;
+	}
+	
+	public int checkGoal() {
+		if (this.current_cond == -1)
+			return -1;
+		if ((this.goal & 0b00001) > 0) {
+			
+		}
+		if ((this.goal & 0b00010) > 0) {
+			
+		}
+		if ((this.goal & 0b00100) > 0) {
+			if (this.enemies.size() == 0)
+				goal = 1;
+			else
+				return 0;
+		}
+		if ((this.goal & 0b01000) > 0) {
+			
+		}
+		if ((this.goal & 0b10000) > 0) {
+			
+		}
+		return goal;
 	}
 	
 	public void resetCharCoOrd(int x, int y) {

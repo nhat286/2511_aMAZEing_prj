@@ -49,7 +49,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	private Character user;
 	private static char keyPressed;
 	private int pause;
-	ScheduledExecutorService executor;
+	private ScheduledExecutorService executor;
 	
 	public MazeSystem() {		
 		//drawMap();
@@ -84,6 +84,10 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	
 	public void printMap() {
 		clearScreen();
+		this.map = drawMap();
+		this.curr.updateMap(map);
+		if (this.curr.checkGoal() != 0)
+			return;
 		System.out.println("To win, you have to complete the option(s) below");
 		int cond = this.curr.getWinCond();
 		if ((cond & 0b00001) > 0)
@@ -96,15 +100,18 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			System.out.println("\tFind the key to open the door!");
 		if ((cond & 0b10000) > 0)
 			System.out.println("\tSolve the puzzle to unlock the door!");
-		System.out.print("Press i to check inventory!");
+		System.out.println("Press i to check inventory!");
 		if (this.user.weaponEquipped()) {
-			System.out.println("  Currently equip a weapon!");
-		} else {
+			System.out.println("\tCurrently equip " + this.user.equip_weapon.getType());
+		}
+		if (this.user.getActivePotion().size() > 0) {
+			System.out.print("\tCurrently activate:");
+			for (Potions p : this.user.getActivePotion()) {
+				System.out.print(" " + p.getType());
+			}
 			System.out.print("\n");
 		}
 		System.out.println("Press p to pause the game and open menu!");
-		this.map = drawMap();
-		this.curr.updateMap(map);
 		for (int i = 0; i < this.map_size; i++) {
 			for (int j = 0; j < this.map_size; j++) {
 				System.out.print(this.map[i][j]);
@@ -115,30 +122,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	
 	public void setPause(int pause) {
  		this.pause = pause;
-	}
-	
-	public int checkGoal() {
-		int goal = 0;
-		int cond = this.curr.getWinCond();
-		if ((cond & 0b00001) > 0) {
-			
-		}
-		if ((cond & 0b00010) > 0) {
-			
-		}
-		if ((cond & 0b00100) > 0) {
-			if (this.curr.getEnemyList().size() == 0)
-				goal = 1;
-			else
-				return 0;
-		}
-		if ((cond & 0b01000) > 0) {
-			
-		}
-		if ((cond & 0b10000) > 0) {
-			
-		}
-		return goal;
 	}
 	
 	public int pauseGame(Scanner sc) {
@@ -189,7 +172,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		return option;
 	}
 	
-	public void gameInitiate() {
+	public void level1Initiate() {
 		this.start(20, 0b00100);
 		Enemy e1 = new Hunter(new CoOrd(3, 4));
 		this.curr.addEnemy(e1);
@@ -203,6 +186,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.curr.addObstacle(o1);
 		Weapon w1 = new Sword(8, 1);
 		this.curr.addWeaponDrop(w1);
+		Weapon w2 = new Arrow(5, 1);
+		this.curr.addWeaponDrop(w2);
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new InvincibilityPotion(-2,-2));
@@ -287,9 +272,11 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			default:
 				break;
 			}
-			if (this.checkGoal() > 0)
-				return OUTCOME.WIN;
 			this.printMap();
+			if (this.curr.checkGoal() == 1)
+				return OUTCOME.WIN;
+			else if (this.curr.checkGoal() == -1)
+				return OUTCOME.LOSE;
 			input = sc.next().charAt(0);
 		}
 		
@@ -529,7 +516,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 					sys.gameInitiate();
 				}*/
 				do {
-					sys.gameInitiate();
+					sys.level1Initiate();
 					result = sys.gameLoop(sc);
 					if (result == OUTCOME.LOSE) {
 						clearScreen();

@@ -14,6 +14,8 @@ public class Arrow extends Weapon {
 		
 		if (object instanceof Enemy) {
 			//destroy_arrow(this);
+			((Enemy) object).enemyDies();
+			this.setCoordinates(-1, -1);
 			return action.DESTROY;
 		}
 		

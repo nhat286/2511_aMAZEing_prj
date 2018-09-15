@@ -40,18 +40,20 @@ public class InventoryMenu implements Menu{
 		char inputAct = '.';
 		while (inputType != 'q') {
 			for (Weapon o : weaponList) {
-				if (!weaponHash.containsKey(o.getType()))
+				if (!weaponHash.containsKey(o.getType())) {
 					weaponHash.put(o.getType(), new Integer(0));
+				}
 				weaponHash.put(o.getType(), new Integer(weaponHash.get(o.getType()).intValue() + 1));
 			}
 			
 			for (Potions o : potionList) {
-				if (!potionHash.containsKey(o.getType()))
+				if (!potionHash.containsKey(o.getType())) {
 					potionHash.put(o.getType(), new Integer(0));
+				}
 				potionHash.put(o.getType(), new Integer(potionHash.get(o.getType()).intValue() + 1));
 			}
-			i = 0;
 			
+			i = 0;
 			System.out.println("------------------------------------------------------------");
 			System.out.println("You have Weapons: ");
 			for (Entry<String, Integer> e : weaponHash.entrySet()) {
@@ -59,6 +61,7 @@ public class InventoryMenu implements Menu{
 				currList.add((String) e.getKey());
 				i++;
 			}
+			
 			System.out.println("------------------------------------------------------------");
 			System.out.println("You have Potions: ");
 			for (Entry<String, Integer> e : potionHash.entrySet()) {
@@ -67,9 +70,10 @@ public class InventoryMenu implements Menu{
 				i++;
 			}
 			
-			weaponHash.clear();
-			potionHash.clear();
-			
+			System.out.println("currList has:");
+			for (String s : currList)
+				System.out.print(" " + s);
+			System.out.print("\n");
 			
 			System.out.println("------------------------------------------------------------");
 			System.out.println("To select a weapon , input w");
@@ -81,12 +85,16 @@ public class InventoryMenu implements Menu{
 				System.out.println("Input index");
 				inputIndex = sc.nextInt();
 				selected = currList.get(inputIndex);
+				if (inputIndex >= weaponHash.size()) {
+					System.out.println("Invalid index, can't find weapon!");
+					break;
+				}
 				for(Weapon w : weaponList) {
 					if(w.getType().equals(selected)) {
 						System.out.println("e: Equip, d: drop");
 						inputAct = sc.next().charAt(0);
 						if(inputAct == 'e')
-							character.equipWeapon(inputIndex);
+							character.equipWeapon(selected);
 						if(inputAct == 'd')
 							inventory.deleteWeapon(w);
 						break;
@@ -96,13 +104,17 @@ public class InventoryMenu implements Menu{
 			case 'p':
 				System.out.println("Input index");
 				inputIndex = sc.nextInt();
+				if (inputIndex < weaponHash.size() || inputIndex >= weaponHash.size() + potionHash.size()) {
+					System.out.println("Invalid index, can't find potion!");
+					break;
+				}
 				selected = currList.get(inputIndex);
 				for(Potions p : potionList) {
 					if(p.getType().equals(selected)) {
 						System.out.println("e: Use, d: drop");
 						inputAct = sc.next().charAt(0);
 						if(inputAct == 'e')
-							character.equipPotion(inputIndex);
+							character.equipPotion(selected);
 						if(inputAct == 'd')
 							inventory.deletePotion(p);
 						break;
@@ -112,8 +124,9 @@ public class InventoryMenu implements Menu{
 			default:
 				break;
 			}
+			weaponHash.clear();
+			potionHash.clear();
 			currList.clear();
-			
 		}
 		
 	}

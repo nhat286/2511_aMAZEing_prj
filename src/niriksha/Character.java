@@ -157,16 +157,18 @@ public class Character {
 		this.bag.addWeapon(w);
 	}
 	
-	public void equipWeapon(int index) {
+	public void equipWeapon(String item) {
 		if (this.equip_weapon == null) {
-			this.equip_weapon = this.bag.getWeapon(index);
+			this.equip_weapon = this.bag.getWeapon(item);
 		}
 	}
 	
 	public int useWeapon(Object object) {
 		if (this.equip_weapon != null)
 			this.equip_weapon.weapon_action(object);
-		if (this.equip_weapon instanceof Bomb)
+		if (this.equip_weapon instanceof Arrow)
+			this.equip_weapon = null;
+		else if (this.equip_weapon instanceof Bomb)
 			return 1;
 		return 0;
 		//this.equip_weapon = null;
@@ -176,10 +178,18 @@ public class Character {
 		this.bag.addPotion(p);
 	}
 	
-	public void equipPotion(int index) {
-		if (!this.active_potions.contains(this.bag.getPotion(index))) {
-			this.active_potions.add(this.bag.getPotion(index));
-			this.usePotion(this.bag.getPotion(index));
+	public void equipPotion(String item) {
+		int index = -1;
+		for (Potions p : this.active_potions) {
+			if (p.getType().equals(item)) {
+				index = this.active_potions.indexOf(p);
+			}
+		}
+		if (index == -1) {
+			Potions p = this.bag.getPotion(item);
+			this.active_potions.add(p);
+			this.bag.deletePotion(p);
+			this.usePotion(p);
 		}
 	}
 	
