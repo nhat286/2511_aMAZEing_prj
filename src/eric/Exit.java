@@ -20,4 +20,12 @@ public class Exit {
 	public char getIcon() {
 		return this.icon;
 	}
+	
+	public String getType() {
+		return "Exit";
+	}
+	
+	public Exit copy() {
+		return new Exit(this.co_ord.getX(), this.co_ord.getY());
+	}
 }

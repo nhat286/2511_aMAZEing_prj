@@ -1,5 +1,5 @@
 package niriksha;
-
+/*
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,31 +43,37 @@ public class InvincibilityPotion extends Potions {
 	}
 	
 	
-	/*@Override
-	public int special_effect(Object o) {
-		action = 2;
-		return action;
-	}
-	
-	public int special_effect(Enemy e) {
-		e.destroyEnemy();
-		action = 1;
-		return action;
-	}
-	
-	public int special_effect(Weapon w) {
-		if (((w.getClass()).toString()).equals("Bomb")) {
-			action = 0;
-			return action;
-		}
-		action = 2;
-		return action;
-	}*/
+//	@Override
+//	public int special_effect(Object o) {
+//		action = 2;
+//		return action;
+//	}
+//	
+//	public int special_effect(Enemy e) {
+//		e.destroyEnemy();
+//		action = 1;
+//		return action;
+//	}
+//	
+//	public int special_effect(Weapon w) {
+//		if (((w.getClass()).toString()).equals("Bomb")) {
+//			action = 0;
+//			return action;
+//		}
+//		action = 2;
+//		return action;
+//	}
 	
 	@Override
 	public String getType() {
 		return "InvincibilityPotion";
 	}
+	
+	@Override
+	public Potions copy() {
+		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 
 }
 
+*/

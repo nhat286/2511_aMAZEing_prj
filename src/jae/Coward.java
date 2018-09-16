@@ -1,11 +1,13 @@
 package jae;
 
 import eric.CoOrd;
+import eric.InvincibilityPotion;
 import niriksha.Character;
+import niriksha.Potions;
 
 import java.lang.Math;
 
-public class Coward extends Enemy implements Distance {
+public class Coward extends Enemy {
 	
 	/*public Coward(float speedX, float speedY, CoOrd currPos) {
 		super(speedX, speedY, currPos, 'C');
@@ -82,6 +84,12 @@ public class Coward extends Enemy implements Distance {
 	}
 	
 	public void enemyMovement(Character target, int border) {
+		for (Potions p : target.getActivePotion()) {
+			if (p instanceof InvincibilityPotion && ((InvincibilityPotion) p).turnsRemaining() > 0) {
+				moveAway(this, target.getCoordinates(), border);
+				return;
+			}
+		}
 		CoOrd me = this.getCurrPos();
 		CoOrd ch = target.getCoordinates();
 		if (me.getX() == ch.getX() && Math.abs(me.getY() - ch.getY()) == 1) {
@@ -136,6 +144,10 @@ public class Coward extends Enemy implements Distance {
 			return;
 		}
 	}
-	
+
+	@Override
+	public Enemy copy() {
+		return new Coward(this.getCurrPos());
+	}
 }
 

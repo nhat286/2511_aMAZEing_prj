@@ -25,5 +25,9 @@ public class FloorSwitch extends Obstacle {
 	public String getType() {
 		return "FloorSwitch";
 	}
-
+	
+	@Override
+	public Obstacle copy() {
+		return new FloorSwitch(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 }

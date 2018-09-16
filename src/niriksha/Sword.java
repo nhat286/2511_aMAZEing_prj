@@ -57,5 +57,10 @@ public class Sword extends Weapon {
 		}
 		return action;
 	}*/
+	
+	@Override
+	public Weapon copy() {
+		return new Sword(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 
 }

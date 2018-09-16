@@ -1,9 +1,11 @@
 package jae;
 
 import eric.CoOrd;
+import eric.InvincibilityPotion;
 import niriksha.Character;
+import niriksha.Potions;
 
-public class Strategist extends Enemy implements Distance {
+public class Strategist extends Enemy {
 	//start off from the starting position and this enemy will position itself mid way between the player and the exit
 	
 	/*public Strategist(float speedX, float speedY, CoOrd currPos) {
@@ -32,6 +34,12 @@ public class Strategist extends Enemy implements Distance {
 	
 	@Override
 	public void enemyMovement(Character target, int border) {
+		for (Potions p : target.getActivePotion()) {
+			if (p instanceof InvincibilityPotion && ((InvincibilityPotion) p).turnsRemaining() > 0) {
+				moveAway(this, target.getCoordinates(), border);
+				return;
+			}
+		}
 		CoOrd ch = new CoOrd(target.getCoordinates().getX(), target.getCoordinates().getY());
 		if (target.getIcon() == '<') {
 			ch.moveLeft();
@@ -82,5 +90,9 @@ public class Strategist extends Enemy implements Distance {
 			return;
 		}
 	}
-
+	
+	@Override
+	public Enemy copy() {
+		return new Strategist(this.getCurrPos());
+	}
 }

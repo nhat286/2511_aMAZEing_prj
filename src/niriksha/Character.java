@@ -3,6 +3,7 @@ package niriksha;
 import java.util.ArrayList;
 
 import eric.CoOrd;
+import eric.InvincibilityPotion;
 import jae.Enemy;
 
 public class Character {
@@ -54,8 +55,9 @@ public class Character {
 				case 'D':
 				case 'C':
 					for (int i=0; i < active_potions.size(); i++) {
-						if (active_potions.get(i).getType().equals("InvincibiltyPotion")) {
-							usePotion(active_potions.get(i));
+						if (active_potions.get(i).getType().equals("InvincibiltyPotion")
+								&& ((InvincibilityPotion) active_potions.get(i)).turnsRemaining() > 0) {
+							//usePotion(active_potions.get(i));
 							((Enemy) object).enemyDies();
 							return ACTION.DESTROY;
 						}
@@ -161,19 +163,17 @@ public class Character {
 		}
 	}
 	
-	public int useWeapon(Object object) {
-		if (this.equip_weapon != null)
-			this.equip_weapon.weapon_action(object);
-		if (this.equip_weapon instanceof Arrow)
-			this.equip_weapon = null;
-		else if (this.equip_weapon instanceof Bomb)
-			return 1;
-		else if (this.equip_weapon instanceof Sword) {
+	public void useWeapon(Object object) {
+		if (this.equip_weapon == null)
+			return;
+		this.equip_weapon.weapon_action(object);
+		if (this.equip_weapon instanceof Sword) {
 			if (((Sword) this.equip_weapon).getDurability() == 0)
 				removeEquipped();
+		} else {
+			this.removeEquipped();
 		}
-		return 0;
-		//this.equip_weapon = null;
+		
 	}
 	
 	public void pickUpPotion(Potions p) {

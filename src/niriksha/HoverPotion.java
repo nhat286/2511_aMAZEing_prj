@@ -58,4 +58,9 @@ public class HoverPotion extends Potions {
 	public String getType() {
 		return "HoverPotion";
 	}
+	
+	@Override
+	public Potions copy() {
+		return new HoverPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 }

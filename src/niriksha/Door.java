@@ -20,5 +20,9 @@ public class Door extends Obstacle {
 	public String getType() {
 		return "Door";
 	}
-
+	
+	@Override
+	public Obstacle copy() {
+		return new Door(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 }

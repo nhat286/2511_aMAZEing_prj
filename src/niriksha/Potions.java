@@ -37,4 +37,6 @@ public abstract class Potions {
 	public String getType() {
 		return "Potion";
 	}
+	
+	public abstract Potions copy();
 }

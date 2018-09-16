@@ -28,6 +28,10 @@ public class Key {
 		this.door = d;
 	}
 	
+	public Door getDoorLinked() {
+		return this.door;
+	}
+	
 	public CoOrd getCoordinates() {
 		return co_ord;
 	}
@@ -46,6 +50,10 @@ public class Key {
 	
 	public String getType() {
 		return "Key";
+	}
+	
+	public Key copy() {
+		return new Key(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}
 
 }
