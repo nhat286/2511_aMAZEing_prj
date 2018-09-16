@@ -77,6 +77,11 @@ public class Strategist extends Enemy implements Distance {
 		}
 	}
 	
+	@Override
+	public Enemy copy() {
+		return new Strategist(this.getCurrPos());
+	}
+	
 	/*
 	 * Returns the type of enemy 
 	 * 

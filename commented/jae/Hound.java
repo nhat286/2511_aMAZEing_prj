@@ -3,13 +3,21 @@ package jae;
 import eric.CoOrd;
 import niriksha.Character;
 
-public class Hound extends Enemy{
+public class Hound extends Enemy implements Distance{
 	
 	CoOrd hunterCoOrd;
 	
-	public Hound(CoOrd currPos, CoOrd hunterCoOrd) {
+	public Hound(CoOrd currPos) {
 		super(currPos, 'D');
+		this.hunterCoOrd = null;
+	}
+	
+	public void linkHunter(CoOrd hunterCoOrd) {
 		this.hunterCoOrd = hunterCoOrd;
+	}
+	
+	public CoOrd getHunterCoOrd() {
+		return this.hunterCoOrd;
 	}
 	
 	/*
@@ -59,38 +67,76 @@ public class Hound extends Enemy{
 		
 		CoOrd ch = target.getCoordinates();
 		CoOrd me = this.getCurrPos();
-		
+		/*
+		 * If no hunter is linked, use Hunter's logic to follow player
+		 */
+		if (this.hunterCoOrd == null) {
+			moveCloser(this.getCurrPos(), target.getCoordinates(), border);
+			return;
+		}
 		if (this.hunterCoOrd.getY() < ch.getY()) {
 			if (me.getY() < ch.getY()) {
 				this.getCurrPos().moveRight(border);
 			} else if (me.getY() > ch.getY()) {
 				this.getCurrPos().moveLeft();
 			}
-		} 
-		
-		else if (this.hunterCoOrd.getY() > ch.getY()) {
+		} else if (this.hunterCoOrd.getY() > ch.getY()) {
 			if (me.getY() > ch.getY()) {
 				this.getCurrPos().moveLeft();
 			} else if (me.getY() < ch.getY()) {
 				this.getCurrPos().moveRight(border);
 			}
-		} 
-		
-		else if (this.hunterCoOrd.getX() < ch.getX()) {
+		} else if (this.hunterCoOrd.getX() < ch.getX()) {
 			if (me.getX() < ch.getX()) {
 				this.getCurrPos().moveDown(border);
 			} else if (me.getX() > ch.getX()) {
 				this.getCurrPos().moveUp();
 			}
-		} 
-		
-		else if (this.hunterCoOrd.getX() > ch.getX()) {
+		} else if (this.hunterCoOrd.getX() > ch.getX()) {
 			if (me.getX() < ch.getX()) {
 				this.getCurrPos().moveDown(border);
 			} else if (me.getX() > ch.getX()) {
 				this.getCurrPos().moveUp();
 			}
 		}
+	}
+	
+	@Override
+	public void moveCloser(CoOrd self, CoOrd target, int border) {
+		int x_difference = self.getX() - target.getX();
+		if (x_difference < 0) {
+			if (this.getDirection() != 'v')
+				this.setDirection('v');
+			else
+				this.getCurrPos().moveDown(border);
+			return;
+		} else if (x_difference > 0) {
+			if (this.getDirection() != '^')
+				this.setDirection('^');
+			else
+				this.getCurrPos().moveUp();
+			return;
+		}
+		
+		int y_difference = self.getY() - target.getY();
+		if (y_difference < 0) {
+			if (this.getDirection() != '>')
+				this.setDirection('>');
+			else
+				this.getCurrPos().moveRight(border);
+			return;
+		} else if (y_difference > 0) {
+			if (this.getDirection() != '<')
+				this.setDirection('<');
+			else
+				this.getCurrPos().moveLeft();
+			return;
+		}
+	}
+	
+	@Override
+	public Enemy copy() {
+		return new Hound(this.getCurrPos());
 	}
 	
 	/*
@@ -102,4 +148,5 @@ public class Hound extends Enemy{
 	public String getEnemyType() {
 		return "Hound";
 	}
+	
 }

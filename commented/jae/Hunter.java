@@ -28,17 +28,14 @@ public class Hunter extends Enemy implements Distance {
 	 */
 	@Override
 	public void moveCloser(CoOrd self, CoOrd target, int border) {
-		
 		int x_difference = self.getX() - target.getX();
-		
 		if (x_difference < 0) {
 			if (this.getDirection() != 'v')
 				this.setDirection('v');
 			else
 				this.getCurrPos().moveDown(border);
 			return;
-		} 
-		else if (x_difference > 0) {
+		} else if (x_difference > 0) {
 			if (this.getDirection() != '^')
 				this.setDirection('^');
 			else
@@ -47,15 +44,13 @@ public class Hunter extends Enemy implements Distance {
 		}
 		
 		int y_difference = self.getY() - target.getY();
-		
 		if (y_difference < 0) {
 			if (this.getDirection() != '>')
 				this.setDirection('>');
 			else
 				this.getCurrPos().moveRight(border);
 			return;
-		} 
-		else if (y_difference > 0) {
+		} else if (y_difference > 0) {
 			if (this.getDirection() != '<')
 				this.setDirection('<');
 			else
@@ -64,7 +59,12 @@ public class Hunter extends Enemy implements Distance {
 		}
 	}
 	
-	/*
+	@Override
+	public Enemy copy() {
+		return new Hunter(this.getCurrPos());
+	}
+	
+	/**
 	 * Returns the type of enemy 
 	 * 
 	 * @post type of enemy
