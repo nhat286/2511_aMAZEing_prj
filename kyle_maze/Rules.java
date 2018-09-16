@@ -1,10 +1,12 @@
 package kyle_maze;
 
+import java.io.IOException;
+
 public class Rules implements Menu{
 	
 	private String[] rules;
 	
-	Rules(){
+	public Rules(){
 		rules = new String [4];
 		rules[0] = "To proceed to next level push the boulder to ...";
 		rules[1] = "To proceed to next level kill all enemies ...";
@@ -14,12 +16,11 @@ public class Rules implements Menu{
 	
 	@Override
 	public void displayMenu() {
-		// TODO Auto-generated method stub
-		
+		try {
+			pause1Sec();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	@Override
-	public void pauseGame() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

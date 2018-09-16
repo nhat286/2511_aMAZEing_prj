@@ -1,26 +1,26 @@
 package kyle_maze;
 
-import prj_2511.Maze;
+import java.io.IOException;
+
+import eric.Maze;
 
 public class SaveLoad implements Menu{
 	Maze currentMaze;
 	
-	SaveLoad(Maze maze){
+	public SaveLoad(Maze maze){
 		currentMaze = maze;
 	}
 	
 	@Override
 	public void displayMenu() {
-		// TODO Auto-generated method stub
-		
+		try {
+			pause1Sec();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	@Override
-	public void pauseGame() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public void LoadGame() {
 		
 	}

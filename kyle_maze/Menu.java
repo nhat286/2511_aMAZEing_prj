@@ -1,10 +1,14 @@
 package kyle_maze;
 
+import java.io.IOException;
+
 public interface Menu {
-	default void display() {
-		pauseGame();
-		displayMenu();
+
+	public void displayMenu();
+	
+	public default void pause1Sec() throws IOException {
+		System.out.println("Press any key to continue");
+		System.in.read();
 	}
-	void displayMenu();
-	void pauseGame();
+	
 }
