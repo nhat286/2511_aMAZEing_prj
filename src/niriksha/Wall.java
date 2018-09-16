@@ -10,5 +10,10 @@ public class Wall extends Obstacle {
 	public String getType() {
 		return "Wall";
 	}
+	
+	@Override
+	public Obstacle copy() {
+		return new Wall(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 
 }

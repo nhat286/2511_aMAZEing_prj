@@ -66,7 +66,12 @@ public class InvincibilityPotion extends Potions {
 	
 	@Override
 	public String getType() {
-		return "InvinciblePotion";
+		return "InvincibilityPotion";
+	}
+	
+	@Override
+	public Potions copy() {
+		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}
 
 }

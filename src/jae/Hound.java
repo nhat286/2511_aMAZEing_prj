@@ -62,6 +62,10 @@ public class Hound extends Enemy implements Distance {
 		this.hunterCoOrd = hunterCoOrd;
 	}
 	
+	public CoOrd getHunterCoOrd() {
+		return this.hunterCoOrd;
+	}
+	
 	@Override
 	public void enemyMovement(Character target, int border) {
 		//this.setCurrPos(calculateTargetLocation(target.getCoordinates()));
@@ -137,6 +141,11 @@ public class Hound extends Enemy implements Distance {
 				this.getCurrPos().moveLeft();
 			return;
 		}
+	}
+	
+	@Override
+	public Enemy copy() {
+		return new Hound(this.getCurrPos());
 	}
 }
 

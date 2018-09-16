@@ -31,28 +31,35 @@ class Movement {
 	}
 	
 	@Test
-	void testMoveRight() {
-		CoOrd co_ord = new CoOrd(1,0);
+	void testMoveRight() throws Exception {
+		setUpBeforeClass();
+		CoOrd co_ord = new CoOrd(0,1);
+		CoOrd change_direction = new CoOrd(0, 0);
+		user.moveCoOrd('>', 10);
+		assertEquals(user.getCoordinates(), change_direction);
 		user.moveCoOrd('>', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 
 	@Test
-	void testMoveLeft() {
+	void testMoveLeft() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(0,0);
 		user.moveCoOrd('<', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 	
 	@Test
-	void testMoveDown() {
-		CoOrd co_ord = new CoOrd(0,1);
+	void testMoveDown() throws Exception {
+		setUpBeforeClass();
+		CoOrd co_ord = new CoOrd(1,0);
 		user.moveCoOrd('v', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 	
 	@Test
-	void testMoveUp() {
+	void testMoveUp() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(0,0);
 		user.moveCoOrd('^', 10);
 		assertEquals(user.getCoordinates(), co_ord);

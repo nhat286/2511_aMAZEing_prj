@@ -26,8 +26,9 @@ class BoulderFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
-		CoOrd co_ord = new CoOrd(4,4);
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
+		CoOrd co_ord = new CoOrd(4, 4);
 		assertEquals(boulder.getCoordinates(), co_ord);
 	}
 	
@@ -40,7 +41,7 @@ class BoulderFunctionality {
 	
 	@Test
 	void testgetIcon() {
-		assertEquals(boulder.getIcon(),'D');
+		assertEquals(boulder.getIcon(),'O');
 	}
 	
 	@Test

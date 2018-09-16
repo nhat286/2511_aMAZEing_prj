@@ -82,5 +82,10 @@ public class Strategist extends Enemy implements Distance {
 			return;
 		}
 	}
+	
+	@Override
+	public Enemy copy() {
+		return new Strategist(this.getCurrPos());
+	}
 
 }

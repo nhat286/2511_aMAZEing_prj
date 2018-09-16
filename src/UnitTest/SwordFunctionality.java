@@ -27,7 +27,8 @@ class SwordFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(3, 3);
 		assertEquals(sword.getCoordinates(), co_ord);
 	}

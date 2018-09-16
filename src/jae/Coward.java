@@ -136,6 +136,11 @@ public class Coward extends Enemy implements Distance {
 			return;
 		}
 	}
+
+	@Override
+	public Enemy copy() {
+		return new Coward(this.getCurrPos());
+	}
 	
 }
 

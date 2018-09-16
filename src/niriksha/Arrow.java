@@ -87,4 +87,8 @@ public class Arrow extends Weapon {
 		return "Arrow";
 	}
 	
+	@Override
+	public Weapon copy() {
+		return new Arrow(this.getCoordinates().getX(), this.getCoordinates().getY(), this.user);
+	}
 }

@@ -15,5 +15,14 @@ public class Door extends Obstacle {
 	public void openDoor() {
 		this.door_open = true;
 	}
-
+	
+	@Override
+	public String getType() {
+		return "Door";
+	}
+	
+	@Override
+	public Obstacle copy() {
+		return new Door(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 }

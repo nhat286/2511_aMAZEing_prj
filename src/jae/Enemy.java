@@ -65,5 +65,7 @@ public abstract class Enemy {
 	public char getIcon() {
 		return this.icon;
 	}
+	
+	public abstract Enemy copy();
 }
 

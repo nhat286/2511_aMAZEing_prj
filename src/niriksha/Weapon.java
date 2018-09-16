@@ -49,4 +49,6 @@ public abstract class Weapon {
 	public String getType() {
 		return "Weapon";
 	}
+	
+	public abstract Weapon copy();
 }

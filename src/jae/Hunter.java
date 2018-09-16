@@ -72,5 +72,10 @@ public class Hunter extends Enemy implements Distance {
 		}
 	}
 	
+	@Override
+	public Enemy copy() {
+		return new Hunter(this.getCurrPos());
+	}
+	
 }
 

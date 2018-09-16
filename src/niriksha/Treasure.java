@@ -49,4 +49,8 @@ public class Treasure {
 	public String getType() {
 		return "Treasure";
 	}
+	
+	public Treasure copy() {
+		return new Treasure(this.getCoord().getX(), this.getCoord().getY());
+	}
 }

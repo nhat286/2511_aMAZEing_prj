@@ -31,4 +31,6 @@ public abstract class Obstacle {
 	public String getType() {
 		return "Obstacle";
 	}
+	
+	public abstract Obstacle copy();
 }

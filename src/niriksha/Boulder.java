@@ -89,4 +89,14 @@ public class Boulder extends Obstacle {
 		else if (direction == '>') co.setXY(co.getX(), co.getY() + 1);
 		return co;
 	}
+	
+	@Override
+	public String getType() {
+		return "Boulder";
+	}
+	
+	@Override
+	public Obstacle copy() {
+		return new Boulder(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 }

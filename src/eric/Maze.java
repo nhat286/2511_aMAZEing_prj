@@ -14,6 +14,7 @@ import niriksha.Weapon;
 import niriksha.Obstacle;
 import niriksha.Pit;
 import jae.Enemy;
+import jae.Hound;
 
 public class Maze {
 	
@@ -30,12 +31,12 @@ public class Maze {
 	private int goal;
 	private int current_cond;
 	/*
-	 * Win Condition:
-	 * 00001 -> MazeRunner (just find the door)
+	 * Win Condition (can be a combination):
+	 * 00001 -> MazeRunner (just find the exit)
 	 * 00010 -> TreasureHunter (collect all treasures)
 	 * 00100 -> EnemySlayer (kill all enemies)
 	 * 01000 -> Detective (find the key to unlock door)
-	 * 10000 -> Brainer (solve puzzle to unlock door)
+	 * 10000 -> Brainer (solve puzzle to trigger all floor switches)
 	 */
 	public static final int RUNNER    = 0b00001;
 	public static final int COLLECTOR = 0b00010;
@@ -43,6 +44,10 @@ public class Maze {
 	public static final int DETECTIVE = 0b01000;
 	public static final int BRAINER   = 0b10000;
 	
+	/**
+	 * Constructor to instantiate a new maze, with all information of entities on the map
+	 * @param winning_goal goal of the maze to win if pass all (or some) conditions
+	 */
 	public Maze(int winning_goal) {
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.available_arrows = new ArrayList<Arrow>();
@@ -57,6 +62,9 @@ public class Maze {
 		this.current_cond = 0;
 	}
 	
+	/**
+	 * Method to remove weapons and potions if weapons run out of durability or potions run out of time
+	 */
 	public void updateCharacterBag() {
 		Iterator<Weapon> wp = this.player.getBag().getWeaponList().iterator();
 		while (wp.hasNext()) {
@@ -79,6 +87,12 @@ public class Maze {
 		}
 	}
 	
+	/**
+	 * Method to render the map for each action of character
+	 * Update all entities status
+	 * Remove entities from the map if co-ordinates are negative
+	 * @param map the map of the current maze
+	 */
 	public void updateMap(char[][] map) {
 		CoOrd entity = null;
 		updateCharacterBag();
@@ -127,7 +141,8 @@ public class Maze {
 		while (ex_iter.hasNext()) {
 			Exit ex = ex_iter.next();
 			entity = ex.getCoordinates();
-			map[entity.getX()][entity.getY()] = ex.getIcon();
+			if (entity.getX() == -1) ex_iter.remove();
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = ex.getIcon();
 		}
 		
 		entity = null;
@@ -178,58 +193,96 @@ public class Maze {
 		map[player.getX()][player.getY()] = this.player.getIcon();
 	}
 	
+	/**
+	 * Method to link the maze with the player's character
+	 * @param c the character of the player to be linked and played in the maze
+	 */
 	public void addCharacter(Character c) {
 		this.player = c;
 	}
 	
+	/**
+	 * Method to add weapon drops on the map to be picked up by character
+	 * @param w the weapon drop that has co-ordinates on the map (between 1 and map size - 1)
+	 */
 	public void addWeaponDrop(Weapon w) {
 		this.weapon_drops.add(w);
 		if (w instanceof Arrow)
 			this.available_arrows.add((Arrow) w);
 	}
 	
+	/**
+	 * Method to add enemies on the map to chase or try to kill the character
+	 * @param e the enemy that has co-ordinates on the map (between 1 and map size - 1)
+	 */
 	public void addEnemy(Enemy e) {
 		this.enemies.add(e);
 	}
 	
+	/**
+	 * Method to add obstacles on the map for more difficulty, also update floorswitch list for easier goal checking
+	 * @param o the obstacle that has co-ordinates on the map (between 1 and map size - 1)
+	 */
 	public void addObstacle(Obstacle o) {
 		this.obstacles.add(o);
 		if (o instanceof FloorSwitch)
 			this.switches.add((FloorSwitch) o);
 	}
 	
+	/**
+	 * Method to add potion drops on the map to be picked up by character
+	 * @param p the potion drop that has co-ordinates on the map (between 1 and map size - 1)
+	 */
 	public void addPotion(Potions p) {
 		this.potion_drops.add(p);
 	}
 	
+	/**
+	 * Method to add treasure on the map to be picked up by character
+	 * @param t the treasure that has co-ordinates on the map (between 1 and map size - 1)
+	 */
 	public void addTreasure(Treasure t) {
 		this.loots.add(t);
 	}
 	
+	/**
+	 * Method to add exits on the map to satisfy goal if character finds and moves to an exit's co-ordinates
+	 * @param e the exit that has co-ordinates on the map (between 1 and map size - 1)
+	 */
 	public void addExit(Exit e) {
 		this.exits.add(e);
 	}
 	
+	/**
+	 * Method to add keys on the map to be picked up by character, and a key is linked to a door
+	 * @param k the key that has co-ordinates on the map (between 1 and map size - 1)
+	 */
 	public void addKey(Key k) {
 		this.keys.add(k);
 	}
 	
-	public void deleteWeaponDrop(Weapon w) {
+	/*public void deleteWeaponDrop(Weapon w) {
 		this.weapon_drops.remove(w);
-	}
+	}*/
 	
-	public void deleteEnemy(Enemy e) {
+	/*public void deleteEnemy(Enemy e) {
 		this.enemies.remove(e);
-	}
+	}*/
 	
-	public void deleteObstacle(Obstacle o) {
+	/*public void deleteObstacle(Obstacle o) {
 		this.obstacles.remove(o);
-	}
+	}*/
 	
-	public void deletePotion(Potions p) {
+	/*public void deletePotion(Potions p) {
 		this.potion_drops.remove(p);
-	}
+	}*/
 	
+	/**
+	 * Method to get the object on the map with specific co-ordinates
+	 * @param co valid co-ordinates of entity (between 1 and map size - 1)
+	 * @return null if no entity exists at that location, else the entity with the corresponding co-ordinates
+	 * 			also, return entity on top if there are multiple entities at that location
+	 */
 	public Object getEntity(CoOrd co) {
 		for (Enemy e : this.enemies) {
 			if (e.getCurrPos().equals(co)) return e;
@@ -298,10 +351,18 @@ public class Maze {
 		return dict;
 	}
 	
+	/**
+	 * Getter method to return the winning goal of the maze
+	 * @return the winning goal of the maze
+	 */
 	public int getWinCond() {
 		return this.goal;
 	}
 	
+	/**
+	 * Method to keep track of player's current state according to the winning goal of the maze
+	 * @return the current condition of the player, or -1 if character dies, or 0 if not satisfy goal(s)
+	 */
 	public int checkGoal() {
 		if (this.current_cond == -1)
 			return -1;
@@ -309,7 +370,7 @@ public class Maze {
 			for (Exit ex : this.exits) {
 				if (ex.getCoordinates().equals(this.player.getCoordinates())) {
 					this.current_cond += RUNNER;
-					break;
+					return this.goal;
 				}
 			}
 		}
@@ -341,11 +402,65 @@ public class Maze {
 		return this.current_cond;
 	}
 	
+	/**
+	 * Method to change character's co-ordinates
+	 * @param x valid x co-ordinate of character (between 1 and map size - 1)
+	 * @param y valid y co-ordinate of character (between 1 and map size - 1)
+	 */
 	public void resetCharCoOrd(int x, int y) {
 		this.player.setCoordinates(x, y);
 	}
 	
+	/**
+	 * Getter method to return enemies currently alive on the map
+	 * @return enemy list of the maze
+	 */
 	public ArrayList<Enemy> getEnemyList() {
 		return this.enemies;
+	}
+	
+	public void copyMaze(Maze copy, Maze old) {
+//		private ArrayList<Weapon> weapon_drops;
+		for (Weapon w : old.weapon_drops) {
+			copy.weapon_drops.add(w.copy());
+		}
+//		private ArrayList<Arrow> available_arrows;
+		for (Arrow a : old.available_arrows) {
+			copy.available_arrows.add((Arrow) a.copy());
+		}
+//		private ArrayList<Enemy> enemies;
+		for (Enemy e : old.enemies) {
+			Enemy check_hound = e.copy();
+			if (check_hound instanceof Hound) {
+				((Hound) check_hound).linkHunter(((Hound) e).getHunterCoOrd());
+			}
+			copy.enemies.add(check_hound);
+		}
+//		private ArrayList<Obstacle> obstacles;
+		for (Obstacle o : old.obstacles) {
+			copy.obstacles.add(o.copy());
+		}
+//		private ArrayList<Potions> potion_drops;
+		for (Potions p : old.potion_drops) {
+			copy.potion_drops.add(p.copy());
+		}
+//		private ArrayList<FloorSwitch> switches;
+		for (FloorSwitch s : old.switches) {
+			copy.switches.add((FloorSwitch) s.copy());
+		}
+//		private ArrayList<Treasure> loots;
+		for (Treasure t : old.loots) {
+			copy.loots.add(t.copy());
+		}
+//		private ArrayList<Exit> exits;
+		for (Exit x : old.exits) {
+			copy.exits.add(x.copy());
+		}
+//		private ArrayList<Key> keys;
+		for (Key k : old.keys) {
+			Key new_copy = k.copy();
+			new_copy.linkDoor(k.getDoorLinked());
+			copy.keys.add(new_copy);
+		}
 	}
 }

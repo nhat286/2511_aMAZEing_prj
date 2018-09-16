@@ -10,4 +10,9 @@ public class Pit extends Obstacle {
 	public String getType() {
 		return "Pit";
 	}
+	
+	@Override
+	public Obstacle copy() {
+		return new Pit(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
 }

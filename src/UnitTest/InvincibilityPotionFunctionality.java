@@ -38,7 +38,7 @@ class InvincibilityPotionFunctionality {
 	
 	@Test
 	void testgetIcon() {
-		assertEquals(potion.getIcon(), '~');
+		assertEquals(potion.getIcon(), '!');
 	}
 	
 	@Test
