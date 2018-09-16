@@ -3,7 +3,7 @@ package jae;
 import eric.CoOrd;
 import niriksha.Character;
 
-public abstract class Enemy {
+public abstract class Enemy implements Distance{
 	//private float speedX, speedY;
 	private CoOrd currPos; //position of the enemy
 	private char icon;

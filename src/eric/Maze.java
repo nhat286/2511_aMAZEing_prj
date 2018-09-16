@@ -80,12 +80,18 @@ public class Maze {
 		}
 		
 		Iterator<Potions> pt = this.player.getBag().getPotionList().iterator();
-		ArrayList<Potions> active = this.player.getActivePotion();
 		while (pt.hasNext()) {
 			Potions p = pt.next();
 			if (p.getCoordinates().getX() == -1) {
 				pt.remove();
-				active.remove(p);
+			}
+		}
+		
+		Iterator<Potions> active = this.player.getActivePotion().iterator();
+		while (active.hasNext()) {
+			Potions p = active.next();
+			if (p.getCoordinates().getX() == -1) {
+				active.remove();
 			}
 		}
 	}
@@ -98,8 +104,15 @@ public class Maze {
 	 */
 	public void updateMap(char[][] map) {
 		CoOrd entity = null;
-		updateCharacterBag();
+		this.updateCharacterBag();
 		CoOrd player = this.player.getCoordinates();
+		boolean invincible = false;
+		for (Potions active : this.player.getActivePotion()) {
+			if (active instanceof InvincibilityPotion) {
+				if (((InvincibilityPotion) active).potion_effect() == Potions.action.INVINCIBLE)
+					invincible = true;
+			}
+		}
 		
 		entity = null;
 		Iterator<Potions> pt_iter = this.potion_drops.iterator();
@@ -155,25 +168,25 @@ public class Maze {
 			if (b.isLit()) {
 				if (b.turnsRemaining() == 0) {
 					CoOrd next_to = new CoOrd(b.getCoordinates().getX() - 1, b.getCoordinates().getY());
-					if (next_to.equals(player))
+					if (!invincible && next_to.equals(player))
 						this.current_cond = -1;
 					Object near = this.getEntity(next_to);
 					b.weapon_action(near);
 					
 					next_to.setXY(b.getCoordinates().getX() + 1, b.getCoordinates().getY());
-					if (next_to.equals(player))
+					if (!invincible && next_to.equals(player))
 						this.current_cond = -1;
 					near = this.getEntity(next_to);
 					b.weapon_action(near);
 					
 					next_to.setXY(b.getCoordinates().getX(), b.getCoordinates().getY() - 1);
-					if (next_to.equals(player))
+					if (!invincible && next_to.equals(player))
 						this.current_cond = -1;
 					near = this.getEntity(next_to);
 					b.weapon_action(near);
 					
 					next_to.setXY(b.getCoordinates().getX(), b.getCoordinates().getY() + 1);
-					if (next_to.equals(player))
+					if (!invincible && next_to.equals(player))
 						this.current_cond = -1;
 					near = this.getEntity(next_to);
 					b.weapon_action(near);
@@ -210,8 +223,15 @@ public class Maze {
 			if (entity.getX() == -1) e_iter.remove();
 			else if (entity.getX() >= 0) {
 				e.enemyMovement(this.player, map.length);
-				if (e.getCurrPos().equals(player))
-					this.current_cond = -1;
+				if (e.getCurrPos().equals(player)) {
+					if (!invincible)
+						this.current_cond = -1;
+					else {
+						e.enemyDies();
+						e_iter.remove();
+						continue;
+					}
+				}
 				boolean die = false;
 				for (Obstacle o : this.obstacles) {
 					if (o instanceof Pit && e.getCurrPos().equals(((Pit) o).getCoordinates())) {
@@ -471,6 +491,10 @@ public class Maze {
 
 		for (Arrow a : old.available_arrows) {
 			copy.available_arrows.add((Arrow) a.copy());
+		}
+		
+		for (Bomb b : old.available_bombs) {
+			copy.available_bombs.add((Bomb) b.copy());
 		}
 
 		for (Enemy e : old.enemies) {

@@ -1,9 +1,11 @@
 package jae;
 
 import eric.CoOrd;
+import eric.InvincibilityPotion;
 import niriksha.Character;
+import niriksha.Potions;
 
-public class Hound extends Enemy implements Distance {
+public class Hound extends Enemy {
 	CoOrd hunterCoOrd;
 	
 	/*public Hound(float speedX, float speedY, CoOrd currPos, CoOrd hunterCoOrd) {
@@ -69,6 +71,13 @@ public class Hound extends Enemy implements Distance {
 	@Override
 	public void enemyMovement(Character target, int border) {
 		//this.setCurrPos(calculateTargetLocation(target.getCoordinates()));
+		for (Potions p : target.getActivePotion()) {
+			if (p instanceof InvincibilityPotion && ((InvincibilityPotion) p).turnsRemaining() > 0) {
+				moveAway(this, target.getCoordinates(), border);
+				return;
+			}
+		}
+		
 		CoOrd ch = target.getCoordinates();
 		CoOrd me = this.getCurrPos();
 		/*

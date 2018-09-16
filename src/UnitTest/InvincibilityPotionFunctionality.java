@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import eric.CoOrd;
-import niriksha.InvincibilityPotion;
+import eric.InvincibilityPotion;
 import niriksha.Potions;
 
 class InvincibilityPotionFunctionality {

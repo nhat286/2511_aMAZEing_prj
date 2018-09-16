@@ -1,9 +1,11 @@
 package jae;
 
 import eric.CoOrd;
+import eric.InvincibilityPotion;
 import niriksha.Character;
+import niriksha.Potions;
 
-public class Hunter extends Enemy implements Distance {
+public class Hunter extends Enemy {
 	
 	/*public Hunter(float speedX, float speedY, CoOrd currPos) {
 		super(speedX, speedY, currPos, 'H');
@@ -30,6 +32,12 @@ public class Hunter extends Enemy implements Distance {
 	
 	@Override
 	public void enemyMovement(Character target, int border) {
+		for (Potions p : target.getActivePotion()) {
+			if (p instanceof InvincibilityPotion && ((InvincibilityPotion) p).turnsRemaining() > 0) {
+				moveAway(this, target.getCoordinates(), border);
+				return;
+			}
+		}
 		moveCloser(this.getCurrPos(), target.getCoordinates(), border);
 	}
 	
@@ -76,6 +84,5 @@ public class Hunter extends Enemy implements Distance {
 	public Enemy copy() {
 		return new Hunter(this.getCurrPos());
 	}
-	
 }
 

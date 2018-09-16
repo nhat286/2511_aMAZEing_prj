@@ -3,6 +3,7 @@ package niriksha;
 import java.util.ArrayList;
 
 import eric.CoOrd;
+import eric.InvincibilityPotion;
 import jae.Enemy;
 
 public class Character {
@@ -54,8 +55,9 @@ public class Character {
 				case 'D':
 				case 'C':
 					for (int i=0; i < active_potions.size(); i++) {
-						if (active_potions.get(i).getType().equals("InvincibiltyPotion")) {
-							usePotion(active_potions.get(i));
+						if (active_potions.get(i).getType().equals("InvincibiltyPotion")
+								&& ((InvincibilityPotion) active_potions.get(i)).turnsRemaining() > 0) {
+							//usePotion(active_potions.get(i));
 							((Enemy) object).enemyDies();
 							return ACTION.DESTROY;
 						}

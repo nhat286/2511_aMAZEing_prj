@@ -70,11 +70,6 @@ public class InventoryMenu implements Menu{
 				i++;
 			}
 			
-			System.out.println("currList has:");
-			for (String s : currList)
-				System.out.print(" " + s);
-			System.out.print("\n");
-			
 			System.out.println("------------------------------------------------------------");
 			System.out.println("To select a weapon , input w");
 			System.out.println("To select a potion , input p");

@@ -1,25 +1,25 @@
 package eric;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+//import java.awt.event.ActionEvent;
+//import java.awt.event.ActionListener;
+//import java.awt.event.KeyEvent;
+//import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+//import java.util.Timer;
+//import java.util.TimerTask;
+//import java.util.concurrent.Executors;
+//import java.util.concurrent.ScheduledExecutorService;
+//import java.util.concurrent.TimeUnit;
 
-import javax.swing.JFrame;
-import javax.swing.JTextField;
+//import javax.swing.JFrame;
+//import javax.swing.JTextField;
 
 import niriksha.Character;
 import niriksha.Door;
 import niriksha.FloorSwitch;
 import niriksha.HoverPotion;
-import niriksha.InvincibilityPotion;
+//import niriksha.InvincibilityPotion;
 import niriksha.Key;
 import niriksha.Obstacle;
 import niriksha.Pit;
@@ -43,16 +43,16 @@ import kyle_maze.ItemStat;
 import kyle_maze.Rules;
 import kyle_maze.SaveLoad;
 
-public class MazeSystem extends TimerTask implements KeyListener, ActionListener {
+public class MazeSystem {//extends TimerTask implements KeyListener, ActionListener {
 
 	private int map_size;
 	private char[][] map;
 	private Maze curr;
 	//private Timer clock;
 	private Character user;
-	private static char keyPressed;
-	private int pause;
-	private ScheduledExecutorService executor;
+	//private static char keyPressed;
+	//private int pause;
+	//private ScheduledExecutorService executor;
 	
 	public MazeSystem() {		
 		//drawMap();
@@ -78,8 +78,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			this.curr.addObstacle(new Wall(i, 0));
 			this.curr.addObstacle(new Wall(i, size - 1));
 		}
-		this.keyPressed = '.';
-		this.pause = 0;
+		//this.keyPressed = '.';
+		//this.pause = 0;
 	}
 	
 	/**
@@ -145,9 +145,9 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	 * Method to signal pause option
 	 * @param pause to tell system to pause the game
 	 */
-	public void setPause(int pause) {
- 		this.pause = pause;
-	}
+//	public void setPause(int pause) {
+// 		this.pause = pause;
+//	}
 	
 	/**
 	 * Method to print out menu options when game is paused
@@ -245,6 +245,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.curr.addObstacle(o3);
 		Potions p1 = new HoverPotion(8, 14);
 		this.curr.addPotion(p1);
+		Potions p2 = new InvincibilityPotion(4, 5);
+		this.curr.addPotion(p2);
 		Obstacle o4 = new FloorSwitch(3, 2);
 		this.curr.addObstacle(o4);
 		Obstacle o5 = new FloorSwitch(9, 11);
@@ -902,7 +904,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		System.out.println("Exitting...");
 	}
 
-	@Override
+	/*@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
@@ -931,7 +933,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		/*
+		
 		CoOrd in_front = this.user.getInfront();
 		Object o = this.curr.getEntity(in_front);
 		ACTION outcome = ACTION.NOTHING;
@@ -989,7 +991,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		}
 		this.printMap();
 		keyPressed = '.';
-		*/
-	}
+		
+	}*/
 
 }
