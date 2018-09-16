@@ -169,10 +169,4 @@ public class CharacterFunctionality {
 		assertEquals(user5.getActivePotion(), a);
 	}
 	
-	@Test
-	void testdestroy_character() {
-		user6.destroy_character(user6);
-		assertEquals(user6, null);
-	}
-	
 }
