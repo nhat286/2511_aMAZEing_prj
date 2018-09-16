@@ -20,11 +20,11 @@ public class InventoryMenu implements Menu{
 		this.sc = sc;
 	}
 	
-	/*
+	/**
 	 * Prints the menu of the game
 	 * 
-	 * @post prints the information of the Inventory and 
-	 * allows the player to use items available in their inventory
+	 * @return prints the information of the Inventory and 
+	 * 		   allows the player to use items available in their inventory
 	 */
 	@Override
 	public void displayMenu() {

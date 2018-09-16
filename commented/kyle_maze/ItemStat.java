@@ -14,7 +14,7 @@ public class ItemStat implements Menu{
 		ItemDescript[3] = "Key: ...";
 	}
 	
-	/*
+	/**
 	 * Prints the Item statistics
 	 */
 	@Override

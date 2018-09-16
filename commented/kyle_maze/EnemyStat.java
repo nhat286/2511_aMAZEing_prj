@@ -19,7 +19,7 @@ public class EnemyStat implements Menu{
 		hashMap = getEnemyHash(maze);
 	}
 	
-	/*
+	/**
 	 * Prints the Enemy statistics
 	 */
 	@Override

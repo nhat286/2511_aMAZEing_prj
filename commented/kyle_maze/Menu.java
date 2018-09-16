@@ -13,7 +13,7 @@ public interface Menu {
 		System.in.read();
 	}
 	
-	/*
+	/**
 	 * Pauses the game 
 	 */
 	public default void pauseGame(MazeSystem ms) {
