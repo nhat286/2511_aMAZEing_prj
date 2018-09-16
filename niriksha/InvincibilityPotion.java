@@ -1,51 +1,74 @@
 package niriksha;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
-import prj_2511.Enemy;
-import prj_2511.Obstacle;
+public class InvincibilityPotion extends Potions {
 
-public class InvincibilityPotion extends SpecialItems {
-	
-	private int action;
-	// 0 == don't die
-	// 1 == enemy dies
-	// 2 == nothing happens
-	
-	Timer time_limit; // change to time type?
+	private boolean used;
+	private int turn_left;
 
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
-		this.time_limit = new Timer();
+		this.used = false;
+		this.turn_left = 5;
+	}
+	
+	/**
+	 * Allows character to become invincible to enemies and bombs
+	 * 
+	 * @return invincible action, which implies the invincibility potion is put into effect for a time period
+	 */
+	public action potion_effect() {
+		if (this.used == false) {
+			this.used = true;
+			return action.INVINCIBLE;
+		} else if (this.turn_left > 0) {
+			this.countDown();
+			return action.INVINCIBLE;
+		} else {
+			this.destroyPotion();
+			return action.NOTHING;
+		}
 	}
 
-	public Timer getTime_limit() {
-		return this.time_limit;
+	public boolean isUsed() {
+		return used;
 	}
 	
-	/*
+	/**
+	 * Decrement turns left until effect wears off
+	 */
+	public void countDown() {
+		this.turn_left--;
+	}
+	
+	/**
 	 * 
-	 * @see SpecialItems#special_effect(Obstacle)
+	 * @return turns left until effect wears off
+	 */
+	public int turnsRemaining() {
+		return this.turn_left;
+	}
+	
+	/**
+	 * Creates a copy of this invincibility potion
+	 * 
+	 * @return copy of this invincibility potion
 	 */
 	@Override
-	public int special_effect(Obstacle o) {
-		action = 2;
-		return action;
+	public Potions copy() {
+		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}
 	
-	public int special_effect(Enemy e) {
-		e.destroyEnemy();
-		action = 1;
-		return action;
-	}
-	
-	public int special_effect(Weapon w) {
-		if (((w.getClass()).toString()).equals("Bomb")) {
-			action = 0;
-			return action;
-		}
-		action = 2;
-		return action;
+	/**
+	 * Returns the type of potion 
+	 * 
+	 * @return type of potion
+	 */
+	@Override
+	public String getType() {
+		return "InvincibilityPotion";
 	}
 
 }

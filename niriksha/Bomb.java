@@ -3,69 +3,91 @@ package niriksha;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import prj_2511.Enemy;
-import prj_2511.Obstacle;
+import eric.CoOrd;
+import jae.Enemy;
 
-public class Bomb extends SpecialItems {
-	
-	
-	private int action;
-	// 0 == don't destroy
-	// 1 == destroy
+public class Bomb extends Weapon {
 	
 	private boolean lit;
-	private Timer burn_timer;
+	private int turn_left;
+	private CoOrd user;
 	
-	public Bomb(int x, int y) {
+	public Bomb(int x, int y, CoOrd user) {
 		super(x, y, 'Q');
 		this.lit = false;
-		this.burn_timer = new Timer();
+		this.turn_left = 3;
+		this.user = user;
+	}
+	
+	/**
+	 * Activate a bomb and destroy any objects in surrounding area
+	 * 
+	 * @param Object in surrounding area
+	 * @return if bomb hasn't been used, destroy surroundings, otherwise do nothing
+	 */
+	@Override
+	public action weapon_action(Object object) {
+		
+		if (this.lit == false) {
+			this.lit = true;
+			this.setCoordinates(this.user.getX(), this.user.getY());
+			return action.NOTHING;
+		} 
+		
+		else if (this.turn_left > 0) {
+			this.countDown();
+			return action.NOTHING;
+		} 
+		
+		else if (this.turn_left == 0) {
+			if (object != null) {
+				if (object instanceof Boulder) {
+					((Boulder) object).destroyObstacle();
+					return action.DESTROY;
+				} 
+				else if (object instanceof Enemy) {
+					((Enemy) object).enemyDies();
+					return action.DESTROY;
+				}
+			}
+		}
+		
+		return action.NOTHING;
 	}
 	
 	public boolean isLit() {
 		return this.lit;
 	}
-
-	public Timer getBurn_time() {
-		return this.burn_timer;
+	
+	/**
+	 * Reduces the number of turns left by 1
+	 */
+	public void countDown() {
+		this.turn_left--;
 	}
 
-	@Override
-	public int special_effect(Obstacle o) {
-		if (lit == false && (((o.getClass()).toString()).equals("Boulder"))) {
-			this.lit = true;
-			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);;
-			action = 1;
-			return action;
-		}
-		
-		action = 0;
-		return action;
-	}
-
-	@Override
-	public int special_effect(Weapon w) {
-		action = 0;
-		return 0;
-	}
-
-	@Override
-	public int special_effect(Enemy e) {
-		if (lit == false) {
-			this.lit = true;
-			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);;
-		}
-		
-		action = 1;
-		return action;
+	public int turnsRemaining() {
+		return this.turn_left;
 	}
 	
-	class destroy_surroundings extends TimerTask {
-		public void run() {
-            // destroy anything on the surrounding squares
-            burn_timer.cancel();
-        }
+	/**
+	 * Creates a copy of this bomb
+	 * 
+	 * @return copy of this bomb
+	 */
+	@Override
+	public Weapon copy() {
+		return new Bomb(this.getCoordinates().getX(), this.getCoordinates().getY(), this.user);
 	}
-
+	
+	/**
+	 * Returns the type of weapon 
+	 * 
+	 * @return type of weapon
+	 */
+	@Override
+	public String getType() {
+		return "Bomb";
+	}
 	
 }

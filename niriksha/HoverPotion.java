@@ -1,48 +1,52 @@
 package niriksha;
 
-import prj_2511.Enemy;
-import prj_2511.Obstacle;
-
-public class HoverPotion extends SpecialItems {
+public class HoverPotion extends Potions {
 	
-	private int action;
-	// 0 == don't die
-	// 1 == die
-	// 2 == nothing happens
-
+	private boolean used;
+	
 	public HoverPotion(int x, int y) {
 		super(x, y, '~');
+		this.used = false;
 	}
 	
-	/*
-	 * @pre: assuming the coordinates of obstacle is given
-	 * @see SpecialItems#special_effect()
+	/**
+	 * Allows character to hover over pits
+	 * 
+	 * @return hover if potion available for use else no effect takes place
 	 */
 	@Override
-	public int special_effect(Obstacle o) {
+	public action potion_effect() {
 		
-		if ((o.getType()).equals("Pit")) {
-			action = 1;
+		if (this.used == false) {
+			this.used = true;
+			return action.HOVER;
 		}
-		else if (o.getType().equals("Wall")) {
-			action = 2;
-		}
-		else if (o.getType().equals("Boulder")) {
-			action = 2;
-		}
-		return action;
+		
+		return action.NOTHING;
 	}
 
+	public boolean isUsed() {
+		return used;
+	}
+	
+	/**
+	 * Creates a copy of this hover potion
+	 * 
+	 * @return copy of this hover potion
+	 */
 	@Override
-	public int special_effect(Weapon w) {
-		// do nothing
-		return 0;
+	public Potions copy() {
+		return new HoverPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}
 
+	
+	/**
+	 * Returns the type of potion 
+	 * 
+	 * @return type of potion
+	 */
 	@Override
-	public int special_effect(Enemy e) {
-		// do nothing
-		return 0;
+	public String getType() {
+		return "HoverPotion";
 	}
-
 }
