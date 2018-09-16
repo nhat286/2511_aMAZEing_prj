@@ -23,7 +23,8 @@ class FloorSwitchFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(4,4);
 		assertEquals(f_s.getCoordinates(), co_ord);
 	}
@@ -33,7 +34,6 @@ class FloorSwitchFunctionality {
 		CoOrd co_ord = new CoOrd(1,3); 
 		f_s.setCoordinates(1, 3);
 		assertEquals(f_s.getCoordinates(), co_ord);
-		f_s.setCoordinates(4, 4);
 	}
 	
 	@Test

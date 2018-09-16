@@ -23,7 +23,8 @@ class WallFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(4,4);
 		assertEquals(wall.getCoordinates(), co_ord);
 	}
@@ -33,7 +34,6 @@ class WallFunctionality {
 		CoOrd co_ord = new CoOrd(1,3); 
 		wall.setCoordinates(1, 3);
 		assertEquals(wall.getCoordinates(), co_ord);
-		wall.setCoordinates(4, 4);
 	}
 	
 	@Test

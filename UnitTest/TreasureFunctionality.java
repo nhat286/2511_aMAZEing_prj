@@ -11,11 +11,12 @@ import niriksha.Treasure;
 
 class TreasureFunctionality {
 	
-	static Treasure t = new Treasure(4, 4);
+	static Treasure t;// = new Treasure(4, 4);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		t.setCoordinates(4, 4);
+		//t.setCoordinates(4, 4);
+		t = new Treasure(4, 4);
 	}
 
 	@AfterAll
@@ -23,7 +24,8 @@ class TreasureFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(4,4);
 		assertEquals(t.getCoord(), co_ord);
 	}
@@ -33,7 +35,6 @@ class TreasureFunctionality {
 		CoOrd co_ord = new CoOrd(4,5); 
 		t.setCoordinates(4, 5);
 		assertEquals(t.getCoord(), co_ord);
-		t.setCoordinates(4,4);
 	}
 	
 	@Test
@@ -42,16 +43,21 @@ class TreasureFunctionality {
 	}
 	
 	@Test
-	void testisPicked_up() {
+	void testisPicked_up() throws Exception {
+		setUpBeforeClass();
 		assertEquals(t.isPickedUp(), false);
 	}
 	
 	@Test
 	void testpickUp() {
-		Treasure t2 = new Treasure(2, 4);
-		t2.pickUp();
+		t.pickUp();
 		assertEquals(t.isPickedUp(), true);
 	}
+	
+//	@Test
+//	void testgetPoints() {
+//		assertEquals(t.getPoints(), 1);
+//	}
 	
 	@Test
 	void testgetType() {
@@ -63,7 +69,8 @@ class TreasureFunctionality {
 		CoOrd co_ord = new CoOrd(-1,-1);
 		t.removeTreasure();
 		assertEquals(t.getCoord(), co_ord);
-		t.setCoordinates(4,4);
 	}
+	
+	
 
 }

@@ -19,7 +19,6 @@ class KeyFunctionality {
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		key.setCoordinates(4, 4);
-		key.linkDoor(door1);
 	}
 
 	@AfterAll
@@ -27,7 +26,8 @@ class KeyFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(4,4);
 		assertEquals(key.getCoordinates(), co_ord);
 	}
@@ -37,16 +37,6 @@ class KeyFunctionality {
 		CoOrd co_ord = new CoOrd(5,5); 
 		key.setCoordinates(5, 5);
 		assertEquals(key.getCoordinates(), co_ord);
-		key.setCoordinates(4, 4);
-	}
-	
-	@Test
-	void testpickUp() {
-		CoOrd co_ord = new CoOrd(-2,-2); 
-		key.pickUp();
-		assertEquals(key.getCoordinates(), co_ord);
-		key.setCoordinates(4, 4);
-		
 	}
 	
 	@Test
@@ -56,13 +46,18 @@ class KeyFunctionality {
 	
 	@Test
 	void testcheckDoor() {
+		key.linkDoor(door1);
 		assertEquals(key.checkDoor(door2), false);
 		assertEquals(key.checkDoor(door1), true);
+		assertEquals(key.getCoordinates(), new CoOrd(-1,-1));
 	}
 	
 	@Test
-	void testgetDoorLinked() {
-		assertEquals(key.getDoorLinked(), door1);
+	void testopenDoor() {
+		key = new Key(4, 4);
+		key.linkDoor(door1);
+		assertEquals(key.checkDoor(door1), true);
+		assertEquals(door1.isDoor_open(),true);		
 	}
 	
 	@Test

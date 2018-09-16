@@ -10,13 +10,13 @@ import eric.CoOrd;
 import jae.Enemy;
 import jae.Hunter;
 import niriksha.ACTION;
-import niriksha.Bomb;
 import niriksha.Character;
+import niriksha.Weapon;
+import eric.Bomb;
 
 class BombFunctionality {
 	
-	static Character user = new Character(1, 1);
-	static Bomb bomb = new Bomb(3, 5, user.getCoordinates());
+	static Bomb bomb = new Bomb(3, 5, null);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -28,7 +28,8 @@ class BombFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(3,5);
 		assertEquals(bomb.getCoordinates(), co_ord);
 	}
@@ -38,7 +39,6 @@ class BombFunctionality {
 		CoOrd co_ord = new CoOrd(5,3); 
 		bomb.setCoordinates(5, 3);
 		assertEquals(bomb.getCoordinates(), co_ord);
-		bomb.setCoordinates(3, 5);
 	}
 	
 	@Test
@@ -52,16 +52,25 @@ class BombFunctionality {
 	}
 	
 	@Test
-	void testisExploded() {
-		Bomb bomb2 = new Bomb(2, 2, user.getCoordinates());
-		assertEquals(bomb2.isExploded(), false);
+	void testisLit() {
+		bomb = new Bomb(4, 5, new CoOrd(5,5));
+		CoOrd co_ord = new CoOrd(6,3);
+		Enemy e = new Hunter(co_ord);
+		assertEquals(bomb.isLit(), false);
+		bomb.weapon_action(e);
+		assertEquals(bomb.isLit(), true);
 	}
 	
 	@Test
 	void testweapon_action() {
-		CoOrd co_ord = new CoOrd(4,5);
+		CoOrd co_ord = new CoOrd(6,3);
 		Enemy e = new Hunter(co_ord);
-		assertEquals(bomb.weapon_action(e), ACTION.BOMB_DESTROY);
+		bomb = new Bomb(4, 5, new CoOrd(5,5));
+		assertEquals(bomb.weapon_action(e), Weapon.action.NOTHING);
+		assertEquals(bomb.weapon_action(e), Weapon.action.NOTHING);
+		assertEquals(bomb.weapon_action(e), Weapon.action.NOTHING);
+		assertEquals(bomb.weapon_action(e), Weapon.action.NOTHING);
+		assertEquals(bomb.weapon_action(e), Weapon.action.DESTROY);
 	}
 	
 	@Test

@@ -26,8 +26,9 @@ class BoulderFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
-		CoOrd co_ord = new CoOrd(4,4);
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
+		CoOrd co_ord = new CoOrd(4, 4);
 		assertEquals(boulder.getCoordinates(), co_ord);
 	}
 	
@@ -40,40 +41,42 @@ class BoulderFunctionality {
 	
 	@Test
 	void testgetIcon() {
-		assertEquals(boulder.getIcon(),'D');
+		assertEquals(boulder.getIcon(),'O');
 	}
 	
 	@Test
-	void testmoveCoOrd() {
+	void testmoveCoOrd() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord1 = new CoOrd(4,3); 
 		boulder.moveCoOrd('<', 10);
 		assertEquals(boulder.getCoordinates(), co_ord1);
 		
-		CoOrd co_ord2 = new CoOrd(4,4); 
-		boulder.moveCoOrd('>', 10);
-		assertEquals(boulder.getCoordinates(), co_ord2);
+		co_ord1 = new CoOrd(3,3); 
+		boulder.moveCoOrd('^', 10);
+		assertEquals(boulder.getCoordinates(), co_ord1);
+		
+		co_ord1 = new CoOrd(2,3); 
+		boulder.moveCoOrd('^', 10);
+		assertEquals(boulder.getCoordinates(), co_ord1);
+		
+		co_ord1 = new CoOrd(1,3); 
+		boulder.moveCoOrd('^', 10);
+		assertEquals(boulder.getCoordinates(), co_ord1);
+		
+		co_ord1 = new CoOrd(1,3); 
+		boulder.moveCoOrd('^', 10);
+		assertEquals(boulder.getCoordinates(), co_ord1);
 	}
 	
 	@Test
 	void testpush_boulder() {
 		// floor switch
-		FloorSwitch f_s = new FloorSwitch(5, 4);
-		assertEquals(boulder.push_boulder('>', 'I', f_s, 10), ACTION.MOVE);
+		FloorSwitch f_s = new FloorSwitch(2, 3);
+		assertEquals(boulder.push_boulder('>', 'I', f_s, 10), Boulder.action.MOVE);
 		
 		// pit
-		Pit p = new Pit(6, 4);
-		assertEquals(boulder.push_boulder('>', 'B', p, 10), ACTION.DESTROYED);
-		
-		CoOrd co_ord = new CoOrd(4,4); 
-		boulder.setCoordinates(4, 4);
-		assertEquals(boulder.getCoordinates(), co_ord);
-	}
-	
-	@Test
-	void testgetInfront() {
-		CoOrd co_ord = new CoOrd(4,5);
-		assertEquals(boulder.getInfront('>'), co_ord);
-		boulder.setCoordinates(4, 4);
+		Pit p = new Pit(3, 3);
+		assertEquals(boulder.push_boulder('>', 'B', p, 10), Boulder.action.DESTROYED);
 	}
 	
 	@Test

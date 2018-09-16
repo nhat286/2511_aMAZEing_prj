@@ -23,7 +23,8 @@ class DoorFunctionality {
 	}
 	
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(4,4);
 		assertEquals(door.getCoordinates(), co_ord);
 	}
@@ -33,7 +34,6 @@ class DoorFunctionality {
 		CoOrd co_ord = new CoOrd(1,3); 
 		door.setCoordinates(1, 3);
 		assertEquals(door.getCoordinates(), co_ord);
-		door.setCoordinates(4, 4);
 	}
 	
 	@Test
@@ -43,6 +43,7 @@ class DoorFunctionality {
 	
 	@Test
 	void testisDoor_open() {
+		door = new Door(4, 4);
 		assertEquals(door.isDoor_open(), false);
 	}
 		

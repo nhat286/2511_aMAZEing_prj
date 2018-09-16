@@ -9,22 +9,18 @@ import org.junit.jupiter.api.Test;
 import eric.CoOrd;
 import jae.Enemy;
 import jae.Hunter;
-import niriksha.ACTION;
-import niriksha.Arrow;
+import niriksha.*;
 import niriksha.Character;
 
 class ArrowFunctionality {
 	
-	static Character user = new Character(1, 1);
-	static Arrow arrow = new Arrow(1, 1, user);
-	static Arrow arrow2 = new Arrow(3, 5, user);
-	static Arrow arrow3 = new Arrow(0, 0, user);
+	static Arrow arrow = new Arrow(1, 1, null);
+	static Arrow arrow2 = new Arrow(3, 5, null);
+	static Arrow arrow3 = new Arrow(0, 0, null);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		arrow.setCoordinates(1, 1);
-		arrow2.setCoordinates(3, 5);
-		arrow3.setCoordinates(0, 0);
 	}
 
 	@AfterAll
@@ -33,60 +29,54 @@ class ArrowFunctionality {
 	
 	@Test
 	void testgetCoordinates() {
-		CoOrd co_ord = new CoOrd(3,5);
-		assertEquals(arrow2.getCoordinates(), co_ord);
+		CoOrd co_ord = new CoOrd(1,1);
+		arrow = new Arrow(1, 1, null);
+		assertEquals(arrow.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testsetCoordinates() {
 		CoOrd co_ord = new CoOrd(1,3); 
-		CoOrd co_ord2 = new CoOrd(3,5);
-		arrow2.setCoordinates(1,3);
-		assertEquals(arrow2.getCoordinates(), co_ord);
-		arrow2.setCoordinates(3,5);
-		assertEquals(arrow2.getCoordinates(), co_ord2);
+		arrow.setCoordinates(1, 3);
+		assertEquals(arrow.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testgetIcon() {
-		assertEquals(arrow2.getIcon(), '%');
+		assertEquals(arrow.getIcon(), '%');
 	}
 	
 	@Test
 	void testisPicked_up() {
-		assertEquals(arrow2.isPicked_up(), false);
+		assertEquals(arrow.isPicked_up(), false);
 	}
 	
 	@Test
 	void testdestroy_arrow() {
-		CoOrd co_ord = new CoOrd(-1,-1);
 		arrow.destroyWeapon();
-		assertEquals(arrow, co_ord);		
+		CoOrd co_ord = new CoOrd(-1,-1); 
+		assertEquals(arrow.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testweapon_action() {
-		CoOrd co_ord = new CoOrd(3,6);
+		CoOrd co_ord = new CoOrd(6,3);
 		Enemy e = new Hunter(co_ord);
-		assertEquals(arrow2.weapon_action(e), ACTION.NOTHING);
-		arrow2.setCoordinates(3, 5);
+		arrow2 = new Arrow(0, 0, new Character(1,1));
+		assertEquals(arrow2.weapon_action(e), Weapon.action.NOTHING);
 	}
 	
 	@Test
-	void testmoving() {
-		CoOrd co_ord = new CoOrd(3,4);
+	void test_moving() {
+		CoOrd co_ord = new CoOrd(6,3);
 		Enemy e = new Hunter(co_ord);
-		arrow2.moving(e, 10);
-		CoOrd co_ord2 = new CoOrd(-1,-1);
-		assertEquals(arrow2.getCoordinates(), co_ord2);
-		arrow2.setCoordinates(3, 5);
-	}
-	
-	@Test
-	void testgetInfront() {
-		CoOrd co_ord = new CoOrd(4,5);
-		assertEquals(arrow2.getInfront(), co_ord);
-		arrow2.setCoordinates(3, 5);
+		arrow2 = new Arrow(0, 0, new Character(3,3));
+		assertEquals(arrow2.weapon_action(e), Weapon.action.NOTHING);
+		assertEquals(arrow2.moving(null, 10),0);
+		assertEquals(arrow2.getCoordinates(),new CoOrd(4,3));
+		assertEquals(arrow2.moving(e, 10),1);
+		assertEquals(arrow2.getCoordinates(),new CoOrd(-1,-1));
+		assertEquals(e.getCurrPos(),new CoOrd(-1,-1));
 	}
 	
 	@Test
