@@ -1,11 +1,10 @@
 package kyle_maze;
+
 import java.io.IOException;
 import java.util.HashMap;
-//import java.util.Map;
 import java.util.Map.Entry;
 
 import eric.Maze;
-//import jae.Enemy;
 
 public class EnemyStat implements Menu{
 	
@@ -14,23 +13,24 @@ public class EnemyStat implements Menu{
 	
 	public EnemyStat(Maze maze){
 		EnemyDescript = new String [4];
-		EnemyDescript[0] = "Hunter: ...";
-		EnemyDescript[1] = "Hound: ...";
-		EnemyDescript[2] = "Coward: ...";
-		EnemyDescript[3] = "Strategist: ...";
+		EnemyDescript[0] = "Hunter: will try to follow your step";
+		EnemyDescript[1] = "Hound: will move so it can position you between it and the Hunter";
+		EnemyDescript[2] = "Coward: will chase you down, but stay away if it gets too close to you";
+		EnemyDescript[3] = "Strategist: will try to predict your next move and go there";
 		hashMap = getEnemyHash(maze);
 	}
 	
+	/**
+	 * Prints the Enemy statistics
+	 */
 	@Override
 	public void displayMenu() {
-		// TODO Auto-generated method stub
 		for (Entry<String, Integer> e : hashMap.entrySet()) {
 			System.out.println(e.getKey().toString()+": "+e.getValue().toString());
 		}
 		try {
 			pause1Sec();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}

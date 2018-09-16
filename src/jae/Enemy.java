@@ -32,6 +32,12 @@ public abstract class Enemy implements Distance{
 		this.speedY = speedY;
 	}
 	*/
+	
+	/**
+	 * Constructor to instantiate enemy object, by default always facing downwards
+	 * @param currPos the valid starting position of the enemy in the maze
+	 * @param icon representing the enemy on the map, passed in by subclasses
+	 */
 	public Enemy(CoOrd currPos, char icon) {
 		this.currPos = currPos;
 		this.icon = icon;
@@ -58,14 +64,16 @@ public abstract class Enemy implements Distance{
 	public abstract String getEnemyType();
 	
 	public void enemyDies() {
-		//how to delete the enemy???
-		currPos.setXY(-1, -1);
+		this.currPos.setXY(-1, -1);
 	}
 	
 	public char getIcon() {
 		return this.icon;
 	}
-	
+	 /**
+	  * Make a copy of enemy
+	  * @return new enemy object which has same information
+	  */
 	public abstract Enemy copy();
 }
 

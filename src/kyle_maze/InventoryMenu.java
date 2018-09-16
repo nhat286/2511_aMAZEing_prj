@@ -19,7 +19,13 @@ public class InventoryMenu implements Menu{
 		this.character = cha;
 		this.sc = sc;
 	}
-
+	
+	/**
+	 * Prints the inventory menu of the game
+	 * 
+	 * Prints the information of the Inventory and 
+	 * 		   allows the player to use items available in their inventory
+	 */
 	@Override
 	public void displayMenu() {
 		Inventory inventory = character.getBag();

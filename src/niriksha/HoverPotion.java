@@ -9,7 +9,11 @@ public class HoverPotion extends Potions {
 		this.used = false;
 	}
 	
-	// can only hover if the potion hasn't been used
+	/**
+	 * Allows character to hover over pits
+	 * 
+	 * @return hover if potion available for use else no effect takes place
+	 */
 	@Override
 	public action potion_effect() {
 		
@@ -54,11 +58,21 @@ public class HoverPotion extends Potions {
 	}
 	*/
 	
+	/**
+	 * Returns the type of potion 
+	 * 
+	 * @return type of potion
+	 */
 	@Override
 	public String getType() {
 		return "HoverPotion";
 	}
 	
+	/**
+	 * Creates a copy of this hover potion
+	 * 
+	 * @return copy of this hover potion
+	 */
 	@Override
 	public Potions copy() {
 		return new HoverPotion(this.getCoordinates().getX(), this.getCoordinates().getY());

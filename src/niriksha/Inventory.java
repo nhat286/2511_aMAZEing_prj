@@ -21,6 +21,11 @@ public class Inventory {
 		return this.potion_list;
 	}
 	
+	/**
+	 * Creates hashmap of the arraylist of weapons
+	 * 
+	 * @return the hashmap is returned
+	 */
 	public HashMap<String, Integer> getWeaponHashmap() {
 		HashMap<String, Integer> map = new HashMap<>();
 		for (Weapon i : this.weapon_list) {
@@ -31,6 +36,11 @@ public class Inventory {
 		return map;
 	}
 	
+	/**
+	 * Creates hashmap of the arraylist of potions
+	 * 
+	 * @return the hashmap is returned
+	 */
 	public HashMap<String, Integer> getPotionHashmap() {
 		HashMap<String, Integer> map = new HashMap<>();
 		for (Potions i : this.potion_list) {

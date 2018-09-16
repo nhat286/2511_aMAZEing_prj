@@ -29,7 +29,7 @@ public class Hound extends Enemy {
 			this.setSpeedY(1);
 		}
 		//what if that location is beyond the walls???
-	}*/
+	}
 	
 	public CoOrd calculateTargetLocation(CoOrd target) {
 		int houndX = 0;
@@ -52,7 +52,7 @@ public class Hound extends Enemy {
 		CoOrd houndLocation = new CoOrd(houndX, houndY);
 		//what if the target location is inside a wall?
 		return houndLocation;
-	}
+	}*/
 	
 	public Hound(CoOrd currPos) {//, CoOrd hunterCoOrd) {
 		super(currPos, 'D');
@@ -68,6 +68,12 @@ public class Hound extends Enemy {
 		return this.hunterCoOrd;
 	}
 	
+	/**
+	 * Moves the Hound such that the character is between it and the Hound
+	 * 
+	 * @param the character's information and the border of the maze
+	 * @post the hound moves to the target location
+	 */
 	@Override
 	public void enemyMovement(Character target, int border) {
 		//this.setCurrPos(calculateTargetLocation(target.getCoordinates()));
@@ -87,6 +93,9 @@ public class Hound extends Enemy {
 			moveCloser(this.getCurrPos(), target.getCoordinates(), border);
 			return;
 		}
+		/*
+		 * Try to position itself so character is between it and the Hunter
+		 */
 		if (this.hunterCoOrd.getY() < ch.getY()) {
 			if (me.getY() < ch.getY()) {
 				this.getCurrPos().moveRight(border);
@@ -114,11 +123,19 @@ public class Hound extends Enemy {
 		}
 	}
 	
+	/**
+	 * Returns the type of enemy 
+	 * 
+	 * @post type of enemy
+	 */
 	@Override
 	public String getEnemyType() {
 		return "Hound";
 	}
 	
+	/**
+	 * Try to locate character's location and move towards that
+	 */
 	@Override
 	public void moveCloser(CoOrd self, CoOrd target, int border) {
 		int x_difference = self.getX() - target.getX();
@@ -152,6 +169,10 @@ public class Hound extends Enemy {
 		}
 	}
 	
+	/**
+	 * Make a new copy of the Hound
+	 * @return a new enenmy object which has the same information
+	 */
 	@Override
 	public Enemy copy() {
 		return new Hound(this.getCurrPos());

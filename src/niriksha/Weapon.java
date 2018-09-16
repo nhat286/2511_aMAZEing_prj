@@ -39,16 +39,33 @@ public abstract class Weapon {
 		this.getCoordinates.setXY(x, y);
 	}
 	
+	/**
+	 * Action of the weapon is called
+	 * 
+	 * @param object
+	 */
 	public abstract action weapon_action(Object object);
 	
-	public void destroyWeapon() {//Weapon w) {
-		//w = null;
+	/**
+	 * Destroys weapons by setting their coordinates outside of the maze
+	 */
+	public void destroyWeapon() {
 		this.setCoordinates(-1, -1);
 	}
 	
+	/**
+	 * Returns the type of object 
+	 * 
+	 * @return type of object
+	 */
 	public String getType() {
 		return "Weapon";
 	}
 	
+	/**
+	 * Creates a copy of the weapon
+	 * 
+	 * @return copy of the weapon
+	 */
 	public abstract Weapon copy();
 }

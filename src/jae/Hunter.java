@@ -30,6 +30,12 @@ public class Hunter extends Enemy {
 		super(currPos, 'H');
 	}
 	
+	/**
+	 * Prompts the movement of the Hunter towards the character
+	 * 
+	 * @param the character's information and the border of the maze
+	 * @post the hunter moves closer to character
+	 */
 	@Override
 	public void enemyMovement(Character target, int border) {
 		for (Potions p : target.getActivePotion()) {
@@ -41,12 +47,22 @@ public class Hunter extends Enemy {
 		moveCloser(this.getCurrPos(), target.getCoordinates(), border);
 	}
 	
+	/**
+	 * Returns the type of enemy 
+	 * 
+	 * @post type of enemy
+	 */
 	@Override
 	public String getEnemyType() {
 		return "Hunter";
 	}
-	//the abstract method MUST have the same input variables.... but the input variables needed by different enemies are different..........
 	
+	/**
+	 * Hunter moves closer based on the movement of the character
+	 *  
+	 * @param coordinates of the character and itself, and, the border of the maze
+	 * @post the hunter moves closer to character
+	 */
 	@Override
 	public void moveCloser(CoOrd self, CoOrd target, int border) {
 		int x_difference = self.getX() - target.getX();
@@ -80,6 +96,10 @@ public class Hunter extends Enemy {
 		}
 	}
 	
+	/**
+	 * Make a new copy of the Hunter
+	 * @return a new enemy object that has the same information
+	 */
 	@Override
 	public Enemy copy() {
 		return new Hunter(this.getCurrPos());

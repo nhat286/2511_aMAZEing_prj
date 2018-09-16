@@ -83,6 +83,12 @@ public class Coward extends Enemy {
 		super(currPos, 'C');
 	}
 	
+	/**
+	 * Prompts the movement of the Coward 
+	 * 
+	 * @param the character's information and the border of the maze
+	 * @post the coward moves near the character
+	 */
 	public void enemyMovement(Character target, int border) {
 		for (Potions p : target.getActivePotion()) {
 			if (p instanceof InvincibilityPotion && ((InvincibilityPotion) p).turnsRemaining() > 0) {
@@ -107,11 +113,22 @@ public class Coward extends Enemy {
 		}
 	}
 	
+	/*
+	 * Returns the type of enemy 
+	 * 
+	 * @post type of enemy
+	 */
 	@Override
 	public String getEnemyType() {
 		return "Coward";
 	}
-
+	
+	/**
+	 * Coward acts similar to a Hunter but moves away from the character when it's close
+	 *  
+	 * @param coordinates of the character and itself, and, the border of the maze
+	 * @post the hunter moves closer to character
+	 */
 	@Override
 	public void moveCloser(CoOrd self, CoOrd target, int border) {
 		int x_difference = self.getX() - target.getX();
@@ -144,7 +161,11 @@ public class Coward extends Enemy {
 			return;
 		}
 	}
-
+	
+	/**
+	 * Make a copy of the Coward
+	 * @return new Coward object with same information
+	 */
 	@Override
 	public Enemy copy() {
 		return new Coward(this.getCurrPos());

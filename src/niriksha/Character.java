@@ -17,6 +17,11 @@ public class Character {
 	public ArrayList<Potions> active_potions;
 	public Key holding_key;
 	
+	/**
+	 * Constructor to instantiate a new character object, by default player always face downwards
+	 * @param x valid x co-ordinate of the character on the map
+	 * @param y valid y co-ordinate of the character on the map
+	 */
 	public Character(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
 		this.bag = new Inventory();
@@ -46,10 +51,18 @@ public class Character {
 		return this.holding_key != null;
 	}
 	
+	/**
+	 * Prompts movement of the character based on different scenarios
+	 * 
+	 * @param direction of movement, object in front of character, 
+	 * 		  the icon of the object & the border of the maze
+	 * @return character moves, pushes boulder, hovers, dies, or does nothing
+	 */
 	public ACTION move(char direction, char type, Object object, int border) {
-		// if the character actually moves
+		// if the character actually moves then check the object in front
 		if (direction == this.icon) {
 			switch(type) {
+				// Enemies	
 				case 'H':
 				case 'S':
 				case 'D':
@@ -57,7 +70,6 @@ public class Character {
 					for (int i=0; i < active_potions.size(); i++) {
 						if (active_potions.get(i).getType().equals("InvincibiltyPotion")
 								&& ((InvincibilityPotion) active_potions.get(i)).turnsRemaining() > 0) {
-							//usePotion(active_potions.get(i));
 							((Enemy) object).enemyDies();
 							return ACTION.DESTROY;
 						}
@@ -81,7 +93,7 @@ public class Character {
 						return ACTION.HOVER;
 					}
 					
-				// C is wall
+				// # is wall
 				case '#':
 					return ACTION.NOTHING;
 					
@@ -112,6 +124,7 @@ public class Character {
 					((Treasure) object).pickUp();
 					moveCoOrd(direction, border);
 					return ACTION.MOVE;
+				// Other cases (empty space, item drops, weapon drops, keys, treasures)
 				default:
 					moveCoOrd(direction, border);
 					return ACTION.MOVE;
@@ -123,6 +136,12 @@ public class Character {
 		}
 	}
 	
+	/**
+	 * Moves the character based on the situation
+	 * 
+	 * @param direction of movement and the border of the maze
+	 * @return the character moves or changes direction it's facing
+	 */
 	public void moveCoOrd(char movement, int border) {
 		if (movement == '<') {
 			if (this.icon != '<') this.icon = '<';
@@ -139,6 +158,11 @@ public class Character {
 		}
 	}
 	
+	/**
+	 * Determines the coordinate of the location right in front of the character
+	 * 
+	 * @return returns the coordinate of the position in front of character
+	 */
 	public CoOrd getInfront() {
 		CoOrd co = new CoOrd(this.co_ord.getX(), this.co_ord.getY());
 		if (this.icon == '^') co.setXY(co.getX() - 1, co.getY());
@@ -152,17 +176,33 @@ public class Character {
 		return this.icon;
 	}
 	
+	/**
+	 * Adds the weapon picked-up by the character into the inventory, and remove its appearance on the map
+	 * 
+	 * @param the weapon picked-up
+	 */
 	public void pickUpWeapon(Weapon w) {
 		this.bag.addWeapon(w);
 		w.setCoordinates(-2, -2);
 	}
 	
+	/**
+	 * Equips the character with a weapon available in its inventory
+	 * 
+	 * @param weapon name
+	 */
 	public void equipWeapon(String item) {
 		if (this.equip_weapon == null) {
 			this.equip_weapon = this.bag.getWeapon(item);
 		}
 	}
 	
+	/**
+	 * Calls the action of the weapon held by the character, and remove it from user's
+	 * 		equip slot if it's arrow or bomb or sword that has no durability
+	 * 
+	 * @param Object to be checked when performing weapon action
+	 */
 	public void useWeapon(Object object) {
 		if (this.equip_weapon == null)
 			return;
@@ -176,11 +216,21 @@ public class Character {
 		
 	}
 	
+	/**
+	 * Adds the potion picked-up by the character into the inventory, and remove its appearance on the map
+	 * 
+	 * @param the potion picked-up
+	 */
 	public void pickUpPotion(Potions p) {
 		this.bag.addPotion(p);
 		p.setCoordinates(-2, -2);
 	}
 	
+	/**
+	 * Equips the character with a potion available in its inventory
+	 * 
+	 * @param potion name
+	 */
 	public void equipPotion(String item) {
 		int index = -1;
 		for (Potions p : this.active_potions) {
@@ -196,6 +246,11 @@ public class Character {
 		}
 	}
 	
+	/**
+	 * Calls the action of the potion equipped by the character
+	 * 
+	 * @param Potion 
+	 */
 	private void usePotion(Potions p) {
 		p.potion_effect();
 	}
@@ -204,14 +259,26 @@ public class Character {
 		return this.equip_weapon != null;
 	}
 	
+	/**
+	 * Removes the weapon from the character after its fully used
+	 * 
+	 */
 	public void removeEquipped() {
 		this.equip_weapon = null;
 	}
 	
+	/**
+	 * Destroys character (set character to null)
+	 * 
+	 */
 	public void destroy_character(Character player) {
 		player = null;
 	}
 	
+	/**
+	 * Get potions that are being used by character
+	 * @return list of active potions being used by character
+	 */
 	public ArrayList<Potions> getActivePotion() {
 		return this.active_potions;
 	}

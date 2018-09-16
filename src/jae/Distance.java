@@ -5,6 +5,11 @@ import eric.CoOrd;
 public interface Distance {
 	public void moveCloser(CoOrd self, CoOrd target, int border);
 	
+	/**
+	 * Basic movement of enemies (similar to character)
+	 * Changes direction first and then moves left
+	 * @param self the enemy size
+	 */
 	public default void goLeft(Enemy self) {
 		if (self.getDirection() != '<')
 			self.setDirection('<');
@@ -12,6 +17,11 @@ public interface Distance {
 			self.getCurrPos().moveLeft();
 	}
 	
+	/**
+	 * Basic movement of enemies (similar to character)
+	 * Changes direction first and then moves up
+	 * @param self the enemy size
+	 */
 	public default void goUp(Enemy self) {
 		if (self.getDirection() != '^')
 			self.setDirection('^');
@@ -19,6 +29,12 @@ public interface Distance {
 			self.getCurrPos().moveUp();
 	}
 	
+	/**
+	 * Basic movement of enemies (similar to character)
+	 * Changes direction first and then moves right
+	 * @param self the enemy object
+	 * @param border the map size
+	 */
 	public default void goRight(Enemy self, int border) {
 		if (self.getDirection() != '>')
 			self.setDirection('>');
@@ -26,6 +42,12 @@ public interface Distance {
 			self.getCurrPos().moveRight(border);
 	}
 	
+	/**
+	 * Basic movement of enemies (similar to character)
+	 * Changes direction first and then moves down
+	 * @param self the enemy object
+	 * @param border the map size
+	 */
 	public default void goDown(Enemy self, int border) {
 		if (self.getDirection() != 'v')
 			self.setDirection('v');
@@ -33,6 +55,12 @@ public interface Distance {
 			self.getCurrPos().moveDown(border);
 	}
 	
+	/**
+	 * Determines to move away from character, is called when character uses InvincibilityPotion
+	 * @param self the enemy object which moves away from character
+	 * @param target the player
+	 * @param border the map size
+	 */
 	public default void moveAway(Enemy self, CoOrd target, int border) {
 		CoOrd me = self.getCurrPos();
 		if (me.getX() < target.getX()) {

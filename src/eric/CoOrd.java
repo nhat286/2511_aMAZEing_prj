@@ -9,18 +9,34 @@ public class CoOrd {
 		this.y = y;
 	}
 	
+	/**
+	 * Sets the coordinate of object one position to the left
+	 * Doesn't allow moving onto or beyond maze border
+	 */
 	public void moveLeft() {
 		if (this.y > 1) this.y--;
 	}
 	
+	/**
+	 * Sets the coordinate of object one position to the right
+	 * Doesn't allow moving onto or beyond maze border
+	 */
 	public void moveRight(int border) {
 		if (this.y < border - 1) this.y++;
 	}
 	
+	/**
+	 * Sets the coordinate of object one position up
+	 * Doesn't allow moving onto or beyond maze border
+	 */
 	public void moveUp() {
 		if (this.x > 1) this.x--;
 	}
 	
+	/**
+	 * Sets the coordinate of object one position down
+	 * Doesn't allow moving onto or beyond maze border
+	 */
 	public void moveDown(int border) {
 		if (this.x < border - 1) this.x++;
 	}
@@ -45,7 +61,12 @@ public class CoOrd {
 	public void setCoOrd(CoOrd co) {
 		setXY(co.getX(), co.getY());
 	}
-
+	
+	/**
+	 * Determines if the coordinates are equal
+	 * 
+	 * @return return true of the coordinates are equal else false
+	 */
 	@Override
 	public boolean equals(Object arg0) {
 		if (!(arg0 instanceof CoOrd)) return false;

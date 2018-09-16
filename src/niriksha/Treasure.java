@@ -15,6 +15,10 @@ public class Treasure {
 		this.picked_up = false;
 	}
 	
+	/**
+	 * Pick up treasure and remove its appearance on the map 
+	 * 
+	 */
 	public void pickUp() {
 		this.picked_up = true;
 		this.removeTreasure();
@@ -25,19 +29,27 @@ public class Treasure {
 		points++;
 	}*/
 	
-	public void removeTreasure() {//Treasure t) {
-		//t = null;
+	/**
+	 * Treasure is removed once picked up
+	 * 
+	 * @return sets the coordinates outside of the maze
+	 */
+	public void removeTreasure() {
 		this.setCoordinates(-1, -1);
 	}
+	
 	public CoOrd getCoord() {
 		return co_ord;
 	}
+	
 	public char getIcon() {
 		return icon;
 	}
+	
 	public void setCoordinates(int x, int y) {
 		this.co_ord.setXY(x, y);
 	}
+	
 	public boolean isPickedUp() {
 		return picked_up;
 	}
@@ -46,10 +58,20 @@ public class Treasure {
 		return points;
 	}*/
 	
+	/**
+	 * Returns the type of object 
+	 * 
+	 * @return type of object
+	 */
 	public String getType() {
 		return "Treasure";
 	}
 	
+	/**
+	 * Creates a copy of this treasure
+	 * 
+	 * @return copy of this treasure
+	 */
 	public Treasure copy() {
 		return new Treasure(this.getCoord().getX(), this.getCoord().getY());
 	}

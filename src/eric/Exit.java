@@ -21,10 +21,20 @@ public class Exit {
 		return this.icon;
 	}
 	
+	/**
+	 * Returns the type of object 
+	 * 
+	 * @return type of object
+	 */
 	public String getType() {
 		return "Exit";
 	}
 	
+	/**
+	 * Creates a copy of the exit
+	 * 
+	 * @return copy of the exit
+	 */
 	public Exit copy() {
 		return new Exit(this.co_ord.getX(), this.co_ord.getY());
 	}

@@ -32,6 +32,12 @@ public class Strategist extends Enemy {
 		super(currPos, 'S');
 	}
 	
+	/**
+	 * Prompts movement of the Strategist
+	 * 
+	 * @param the character's information and the border of the maze
+	 * @post the strategist moves into location that character was facing (which would be likely where character moves to next)
+	 */
 	@Override
 	public void enemyMovement(Character target, int border) {
 		for (Potions p : target.getActivePotion()) {
@@ -53,11 +59,22 @@ public class Strategist extends Enemy {
 		moveCloser(this.getCurrPos(), ch, border);
 	}
 	
+	/**
+	 * Returns the type of enemy 
+	 * 
+	 * @post type of enemy
+	 */
 	@Override
 	public String getEnemyType() {
 		return "Strategist";
 	}
 	
+	/**
+	 * Strategist moves closer based on the predicted movement of the character
+	 *  
+	 * @param coordinates of the character and itself, and, the border of the maze
+	 * @post the strategist moves based on its strategy
+	 */
 	@Override
 	public void moveCloser(CoOrd self, CoOrd target, int border) {
 		int x_difference = self.getX() - target.getX();
@@ -91,6 +108,10 @@ public class Strategist extends Enemy {
 		}
 	}
 	
+	/**
+	 * Make a new copy of the Strategist
+	 * @return a new enemy object that has the same information
+	 */
 	@Override
 	public Enemy copy() {
 		return new Strategist(this.getCurrPos());

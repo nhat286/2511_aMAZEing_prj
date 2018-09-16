@@ -27,16 +27,31 @@ public abstract class Potions {
 		this.co_ord.setXY(x, y);
 	}
 	
+	/**
+	 * Effect of the potion is induced
+	 */
 	public abstract action potion_effect();
 	
-	public void destroyPotion() {//Potions p) {
-		//p = null;
+	/**
+	 * Destroys potion by setting their coordinates outside of the maze
+	 */
+	public void destroyPotion() {
 		this.setCoordinates(-1, -1);
 	}
 	
+	/**
+	 * Returns the type of potion 
+	 * 
+	 * @return type of potion
+	 */
 	public String getType() {
 		return "Potion";
 	}
 	
+	/**
+	 * Creates a copy of the potion
+	 * 
+	 * @return copy of this potion
+	 */
 	public abstract Potions copy();
 }

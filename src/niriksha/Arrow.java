@@ -15,7 +15,13 @@ public class Arrow extends Weapon {
 		this.user = user;
 		this.used = false;
 	}
-
+	
+	/**
+	 * Sets coordinates of the arrow in the direction of the object   
+	 * 
+	 * @param object in front of character
+	 * @return destroy enemy or do nothing
+	 */
 	@Override
 	public action weapon_action(Object object) {
 		this.direction = this.user.getIcon();
@@ -34,6 +40,14 @@ public class Arrow extends Weapon {
 		return this.used;
 	}
 	
+	/**
+	 * Destroys the enemy if there is one and destroys itself
+	 * 		else destroys itself if there is obstacle
+	 * 		else keeps moving
+	 * 
+	 * @param object in front and border of the maze
+	 * @return whether arrows will move or not
+	 */
 	public int moving(Object object, int border) {
 		if (object != null) {
 			if (object instanceof Enemy) {
@@ -73,6 +87,11 @@ public class Arrow extends Weapon {
 		return 0;
 	}
 	
+	/**
+	 * Determines coordinates of the object in front
+	 * 
+	 * @return coordinates of the object
+	 */
 	public CoOrd getInfront() {
 		CoOrd co = new CoOrd(this.getCoordinates().getX(), this.getCoordinates().getY());
 		if (this.direction == '^') co.setXY(co.getX() - 1, co.getY());
@@ -82,11 +101,21 @@ public class Arrow extends Weapon {
 		return co;
 	}
 	
+	/**
+	 * Returns the type of weapon 
+	 * 
+	 * @return type of weapon
+	 */
 	@Override
 	public String getType() {
 		return "Arrow";
 	}
 	
+	/**
+	 * Creates a copy of this arrow
+	 * 
+	 * @return copy of this arrow
+	 */
 	@Override
 	public Weapon copy() {
 		return new Arrow(this.getCoordinates().getX(), this.getCoordinates().getY(), this.user);
