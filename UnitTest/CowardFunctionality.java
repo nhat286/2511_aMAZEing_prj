@@ -31,17 +31,19 @@ public class CowardFunctionality {
 		
 		// calls move closer
 		c.enemyMovement(user, 10);
-		assertEquals(c.getDirection(), '<');
+		assertEquals(c.getDirection(), '>');
 		
 		// tests moving away
 		CoOrd c1 = new CoOrd(4,3);
-		CoOrd c2 = new CoOrd(4,4);
+		CoOrd c2 = new CoOrd(4,2);
 		c.setDirection('^');
 		c.setCurrPos(c1);
 		user.setCoordinates(3, 3);
 		InvincibilityPotion i = new InvincibilityPotion(0,0);
 		user.pickUpPotion(i);
 		user.equipPotion("InvincibilityPotion");
+		c.enemyMovement(user,10);
+		c.enemyMovement(user,10);
 		assertEquals(c.getCurrPos(), c2);
 		
 	}
@@ -64,4 +66,3 @@ public class CowardFunctionality {
 		assertEquals(c.getEnemyType(), "Coward");
 	}
 }
-
