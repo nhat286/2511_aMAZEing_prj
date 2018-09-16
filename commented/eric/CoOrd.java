@@ -9,28 +9,28 @@ public class CoOrd {
 		this.y = y;
 	}
 	
-	/*
+	/**
 	 * Sets the coordinate of object one position to the left
 	 */
 	public void moveLeft() {
 		if (this.y > 1) this.y--;
 	}
 	
-	/*
+	/**
 	 * Sets the coordinate of object one position to the right
 	 */
 	public void moveRight(int border) {
 		if (this.y < border - 1) this.y++;
 	}
 	
-	/*
+	/**
 	 * Sets the coordinate of object one position up
 	 */
 	public void moveUp() {
 		if (this.x > 1) this.x--;
 	}
 	
-	/*
+	/**
 	 * Sets the coordinate of object one position down
 	 */
 	public void moveDown(int border) {
@@ -58,10 +58,10 @@ public class CoOrd {
 		setXY(co.getX(), co.getY());
 	}
 	
-	/*
+	/**
 	 * Determines if the coordinates are equal
 	 * 
-	 * post: return true of the coordinates are equal else false
+	 * @return return true of the coordinates are equal else false
 	 */
 	@Override
 	public boolean equals(Object arg0) {
