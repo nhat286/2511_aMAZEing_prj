@@ -10,6 +10,9 @@ public class ItemStat implements Menu{
 
 	private String[] ItemDescript;
 	
+	/**
+	 * Initiate the item descriptions
+	 */
 	public ItemStat(){
 		ItemDescript = new String [4];
 		ItemDescript[0] = "Hover Potion: "
@@ -29,6 +32,12 @@ public class ItemStat implements Menu{
 				+ "There might be Treasures in some mazes and collecting them all might leads to win.";
 	}
 	
+	
+	/* (non-Javadoc)
+	 * Display item descriptions
+	 * 
+	 * @see kyle_maze.Menu#displayMenu()
+	 */
 	@Override
 	public void displayMenu() {
 		System.out.println("The followed items might be found in the maze to assist you:");

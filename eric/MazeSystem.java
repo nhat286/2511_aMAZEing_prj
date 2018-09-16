@@ -160,7 +160,7 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 				is.displayMenu();
 				break;
 			case 3:
-				Rules rl = new Rules();
+				Rules rl = new Rules(curr);
 				rl.displayMenu();
 				break;
 			case 4:

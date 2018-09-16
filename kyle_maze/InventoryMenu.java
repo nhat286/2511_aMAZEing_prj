@@ -20,6 +20,12 @@ public class InventoryMenu implements Menu{
 		this.sc = sc;
 	}
 
+	/* (non-Javadoc)
+	 * Overided default method to display items remaining in inventory and provide 
+	 * handle to use or drop them.
+	 * 
+	 * @see kyle_maze.Menu#displayMenu()
+	 */
 	@Override
 	public void displayMenu() {
 		Inventory inventory = character.getBag();

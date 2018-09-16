@@ -11,6 +11,11 @@ public class SaveLoad implements Menu{
 		currentMaze = maze;
 	}
 	
+	/* (non-Javadoc)
+	 * Advanced feature, unimplemented
+	 * 
+	 * @see kyle_maze.Menu#displayMenu()
+	 */
 	@Override
 	public void displayMenu() {
 		System.out.println("You can save/load your game here. There would be 3 slots available.");

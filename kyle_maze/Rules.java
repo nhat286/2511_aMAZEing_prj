@@ -9,6 +9,11 @@ public class Rules implements Menu{
 	private String[] rules;
 	private int goal;
 	
+	/**
+	 * initiate the with all possible rules storage and get a integer goal for later use
+	 * 
+	 * @param maze
+	 */
 	public Rules(Maze maze){
 		rules = new String [4];
 		rules[0] = "Find the exit door.";
@@ -19,6 +24,12 @@ public class Rules implements Menu{
 		goal = maze.getWinCond();
 	}
 	
+	/* (non-Javadoc)
+	 * Overiding the default method
+	 * Take the bit and with winning goal mask to display current goal in the maze
+	 * 
+	 * @see kyle_maze.Menu#displayMenu()
+	 */
 	@Override
 	public void displayMenu() {
 		System.out.println("To win this game, you need to:");

@@ -4,7 +4,7 @@ import eric.CoOrd;
 
 public abstract class Weapon {
 	
-	enum action {
+	public enum action {
 		DESTROY, DIE, NOTHING, BOMB_DESTROY;
 	}
 	
