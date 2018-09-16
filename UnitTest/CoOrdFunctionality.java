@@ -29,8 +29,10 @@ class CoOrdFunctionality {
 	}
 	
 	@Test
-	void testMoveRight() {
+	void testMoveRight() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(0,1);
+		user.moveCoOrd('>', 10);
 		user.moveCoOrd('>', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 		user.setCoordinates(0, 0);

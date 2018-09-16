@@ -46,7 +46,8 @@ public class CharacterFunctionality {
 	}
 
 	@Test
-	void testgetCoordinates() {
+	void testgetCoordinates() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(1,0);
 		assertEquals(user2.getCoordinates(), co_ord);
 	}
@@ -77,7 +78,9 @@ public class CharacterFunctionality {
 	}
 	
 	@Test
-	void testmove() {
+	void testmove() throws Exception {
+		setUpBeforeClass();
+		assertEquals(user.move('>', 'C', c, 10), ACTION.NOTHING);
 		assertEquals(user.move('>', 'C', c, 10), ACTION.DIE);
 		user2.pickUpPotion(hp);
 		user2.equipPotion("HoverPotion");
@@ -89,21 +92,22 @@ public class CharacterFunctionality {
 	@Test
 	void testmoveCoOrd() {
 		CoOrd co_ord = new CoOrd(4,2);
-		user.setCoordinates(3, 2);
+		user2.setCoordinates(3, 2);
 		user2.moveCoOrd('v', 10);
 		assertEquals(user2.getCoordinates(), co_ord);
-		user2.setCoordinates(1, 0);
 	}
 	
 	@Test
-	void testgetInfront() {
+	void testgetInfront() throws Exception {
+		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(4,2);
-		user.setCoordinates(3, 2);
+		user2.setCoordinates(3, 2);
 		assertEquals(user2.getInfront(), co_ord);
 	}
 	
 	@Test
 	void testpickUpWeapon() {
+		user3 = new Character(6, 0);
 		user3.pickUpWeapon(s);
 		assertEquals(user3.getBag().getNoWeapons(), 1);
 		user3.removeEquipped();
@@ -143,6 +147,7 @@ public class CharacterFunctionality {
 		user4.equipWeapon("Sword");
 		assertEquals(user4.weaponEquipped(), true);
 		user4.removeEquipped();
+		
 	}
 	
 	@Test
@@ -166,13 +171,9 @@ public class CharacterFunctionality {
 		a.add(ip);
 		user5.pickUpPotion(hp);
 		user5.pickUpPotion(ip);
+		user5.equipPotion("HoverPotion");
+		user5.equipPotion("InvincibilityPotion");
 		assertEquals(user5.getActivePotion(), a);
-	}
-	
-	@Test
-	void testdestroy_character() {
-		user6.destroy_character(user6);
-		assertEquals(user6, null);
 	}
 	
 }
