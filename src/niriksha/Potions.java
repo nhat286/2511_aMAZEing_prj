@@ -3,7 +3,7 @@ package niriksha;
 import eric.CoOrd;
 
 public abstract class Potions {
-	enum action {
+	public enum action {
 		INVINCIBLE, HOVER, NOTHING;
 	}
 	
@@ -29,8 +29,9 @@ public abstract class Potions {
 	
 	public abstract action potion_effect();
 	
-	public void destroyPotion(Potions p) {
-		p = null;
+	public void destroyPotion() {//Potions p) {
+		//p = null;
+		this.setCoordinates(-1, -1);
 	}
 	
 	public String getType() {

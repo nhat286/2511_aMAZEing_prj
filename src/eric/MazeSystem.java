@@ -16,15 +16,22 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import niriksha.Character;
+import niriksha.Door;
+import niriksha.FloorSwitch;
 import niriksha.HoverPotion;
 import niriksha.InvincibilityPotion;
+import niriksha.Key;
 import niriksha.Obstacle;
 import niriksha.Pit;
 import niriksha.Potions;
 import niriksha.Sword;
+import niriksha.Treasure;
+import niriksha.Wall;
 import niriksha.Weapon;
 import niriksha.ACTION;
 import niriksha.Arrow;
+import niriksha.Bomb;
+import niriksha.Boulder;
 import jae.Coward;
 import jae.Enemy;
 import jae.Hound;
@@ -49,7 +56,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	private Character user;
 	private static char keyPressed;
 	private int pause;
-	ScheduledExecutorService executor;
+	private ScheduledExecutorService executor;
 	
 	public MazeSystem() {		
 		//drawMap();
@@ -61,6 +68,14 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.map = new char[size][size];
 		this.user = new Character(1, 1);
 		this.curr.addCharacter(this.user);
+		for (int i = 0; i < size; i++) {
+			this.curr.addObstacle(new Wall(0, i));
+			this.curr.addObstacle(new Wall(size - 1, i));
+		}
+		for (int i = 1; i < size - 1; i++) {
+			this.curr.addObstacle(new Wall(i, 0));
+			this.curr.addObstacle(new Wall(i, size - 1));
+		}
 		this.keyPressed = '.';
 		this.pause = 0;
 	}
@@ -73,10 +88,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	public char[][] drawMap() {
 		for (int i = 0; i < this.map_size; i++) {
 			for (int j = 0; j < this.map_size; j++) {
-				if (i == 0 || i == this.map_size - 1 || j == 0 || j == this.map_size - 1)
-					this.map[i][j] = '#';
-				else
-					this.map[i][j] = ' ';
+				this.map[i][j] = ' ';
 			}
 		}
 		return this.map;
@@ -86,25 +98,28 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		clearScreen();
 		System.out.println("To win, you have to complete the option(s) below");
 		int cond = this.curr.getWinCond();
-		if ((cond & 0b00001) > 0)
+		if ((cond & Maze.RUNNER) > 0)
 			System.out.println("\tFind the door to win!");
-		if ((cond & 0b00010) > 0)
+		if ((cond & Maze.COLLECTOR) > 0)
 			System.out.println("\tCollect all treasures to finish the maze!");
-		if ((cond & 0b00100) > 0)
+		if ((cond & Maze.SLAYER) > 0)
 			System.out.println("\tKill all enemies to pass!");
-		if ((cond & 0b01000) > 0)
+		if ((cond & Maze.DETECTIVE) > 0)
 			System.out.println("\tFind the key to open the door!");
-		if ((cond & 0b10000) > 0)
+		if ((cond & Maze.BRAINER) > 0)
 			System.out.println("\tSolve the puzzle to unlock the door!");
-		System.out.print("Press i to check inventory!");
+		System.out.println("Press i to check inventory!");
 		if (this.user.weaponEquipped()) {
-			System.out.println("  Currently equip a weapon!");
-		} else {
+			System.out.println("\tCurrently equip " + this.user.equip_weapon.getType());
+		}
+		if (this.user.getActivePotion().size() > 0) {
+			System.out.print("\tCurrently activate:");
+			for (Potions p : this.user.getActivePotion()) {
+				System.out.print(" " + p.getType());
+			}
 			System.out.print("\n");
 		}
 		System.out.println("Press p to pause the game and open menu!");
-		this.map = drawMap();
-		this.curr.updateMap(map);
 		for (int i = 0; i < this.map_size; i++) {
 			for (int j = 0; j < this.map_size; j++) {
 				System.out.print(this.map[i][j]);
@@ -115,30 +130,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	
 	public void setPause(int pause) {
  		this.pause = pause;
-	}
-	
-	public int checkGoal() {
-		int goal = 0;
-		int cond = this.curr.getWinCond();
-		if ((cond & 0b00001) > 0) {
-			
-		}
-		if ((cond & 0b00010) > 0) {
-			
-		}
-		if ((cond & 0b00100) > 0) {
-			if (this.curr.getEnemyList().size() == 0)
-				goal = 1;
-			else
-				return 0;
-		}
-		if ((cond & 0b01000) > 0) {
-			
-		}
-		if ((cond & 0b10000) > 0) {
-			
-		}
-		return goal;
 	}
 	
 	public int pauseGame(Scanner sc) {
@@ -163,7 +154,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 				is.displayMenu();
 				break;
 			case 3:
-				Rules rl = new Rules(curr);
+				Rules rl = new Rules();
 				rl.displayMenu();
 				break;
 			case 4:
@@ -189,13 +180,15 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		return option;
 	}
 	
-	public void gameInitiate() {
-		this.start(20, 0b00100);
+	public void level1Initiate() {
+		this.start(20, Maze.SLAYER);
+		
 		Enemy e1 = new Hunter(new CoOrd(3, 4));
 		this.curr.addEnemy(e1);
 		Enemy e2 = new Strategist(new CoOrd(7, 12));
 		this.curr.addEnemy(e2);
-		Enemy e3 = new Hound(new CoOrd(11, 17), e1.getCurrPos());
+		Enemy e3 = new Hound(new CoOrd(11, 17));
+		((Hound) e3).linkHunter(e1.getCurrPos());
 		this.curr.addEnemy(e3);
 		Enemy e4 = new Coward(new CoOrd(16, 2));
 		this.curr.addEnemy(e4);
@@ -203,9 +196,60 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		this.curr.addObstacle(o1);
 		Weapon w1 = new Sword(8, 1);
 		this.curr.addWeaponDrop(w1);
+		Weapon w2 = new Arrow(5, 1, this.user);
+		this.curr.addWeaponDrop(w2);
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new InvincibilityPotion(-2,-2));
+	}
+	
+	public void level2Initiate() {
+		this.start(17, Maze.BRAINER);
+		
+		Obstacle o1 = new Pit(10, 10);
+		this.curr.addObstacle(o1);
+		Obstacle o2 = new Pit(13, 4);
+		this.curr.addObstacle(o2);
+		Obstacle o3 = new Pit(3, 8);
+		this.curr.addObstacle(o3);
+		Potions p1 = new HoverPotion(8, 14);
+		this.curr.addPotion(p1);
+		Obstacle o4 = new FloorSwitch(3, 2);
+		this.curr.addObstacle(o4);
+		Obstacle o5 = new FloorSwitch(9, 11);
+		this.curr.addObstacle(o5);
+		Obstacle o6 = new Boulder(2, 5);
+		this.curr.addObstacle(o6);
+		Obstacle o7 = new Boulder(15, 6);
+		this.curr.addObstacle(o7);
+		Obstacle o8 = new Boulder(7, 13);
+		this.curr.addObstacle(o8);
+		Weapon ar = new Arrow(6, 4, this.user);
+		this.curr.addWeaponDrop(ar);
+		Weapon bm = new Bomb(12, 9, this.user.getCoordinates());
+		this.curr.addWeaponDrop(bm);
+	}
+	
+	public void leve3Initiate() {
+		this.start(20, Maze.RUNNER + Maze.COLLECTOR + Maze.DETECTIVE);
+		
+		Door d1 = new Door(5, 8);
+		this.curr.addObstacle(d1);
+		Exit e = new Exit(18, 18);
+		this.curr.addExit(e);
+		for (int i = 14; i < this.map_size - 1; i++) {
+			if (i == 17) continue;
+			this.curr.addObstacle(new Wall(16, i));
+		}
+		Door d2 = new Door(16, 17);
+		this.curr.addObstacle(d2);
+		this.curr.addObstacle(new Wall(17, 14));
+		this.curr.addObstacle(new Wall(18, 14));
+		Key k1 = new Key(4, 7);
+		k1.linkDoor(d2);
+		this.curr.addKey(k1);
+		this.curr.addTreasure(new Treasure(11, 7));
+		this.curr.addTreasure(new Treasure(8, 15));
 	}
 	
 	public OUTCOME gameLoop(Scanner sc) {
@@ -213,7 +257,8 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		long delay  = 100L;
 	    long period = 100L;
 	    executor.scheduleAtFixedRate(this, delay, period, TimeUnit.MILLISECONDS);*/
-		
+		this.map = drawMap();
+		this.curr.updateMap(map);
 	    this.printMap();
 		char input = sc.next().charAt(0);
 		while (input != 'q') {
@@ -235,18 +280,73 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 				outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
 				break;
 			case 'k':
-				this.user.useWeapon(ahead);
+				if (this.user.useWeapon(ahead) == 1) {
+					Bomb b = (Bomb) this.user.equip_weapon;
+					if (b.isExploded()) {
+						CoOrd bomb_location = b.getCoordinates();
+						this.user.removeEquipped();
+						CoOrd near_obj = new CoOrd(bomb_location.getX() - 1, bomb_location.getY());
+						Object above = this.curr.getEntity(near_obj);
+						if (above != null) {
+							if (above instanceof Boulder) {
+								((Boulder) above).destroyObstacle();
+							} else if (above instanceof Enemy) {
+								((Enemy) above).enemyDies();
+							} else if (near_obj.equals(this.user.getCoordinates())) {
+								outcome = ACTION.DIE;
+								//break;
+							}
+						}
+						near_obj.setXY(bomb_location.getX() + 1, bomb_location.getY());
+						Object below = this.curr.getEntity(near_obj);
+						if (below != null) {
+							if (below instanceof Boulder) {
+								((Boulder) below).destroyObstacle();
+							} else if (below instanceof Enemy) {
+								((Enemy) below).enemyDies();
+							} else if (near_obj.equals(this.user.getCoordinates())) {
+								outcome = ACTION.DIE;
+								//break;
+							}
+						}
+						near_obj.setXY(bomb_location.getX(), bomb_location.getY() - 1);
+						Object left = this.curr.getEntity(near_obj);
+						if (left != null) {
+							if (left instanceof Boulder) {
+								((Boulder) left).destroyObstacle();
+							} else if (left instanceof Enemy) {
+								((Enemy) left).enemyDies();
+							} else if (near_obj.equals(this.user.getCoordinates())) {
+								outcome = ACTION.DIE;
+								//break;
+							}
+						}
+						near_obj.setXY(bomb_location.getX(), bomb_location.getY() + 1);
+						Object right = this.curr.getEntity(near_obj);
+						if (right != null) {
+							if (right instanceof Boulder) {
+								((Boulder) right).destroyObstacle();
+							} else if (right instanceof Enemy) {
+								((Enemy) right).enemyDies();
+							} else if (near_obj.equals(this.user.getCoordinates())) {
+								outcome = ACTION.DIE;
+								//break;
+							}
+						}
+						b.setCoordinates(-1, -1);
+					}
+				}
 				break;
 			case 'j':
 				if (under instanceof Weapon) {
 					this.user.pickUpWeapon((Weapon) under);
-					((Weapon) under).setCoordinates(-2, -2);
-					//this.curr.deleteWeaponDrop((Weapon) under);
-				}
-				else if (under instanceof Potions) {
+				} else if (under instanceof Potions) {
 					this.user.pickUpPotion((Potions) under);
-					((Potions) under).setCoordinates(-2, -2);
-					//this.curr.deletePotion((Potions) under);
+				} else if (under instanceof Treasure) {
+					((Treasure) under).pickUp();
+				} else if (under instanceof Key) {
+					this.user.setHolding_key((Key) under);
+					((Key) under).pickUp();
 				}
 				break;
 			case 'i':
@@ -283,12 +383,22 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			case PICK_UP_WEAPON:
 				break;
 			case PUSH_BOULDER:
+				Boulder b = (Boulder) ahead;
+				CoOrd next_to = b.getInfront(this.user.getIcon());
+				if (b.push_boulder(this.user.getIcon(), this.map[next_to.getX()][next_to.getY()],
+						this.curr.getEntity(next_to), this.map_size) != Boulder.action.NOTHING) {
+					this.user.move(this.user.getIcon(), ' ', null, this.map_size);
+				}
 				break;
 			default:
 				break;
 			}
-			if (this.checkGoal() > 0)
+			this.map = drawMap();
+			this.curr.updateMap(map);
+			if (this.curr.checkGoal() == this.curr.getWinCond())
 				return OUTCOME.WIN;
+			else if (this.curr.checkGoal() == -1)
+				return OUTCOME.LOSE;
 			this.printMap();
 			input = sc.next().charAt(0);
 		}
@@ -306,30 +416,35 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		System.out.println("How to win your maze?");
 		System.out.print("Find the door to win? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b00001;
+			goal += Maze.RUNNER;
 		System.out.print("Collect all treasures to finish the maze? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b00010;
+			goal += Maze.COLLECTOR;
 		System.out.print("Kill all enemies to pass? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b00100;
+			goal += Maze.SLAYER;
 		System.out.print("Find the key to open the door? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b01000;
+			goal += Maze.DETECTIVE;
 		System.out.print("Solve the puzzle to unlock the door? (y/n) > ");
 		if (sc.next().charAt(0) == 'y')
-			goal += 0b10000;
+			goal += Maze.BRAINER;
 		
 		this.start(size, goal);
-		this.printMap();
+		//this.map = drawMap();
+		//this.curr.updateMap(map);
+		//this.printMap();
 		
 		char input;
 		do {
+			this.map = drawMap();
+			this.curr.updateMap(map);
 			this.printMap();
 			System.out.println("Design options:");
 			System.out.println("\tSet character coordinates (s)");
 			System.out.println("\tAdd entities (a)");
 			System.out.println("\tChange entities (c)");
+			System.out.println("\tLink entities (l)");
 			System.out.println("\tDelete entities (d)");
 			System.out.println("\tPlay and test design (p)");
 			System.out.println("\tQuit design mode (q)");
@@ -337,19 +452,19 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			input = sc.next().charAt(0);
 			switch (input) {
 			case 's':
-				System.out.print("x: ");
-				int x = sc.nextInt();
-				System.out.print("y: ");
-				int y = sc.nextInt();
-				if (x < 1 || y < 1 || x > this.map_size - 1 || y > this.map_size - 1)
+				CoOrd setCoord = designGetCoord(sc);
+				if (setCoord == null)
 					System.out.println("Can't set character coordinates!");
 				else {
-					this.user.setCoordinates(x, y);
-					this.curr.resetCharCoOrd(x, y);
+					//this.user.setCoordinates(x, y);
+					this.curr.resetCharCoOrd(setCoord.getX(), setCoord.getY());
 				}
 				break;
 			case 'a':
-				if (!designAdd(sc))
+				CoOrd newCoord = designGetCoord(sc);
+				if (newCoord == null)
+					System.out.println("Can't add entity to maze, try again!");
+				else if (!designAdd(sc, newCoord))
 					System.out.println("Can't add entity to maze, try again!");
 				break;
 			case 'p':
@@ -358,7 +473,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 					OUTCOME result = gameLoop(sc);
 					if (result == OUTCOME.LOSE) {
 						clearScreen();
-						System.out.println("\t\tOH NO YOU DIE! RESTARTING");
+						System.out.println("\t\tOH NO YOU DIE! RESTARTING...");
 						Thread.sleep(1000);
 					} else if (result == OUTCOME.QUIT) {
 						this.curr.resetCharCoOrd(1, 1);
@@ -367,11 +482,108 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 				}
 				break;
 			case 'c':
-				System.out.println("Change entity?");
+				System.out.println("Where is the entity to be changed?");
+				CoOrd move = designGetCoord(sc);
+				if (move == null) {
+					System.out.println("Can't find entity, try again!");
+					break;
+				} else {
+					Object o = this.curr.getEntity(move);
+					if (o == null) {
+						System.out.println("Can't find entity, try again!");
+						break;
+					}
+					System.out.println("Change (l)ocation or (t)ype of entity?");
+					System.out.print("> ");
+					switch (sc.next().charAt(0)) {
+					case 'l':
+						System.out.println("Where to change to?");
+						move = designGetCoord(sc);
+						if (move == null) {
+							System.out.println("Invalid coordinates, try again!");
+						} else {
+							if (o instanceof Weapon) {
+								((Weapon) o).setCoordinates(move.getX(), move.getY());
+							} else if (o instanceof Potions) {
+								((Potions) o).setCoordinates(move.getX(), move.getY());
+							} else if (o instanceof Enemy) {
+								((Enemy) o).setCurrPos(move);
+							} else if (o instanceof Obstacle) {
+								((Obstacle) o).setCoordinates(move.getX(), move.getY());
+							} else if (o instanceof Exit) {
+								((Exit) o).setCoordinates(move.getX(), move.getY());
+							} else if (o instanceof Key) {
+								((Key) o).setCoordinates(move.getX(), move.getY());
+							} else if (o instanceof Treasure) {
+								((Treasure) o).setCoordinates(move.getX(), move.getY());
+							}
+						}
+						break;
+					case 't':
+						if (designAdd(sc, move)) {
+							if (o instanceof Weapon) {
+								((Weapon) o).destroyWeapon();
+							} else if (o instanceof Potions) {
+								((Potions) o).destroyPotion();
+							} else if (o instanceof Enemy) {
+								((Enemy) o).enemyDies();
+							} else if (o instanceof Obstacle) {
+								((Obstacle) o).destroyObstacle();
+							} else if (o instanceof Exit) {
+								((Exit) o).setCoordinates(-1, -1);
+							} else if (o instanceof Key) {
+								((Key) o).pickUp();
+							} else if (o instanceof Treasure) {
+								((Treasure) o).removeTreasure();
+							}
+						} else {
+							System.out.println("Can't change entity, unknown option!");
+						}
+						break;
+					default:
+						System.out.println("Can't change entity, unknown option!");
+						break;
+					}
+				}
 				break;
 			case 'd':
 				if (!designDelete(sc))
 					System.out.println("Can't delete entity, not found in maze, try again!");
+				break;
+			case 'l':
+				System.out.println("Where is the entity to be linked to?");
+				CoOrd link = designGetCoord(sc);
+				if (link == null) {
+					System.out.println("Can't find entity, try again!");
+					break;
+				} else {
+					Object o1 = this.curr.getEntity(link);
+					if (o1 == null) {
+						System.out.println("Can't find entity, try again!");
+						break;
+					} else if (!(o1 instanceof Key || o1 instanceof Hound)) {
+						System.out.println("Can only link keys to doors, or hounds to hunters. Try again!");
+						break;
+					}
+					System.out.println("Which entity to link to?");
+					CoOrd linked = designGetCoord(sc);
+					if (linked == null) {
+						System.out.println("Can't find entity, try again!");
+						break;
+					}
+					Object o2 = this.curr.getEntity(linked);
+					if (o2 == null) {
+						System.out.println("Can't find entity, try again!");
+						break;
+					} else if (o1 instanceof Key && o2 instanceof Door) {
+						((Key) o1).linkDoor((Door) o2);
+					} else if (o1 instanceof Hound && o2 instanceof Hunter) {
+						((Hound) o1).linkHunter(((Hunter) o2).getCurrPos());
+					} else {
+						System.out.println("Can only link keys to doors, or hounds to hunters. Try again!");
+						break;
+					}
+				}
 				break;
 			default:
 				System.out.println("Unknown option? Try again!");
@@ -381,19 +593,22 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 		
 	}
 	
-	public boolean designAdd(Scanner sc) {
+	public CoOrd designGetCoord(Scanner sc) {
 		System.out.println("Co-ordinates?");
 		System.out.print("x: ");
 		int x = sc.nextInt();
 		System.out.print("y: ");
 		int y = sc.nextInt();
 		if (x < 1 || y < 1 || x > this.map_size - 1 || y > this.map_size - 1)
-			return false;
-		
+			return null;
+		return new CoOrd(x, y);
+	}
+	
+	public boolean designAdd(Scanner sc, CoOrd newCoord) {
 		System.out.println("Entity?");
 		System.out.println("\tEnemy (e)");
 		System.out.println("\tPotion drop (p)");
-		System.out.println("\tSpecial item drop (i)");
+		System.out.println("\tItem (i)");
 		System.out.println("\tWeapon drop (w)");
 		System.out.println("\tObstacle (o)");
 		System.out.print("> ");
@@ -408,16 +623,16 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			System.out.print("> ");
 			switch(sc.next().charAt(0)) {
 			case 'h':
-				this.curr.addEnemy(new Hunter(new CoOrd(x, y)));
+				this.curr.addEnemy(new Hunter(newCoord));
 				break;
 			case 's':
-				this.curr.addEnemy(new Strategist(new CoOrd(x, y)));
+				this.curr.addEnemy(new Strategist(newCoord));
 				break;
 			case 'd':
-				this.curr.addEnemy(new Hound(new CoOrd(x, y), null));
+				this.curr.addEnemy(new Hound(newCoord));
 				break;
 			case 'c':
-				this.curr.addEnemy(new Coward(new CoOrd(x, y)));
+				this.curr.addEnemy(new Coward(newCoord));
 				break;
 			default:
 				return false;
@@ -430,10 +645,10 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			System.out.print("> ");
 			switch(sc.next().charAt(0)) {
 			case 'h':
-				this.curr.addPotion(new HoverPotion(x, y));
+				this.curr.addPotion(new HoverPotion(newCoord.getX(), newCoord.getY()));
 				break;
 			case 'i':
-				this.curr.addPotion(new InvincibilityPotion(x, y));
+				this.curr.addPotion(new InvincibilityPotion(newCoord.getX(), newCoord.getY()));
 				break;
 			default:
 				return false;
@@ -443,19 +658,68 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			System.out.println("What weapon type?");
 			System.out.println("\tSword (s)");
 			System.out.println("\tArrow (a)");
+			System.out.println("\tBomb (b)");
 			System.out.print("> ");
 			switch(sc.next().charAt(0)) {
 			case 's':
-				this.curr.addWeaponDrop(new Sword(x, y));
+				this.curr.addWeaponDrop(new Sword(newCoord.getX(), newCoord.getY()));
 				break;
 			case 'a':
-				this.curr.addWeaponDrop(new Arrow(x, y));
+				this.curr.addWeaponDrop(new Arrow(newCoord.getX(), newCoord.getY(), this.user));
 				break;
+			case 'b':
+				this.curr.addWeaponDrop(new Bomb(newCoord.getX(), newCoord.getY(), this.user.getCoordinates()));
 			default:
 				return false;
 			}
 			break;
 		case 'o':
+			System.out.println("What obstacle type?");
+			System.out.println("\tBoulder (b)");
+			System.out.println("\tDoor (d)");
+			System.out.println("\tFloor switch (s)");
+			System.out.println("\tPit (p)");
+			System.out.println("\tWall (w)");
+			System.out.println("\tExit (e)");
+			System.out.print("> ");
+			switch(sc.next().charAt(0)) {
+			case 'b':
+				this.curr.addObstacle(new Boulder(newCoord.getX(), newCoord.getY()));
+				break;
+			case 'd':
+				this.curr.addObstacle(new Door(newCoord.getX(), newCoord.getY()));
+				break;
+			case 's':
+				this.curr.addObstacle(new FloorSwitch(newCoord.getX(), newCoord.getY()));
+				break;
+			case 'p':
+				this.curr.addObstacle(new Pit(newCoord.getX(), newCoord.getY()));
+				break;
+			case 'w':
+				this.curr.addObstacle(new Wall(newCoord.getX(), newCoord.getY()));
+				break;
+			case 'e':
+				this.curr.addExit(new Exit(newCoord.getX(), newCoord.getY()));
+				break;
+			default:
+				return false;
+			}
+			break;
+		case 'i':
+			System.out.println("What item type?");
+			System.out.println("\tKey (k)");
+			System.out.println("\tTreasure (t)");
+			System.out.print("> ");
+			switch(sc.next().charAt(0)) {
+			case 'k':
+				this.curr.addKey(new Key(newCoord.getX(), newCoord.getY()));
+				break;
+			case 't':
+				this.curr.addTreasure(new Treasure(newCoord.getX(), newCoord.getY()));
+				break;
+			default:
+				return false;
+			}
 			break;
 		default:
 			return false;
@@ -465,24 +729,28 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 	}
 	
 	public boolean designDelete(Scanner sc) {
-		System.out.println("Co-ordinates?");
-		System.out.print("x: ");
-		int x = sc.nextInt();
-		System.out.print("y: ");
-		int y = sc.nextInt();
-		if (x < 1 || y < 1 || x > this.map_size - 1 || y > this.map_size - 1)
+		CoOrd del = designGetCoord(sc);
+		if (del == null)
 			return false;
 		
-		Object o = this.curr.getEntity(new CoOrd(x, y));
+		Object o = this.curr.getEntity(del);
 		if (o == null)
 			return false;
 		
 		if (o instanceof Weapon) {
-			((Weapon) o).setCoordinates(-1, -1);
+			((Weapon) o).destroyWeapon();
 		} else if (o instanceof Potions) {
-			((Potions) o).setCoordinates(-1, -1);
+			((Potions) o).destroyPotion();
 		} else if (o instanceof Enemy) {
 			((Enemy) o).enemyDies();
+		} else if (o instanceof Obstacle) {
+			((Obstacle) o).destroyObstacle();
+		} else if (o instanceof Exit) {
+			((Exit) o).setCoordinates(-1, -1);
+		} else if (o instanceof Key) {
+			((Key) o).pickUp();
+		} else if (o instanceof Treasure) {
+			((Treasure) o).removeTreasure();
 		}
 		return true;
 	}
@@ -524,12 +792,33 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			input = sc.next().charAt(0);
 			switch (input) {
 			case 'y':
+				System.out.println("Choose your level:");
+				System.out.println("\tLevel 1: Kill all enemies!");
+				System.out.println("\tLevel 2: Solve the mysterious puzzle!");
+				System.out.println("\tLevel 3: Find the hidden treasures!");
+				System.out.print("Type level number> ");
+				int lv = sc.nextInt();
+				while (lv < 0 || lv > 3) {
+					System.out.println("Can't setup maze, not found level!");
+					System.out.print("Type level number> ");
+					lv = sc.nextInt();
+				}
 				OUTCOME result;
 				/*if(sys.pause == 0) {
 					sys.gameInitiate();
 				}*/
 				do {
-					sys.gameInitiate();
+					switch (lv) {
+					case 1:
+						sys.level1Initiate();
+						break;
+					case 2:
+						sys.level2Initiate();
+						break;
+					case 3:
+						sys.leve3Initiate();
+						break;
+					}
 					result = sys.gameLoop(sc);
 					if (result == OUTCOME.LOSE) {
 						clearScreen();

@@ -1,11 +1,13 @@
 package niriksha;
 
+import eric.CoOrd;
+
 public class Boulder extends Obstacle {
 	
 	boolean on_switch;
 	FloorSwitch f_s;
 	
-	enum action {
+	public enum action {
 		MOVE, DESTROYED, NOTHING;
 	}
 	
@@ -32,7 +34,7 @@ public class Boulder extends Obstacle {
 			case 'I':
 				moveCoOrd(direction, border);
 				this.f_s = ((FloorSwitch) object);
-				((FloorSwitch) object).activateTrigger();
+				this.f_s.activateTrigger();
 				this.on_switch = true;
 				return action.MOVE;
 			
@@ -43,10 +45,18 @@ public class Boulder extends Obstacle {
 					this.f_s = null;
 					this.on_switch = false;
 				}
-				moveCoOrd(direction, border);
-				destroyBoulder(this);
+				//moveCoOrd(direction, border);
+				//destroyBoulder(this);
+				this.setCoordinates(-1, -1);
 				return action.DESTROYED;
-				
+			case ' ':
+				if (this.on_switch == true) {
+					this.f_s.deactivateTrigger();
+					this.f_s = null;
+					this.on_switch = false;
+				}
+				moveCoOrd(direction, border);
+				return action.MOVE;
 		}
 		return null;
 	}
@@ -66,9 +76,23 @@ public class Boulder extends Obstacle {
 		}
 	}
 	
-	public void destroyBoulder(Boulder b) {
-		b = null;
+	/*public void destroyBoulder() {//Boulder b) {
+		//b = null;
+		this.setCoordinates(-1, -1);
+	}*/
+	
+	public CoOrd getInfront(char direction) {
+		CoOrd co = new CoOrd(this.getCoordinates().getX(), this.getCoordinates().getY());
+		if (direction == '^') co.setXY(co.getX() - 1, co.getY());
+		else if (direction == 'v') co.setXY(co.getX() + 1, co.getY());
+		else if (direction == '<') co.setXY(co.getX(), co.getY() - 1);
+		else if (direction == '>') co.setXY(co.getX(), co.getY() + 1);
+		return co;
 	}
 	
-
+	
+	@Override
+	public String getType() {
+		return "Boulder";
+	}
 }

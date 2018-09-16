@@ -13,9 +13,6 @@ public class SaveLoad implements Menu{
 	
 	@Override
 	public void displayMenu() {
-		System.out.println("You can save/load your game here. There would be 3 slots available.");
-		
-		
 		// TODO Auto-generated method stub
 		try {
 			pause1Sec();

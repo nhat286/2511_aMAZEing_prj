@@ -3,29 +3,37 @@ package niriksha;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import eric.CoOrd;
+
 public class Bomb extends Weapon {
 	
 	private boolean lit;
+	private boolean explode;
 	private Timer burn_timer;
+	private CoOrd user;
 	
-	public Bomb(int x, int y) {
+	public Bomb(int x, int y, CoOrd user) {
 		super(x, y, 'Q');
 		this.lit = false;
+		this.explode = false;
 		this.burn_timer = new Timer();
+		this.user = user;
 	}
 	
 	
 	
 	// only destroy if bomb hasn't been used before
 	@Override
-	public ACTION weapon_action(Object object) {
+	public action weapon_action(Object object) {
 		if (this.lit == false) {
 			this.lit = true;
+			this.setCoordinates(this.user.getX(), this.user.getY());
 			this.burn_timer.schedule(new destroy_surroundings(), 1000*5);
-			this.setCoordinates(-1, -1);
-			return ACTION.DESTROY;
+			//this.setCoordinates(-1, -1);
+			this.explode = true;
+			return action.BOMB_DESTROY;
 		}
-		return ACTION.NOTHING;
+		return action.NOTHING;
 	}
 	
 	// used to run and then stop the timer
@@ -37,6 +45,10 @@ public class Bomb extends Weapon {
 	
 	public boolean isLit() {
 		return this.lit;
+	}
+	
+	public boolean isExploded() {
+		return this.explode;
 	}
 
 	public Timer getBurn_time() {

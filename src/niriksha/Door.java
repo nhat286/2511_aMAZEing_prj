@@ -15,5 +15,10 @@ public class Door extends Obstacle {
 	public void openDoor() {
 		this.door_open = true;
 	}
+	
+	@Override
+	public String getType() {
+		return "Door";
+	}
 
 }

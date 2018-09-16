@@ -5,30 +5,30 @@ import eric.CoOrd;
 
 public abstract class Weapon {
 	
-	enum action {
-		DESTROY, DIE, NOTHING;
+	public enum action {
+		DESTROY, DIE, NOTHING, BOMB_DESTROY;
 	}
 	
-	private CoOrd co_ord;
+	private CoOrd getCoordinates;
 	private boolean picked_up;
-	private char icon;
+	private char direction;
 		 
 	public Weapon(int x, int y, char c) {
-		this.co_ord = new CoOrd(x, y);
+		this.getCoordinates = new CoOrd(x, y);
 		this.picked_up = false;
-		this.icon = c;
+		this.direction = c;
 	}
 
 	public CoOrd getCoordinates() {
-		return co_ord;
+		return getCoordinates;
 	}
 	
 	public char getIcon() {
-		return this.icon;
+		return this.direction;
 	}
 
 	public CoOrd getCo_ord() {
-		return co_ord;
+		return getCoordinates;
 	}
 
 	public boolean isPicked_up() {
@@ -36,13 +36,14 @@ public abstract class Weapon {
 	}
 
 	public void setCoordinates(int x, int y) {
-		this.co_ord.setXY(x, y);
+		this.getCoordinates.setXY(x, y);
 	}
 	
-	public abstract ACTION weapon_action(Object object);
+	public abstract action weapon_action(Object object);
 	
-	public void destroyWeapon(Weapon w) {
-		w = null;
+	public void destroyWeapon() {//Weapon w) {
+		//w = null;
+		this.setCoordinates(-1, -1);
 	}
 	
 	public String getType() {

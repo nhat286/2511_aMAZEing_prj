@@ -16,27 +16,32 @@ public class Sword extends Weapon {
 	}
 	
 	@Override
-	public ACTION weapon_action(Object object) {
+	public action weapon_action(Object object) {
 		
 		if (this.durability > 0 && object instanceof Enemy) {
 			decrease_durability();
 			((Enemy) object).enemyDies();
 			if (this.durability == 0)
 				this.setCoordinates(-1, -1);
-			return ACTION.DESTROY;
+			return action.DESTROY;
 		}
 		
 		else if (this.durability == 0 && object instanceof Enemy) {
-			return ACTION.DIE;
+			return action.DIE;
 		}
 		
 		// decrease as sword is used even if it did nothing;
 		decrease_durability();
-		return ACTION.NOTHING;
+		return action.NOTHING;
 	}
 
 	public int getDurability() {
 		return durability;
+	}
+	
+	@Override
+	public String getType() {
+		return "Sword";
 	}
 	
 	

@@ -11,28 +11,19 @@ import jae.Enemy;
 import jae.Hunter;
 import niriksha.ACTION;
 import niriksha.Bomb;
+import niriksha.Weapon;
 
 class BombFunctionality {
 	
-	static Bomb bomb = new Bomb(3, 5);
-	
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-		bomb.setCoordinates(3, 5);
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-	
 	@Test
 	void testgetCoordinates() {
-		CoOrd co_ord = new CoOrd(3,5);
-		assertEquals(bomb.getCoordinates(), co_ord);
+		Bomb bomb = new Bomb(3, 5,null);
+		assertEquals(bomb.getCoordinates(), new CoOrd(3,5));
 	}
 	
 	@Test
 	void testsetCoordinates() {
+		Bomb bomb = new Bomb(3, 5,null);
 		CoOrd co_ord = new CoOrd(5,3); 
 		bomb.setCoordinates(5, 3);
 		assertEquals(bomb.getCoordinates(), co_ord);
@@ -40,28 +31,33 @@ class BombFunctionality {
 	
 	@Test
 	void testgetIcon() {
+		Bomb bomb = new Bomb(3, 5,null);
 		assertEquals(bomb.getIcon(), 'Q');
 	}
 	
 	@Test
 	void testisPicked_up() {
+		Bomb bomb = new Bomb(3, 5,null);
 		assertEquals(bomb.isPicked_up(), false);
 	}
 	
 	@Test
 	void testisLit() {
+		Bomb bomb = new Bomb(3, 5,null);
 		assertEquals(bomb.isLit(), false);
 	}
 	
 	@Test
 	void testweapon_action() {
+		Bomb bomb = new Bomb(3, 5,null);
 		CoOrd co_ord = new CoOrd(6,3);
 		Enemy e = new Hunter(co_ord);
-		assertEquals(bomb.weapon_action(e), ACTION.DESTROY);
+		assertEquals(bomb.weapon_action(e), Weapon.action.DESTROY);
 	}
 	
 	@Test
 	void testgetType() {
+		Bomb bomb = new Bomb(3, 5,null);
 		assertEquals(bomb.getType(), "Bomb");
 	}
 }

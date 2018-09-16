@@ -24,6 +24,10 @@ public abstract class Obstacle {
 		this.co_ord.setXY(x, y);
 	}
 	
+	public void destroyObstacle() {
+		this.setCoordinates(-1, -1);
+	}
+	
 	public String getType() {
 		return "Obstacle";
 	}

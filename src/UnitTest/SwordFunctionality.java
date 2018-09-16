@@ -11,29 +11,21 @@ import jae.Enemy;
 import jae.Hunter;
 import niriksha.ACTION;
 import niriksha.Sword;
+import niriksha.Weapon;
 
 class SwordFunctionality {
 	
-	static Sword sword = new Sword(3, 3);
-	static Sword sword2 = new Sword(3, 5);
-	
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-		sword.setCoordinates(3, 3);
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
 	
 	@Test
 	void testgetCoordinates() {
+		Sword sword = new Sword(3, 3);
 		CoOrd co_ord = new CoOrd(3, 3);
 		assertEquals(sword.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testsetCoordinates() {
+		Sword sword = new Sword(3, 3);
 		CoOrd co_ord = new CoOrd(2,3); 
 		sword.setCoordinates(2, 3);
 		assertEquals(sword.getCoordinates(), co_ord);
@@ -41,11 +33,13 @@ class SwordFunctionality {
 	
 	@Test
 	void testgetIcon() {
+		Sword sword = new Sword(3, 3);
 		assertEquals(sword.getIcon(), 'T');
 	}
 	
 	@Test
 	void testisPicked_up() {
+		Sword sword = new Sword(3, 3);
 		assertEquals(sword.isPicked_up(), false);
 	}
 	
@@ -56,18 +50,24 @@ class SwordFunctionality {
 	
 	@Test
 	void testweapon_action() {
+		Sword sword = new Sword(3, 3);
 		CoOrd co_ord = new CoOrd(6,3);
 		Enemy e = new Hunter(co_ord);
-		assertEquals(sword2.weapon_action(e), ACTION.DESTROY);
+		assertEquals(sword.weapon_action(e), Weapon.action.DESTROY);
 	}
 	
 	@Test
 	void testgetDurability() {
-		assertEquals(sword2.getDurability(), 4);
+		Sword sword = new Sword(3, 3);
+		CoOrd co_ord = new CoOrd(6,3);
+		Enemy e = new Hunter(co_ord);
+		assertEquals(sword.weapon_action(e), Weapon.action.DESTROY);
+		assertEquals(sword.getDurability(), 4);
 	}
 	
 	@Test
 	void testgetType() {
-		assertEquals(sword2.getType(), "Sword");
+		Sword sword = new Sword(3, 3);
+		assertEquals(sword.getType(), "Sword");
 	}
 }

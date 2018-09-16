@@ -40,7 +40,6 @@ public class CoOrd {
 	public void setXY(int x, int y) {
 		this.x = x;
 		this.y = y;
-		// or call Constructor?
 	}
 	
 	public void setCoOrd(CoOrd co) {

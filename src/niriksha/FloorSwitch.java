@@ -20,5 +20,10 @@ public class FloorSwitch extends Obstacle {
 	public boolean triggered() {
 		return this.trigger;
 	}
+	
+	@Override
+	public String getType() {
+		return "FloorSwitch";
+	}
 
 }

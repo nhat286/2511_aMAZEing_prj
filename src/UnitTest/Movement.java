@@ -10,61 +10,62 @@ import eric.CoOrd;
 import niriksha.Character;
 
 class Movement {
-	
-	static Character user = new Character(0, 0);
+
 	//static CoOrd testChar;
 	
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-		user.setCoordinates(0, 0);
-		//testChar = user.getCoordinates();
-	}
-
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
-
+	
 	@Test
 	void testCoOrd() {
+		Character user = new Character(0, 0);
 		CoOrd co_ord = new CoOrd(0,0);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 	
+	//The default icon is "v", so all the movement test should consider that.
 	@Test
 	void testMoveRight() {
-		CoOrd co_ord = new CoOrd(1,0);
+		Character user = new Character(2, 2);
+		CoOrd co_ord = new CoOrd(2,3);
+		user.moveCoOrd('>', 10);
 		user.moveCoOrd('>', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 
 	@Test
 	void testMoveLeft() {
-		CoOrd co_ord = new CoOrd(0,0);
+		Character user = new Character(2, 2);
+		CoOrd co_ord = new CoOrd(2,1);
+		user.moveCoOrd('<', 10);
 		user.moveCoOrd('<', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testMoveDown() {
-		CoOrd co_ord = new CoOrd(0,1);
+		Character user = new Character(2, 2);
+		CoOrd co_ord = new CoOrd(3,2);
 		user.moveCoOrd('v', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testMoveUp() {
-		CoOrd co_ord = new CoOrd(0,0);
+		Character user = new Character(2, 2);
+		CoOrd co_ord = new CoOrd(1,2);
+		user.moveCoOrd('^', 10);
 		user.moveCoOrd('^', 10);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 
 	@Test
 	void testGetX() {
+		Character user = new Character(0, 0);
 		assertEquals(user.getCoordinates().getX(), 0);
 	}
 
 	@Test
 	void testGetY() {
+		Character user = new Character(0, 0);
 		assertEquals(user.getCoordinates().getY(), 0);
 	}
 

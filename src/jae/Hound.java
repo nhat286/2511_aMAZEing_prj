@@ -3,7 +3,7 @@ package jae;
 import eric.CoOrd;
 import niriksha.Character;
 
-public class Hound extends Enemy{
+public class Hound extends Enemy implements Distance {
 	CoOrd hunterCoOrd;
 	
 	/*public Hound(float speedX, float speedY, CoOrd currPos, CoOrd hunterCoOrd) {
@@ -52,8 +52,13 @@ public class Hound extends Enemy{
 		return houndLocation;
 	}
 	
-	public Hound(CoOrd currPos, CoOrd hunterCoOrd) {
+	public Hound(CoOrd currPos) {//, CoOrd hunterCoOrd) {
 		super(currPos, 'D');
+		//this.hunterCoOrd = hunterCoOrd;
+		this.hunterCoOrd = null;
+	}
+	
+	public void linkHunter(CoOrd hunterCoOrd) {
 		this.hunterCoOrd = hunterCoOrd;
 	}
 	
@@ -62,6 +67,13 @@ public class Hound extends Enemy{
 		//this.setCurrPos(calculateTargetLocation(target.getCoordinates()));
 		CoOrd ch = target.getCoordinates();
 		CoOrd me = this.getCurrPos();
+		/*
+		 * If no hunter is linked, use Hunter's logic to follow player
+		 */
+		if (this.hunterCoOrd == null) {
+			moveCloser(this.getCurrPos(), target.getCoordinates(), border);
+			return;
+		}
 		if (this.hunterCoOrd.getY() < ch.getY()) {
 			if (me.getY() < ch.getY()) {
 				this.getCurrPos().moveRight(border);
@@ -92,6 +104,39 @@ public class Hound extends Enemy{
 	@Override
 	public String getEnemyType() {
 		return "Hound";
+	}
+	
+	@Override
+	public void moveCloser(CoOrd self, CoOrd target, int border) {
+		int x_difference = self.getX() - target.getX();
+		if (x_difference < 0) {
+			if (this.getDirection() != 'v')
+				this.setDirection('v');
+			else
+				this.getCurrPos().moveDown(border);
+			return;
+		} else if (x_difference > 0) {
+			if (this.getDirection() != '^')
+				this.setDirection('^');
+			else
+				this.getCurrPos().moveUp();
+			return;
+		}
+		
+		int y_difference = self.getY() - target.getY();
+		if (y_difference < 0) {
+			if (this.getDirection() != '>')
+				this.setDirection('>');
+			else
+				this.getCurrPos().moveRight(border);
+			return;
+		} else if (y_difference > 0) {
+			if (this.getDirection() != '<')
+				this.setDirection('<');
+			else
+				this.getCurrPos().moveLeft();
+			return;
+		}
 	}
 }
 
