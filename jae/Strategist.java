@@ -5,20 +5,19 @@ import eric.InvincibilityPotion;
 import niriksha.Character;
 import niriksha.Potions;
 
-import java.lang.Math;
-
-public class Coward extends Enemy implements Distance {
+public class Strategist extends Enemy implements Distance {
 	
-	public Coward(CoOrd currPos) {
-		super(currPos, 'C');
+	public Strategist(CoOrd currPos) {
+		super(currPos, 'S');
 	}
 	
 	/*
-	 * Prompts the movement of the Coward 
+	 * Prompts movement of the Strategist
 	 * 
 	 * @param the character's information and the border of the maze
-	 * @post the coward moves near the character
+	 * @post the strategist moves based on its strategy
 	 */
+	@Override
 	public void enemyMovement(Character target, int border) {
 		
 		for (Potions p : target.getActivePotion()) {
@@ -28,36 +27,30 @@ public class Coward extends Enemy implements Distance {
 			}
 		}
 		
-		CoOrd me = this.getCurrPos();
-		CoOrd ch = target.getCoordinates();
+		CoOrd ch = new CoOrd(target.getCoordinates().getX(), target.getCoordinates().getY());
 		
-		if (me.getX() == ch.getX() && Math.abs(me.getY() - ch.getY()) == 1) {
-			if (this.getDirection() != '^')
-				this.setDirection('^');
-			else
-				this.getCurrPos().moveUp();
-		} 
-		
-		else if (me.getY() == ch.getY() && Math.abs(me.getX() - ch.getX()) == 1) {
-			if (this.getDirection() != '<')
-				this.setDirection('<');
-			else
-				this.getCurrPos().moveLeft();
-		} 
-		
-		else {
-			moveCloser(me, ch, border);
+		if (target.getIcon() == '<') {
+			ch.moveLeft();
+		} else if (target.getIcon() == '>') {
+			ch.moveRight(border);
+		} else if (target.getIcon() == '^') {
+			ch.moveUp();
+		} else if (target.getIcon() == 'v') {
+			ch.moveDown(border);
 		}
+		
+		moveCloser(this.getCurrPos(), ch, border);
 	}
 	
 	/*
-	 * Coward acts similar to a Hunter but moves away from the character when it's close
+	 * Strategist moves closer based on the predicted movement of the character
 	 *  
 	 * @param coordinates of the character and itself, and, the border of the maze
-	 * @post the hunter moves closer to character
+	 * @post the strategist moves based on its strategy
 	 */
 	@Override
 	public void moveCloser(CoOrd self, CoOrd target, int border) {
+		
 		int x_difference = self.getX() - target.getX();
 		
 		if (x_difference < 0) {
@@ -84,7 +77,6 @@ public class Coward extends Enemy implements Distance {
 				this.getCurrPos().moveRight(border);
 			return;
 		} 
-		
 		else if (y_difference > 0) {
 			if (this.getDirection() != '<')
 				this.setDirection('<');
@@ -96,7 +88,7 @@ public class Coward extends Enemy implements Distance {
 	
 	@Override
 	public Enemy copy() {
-		return new Coward(this.getCurrPos());
+		return new Strategist(this.getCurrPos());
 	}
 	
 	/*
@@ -106,7 +98,7 @@ public class Coward extends Enemy implements Distance {
 	 */
 	@Override
 	public String getEnemyType() {
-		return "Coward";
+		return "Strategist";
 	}
-	
+
 }

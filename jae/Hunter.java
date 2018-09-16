@@ -5,20 +5,19 @@ import eric.InvincibilityPotion;
 import niriksha.Character;
 import niriksha.Potions;
 
-import java.lang.Math;
-
-public class Coward extends Enemy implements Distance {
+public class Hunter extends Enemy implements Distance {
 	
-	public Coward(CoOrd currPos) {
-		super(currPos, 'C');
+	public Hunter(CoOrd currPos) {
+		super(currPos, 'H');
 	}
 	
 	/*
-	 * Prompts the movement of the Coward 
+	 * Prompts the movement of the Hunter towards the character
 	 * 
 	 * @param the character's information and the border of the maze
-	 * @post the coward moves near the character
+	 * @post the hunter moves closer to character
 	 */
+	@Override
 	public void enemyMovement(Character target, int border) {
 		
 		for (Potions p : target.getActivePotion()) {
@@ -28,30 +27,11 @@ public class Coward extends Enemy implements Distance {
 			}
 		}
 		
-		CoOrd me = this.getCurrPos();
-		CoOrd ch = target.getCoordinates();
-		
-		if (me.getX() == ch.getX() && Math.abs(me.getY() - ch.getY()) == 1) {
-			if (this.getDirection() != '^')
-				this.setDirection('^');
-			else
-				this.getCurrPos().moveUp();
-		} 
-		
-		else if (me.getY() == ch.getY() && Math.abs(me.getX() - ch.getX()) == 1) {
-			if (this.getDirection() != '<')
-				this.setDirection('<');
-			else
-				this.getCurrPos().moveLeft();
-		} 
-		
-		else {
-			moveCloser(me, ch, border);
-		}
+		moveCloser(this.getCurrPos(), target.getCoordinates(), border);
 	}
 	
 	/*
-	 * Coward acts similar to a Hunter but moves away from the character when it's close
+	 * Hunter moves closer based on the movement of the character
 	 *  
 	 * @param coordinates of the character and itself, and, the border of the maze
 	 * @post the hunter moves closer to character
@@ -84,7 +64,6 @@ public class Coward extends Enemy implements Distance {
 				this.getCurrPos().moveRight(border);
 			return;
 		} 
-		
 		else if (y_difference > 0) {
 			if (this.getDirection() != '<')
 				this.setDirection('<');
@@ -96,17 +75,17 @@ public class Coward extends Enemy implements Distance {
 	
 	@Override
 	public Enemy copy() {
-		return new Coward(this.getCurrPos());
+		return new Hunter(this.getCurrPos());
 	}
 	
-	/*
+	/**
 	 * Returns the type of enemy 
 	 * 
 	 * @post type of enemy
 	 */
 	@Override
 	public String getEnemyType() {
-		return "Coward";
+		return "Hunter";
 	}
 	
 }
