@@ -2,6 +2,8 @@ package kyle_maze;
 
 import java.io.IOException;
 
+//import eric.MazeSystem;
+
 public interface Menu {
 
 	public void displayMenu();
@@ -11,4 +13,7 @@ public interface Menu {
 		System.in.read();
 	}
 	
+//	public default void pauseGame(MazeSystem ms) {
+//		ms.setPause(1);
+//	}
 }

@@ -18,12 +18,7 @@ public class Items implements Menu{
 		
 	}
 
-	@Override
-	public void pauseGame() {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	
 
 }
