@@ -11,20 +11,20 @@ public class Sword extends Weapon {
 		this.durability = 5;
 	}
 	
-	/*
+	/**
 	 * Decreases durability of the sword
 	 * 
-	 * @post: decrease_durability is lowered by 1
+	 * @return decrease_durability is lowered by 1
 	 */
 	private void decrease_durability() {
 		this.durability = this.durability - 1;
 	}
 	
-	/*
+	/**
 	 * Enemy is destroyed with the sword if it is right in front of the character 
 	 * 
-	 * @param: object in front of character
-	 * @post: destroy enemy or character dies if durability of sword is zero or nothing happens
+	 * @param object in front of character
+	 * @return destroy enemy or character dies if durability of sword is zero or nothing happens
 	 */
 	@Override
 	public action weapon_action(Object object) {
@@ -50,10 +50,20 @@ public class Sword extends Weapon {
 		return durability;
 	}
 	
-	/*
+	/**
+	 * Creates a copy of this sword
+	 * 
+	 * @return copy of this sword
+	 */
+	@Override
+	public Weapon copy() {
+		return new Sword(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	/**
 	 * Returns the type of weapon 
 	 * 
-	 * @post type of weapon
+	 * @return type of weapon
 	 */
 	@Override
 	public String getType() {

@@ -12,19 +12,29 @@ public class Door extends Obstacle {
 		return door_open;
 	}
 
-	/*
+	/**
 	 * Opens door
 	 * 
-	 * @post: sets the door_open as true
+	 * @return sets the door_open as true
 	 */
 	public void openDoor() {
 		this.door_open = true;
 	}
 	
-	/*
+	/**
+	 * Creates a copy of this door
+	 * 
+	 * @return copy of this doorr
+	 */
+	@Override
+	public Obstacle copy() {
+		return new Door(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	/**
 	 * Returns the type of obstacle 
 	 * 
-	 * @post type of obstacle
+	 * @return type of obstacle
 	 */
 	public String getType() {
 		return "Door";

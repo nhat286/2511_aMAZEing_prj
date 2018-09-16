@@ -13,10 +13,10 @@ public class InvincibilityPotion extends Potions {
 		this.used = false;
 	}
 	
-	/*
+	/**
 	 * Allows character to become invincible to enemies and bombs
 	 * 
-	 * @post: the invincibility potion is put into effect for a time period
+	 * @return the invincibility potion is put into effect for a time period
 	 */
 	public action potion_effect() {
 		this.time_limit = new Timer();
@@ -30,6 +30,9 @@ public class InvincibilityPotion extends Potions {
 		return action.NOTHING;
 	}
 	
+	/**
+	 * Runs the timer
+	 */
 	class timing extends TimerTask {
 		public void run() {
             time_limit.cancel();
@@ -44,10 +47,20 @@ public class InvincibilityPotion extends Potions {
 		return this.time_limit;
 	}
 	
-	/*
+	/**
+	 * Creates a copy of this invincibility potion
+	 * 
+	 * @return copy of this invincibility potion
+	 */
+	@Override
+	public Potions copy() {
+		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	/**
 	 * Returns the type of potion 
 	 * 
-	 * @post type of potion
+	 * @return type of potion
 	 */
 	@Override
 	public String getType() {

@@ -45,18 +45,20 @@ public class Character {
 		return true;
 	}
 	
-	/*
+	/**
 	 * Prompts movement of the character based on different scenarios
 	 * 
-	 * @param: direction of movement, object in front of character, 
-	 * 		   the icon of the object & the border of the maze
-	 * @post: character moves or dies
+	 * @param direction of movement, object in front of character, 
+	 * 		  the icon of the object & the border of the maze
+	 * @return character moves, pushes boulder, hovers, dies, or does nothing
 	 */
 	public ACTION move(char direction, char type, Object object, int border) {
 		
 		// if the character can move
 		if (direction == this.icon) {
+			
 			switch(type) {
+			
 				case 'H':
 				case 'S':
 				case 'D':
@@ -68,6 +70,7 @@ public class Character {
 							return ACTION.DESTROY;
 						}
 					}
+					
 					destroy_character(this);
 					return ACTION.DIE;
 					
@@ -135,11 +138,11 @@ public class Character {
 		}
 	}
 	
-	/*
+	/**
 	 * Moves the character based on the situation
 	 * 
-	 * @param: direction of movement and the border of the maze
-	 * @post: the character moves or changes direction it's facing
+	 * @param direction of movement and the border of the maze
+	 * @return the character moves or changes direction it's facing
 	 */
 	public void moveCoOrd(char movement, int border) {
 		
@@ -164,10 +167,10 @@ public class Character {
 		}
 	}
 	
-	/*
+	/**
 	 * Determines the coordinate of the location right in front of the character
 	 * 
-	 * @post: returns the coordinate of the position in front of character
+	 * @return returns the coordinate of the position in front of character
 	 */
 	public CoOrd getInfront() {
 		CoOrd co = new CoOrd(this.co_ord.getX(), this.co_ord.getY());
@@ -180,25 +183,21 @@ public class Character {
 		return co;
 	}
 	
-	public char getIcon() {
-		return this.icon;
-	}
-	
-	/*
+	/**
 	 * Adds the weapon picked-up by the character into the inventory
 	 * 
-	 * @param: the weapon picked-up
-	 * @post: weapon added to the character's inventory
+	 * @param the weapon picked-up
+	 * @return weapon added to the character's inventory
 	 */
 	public void pickUpWeapon(Weapon w) {
 		this.bag.addWeapon(w);
 	}
 	
-	/*
+	/**
 	 * Equips the character with a weapon available in its inventory
 	 * 
-	 * @param: weapon name
-	 * @post: the weapon is ready to be used by the character
+	 * @param weapon name
+	 * @return the weapon is ready to be used by the character
 	 */
 	public void equipWeapon(String item) {
 		if (this.equip_weapon == null) {
@@ -206,11 +205,11 @@ public class Character {
 		}
 	}
 	
-	/*
+	/**
 	 * Calls the action of the weapon held by the character
 	 * 
-	 * @param: Object 
-	 * @post: the weapon action is called 
+	 * @param Object 
+	 * @return the weapon action is called 
 	 */
 	public int useWeapon(Object object) {
 		if (this.equip_weapon != null)
@@ -225,21 +224,21 @@ public class Character {
 		return 0;
 	}
 	
-	/*
+	/**
 	 * Adds the potion picked-up by the character into the inventory
 	 * 
-	 * @param: the potion picked-up
-	 * @post: potion added to the character's inventory
+	 * @param the potion picked-up
+	 * @return potion added to the character's inventory
 	 */
 	public void pickUpPotion(Potions p) {
 		this.bag.addPotion(p);
 	}
 	
-	/*
+	/**
 	 * Equips the character with a potion available in its inventory
 	 * 
-	 * @param: potion name
-	 * @post: the potion is ready to be used by the character
+	 * @param potion name
+	 * @return the potion is ready to be used by the character
 	 */
 	public void equipPotion(String item) {
 		int index = -1;
@@ -258,11 +257,11 @@ public class Character {
 		}
 	}
 	
-	/*
+	/**
 	 * Calls the action of the potion equipped by the character
 	 * 
-	 * @param: Potion 
-	 * @post: the effect of potion is called 
+	 * @param Potion 
+	 * @return the effect of potion is called 
 	 */
 	private void usePotion(Potions p) {
 		p.potion_effect();
@@ -272,22 +271,17 @@ public class Character {
 		return this.equip_weapon != null;
 	}
 	
-	/*
+	/**
 	 * Removes the weapon from the character after its fully used
 	 * 
-	 * @post: equip_weapon is reset to null;
+	 * @return equip_weapon is reset to null
 	 */
 	public void removeEquipped() {
 		this.equip_weapon = null;
 	}
 	
-	/*
-	 * Destroys character
-	 * 
-	 * @post: the character is set to null
-	 */
-	public void destroy_character(Character player) {
-		player = null;
+	public char getIcon() {
+		return this.icon;
 	}
 	
 	public ArrayList<Potions> getActivePotion() {
@@ -296,6 +290,15 @@ public class Character {
 	
 	public Inventory getBag() {
 		return this.bag;
+	}
+	
+	/**
+	 * Destroys character
+	 * 
+	 * @return the character is set to null
+	 */
+	public void destroy_character(Character player) {
+		player = null;
 	}
 
 }

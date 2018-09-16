@@ -1,12 +1,14 @@
 
 package niriksha;
 
+import eric.CoOrd;
+
 public class Boulder extends Obstacle {
 	
 	boolean on_switch;
 	FloorSwitch f_s;
 	
-	enum action {
+	public enum action {
 		MOVE, DESTROYED, NOTHING;
 	}
 	
@@ -15,16 +17,19 @@ public class Boulder extends Obstacle {
 		this.on_switch = false;
 	}
 	
-	/*
+	/**
 	 *  Boulder is pushed by the character
 	 *  
-	 *  @param: direction of movement, the object in front of boulder, 
-	 *  		the icon of the object & the border of the maze
-	 *  @post: the floorswitch trigger is deactivated if boulder moved off it, activated if 
-	 *  	   boulder moves on top of the floorswitch and boulder destroyed if it falls in the pit 
+	 *  @param direction of movement, the object in front of boulder, 
+	 *  	   the icon of the object & the border of the maze
+	 *  @return the floorswitch trigger is deactivated if boulder moved off it, activated if 
+	 *  		boulder moves on top of the floorswitch, boulder is destroyed if it falls in 
+	 *  		the pit, else it moves to the next position 
 	 */
 	public action push_boulder(char direction, char type, Object object, int border) {
+		
 		switch (type) {
+		
 			case '#':
 			case 'O':
 			case 'E':
@@ -41,7 +46,7 @@ public class Boulder extends Obstacle {
 			case 'I':
 				moveCoOrd(direction, border);
 				this.f_s = ((FloorSwitch) object);
-				((FloorSwitch) object).activateTrigger();
+				this.f_s.activateTrigger();
 				this.on_switch = true;
 				return action.MOVE;
 			
@@ -52,19 +57,28 @@ public class Boulder extends Obstacle {
 					this.f_s = null;
 					this.on_switch = false;
 				}
-				moveCoOrd(direction, border);
-				destroyBoulder(this);
+				this.setCoordinates(-1, -1);
 				return action.DESTROYED;
+			
+			// nothing in front
+			case ' ':
+				if (this.on_switch == true) {
+					this.f_s.deactivateTrigger();
+					this.f_s = null;
+					this.on_switch = false;
+				}
+				moveCoOrd(direction, border);
+				return action.MOVE;
 				
 		}
 		return null;
 	}
 	
-	/*
+	/**
 	 * Prompts movement of the boulder 
 	 * 
-	 * @param: direction of movement & the maze border
-	 * @post: boulder is moved
+	 * @param direction of movement & the maze border
+	 * @return boulder is moved
 	 */
 	public void moveCoOrd(char movement, int border) {
 		if (movement == '<') {
@@ -81,19 +95,33 @@ public class Boulder extends Obstacle {
 		}
 	}
 	
-	/*
-	 * Destroy this instance of class after being used
-	 * 
-	 * @post: boulder is set to null
+	/**
+	 * Determines coordinates of the object in front
+	 * @return coordinates of the object
 	 */
-	public void destroyBoulder(Boulder b) {
-		b = null;
+	public CoOrd getInfront(char direction) {
+		CoOrd co = new CoOrd(this.getCoordinates().getX(), this.getCoordinates().getY());
+		if (direction == '^') co.setXY(co.getX() - 1, co.getY());
+		else if (direction == 'v') co.setXY(co.getX() + 1, co.getY());
+		else if (direction == '<') co.setXY(co.getX(), co.getY() - 1);
+		else if (direction == '>') co.setXY(co.getX(), co.getY() + 1);
+		return co;
 	}
 	
-	/*
+	/**
+	 * Creates a copy of this boulder
+	 * 
+	 * @return copy of this boulder
+	 */
+	@Override
+	public Obstacle copy() {
+		return new Boulder(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	/**
 	 * Returns the type of obstacle 
 	 * 
-	 * @post type of obstacle
+	 * @return type of obstacle
 	 */
 	public String getType() {
 		return "Boulder";

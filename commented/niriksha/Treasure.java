@@ -4,44 +4,45 @@ import eric.CoOrd;
 
 public class Treasure {
 	
-	private static int points;
 	private CoOrd co_ord;
 	private char icon;
 	private boolean picked_up;
 	
-	public Treasure(int x, int y, char c) {
+	public Treasure(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
-		this.icon = c;
+		this.icon = '$';
 		this.picked_up = false;
 	}
 	
-	/*
+	/**
 	 * Pick up treasure 
 	 * 
-	 * @post: treasure is picked up and prompts increase in points
+	 * @return treasure is picked up and prompts increase in points
 	 */
 	public void pickUp() {
 		this.picked_up = true;
-		incrementPoints();
+		this.removeTreasure();
 	}
 	
-	/*
-	 * Increase points 
-	 */
-	private static void incrementPoints() {
-		points++;
-	}
-	
-	/*
+	/**
 	 * Treasure is removed once picked up
 	 * 
-	 * @post: the coordinates of the treasure is set as negatives
+	 * @return sets the coordinates outside of the maze
 	 */
 	public void removeTreasure() {
-		this.co_ord.setXY(-1, -1);
+		this.setCoordinates(-1, -1);
 	}
 	
-	public CoOrd getCoordinates() {
+	/**
+	 * Creates a copy of this treasure
+	 * 
+	 * @return copy of this treasure
+	 */
+	public Treasure copy() {
+		return new Treasure(this.getCoord().getX(), this.getCoord().getY());
+	}
+	
+	public CoOrd getCoord() {
 		return co_ord;
 	}
 	
@@ -57,14 +58,10 @@ public class Treasure {
 		return picked_up;
 	}
 	
-	public int getPoints() {
-		return points;
-	}
-	
-	/*
+	/**
 	 * Returns the type of object 
 	 * 
-	 * @post type of object
+	 * @return type of object
 	 */
 	public String getType() {
 		return "Treasure";

@@ -20,10 +20,29 @@ public abstract class Obstacle {
 		return this.icon;
 	}
 	
+	/**
+	 * Destroys obstacles by setting their coordinates outside of the maze
+	 */
+	public void destroyObstacle() {
+		this.setCoordinates(-1, -1);
+	}
+	
 	public void setCoordinates(int x, int y) {
 		this.co_ord.setXY(x, y);
 	}
 	
+	/**
+	 * Creates a copy of the obstacle
+	 * 
+	 * @return copy of the obstacle
+	 */
+	public abstract Obstacle copy();
+	
+	/**
+	 * Returns the type of object 
+	 * 
+	 * @return type of object
+	 */
 	public String getType() {
 		return "Obstacle";
 	}
