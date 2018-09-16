@@ -30,7 +30,7 @@ import niriksha.Wall;
 import niriksha.Weapon;
 import niriksha.ACTION;
 import niriksha.Arrow;
-import niriksha.Bomb;
+//import niriksha.Bomb;
 import niriksha.Boulder;
 import jae.Coward;
 import jae.Enemy;
@@ -331,71 +331,7 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			 * system passes the entity in front of character to assist using weapon behaviour
 			 */
 			case 'k':
-				if (this.user.useWeapon(ahead) == 1) {
-					Bomb b = (Bomb) this.user.equip_weapon;
-					System.out.println("Using bomb at: " + b.getCoordinates().getX() + " " + b.getCoordinates().getY());
-					if (b.isExploded()) {
-						CoOrd bomb_location = b.getCoordinates();
-						this.user.removeEquipped();
-						Object near = this.curr.getEntity(new CoOrd(bomb_location.getX() - 1, bomb_location.getY()));
-						b.weapon_action(near);
-						near = this.curr.getEntity(new CoOrd(bomb_location.getX() + 1, bomb_location.getY()));
-						b.weapon_action(near);
-						near = this.curr.getEntity(new CoOrd(bomb_location.getX(), bomb_location.getY() - 1));
-						b.weapon_action(near);
-						near = this.curr.getEntity(new CoOrd(bomb_location.getX(), bomb_location.getY() + 1));
-						b.weapon_action(near);
-//						CoOrd near_obj = new CoOrd(bomb_location.getX() - 1, bomb_location.getY());
-//						Object above = this.curr.getEntity(near_obj);
-//						if (above != null) {
-//							if (above instanceof Boulder) {
-//								((Boulder) above).destroyObstacle();
-//							} else if (above instanceof Enemy) {
-//								((Enemy) above).enemyDies();
-//							} else if (near_obj.equals(this.user.getCoordinates())) {
-//								outcome = ACTION.DIE;
-//								//break;
-//							}
-//						}
-//						near_obj.setXY(bomb_location.getX() + 1, bomb_location.getY());
-//						Object below = this.curr.getEntity(near_obj);
-//						if (below != null) {
-//							if (below instanceof Boulder) {
-//								((Boulder) below).destroyObstacle();
-//							} else if (below instanceof Enemy) {
-//								((Enemy) below).enemyDies();
-//							} else if (near_obj.equals(this.user.getCoordinates())) {
-//								outcome = ACTION.DIE;
-//								//break;
-//							}
-//						}
-//						near_obj.setXY(bomb_location.getX(), bomb_location.getY() - 1);
-//						Object left = this.curr.getEntity(near_obj);
-//						if (left != null) {
-//							if (left instanceof Boulder) {
-//								((Boulder) left).destroyObstacle();
-//							} else if (left instanceof Enemy) {
-//								((Enemy) left).enemyDies();
-//							} else if (near_obj.equals(this.user.getCoordinates())) {
-//								outcome = ACTION.DIE;
-//								//break;
-//							}
-//						}
-//						near_obj.setXY(bomb_location.getX(), bomb_location.getY() + 1);
-//						Object right = this.curr.getEntity(near_obj);
-//						if (right != null) {
-//							if (right instanceof Boulder) {
-//								((Boulder) right).destroyObstacle();
-//							} else if (right instanceof Enemy) {
-//								((Enemy) right).enemyDies();
-//							} else if (near_obj.equals(this.user.getCoordinates())) {
-//								outcome = ACTION.DIE;
-//								//break;
-//							}
-//						}
-						b.setCoordinates(-1, -1);
-					}
-				}
+				this.user.useWeapon(ahead);
 				break;
 			/**
 			 * j for picking up items at the character's co-ordinates
@@ -514,9 +450,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 			goal += Maze.BRAINER;
 		
 		this.start(size, goal);
-		//this.map = drawMap();
-		//this.curr.updateMap(map);
-		//this.printMap();
 		
 		char input;
 		do {
@@ -539,7 +472,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 				if (setCoord == null)
 					System.out.println("Can't set character coordinates!");
 				else {
-					//this.user.setCoordinates(x, y);
 					this.curr.resetCharCoOrd(setCoord.getX(), setCoord.getY());
 				}
 				break;
@@ -560,7 +492,6 @@ public class MazeSystem extends TimerTask implements KeyListener, ActionListener
 						System.out.println("\t\tOH NO YOU DIE! RESTARTING...");
 						Thread.sleep(1000);
 					} else if (result == OUTCOME.QUIT) {
-						//this.curr.resetCharCoOrd(1, 1);
 						test_design = null;
 						break;
 					} else if (result == OUTCOME.WIN) {

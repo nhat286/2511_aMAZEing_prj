@@ -10,7 +10,7 @@ import eric.CoOrd;
 import jae.Enemy;
 import jae.Hunter;
 import niriksha.ACTION;
-import niriksha.Bomb;
+import eric.Bomb;
 
 class BombFunctionality {
 	

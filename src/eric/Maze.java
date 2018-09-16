@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import niriksha.Arrow;
+import niriksha.Boulder;
 import niriksha.Character;
 import niriksha.FloorSwitch;
 import niriksha.Key;
@@ -21,6 +22,7 @@ public class Maze {
 	private Character player;
 	private ArrayList<Weapon> weapon_drops;
 	private ArrayList<Arrow> available_arrows;
+	private ArrayList<Bomb> available_bombs;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Obstacle> obstacles;
 	private ArrayList<Potions> potion_drops;
@@ -51,6 +53,7 @@ public class Maze {
 	public Maze(int winning_goal) {
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.available_arrows = new ArrayList<Arrow>();
+		this.available_bombs = new ArrayList<Bomb>();
 		this.enemies = new ArrayList<Enemy>();
 		this.obstacles = new ArrayList<Obstacle>();
 		this.switches = new ArrayList<FloorSwitch>();
@@ -146,6 +149,60 @@ public class Maze {
 		}
 		
 		entity = null;
+		Iterator<Bomb> b_iter = this.available_bombs.iterator();
+		while (b_iter.hasNext()) {
+			Bomb b = b_iter.next();
+			if (b.isLit()) {
+				if (b.turnsRemaining() == 0) {
+					CoOrd next_to = new CoOrd(b.getCoordinates().getX() - 1, b.getCoordinates().getY());
+					if (next_to.equals(player))
+						this.current_cond = -1;
+					Object near = this.getEntity(next_to);
+					b.weapon_action(near);
+					
+					next_to.setXY(b.getCoordinates().getX() + 1, b.getCoordinates().getY());
+					if (next_to.equals(player))
+						this.current_cond = -1;
+					near = this.getEntity(next_to);
+					b.weapon_action(near);
+					
+					next_to.setXY(b.getCoordinates().getX(), b.getCoordinates().getY() - 1);
+					if (next_to.equals(player))
+						this.current_cond = -1;
+					near = this.getEntity(next_to);
+					b.weapon_action(near);
+					
+					next_to.setXY(b.getCoordinates().getX(), b.getCoordinates().getY() + 1);
+					if (next_to.equals(player))
+						this.current_cond = -1;
+					near = this.getEntity(next_to);
+					b.weapon_action(near);
+					b.destroyWeapon();
+				} else {
+					b.weapon_action(null);
+				}
+			}
+			entity = b.getCoordinates();
+			if (entity.getX() == -1) b_iter.remove();
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = b.getIcon();
+		}
+		
+		entity = null;
+		Iterator<Arrow> a_iter = this.available_arrows.iterator();
+		while (a_iter.hasNext()) {
+			Arrow a = a_iter.next();
+			if (a.isUsed()) {
+				CoOrd in_front = a.getInfront();
+				if (a.moving(getEntity(in_front), map.length) == 1) {
+					map[in_front.getX()][in_front.getY()] = ' ';
+				}
+			}
+			entity = a.getCoordinates();
+			if (entity.getX() == -1) a_iter.remove();
+			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = a.getIcon();
+		}
+		
+		entity = null;
 		Iterator<Enemy> e_iter = this.enemies.iterator();
 		while (e_iter.hasNext()) {
 			Enemy e = e_iter.next();
@@ -174,21 +231,6 @@ public class Maze {
 			if (entity.getX() < 0) o_iter.remove();
 			else map[entity.getX()][entity.getY()] = o.getIcon();
 		}
-
-		entity = null;
-		Iterator<Arrow> a_iter = this.available_arrows.iterator();
-		while (a_iter.hasNext()) {
-			Arrow a = a_iter.next();
-			if (a.isUsed()) {
-				CoOrd in_front = a.getInfront();
-				if (a.moving(getEntity(in_front), map.length) == 1) {
-					map[in_front.getX()][in_front.getY()] = ' ';
-				}
-			}
-			entity = a.getCoordinates();
-			if (entity.getX() == -1) a_iter.remove();
-			else if (entity.getX() >= 0) map[entity.getX()][entity.getY()] = a.getIcon();
-		}
 		
 		map[player.getX()][player.getY()] = this.player.getIcon();
 	}
@@ -209,6 +251,8 @@ public class Maze {
 		this.weapon_drops.add(w);
 		if (w instanceof Arrow)
 			this.available_arrows.add((Arrow) w);
+		else if (w instanceof Bomb)
+			this.available_bombs.add((Bomb) w);
 	}
 	
 	/**
@@ -420,15 +464,15 @@ public class Maze {
 	}
 	
 	public void copyMaze(Maze copy, Maze old) {
-//		private ArrayList<Weapon> weapon_drops;
+
 		for (Weapon w : old.weapon_drops) {
 			copy.weapon_drops.add(w.copy());
 		}
-//		private ArrayList<Arrow> available_arrows;
+
 		for (Arrow a : old.available_arrows) {
 			copy.available_arrows.add((Arrow) a.copy());
 		}
-//		private ArrayList<Enemy> enemies;
+
 		for (Enemy e : old.enemies) {
 			Enemy check_hound = e.copy();
 			if (check_hound instanceof Hound) {
@@ -436,27 +480,31 @@ public class Maze {
 			}
 			copy.enemies.add(check_hound);
 		}
-//		private ArrayList<Obstacle> obstacles;
+
 		for (Obstacle o : old.obstacles) {
+			Obstacle check_boulder = o.copy();
+			if (check_boulder instanceof Boulder) {
+				((Boulder) check_boulder).setSwitch(((Boulder) o).getTriggeredSwitch());
+			}
 			copy.obstacles.add(o.copy());
 		}
-//		private ArrayList<Potions> potion_drops;
+
 		for (Potions p : old.potion_drops) {
 			copy.potion_drops.add(p.copy());
 		}
-//		private ArrayList<FloorSwitch> switches;
+
 		for (FloorSwitch s : old.switches) {
 			copy.switches.add((FloorSwitch) s.copy());
 		}
-//		private ArrayList<Treasure> loots;
+
 		for (Treasure t : old.loots) {
 			copy.loots.add(t.copy());
 		}
-//		private ArrayList<Exit> exits;
+
 		for (Exit x : old.exits) {
 			copy.exits.add(x.copy());
 		}
-//		private ArrayList<Key> keys;
+
 		for (Key k : old.keys) {
 			Key new_copy = k.copy();
 			new_copy.linkDoor(k.getDoorLinked());

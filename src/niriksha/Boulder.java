@@ -22,43 +22,57 @@ public class Boulder extends Obstacle {
 			case 'O':
 			case 'E':
 			case 'F':
-			case 'G':
-				if (this.on_switch == true) {
-					this.f_s.deactivateTrigger();
-					this.f_s = null;
-					this.on_switch = false;
-				}
+//				if (this.on_switch == true) {
+//					this.f_s.deactivateTrigger();
+//					this.f_s = null;
+//					this.on_switch = false;
+//				}
+				this.toggleSwitch(null);
 				return action.NOTHING;
 			
 			// floor switch
 			case 'I':
 				moveCoOrd(direction, border);
-				this.f_s = ((FloorSwitch) object);
-				this.f_s.activateTrigger();
-				this.on_switch = true;
+//				this.f_s = ((FloorSwitch) object);
+//				this.f_s.activateTrigger();
+//				this.on_switch = true;
+				this.toggleSwitch((FloorSwitch) object);
 				return action.MOVE;
 			
 			// pit
 			case 'B':
-				if (this.on_switch == true) {
-					this.f_s.deactivateTrigger();
-					this.f_s = null;
-					this.on_switch = false;
-				}
+//				if (this.on_switch == true) {
+//					this.f_s.deactivateTrigger();
+//					this.f_s = null;
+//					this.on_switch = false;
+//				}
+				this.toggleSwitch(null);
 				//moveCoOrd(direction, border);
 				//destroyBoulder(this);
 				this.setCoordinates(-1, -1);
 				return action.DESTROYED;
-			case ' ':
-				if (this.on_switch == true) {
-					this.f_s.deactivateTrigger();
-					this.f_s = null;
-					this.on_switch = false;
-				}
+			default:
+//				if (this.on_switch == true) {
+//					this.f_s.deactivateTrigger();
+//					this.f_s = null;
+//					this.on_switch = false;
+//				}
+				this.toggleSwitch(null);
 				moveCoOrd(direction, border);
 				return action.MOVE;
 		}
-		return null;
+	}
+	
+	private void toggleSwitch(FloorSwitch fs) {
+		if (this.on_switch == true) {
+			this.f_s.deactivateTrigger();
+			this.f_s = null;
+			this.on_switch = false;
+		} else  if (fs != null){
+			this.f_s = fs;
+			this.f_s.activateTrigger();
+			this.on_switch = true;
+		}
 	}
 	
 	public void moveCoOrd(char movement, int border) {
@@ -74,6 +88,16 @@ public class Boulder extends Obstacle {
 		else if (movement == 'v') {
 			this.co_ord.moveDown(border);
 		}
+	}
+	
+	public void setSwitch(FloorSwitch fs) {
+		this.f_s = fs;
+		if (fs != null)
+			fs.activateTrigger();
+	}
+	
+	public FloorSwitch getTriggeredSwitch() {
+		return this.f_s;
 	}
 	
 	/*public void destroyBoulder() {//Boulder b) {

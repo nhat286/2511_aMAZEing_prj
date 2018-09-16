@@ -161,19 +161,17 @@ public class Character {
 		}
 	}
 	
-	public int useWeapon(Object object) {
-		if (this.equip_weapon != null)
-			this.equip_weapon.weapon_action(object);
-		if (this.equip_weapon instanceof Arrow)
-			this.equip_weapon = null;
-		else if (this.equip_weapon instanceof Bomb)
-			return 1;
-		else if (this.equip_weapon instanceof Sword) {
+	public void useWeapon(Object object) {
+		if (this.equip_weapon == null)
+			return;
+		this.equip_weapon.weapon_action(object);
+		if (this.equip_weapon instanceof Sword) {
 			if (((Sword) this.equip_weapon).getDurability() == 0)
 				removeEquipped();
+		} else {
+			this.removeEquipped();
 		}
-		return 0;
-		//this.equip_weapon = null;
+		
 	}
 	
 	public void pickUpPotion(Potions p) {

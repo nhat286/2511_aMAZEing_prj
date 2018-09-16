@@ -74,7 +74,7 @@ public class Hound extends Enemy implements Distance {
 		/*
 		 * If no hunter is linked, use Hunter's logic to follow player
 		 */
-		if (this.hunterCoOrd == null) {
+		if (this.hunterCoOrd == null || this.hunterCoOrd.getX() < 0) {
 			moveCloser(this.getCurrPos(), target.getCoordinates(), border);
 			return;
 		}

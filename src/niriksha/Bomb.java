@@ -1,5 +1,5 @@
 package niriksha;
-
+/*
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -54,10 +54,10 @@ public class Bomb extends Weapon {
 	    public void run() 
 	    { 
 	        System.out.println("BOOM!");
-	        /*synchronized(Character.equip_weapon) 
-	            { 
-	        		Character.equip_weapon.notify(); 
-	            }*/
+//	        synchronized(Character.equip_weapon) 
+//	            { 
+//	        		Character.equip_weapon.notify(); 
+//	            }
 	    }     
 	}
 	
@@ -72,40 +72,6 @@ public class Bomb extends Weapon {
 	public Timer getBurn_time() {
 		return this.burn_timer;
 	}
-
-	
-	
-	
-	
-	
-	/*@Override
-	public action special_effect() {
-		if (this.lit == false && (((o.getClass()).toString()).equals("Boulder"))) {
-			this.lit = true;
-			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);;
-			return action.DESTROY;
-		}
-		
-		return action.N_DESTROY;
-		
-	}
-
-	@Override
-	public int special_effect(Weapon w) {
-		action = 0;
-		return 0;
-	}
-
-	@Override
-	public int special_effect(Enemy e) {
-		if (lit == false) {
-			this.lit = true;
-			this.burn_timer.schedule(new destroy_surroundings(), 1000*10);;
-		}
-		
-		action = 1;
-		return action;
-	}*/
 	
 	@Override
 	public String getType() {
@@ -117,4 +83,4 @@ public class Bomb extends Weapon {
 		return new Bomb(this.getCoordinates().getX(), this.getCoordinates().getY(), this.user);
 	}
 }
-
+*/
