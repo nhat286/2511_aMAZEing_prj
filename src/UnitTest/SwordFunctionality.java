@@ -52,7 +52,7 @@ class SwordFunctionality {
 	}
 	
 	@Test
-	void testdestroy_arrow() {
+	void testdestroy_sword() {
 		CoOrd co_ord = new CoOrd(-1, -1);
 		sword.destroyWeapon();
 		assertEquals(sword.getCoordinates(), co_ord);
@@ -67,7 +67,24 @@ class SwordFunctionality {
 	
 	@Test
 	void testgetDurability() {
+		sword2 = new Sword(3, 3);
+		assertEquals(sword2.getDurability(), 5);
+	}
+	
+	@Test
+	void testEndofDurability() {
+		CoOrd co_ord = new CoOrd(6,3);
+		Enemy e = new Hunter(co_ord);
 		assertEquals(sword2.getDurability(), 4);
+		sword2.weapon_action(e);
+		assertEquals(sword2.getDurability(), 3);
+		sword2.weapon_action(e);
+		assertEquals(sword2.getDurability(), 2);
+		sword2.weapon_action(e);
+		assertEquals(sword2.getDurability(), 1);
+		sword2.weapon_action(e);
+		assertEquals(sword2.getDurability(), 0);
+		assertEquals(sword2.getCo_ord(), new CoOrd(-1,-1));
 	}
 	
 	@Test

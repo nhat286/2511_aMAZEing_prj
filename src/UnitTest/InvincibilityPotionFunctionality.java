@@ -45,6 +45,12 @@ class InvincibilityPotionFunctionality {
 	@Test
 	void testpotion_effect() {
 		assertEquals(potion.potion_effect(), Potions.action.INVINCIBLE);
+		assertEquals(potion.potion_effect(), Potions.action.INVINCIBLE);
+		assertEquals(potion.potion_effect(), Potions.action.INVINCIBLE);
+		assertEquals(potion.potion_effect(), Potions.action.INVINCIBLE);
+		assertEquals(potion.potion_effect(), Potions.action.INVINCIBLE);
+		assertEquals(potion.potion_effect(), Potions.action.INVINCIBLE);
+		assertEquals(potion.potion_effect(), Potions.action.NOTHING);
 	}
 	
 	void testisUsed() {

@@ -25,11 +25,6 @@ public class Arrow extends Weapon {
 		return action.NOTHING;
 	}
 	
-	// arrow has to be destroyed every time its fired
-	public void destroy_arrow(Weapon w) {
-		w = null;
-	}
-	
 	public boolean isUsed() {
 		return this.used;
 	}

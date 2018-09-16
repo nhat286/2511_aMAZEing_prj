@@ -49,6 +49,15 @@ class KeyFunctionality {
 		key.linkDoor(door1);
 		assertEquals(key.checkDoor(door2), false);
 		assertEquals(key.checkDoor(door1), true);
+		assertEquals(key.getCoordinates(), new CoOrd(-1,-1));
+	}
+	
+	@Test
+	void testopenDoor() {
+		key = new Key(4, 4);
+		key.linkDoor(door1);
+		assertEquals(key.checkDoor(door1), true);
+		assertEquals(door1.isDoor_open(),true);		
 	}
 	
 	@Test

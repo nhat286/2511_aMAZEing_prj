@@ -39,30 +39,49 @@ class Movement {
 		assertEquals(user.getCoordinates(), change_direction);
 		user.moveCoOrd('>', 10);
 		assertEquals(user.getCoordinates(), co_ord);
+		//Moved to border
+		user.moveCoOrd('>', 2);
+		assertEquals(user.getCoordinates(), co_ord);
 	}
 
 	@Test
 	void testMoveLeft() throws Exception {
 		setUpBeforeClass();
-		CoOrd co_ord = new CoOrd(0,0);
+		CoOrd co_ord = new CoOrd(0,2);
+		user = new Character(0, 2);
 		user.moveCoOrd('<', 10);
 		assertEquals(user.getCoordinates(), co_ord);
+		user.moveCoOrd('<', 10);
+		assertEquals(user.getCoordinates(), new CoOrd(0,1));
+		//Moved to border
+		user.moveCoOrd('<', 10);
+		assertEquals(user.getCoordinates(), new CoOrd(0,1));
+		
 	}
 	
 	@Test
 	void testMoveDown() throws Exception {
 		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(1,0);
+		user = new Character(0, 0);
 		user.moveCoOrd('v', 10);
+		assertEquals(user.getCoordinates(), co_ord);
+		//Moved to border
+		user.moveCoOrd('v', 2);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testMoveUp() throws Exception {
 		setUpBeforeClass();
-		CoOrd co_ord = new CoOrd(0,0);
+		CoOrd co_ord = new CoOrd(2,0);
+		user = new Character(2, 0);
 		user.moveCoOrd('^', 10);
 		assertEquals(user.getCoordinates(), co_ord);
+		user.moveCoOrd('^', 10);
+		assertEquals(user.getCoordinates(), new CoOrd(1,0));
+		user.moveCoOrd('^', 10);
+		assertEquals(user.getCoordinates(), new CoOrd(1,0));
 	}
 
 	@Test
@@ -97,9 +116,5 @@ class Movement {
 		assertEquals(co_ord, co_ord2);
 	}
 
-	@Test
-	void testEqualsObject() {
-		// i am not sure what's happening here
-	}
 
 }

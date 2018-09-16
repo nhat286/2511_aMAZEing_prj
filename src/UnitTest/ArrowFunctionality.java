@@ -53,7 +53,9 @@ class ArrowFunctionality {
 	
 	@Test
 	void testdestroy_arrow() {
-		arrow.destroy_arrow(arrow);
+		arrow.destroyWeapon();
+		CoOrd co_ord = new CoOrd(-1,-1); 
+		assertEquals(arrow.getCoordinates(), co_ord);
 	}
 	
 	@Test
@@ -62,6 +64,19 @@ class ArrowFunctionality {
 		Enemy e = new Hunter(co_ord);
 		arrow2 = new Arrow(0, 0, new Character(1,1));
 		assertEquals(arrow2.weapon_action(e), Weapon.action.NOTHING);
+	}
+	
+	@Test
+	void test_moving() {
+		CoOrd co_ord = new CoOrd(6,3);
+		Enemy e = new Hunter(co_ord);
+		arrow2 = new Arrow(0, 0, new Character(3,3));
+		assertEquals(arrow2.weapon_action(e), Weapon.action.NOTHING);
+		assertEquals(arrow2.moving(null, 10),0);
+		assertEquals(arrow2.getCoordinates(),new CoOrd(4,3));
+		assertEquals(arrow2.moving(e, 10),1);
+		assertEquals(arrow2.getCoordinates(),new CoOrd(-1,-1));
+		assertEquals(e.getCurrPos(),new CoOrd(-1,-1));
 	}
 	
 	@Test
