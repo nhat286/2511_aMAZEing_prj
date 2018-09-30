@@ -3,31 +3,30 @@ package niriksha;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import jae.Enemy;
-
 public class Inventory {
 	
-	//private ArrayList<SpecialItems> item_list;
 	private ArrayList<Weapon> weapon_list;
 	private ArrayList<Potions> potion_list;
 	
 	public Inventory() {
-		//this.item_list = new ArrayList<SpecialItems>();
 		this.weapon_list = new ArrayList<Weapon>();
 		this.potion_list = new ArrayList<Potions>();
 	}
 	
-	/*public HashMap<String, Integer> getItemList() {
-		HashMap<String, Integer> map = new HashMap<>();
-		for (SpecialItems i : this.item_list) {
-			if (!map.containsKey(i.getType()))
-				map.put(i.getType(), new Integer(0));
-			map.put(i.getType(), new Integer(map.get(i.getType()).intValue() + 1));
-		}
-		return map;
-	}*/
+	public ArrayList<Weapon> getWeaponList() {
+		return this.weapon_list;
+	}
 	
-	public HashMap<String, Integer> getWeaponList() {
+	public ArrayList<Potions> getPotionList() {
+		return this.potion_list;
+	}
+	
+	/**
+	 * Creates hashmap of the arraylist of weapons
+	 * 
+	 * @return the hashmap is returned
+	 */
+	public HashMap<String, Integer> getWeaponHashmap() {
 		HashMap<String, Integer> map = new HashMap<>();
 		for (Weapon i : this.weapon_list) {
 			if (!map.containsKey(i.getType()))
@@ -37,7 +36,12 @@ public class Inventory {
 		return map;
 	}
 	
-	public HashMap<String, Integer> getPotionList() {
+	/**
+	 * Creates hashmap of the arraylist of potions
+	 * 
+	 * @return the hashmap is returned
+	 */
+	public HashMap<String, Integer> getPotionHashmap() {
 		HashMap<String, Integer> map = new HashMap<>();
 		for (Potions i : this.potion_list) {
 			if (!map.containsKey(i.getType()))
@@ -47,14 +51,6 @@ public class Inventory {
 		return map;
 	}
 	
-	/*public int getTotalItems() {
-		return this.item_list.size() + this.weapon_list.size() + this.potion_list.size();
-	}
-	
-	public int getNoSpecialItems() {
-		return this.item_list.size();
-	}*/
-	
 	public int getNoWeapons() {
 		return this.weapon_list.size();
 	}
@@ -63,21 +59,21 @@ public class Inventory {
 		return this.potion_list.size();
 	}
 	
-	public Weapon getWeapon(int index) {
-		return weapon_list.get(index);
+	public Weapon getWeapon(String item) {
+		for (Weapon w : this.weapon_list) {
+			if (w.getType().equals(item))
+				return w;
+		}
+		return null;
 	}
 	
-	public Potions getPotion(int index) {
-		return potion_list.get(index);
+	public Potions getPotion(String item) {
+		for (Potions p : this.potion_list) {
+			if (p.getType().equals(item))
+				return p;
+		}
+		return null;
 	}
-	
-	/*public SpecialItems getSpecialItem(int index) {
-		return item_list.get(index);
-	}
-	
-	public void addItem(SpecialItems i) {
-		this.item_list.add(i);
-	}*/
 	
 	public void addWeapon(Weapon w) {
 		this.weapon_list.add(w);
@@ -86,10 +82,6 @@ public class Inventory {
 	public void addPotion(Potions p) {
 		this.potion_list.add(p);
 	}
-	
-	/*public void deleteItem(SpecialItems i) {
-		this.item_list.remove(i);
-	}*/
 	
 	public void deleteWeapon(Weapon w) {
 		this.weapon_list.remove(w);

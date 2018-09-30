@@ -1,36 +1,56 @@
-
 package niriksha;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import jae.Enemy;
 
-public class InvincibilityPotion extends Potions {
+public class InvincibilityPotion extends Potions implements State {
 
 	private boolean used;
-	Timer time_limit;
+	private int turn_left;
+	Timer invinciblity_timer;
+	//Object o;
 
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
 		this.used = false;
-		this.time_limit = new Timer();
+		this.turn_left = 5;
 	}
 	
-	// only destroy enemy if potion hasn't been used
-	public action potion_effect() {
-		
+	/**
+	 * Allows character to become invincible to enemies and bombs
+	 * 
+	 * @return invincible action, which implies the invincibility potion is put into effect for a time period
+	 */
+	/*public action potion_effect() {
 		if (this.used == false) {
-			this.time_limit.schedule(new timing(), 1000*10);
 			this.used = true;
 			return action.INVINCIBLE;
+		} else if (this.turn_left > 0) {
+			this.countDown();
+			return action.INVINCIBLE;
+		} else {
+			this.destroyPotion();
+			return action.NOTHING;
+		}
+	}*/
+	
+	@Override
+	public ACTION potion_effect() {
+		if (this.used == false) {
+			this.invinciblity_timer.schedule(new timing(), 1000*10);
+			invinciblity_timer.cancel();
+			this.used = true;
+			return ACTION.INVINCIBLE;
 		}
 		
-		return action.NOTHING;
+		return ACTION.NOTHING;
 	}
 	
 	// start/stop timer
 	class timing extends TimerTask {
 		public void run() {
-            time_limit.cancel();
+			// return action.
         }
 	}
 
@@ -38,36 +58,39 @@ public class InvincibilityPotion extends Potions {
 		return used;
 	}
 	
-	public Timer getTime_limit() {
-		return this.time_limit;
+	/**
+	 * Decrement turns left until effect wears off
+	 */
+	public void countDown() {
+		this.turn_left--;
 	}
 	
-	
-	/*@Override
-	public int special_effect(Object o) {
-		action = 2;
-		return action;
+	/**
+	 * 
+	 * @return turns left until effect wears off
+	 */
+	public int turnsRemaining() {
+		return this.turn_left;
 	}
 	
-	public int special_effect(Enemy e) {
-		e.destroyEnemy();
-		action = 1;
-		return action;
+	/**
+	 * Creates a copy of this invincibility potion
+	 * 
+	 * @return copy of this invincibility potion
+	 */
+	@Override
+	public Potions copy() {
+		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}
 	
-	public int special_effect(Weapon w) {
-		if (((w.getClass()).toString()).equals("Bomb")) {
-			action = 0;
-			return action;
-		}
-		action = 2;
-		return action;
-	}*/
-	
+	/**
+	 * Returns the type of potion 
+	 * 
+	 * @return type of potion
+	 */
 	@Override
 	public String getType() {
-		return "InvinciblePotion";
+		return "InvincibilityPotion";
 	}
 
 }
-

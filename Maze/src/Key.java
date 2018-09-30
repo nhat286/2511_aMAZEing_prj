@@ -1,7 +1,6 @@
 package niriksha;
 
 import eric.CoOrd;
-import jae.Door;
 
 public class Key {
 	 
@@ -9,19 +8,33 @@ public class Key {
 	private char icon;
 	Door door;
 	
-	public Key(int x, int y, char c, Door d) {
+	public Key(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
-		this.icon = c;
-		this.door = d;
+		this.icon = '&';
+		this.door = null;
 	}
 
-	// check if door is the one assigned to this key - if it is open the door 
+	/**
+	 * Determines if the door is assigned to be opened by this key
+	 * 
+	 * @param Door
+	 * @return door is opened if its assigned to this key
+	 */
 	public boolean checkDoor(Door d) {
 		if (this.door.equals(d)) {
 			d.openDoor();
+			this.setCoordinates(-1, -1);
 			return true;
 		}
 		return false;
+	}
+	
+	public void linkDoor(Door d) {
+		this.door = d;
+	}
+	
+	public Door getDoorLinked() {
+		return this.door;
 	}
 	
 	public CoOrd getCoordinates() {
@@ -36,6 +49,24 @@ public class Key {
 		this.co_ord.setXY(x, y);
 	}
 	
+	public void pickUp() {
+		this.setCoordinates(-2, -2);
+	}
+	
+	/**
+	 * Creates a copy of this key
+	 * 
+	 * @return copy of this key
+	 */
+	public Key copy() {
+		return new Key(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	/**
+	 * Returns the type of object 
+	 * 
+	 * @return type of object
+	 */
 	public String getType() {
 		return "Key";
 	}

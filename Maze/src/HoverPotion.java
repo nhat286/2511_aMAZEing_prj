@@ -9,49 +9,42 @@ public class HoverPotion extends Potions {
 		this.used = false;
 	}
 	
-	// can only hover if the potion hasn't been used
+	/**
+	 * Allows character to hover over pits
+	 * 
+	 * @return hover if potion available for use else no effect takes place
+	 */
 	@Override
-	public action potion_effect() {
+	public ACTION potion_effect() {
 		
 		if (this.used == false) {
 			this.used = true;
-			return action.HOVER;
+			return ACTION.HOVER;
 		}
 		
-		return action.NOTHING;
+		return ACTION.NOTHING;
 	}
 
 	public boolean isUsed() {
 		return used;
 	}
 	
-	
-	/*@Override
-	public int special_effect(Obstacle o) {
-		
-		if ((o.getType()).equals("Pit")) {
-			action = 1;
-		}
-		else if (o.getType().equals("Wall")) {
-			action = 2;
-		}
-		else if (o.getType().equals("Boulder")) {
-			action = 2;
-		}
-		return action;
-	}
+	/**
+	 * Creates a copy of this hover potion
+	 * 
+	 * @return copy of this hover potion
+	 */
 	@Override
-	public int special_effect(Weapon w) {
-		// do nothing
-		return 0;
+	public Potions copy() {
+		return new HoverPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}
-	@Override
-	public int special_effect(Enemy e) {
-		// do nothing
-		return 0;
-	}
-	*/
+
 	
+	/**
+	 * Returns the type of potion 
+	 * 
+	 * @return type of potion
+	 */
 	@Override
 	public String getType() {
 		return "HoverPotion";
