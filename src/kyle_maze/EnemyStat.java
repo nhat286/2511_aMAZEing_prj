@@ -12,6 +12,11 @@ public class EnemyStat implements Menu{
 	private String[] EnemyDescript;
 	private HashMap<String, Integer> enemyHash;
 	
+	/**
+	 * Receive a hashmap of enemies from maze and initiate enemy descriptions
+	 * 
+	 * @param maze
+	 */
 	public EnemyStat(Maze maze){
 		EnemyDescript = new String [4];
 		EnemyDescript[0] = "Hunter: "
@@ -29,8 +34,14 @@ public class EnemyStat implements Menu{
 		enemyHash = getEnemyHash(maze);
 	}
 	
+	
+	/* (non-Javadoc)
+	 * Overided default method to print enemy statistics from hashmap
+	 * 
+	 * @see kyle_maze.Menu#displayMenu()
+	 */
 	@Override
-	public void displayMenu() {
+	public void display() {
 		System.out.println("Any collision with enemies would cause death. There are these types of enemy in current maze: ");
 		for (Entry<String, Integer> e : enemyHash.entrySet()) {
 			switch(e.getKey().toString()) {
@@ -60,7 +71,6 @@ public class EnemyStat implements Menu{
 				break;
 			default:
 				break;
-					
 			}
 		}
 	}

@@ -9,8 +9,13 @@ import eric.Maze;
 public class ItemStat implements Menu{
 
 	private String[] ItemDescript;
+	private HashMap<String, Integer> potionHash;
+	private HashMap<String, Integer> weaponHash;
 	
-	public ItemStat(){
+	/**
+	 * Initiate the item descriptions
+	 */
+	public ItemStat(Maze maze){
 		ItemDescript = new String [4];
 		ItemDescript[0] = "Hover Potion: "
 				+ "This potion could make you hovering until you are dead or you win the game."
@@ -27,24 +32,69 @@ public class ItemStat implements Menu{
 				+ "Once the key has been used to sucessfully open a door, it would be destroyed.";
 		ItemDescript[4] = "Treasure: "
 				+ "There might be Treasures in some mazes and collecting them all might leads to win.";
+		ItemDescript[5] = "Sword: "
+				+ "Could be used to fight close ranged enemy.";
+		ItemDescript[6] = "Arrow: "
+				+ "Could be used to fight ranged enemy.";
+		potionHash = maze.potionStat();
+		weaponHash = maze.weaponStat();
 	}
 	
+	
+	/* (non-Javadoc)
+	 * Display item descriptions
+	 * 
+	 * @see kyle_maze.Menu#displayMenu()
+	 */
 	@Override
-	public void displayMenu() {
+	public void display() {
 		System.out.println("The followed items might be found in the maze to assist you:");
-		System.out.println(ItemDescript[0]);
-		System.out.println(ItemDescript[1]);
-		System.out.println(ItemDescript[2]);
+		for (Entry<String, Integer> e : potionHash.entrySet()) {
+			switch(e.getKey().toString()) {
+			case "Hover Potion":
+				System.out.println("------------------------------------------------------------");
+				System.out.println(ItemDescript[0]);
+				System.out.println("------------------------------------------------------------");
+				System.out.println(e.getKey().toString()+": "+e.getValue().toString());
+				break;
+			case "Invincible Potion":
+				System.out.println("------------------------------------------------------------");
+				System.out.println(ItemDescript[1]);
+				System.out.println("------------------------------------------------------------");
+				System.out.println(e.getKey().toString()+": "+e.getValue().toString());
+				break;
+			default:
+				break;
+			}
+		}
+		
+		for (Entry<String, Integer> e : weaponHash.entrySet()) {
+			switch(e.getKey().toString()) {
+			case "Sword":
+				System.out.println("------------------------------------------------------------");
+				System.out.println(ItemDescript[5]);
+				System.out.println("------------------------------------------------------------");
+				System.out.println(e.getKey().toString()+": "+e.getValue().toString());
+				break;
+			case "Arrow":
+				System.out.println("------------------------------------------------------------");
+				System.out.println(ItemDescript[6]);
+				System.out.println("------------------------------------------------------------");
+				System.out.println(e.getKey().toString()+": "+e.getValue().toString());
+				break;
+			case "Bomb":
+				System.out.println("------------------------------------------------------------");
+				System.out.println(ItemDescript[2]);
+				System.out.println("------------------------------------------------------------");
+				System.out.println(e.getKey().toString()+": "+e.getValue().toString());
+				break;
+			default:
+				break;
+			}
+		}
+
 		System.out.println(ItemDescript[3]);
 		System.out.println(ItemDescript[4]);
 		
-		
-		// TODO Auto-generated method stub
-		try {
-			pause1Sec();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

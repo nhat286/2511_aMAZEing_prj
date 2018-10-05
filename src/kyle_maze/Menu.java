@@ -6,9 +6,28 @@ import java.io.IOException;
 
 public interface Menu {
 
-	public void displayMenu();
+	public default void displayMenu() throws IOException {
+		pause();
+		prepareInfo();
+		display();
+	}
 	
-	public default void pause1Sec() throws IOException {
+	
+	public void display();
+	
+	
+	public default void prepareInfo() {
+		
+	}
+	
+	
+	
+	/**
+	 * pause here uses a scanner reading to perform pause
+	 * 
+	 * @throws IOException
+	 */
+	public default void pause() throws IOException {
 		System.out.println("Press any key to continue");
 		System.in.read();
 	}
