@@ -1,5 +1,5 @@
 
-package niriksha;
+package niriksha_refactored;
 
 import eric.CoOrd;
 
@@ -123,23 +123,5 @@ public class Boulder extends Obstacle {
 		return co;
 	}
 	
-	/**
-	 * Creates a copy of this boulder
-	 * 
-	 * @return copy of this boulder
-	 */
-	@Override
-	public Obstacle copy() {
-		return new Boulder(this.getCoordinates().getX(), this.getCoordinates().getY());
-	}
-	
-	/**
-	 * Returns the type of obstacle 
-	 * 
-	 * @return type of obstacle
-	 */
-	public String getType() {
-		return "Boulder";
-	}
 
 }
