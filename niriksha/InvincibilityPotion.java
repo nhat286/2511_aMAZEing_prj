@@ -1,74 +1,53 @@
-package niriksha;
+package niriksha_refactored;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class InvincibilityPotion extends Potions {
-
+public class InvincibilityPotion extends Potion {
+	
 	private boolean used;
-	private int turn_left;
+	Timer invinciblity_timer;
 
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
 		this.used = false;
-		this.turn_left = 5;
-	}
-	
-	/**
-	 * Allows character to become invincible to enemies and bombs
-	 * 
-	 * @return invincible action, which implies the invincibility potion is put into effect for a time period
-	 */
-	public action potion_effect() {
-		if (this.used == false) {
-			this.used = true;
-			return action.INVINCIBLE;
-		} else if (this.turn_left > 0) {
-			this.countDown();
-			return action.INVINCIBLE;
-		} else {
-			this.destroyPotion();
-			return action.NOTHING;
-		}
 	}
 
+	@Override
+	public void potion_effect(STATE current_state) {
+		
+		STATE copy = current_state;
+		
+		if (this.used == false) {
+			
+			if (copy == HoverCharacter.GetInstance()) {
+				current_state = HoverInvincibleCharacter.GetInstance();
+			}
+			else {
+				current_state = InvincibleCharacter.GetInstance();
+			}
+			
+			this.invinciblity_timer.schedule(new timing(), 1000*10);
+			
+			invinciblity_timer.cancel();
+			
+			this.used = true;
+			
+			current_state = copy;
+		}
+		
+	}
+	
+	class timing extends TimerTask {
+		public void run() {
+			// do nothing
+        }
+	}
+	
+	// getter and setter methods 
+	
 	public boolean isUsed() {
 		return used;
-	}
-	
-	/**
-	 * Decrement turns left until effect wears off
-	 */
-	public void countDown() {
-		this.turn_left--;
-	}
-	
-	/**
-	 * 
-	 * @return turns left until effect wears off
-	 */
-	public int turnsRemaining() {
-		return this.turn_left;
-	}
-	
-	/**
-	 * Creates a copy of this invincibility potion
-	 * 
-	 * @return copy of this invincibility potion
-	 */
-	@Override
-	public Potions copy() {
-		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
-	}
-	
-	/**
-	 * Returns the type of potion 
-	 * 
-	 * @return type of potion
-	 */
-	@Override
-	public String getType() {
-		return "InvincibilityPotion";
 	}
 
 }

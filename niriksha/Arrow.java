@@ -1,7 +1,10 @@
-package niriksha;
+package niriksha_refactored;
 
 import eric.CoOrd;
 import jae.Enemy;
+import niriksha.Obstacle;
+import niriksha.Pit;
+import niriksha.Weapon.action;
 
 public class Arrow extends Weapon {
 
@@ -15,27 +18,15 @@ public class Arrow extends Weapon {
 		this.used = false;
 	}
 
-	/**
-	 * Sets coordinates of the arrow in the direction of the object
-	 *
-	 * @param object in front of character
-	 * @return destroy enemy or do nothing
-	 */
 	@Override
-	public action weapon_action(Object object) {
+	public ACTION weapon_action(Object object) {
 		this.direction = this.user.getIcon();
 		this.setCoordinates(this.user.getCoordinates().getX(), this.user.getCoordinates().getY());
 		used = true;
 
-		return action.NOTHING;
+		return ACTION.NOTHING;
 	}
 
-	/**
-	 * Destroys the enemy if there is one
-	 *
-	 * @param object in front and border of the maze
-	 * @return whether arrows will move or not
-	 */
 	public int moving(Object object, int border) {
 
 		if (object != null) {
@@ -80,12 +71,7 @@ public class Arrow extends Weapon {
 
 		return 0;
 	}
-
-	/**
-	 * Determines coordinates of the object in front
-	 *
-	 * @return coordinates of the object
-	 */
+	
 	public CoOrd getInfront() {
 
 		CoOrd co = new CoOrd(this.getCoordinates().getX(), this.getCoordinates().getY());
@@ -97,29 +83,11 @@ public class Arrow extends Weapon {
 
 		return co;
 	}
-
-	/**
-	 * Creates a copy of this arrow
-	 *
-	 * @return copy of this arrow
-	 */
-	@Override
-	public Weapon copy() {
-		return new Arrow(this.getCoordinates().getX(), this.getCoordinates().getY(), this.user);
-	}
-
+	
+	// getter and setter methods
+	
 	public boolean isUsed() {
 		return this.used;
-	}
-
-	/**
-	 * Returns the type of weapon
-	 *
-	 * @return type of weapon
-	 */
-	@Override
-	public String getType() {
-		return "Arrow";
 	}
 
 }

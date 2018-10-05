@@ -1,4 +1,4 @@
-package niriksha;
+package niriksha_refactored;
 
 public enum ACTION {
 	PUSH_BOULDER, PICK_UP_WEAPON, PICK_UP_POTION, PICK_UP_ITEM,

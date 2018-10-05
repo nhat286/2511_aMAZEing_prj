@@ -1,29 +1,26 @@
-package niriksha;
+package niriksha_refactored;
 
 import eric.CoOrd;
 
 public abstract class Weapon {
 	
-	public enum action {
-		DESTROY, DIE, NOTHING, BOMB_DESTROY;
-	}
-	
 	private CoOrd getCoordinates;
 	private boolean picked_up;
 	private char direction;
-		 
+	
 	public Weapon(int x, int y, char c) {
 		this.getCoordinates = new CoOrd(x, y);
 		this.picked_up = false;
 		this.direction = c;
 	}
 	
-	/**
-	 * Creates a copy of the weapon
-	 * 
-	 * @return copy of the weapon
-	 */
-	public abstract Weapon copy();
+	public abstract ACTION weapon_action(Object object);
+	
+	public void destroyWeapon() {
+		this.setCoordinates(-1, -1);
+	}
+	
+	// getter and setter methods
 
 	public CoOrd getCoordinates() {
 		return getCoordinates;
@@ -44,27 +41,5 @@ public abstract class Weapon {
 	public boolean isPicked_up() {
 		return picked_up;
 	}
-	
-	/**
-	 * Action of the weapon is called
-	 * 
-	 * @param object
-	 */
-	public abstract action weapon_action(Object object);
-	
-	/**
-	 * Destroys weapons by setting their coordinates outside of the maze
-	 */
-	public void destroyWeapon() {
-		this.setCoordinates(-1, -1);
-	}
-	
-	/**
-	 * Returns the type of object 
-	 * 
-	 * @return type of object
-	 */
-	public String getType() {
-		return "Weapon";
-	}
+
 }

@@ -1,4 +1,4 @@
-package niriksha;
+package niriksha_refactored;
 
 import eric.CoOrd;
 
@@ -31,19 +31,4 @@ public abstract class Obstacle {
 		this.co_ord.setXY(x, y);
 	}
 	
-	/**
-	 * Creates a copy of the obstacle
-	 * 
-	 * @return copy of the obstacle
-	 */
-	public abstract Obstacle copy();
-	
-	/**
-	 * Returns the type of object 
-	 * 
-	 * @return type of object
-	 */
-	public String getType() {
-		return "Obstacle";
-	}
 }
