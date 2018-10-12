@@ -98,6 +98,7 @@ public class Character {
 					
 				// C is wall
 				case '#':
+					System.out.println("in");
 					return ACTION.NOTHING;
 					
 				// O is boulder
@@ -153,22 +154,22 @@ public class Character {
 		
 		if (movement == '<') {
 			if (this.icon != '<') this.icon = '<';
-			else this.co_ord.moveLeft();
+			else this.co_ord.moveLeft(sprite);
 		} 
 		
 		else if (movement == '>') {
 			if (this.icon != '>') this.icon = '>';
-			else this.co_ord.moveRight(border);
+			else this.co_ord.moveRight(border,sprite);
 		} 
 		
 		else if (movement == '^') {
 			if (this.icon != '^') this.icon = '^';
-			else this.co_ord.moveUp();
+			else this.co_ord.moveUp(sprite);
 		} 
 		
 		else if (movement == 'v') {
 			if (this.icon != 'v') this.icon = 'v';
-			else this.co_ord.moveDown(border);
+			else this.co_ord.moveDown(border,sprite);
 		}
 	}
 	
@@ -180,10 +181,10 @@ public class Character {
 	public CoOrd getInfront() {
 		CoOrd co = new CoOrd(this.co_ord.getX(), this.co_ord.getY(),100);
 		
-		if (this.icon == '^') co.setXY(co.getX() - 1, co.getY());
-		else if (this.icon == 'v') co.setXY(co.getX() + 1, co.getY());
-		else if (this.icon == '<') co.setXY(co.getX(), co.getY() - 1);
-		else if (this.icon == '>') co.setXY(co.getX(), co.getY() + 1);
+		if (this.icon == '^') co.setXY(co.getX(), co.getY()-1);
+		else if (this.icon == 'v') co.setXY(co.getX(), co.getY()+1);
+		else if (this.icon == '<') co.setXY(co.getX()-1, co.getY());
+		else if (this.icon == '>') co.setXY(co.getX()+1, co.getY());
 		
 		return co;
 	}

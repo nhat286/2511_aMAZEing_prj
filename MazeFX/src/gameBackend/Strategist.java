@@ -29,13 +29,13 @@ public class Strategist extends Enemy implements Distance {
 		CoOrd ch = new CoOrd(target.getCoordinates().getX(), target.getCoordinates().getY(),50);
 		
 		if (target.getIcon() == '<') {
-			ch.moveLeft();
+			ch.moveLeft(sprite);
 		} else if (target.getIcon() == '>') {
-			ch.moveRight(border);
+			ch.moveRight(border,sprite);
 		} else if (target.getIcon() == '^') {
-			ch.moveUp();
+			ch.moveUp(sprite);
 		} else if (target.getIcon() == 'v') {
-			ch.moveDown(border);
+			ch.moveDown(border,sprite);
 		}
 		
 		moveCloser(this.getCurrPos(), ch, border);
@@ -56,14 +56,14 @@ public class Strategist extends Enemy implements Distance {
 			if (this.getDirection() != 'v')
 				this.setDirection('v');
 			else
-				this.getCurrPos().moveDown(border);
+				this.getCurrPos().moveDown(border,sprite);
 			return;
 		} 
 		else if (x_difference > 0) {
 			if (this.getDirection() != '^')
 				this.setDirection('^');
 			else
-				this.getCurrPos().moveUp();
+				this.getCurrPos().moveUp(sprite);
 			return;
 		}
 		
@@ -73,14 +73,14 @@ public class Strategist extends Enemy implements Distance {
 			if (this.getDirection() != '>')
 				this.setDirection('>');
 			else
-				this.getCurrPos().moveRight(border);
+				this.getCurrPos().moveRight(border,sprite);
 			return;
 		} 
 		else if (y_difference > 0) {
 			if (this.getDirection() != '<')
 				this.setDirection('<');
 			else
-				this.getCurrPos().moveLeft();
+				this.getCurrPos().moveLeft(sprite);
 			return;
 		}
 	}

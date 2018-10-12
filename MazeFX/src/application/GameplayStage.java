@@ -66,26 +66,6 @@ public class GameplayStage extends Application {
                 public void handle(ActionEvent ae)
                 {
                     //double t = (System.nanoTime() - lastNanoTime) / 1000000000.0; 
-
-                	// Clear the canvas
-//                    gc.clearRect(0, 0, 512,512);
-                    
-//                    player.getSprite().setVelocity(0,0);
-//                    if (input.contains("LEFT"))
-//                        player.getSprite().addVelocity(-player.getVelocity(),0);
-//                    else if (input.contains("RIGHT"))
-//                        player.getSprite().addVelocity(player.getVelocity(),0);
-//                    else if (input.contains("UP"))
-//                        player.getSprite().addVelocity(0,-player.getVelocity());
-//                    else if (input.contains("DOWN"))
-//                        player.getSprite().addVelocity(0,player.getVelocity());
-//        	        player.getSprite().update(0.016);
-//        	        
-//        	        
-//        	        
-//                    // background image clears canvas
-//
-//                    player.getSprite().render(gc);
                     ms.update(input,gc,refreshTime);
                     
                 }

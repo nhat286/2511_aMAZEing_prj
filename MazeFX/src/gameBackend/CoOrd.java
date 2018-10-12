@@ -1,5 +1,7 @@
 package gameBackend;
 
+import application.Sprite;
+
 public class CoOrd {
 	private int x;
 	private int y;
@@ -14,29 +16,29 @@ public class CoOrd {
 	/**
 	 * Sets the coordinate of object one position to the left
 	 */
-	public void moveLeft() {
-		if (this.y > 1) this.y--;
+	public void moveLeft(Sprite s) {
+		if (this.x > 1) s.setVelocity(-baseVel, 0);
 	}
 	
 	/**
 	 * Sets the coordinate of object one position to the right
 	 */
-	public void moveRight(int border) {
-		if (this.y < border - 1) this.y++;
+	public void moveRight(int border, Sprite s) {
+		if (this.x < border - 1) s.setVelocity(baseVel, 0);
 	}
 	
 	/**
 	 * Sets the coordinate of object one position up
 	 */
-	public void moveUp() {
-		if (this.x > 1) this.x--;
+	public void moveUp(Sprite s) {
+		if (this.y > 1) s.setVelocity(0, -baseVel);
 	}
 	
 	/**
 	 * Sets the coordinate of object one position down
 	 */
-	public void moveDown(int border) {
-		if (this.x < border - 1) this.x++;
+	public void moveDown(int border, Sprite s) {
+		if (this.y < border - 1) s.setVelocity(0, +baseVel);
 	}
 	
 	public int getX() {

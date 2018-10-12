@@ -7,28 +7,28 @@ public interface Distance {
 		if (self.getDirection() != '<')
 			self.setDirection('<');
 		else
-			self.getCurrPos().moveLeft();
+			self.getCurrPos().moveLeft(null);
 	}
 	
 	public default void goUp(Enemy self) {
 		if (self.getDirection() != '^')
 			self.setDirection('^');
 		else
-			self.getCurrPos().moveUp();
+			self.getCurrPos().moveUp(null);
 	}
 	
 	public default void goRight(Enemy self, int border) {
 		if (self.getDirection() != '>')
 			self.setDirection('>');
 		else
-			self.getCurrPos().moveRight(border);
+			self.getCurrPos().moveRight(border,null);
 	}
 	
 	public default void goDown(Enemy self, int border) {
 		if (self.getDirection() != 'v')
 			self.setDirection('v');
 		else
-			self.getCurrPos().moveDown(border);
+			self.getCurrPos().moveDown(border,null);
 	}
 	
 	public default void moveAway(Enemy self, CoOrd target, int border) {

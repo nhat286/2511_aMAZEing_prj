@@ -86,30 +86,30 @@ public class Hound extends Enemy implements Distance{
 		
 		if (this.hunterCoOrd.getY() < ch.getY()) {
 			if (me.getY() < ch.getY()) {
-				this.getCurrPos().moveRight(border);
+				this.getCurrPos().moveRight(border,sprite);
 			} else if (me.getY() > ch.getY()) {
-				this.getCurrPos().moveLeft();
+				this.getCurrPos().moveLeft(sprite);
 			}
 		} 
 		else if (this.hunterCoOrd.getY() > ch.getY()) {
 			if (me.getY() > ch.getY()) {
-				this.getCurrPos().moveLeft();
+				this.getCurrPos().moveLeft(sprite);
 			} else if (me.getY() < ch.getY()) {
-				this.getCurrPos().moveRight(border);
+				this.getCurrPos().moveRight(border,sprite);
 			}
 		} 
 		else if (this.hunterCoOrd.getX() < ch.getX()) {
 			if (me.getX() < ch.getX()) {
-				this.getCurrPos().moveDown(border);
+				this.getCurrPos().moveDown(border,sprite);
 			} else if (me.getX() > ch.getX()) {
-				this.getCurrPos().moveUp();
+				this.getCurrPos().moveUp(sprite);
 			}
 		} 
 		else if (this.hunterCoOrd.getX() > ch.getX()) {
 			if (me.getX() < ch.getX()) {
-				this.getCurrPos().moveDown(border);
+				this.getCurrPos().moveDown(border,sprite);
 			} else if (me.getX() > ch.getX()) {
-				this.getCurrPos().moveUp();
+				this.getCurrPos().moveUp(sprite);
 			}
 		}
 	}
@@ -122,7 +122,7 @@ public class Hound extends Enemy implements Distance{
 			if (this.getDirection() != 'v')
 				this.setDirection('v');
 			else
-				this.getCurrPos().moveDown(border);
+				this.getCurrPos().moveDown(border,sprite);
 			return;
 		} 
 		
@@ -130,7 +130,7 @@ public class Hound extends Enemy implements Distance{
 			if (this.getDirection() != '^')
 				this.setDirection('^');
 			else
-				this.getCurrPos().moveUp();
+				this.getCurrPos().moveUp(sprite);
 			return;
 		}
 		
@@ -140,14 +140,14 @@ public class Hound extends Enemy implements Distance{
 			if (this.getDirection() != '>')
 				this.setDirection('>');
 			else
-				this.getCurrPos().moveRight(border);
+				this.getCurrPos().moveRight(border,sprite);
 			return;
 		} 
 		else if (y_difference > 0) {
 			if (this.getDirection() != '<')
 				this.setDirection('<');
 			else
-				this.getCurrPos().moveLeft();
+				this.getCurrPos().moveLeft(sprite);
 			return;
 		}
 	}

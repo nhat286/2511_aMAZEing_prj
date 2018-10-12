@@ -80,16 +80,16 @@ public class Boulder extends Obstacle {
 	 */
 	public void moveCoOrd(char movement, int border) {
 		if (movement == '<') {
-			this.co_ord.moveLeft();
+			this.co_ord.moveLeft(sprite);
 		} 
 		else if (movement == '>') {
-			this.co_ord.moveRight(border);
+			this.co_ord.moveRight(border,sprite);
 		} 
 		else if (movement == '^') {
-			this.co_ord.moveUp();
+			this.co_ord.moveUp(sprite);
 		} 
 		else if (movement == 'v') {
-			this.co_ord.moveDown(border);
+			this.co_ord.moveDown(border,sprite);
 		}
 	}
 	

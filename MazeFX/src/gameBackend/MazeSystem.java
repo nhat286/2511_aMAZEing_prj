@@ -19,7 +19,7 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 	private Character user;
 	
 	public MazeSystem() {		
-		//drawMap();
+		this.map = drawMap();
 	}
 	
 	/**
@@ -869,22 +869,52 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 	}
 	
 	public void update(ArrayList<String> input, GraphicsContext gc, double refreshTime ) {
+		this.map = drawMap();
+		this.curr.updateMap(map);
 		gc.clearRect(0, 0, map_size*32,map_size*32);
+		
+		CoOrd in_front = this.user.getInfront();
+		Object ahead = this.curr.getEntity(in_front);
+		Object under = this.curr.getEntity(this.user.getCoordinates());
+		ACTION outcome = ACTION.NOTHING;
+		
 		//Update the player on canvas
 		user.getSprite().setVelocity(0,0);
-        if (input.contains("LEFT"))
-            user.getSprite().setVelocity(-user.getVelocity(),0);
-        else if (input.contains("RIGHT"))
-            user.getSprite().setVelocity(user.getVelocity(),0);
-        else if (input.contains("UP"))
-            user.getSprite().setVelocity(0,-user.getVelocity());
-        else if (input.contains("DOWN"))
-            user.getSprite().setVelocity(0,user.getVelocity());
-        user.getSprite().update(0.016);
-        user.setCoordinates((int) user.getSprite().getPositionX()/32,
-        		(int) user.getSprite().getPositionY()/32);
-        System.out.println(String.format("%d %d",user.getCoordinates().getX(),user.getCoordinates().getY()));
+        if (input.contains("LEFT")) {
+        	
+        	if(user.getSprite().getPositionX()%32 <= user.getVelocity()*refreshTime) 
+        		user.setCoordinates((int) (user.getSprite().getPositionX())/32,
+        				(int) (user.getSprite().getPositionY())/32);
+        	System.out.println(String.format("%d %d", in_front.getX(),in_front.getY()));
+        	outcome = this.user.move('<', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+        }else if (input.contains("RIGHT")) {
+        	
+        	if(user.getSprite().getPositionX()%32 >= 32-user.getVelocity()*refreshTime) 
+	        	user.setCoordinates((int) (user.getSprite().getPositionX())/32+1,
+	            		(int) (user.getSprite().getPositionY())/32);
+        	
+            outcome = this.user.move('>', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+        }else if (input.contains("UP")) {
+        	
+        	if(user.getSprite().getPositionY()%32 <= user.getVelocity()*refreshTime) 
+        		user.setCoordinates((int) (user.getSprite().getPositionX())/32,
+        				(int) (user.getSprite().getPositionY())/32);
+        	
+            outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+        } else if (input.contains("DOWN")) {
+        	
+        	if(user.getSprite().getPositionY()%32 >= 32-user.getVelocity()*refreshTime*2)
+	        	user.setCoordinates((int) (user.getSprite().getPositionX())/32,
+	            		(int) (user.getSprite().getPositionY())/32+1);
+        	
+            outcome = this.user.move('v', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+        }
+        user.getSprite().update(refreshTime);   
         user.getSprite().render(gc);
+        
+        //Update Player's position on cell map
+        System.out.println(String.format("%d %d",user.getCoordinates().getX(),user.getCoordinates().getY()));
+        
         
         //Update the obstacles on canvas
         ArrayList<Obstacle> obstacleList = this.curr.getObstacles();

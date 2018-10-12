@@ -34,14 +34,14 @@ public class Coward extends Enemy implements Distance {
 			if (this.getDirection() != '^')
 				this.setDirection('^');
 			else
-				this.getCurrPos().moveUp();
+				this.getCurrPos().moveUp(sprite);
 		} 
 		
 		else if (me.getY() == ch.getY() && Math.abs(me.getX() - ch.getX()) == 1) {
 			if (this.getDirection() != '<')
 				this.setDirection('<');
 			else
-				this.getCurrPos().moveLeft();
+				this.getCurrPos().moveLeft(sprite);
 		} 
 		
 		else {
@@ -63,14 +63,14 @@ public class Coward extends Enemy implements Distance {
 			if (this.getDirection() != 'v')
 				this.setDirection('v');
 			else
-				this.getCurrPos().moveDown(border);
+				this.getCurrPos().moveDown(border,sprite);
 			return;
 		} 
 		else if (x_difference > 0) {
 			if (this.getDirection() != '^')
 				this.setDirection('^');
 			else
-				this.getCurrPos().moveUp();
+				this.getCurrPos().moveUp(sprite);
 			return;
 		}
 		
@@ -80,7 +80,7 @@ public class Coward extends Enemy implements Distance {
 			if (this.getDirection() != '>')
 				this.setDirection('>');
 			else
-				this.getCurrPos().moveRight(border);
+				this.getCurrPos().moveRight(border,sprite);
 			return;
 		} 
 		
@@ -88,7 +88,7 @@ public class Coward extends Enemy implements Distance {
 			if (this.getDirection() != '<')
 				this.setDirection('<');
 			else
-				this.getCurrPos().moveLeft();
+				this.getCurrPos().moveLeft(sprite);
 			return;
 		}
 	}

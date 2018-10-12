@@ -1,15 +1,20 @@
 package gameBackend;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class Arrow extends Weapon {
 
 	private Character user;
 	private char direction;
 	private boolean used;
+	private Sprite sprite;
 
 	public Arrow(int x, int y, Character user) {
 		super(x, y, '%');
 		this.user = user;
 		this.used = false;
+		this.sprite = new Sprite(new Image("arrow.png"), getCoordinates());
 	}
 
 	/**
@@ -52,25 +57,25 @@ public class Arrow extends Weapon {
 			case '>':
 				if (this.getCoordinates().getY() == border - 1)
 					this.setCoordinates(-1, -1);
-				else this.getCoordinates().moveRight(border);
+				else this.getCoordinates().moveRight(border,sprite);
 				break;
 
 			case '<':
 				if (this.getCoordinates().getY() == 1)
 					this.setCoordinates(-1, -1);
-				else this.getCoordinates().moveLeft();
+				else this.getCoordinates().moveLeft(sprite);
 				break;
 
 			case '^':
 				if (this.getCoordinates().getX() == 1)
 					this.setCoordinates(-1, -1);
-				else this.getCoordinates().moveUp();
+				else this.getCoordinates().moveUp(sprite);
 				break;
 
 			case 'v':
 				if (this.getCoordinates().getX() == border - 1)
 					this.setCoordinates(-1, -1);
-				else this.getCoordinates().moveDown(border);
+				else this.getCoordinates().moveDown(border,sprite);
 				break;
 
 		}
