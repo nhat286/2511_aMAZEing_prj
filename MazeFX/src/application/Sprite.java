@@ -2,6 +2,7 @@ package application;
 
 import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;
+import gameBackend.CoOrd;
 import javafx.geometry.Rectangle2D;
 
 public class Sprite
@@ -21,6 +22,13 @@ public class Sprite
         velocityX = 0;
         velocityY = 0;
     }
+    
+    public Sprite(Image i, CoOrd c)
+    {
+        setImage(i);
+        positionX = c.getX()*32;
+        positionY = c.getY()*32;
+    }
 
     public void setImage(Image i)
     {
@@ -28,14 +36,16 @@ public class Sprite
         width = i.getWidth();
         height = i.getHeight();
     }
+    
+    public double getPositionX() {
+		return positionX;
+	}
 
-    public void setImage(String filename)
-    {
-        Image i = new Image(filename);
-        setImage(i);
-    }
+	public double getPositionY() {
+		return positionY;
+	}
 
-    public void setPosition(double x, double y)
+	public void setPosition(double x, double y)
     {
         positionX = x;
         positionY = y;

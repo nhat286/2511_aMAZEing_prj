@@ -2,10 +2,14 @@ package gameBackend;
 
 import java.lang.Math;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class Coward extends Enemy implements Distance {
 	
 	public Coward(CoOrd currPos) {
 		super(currPos, 'C');
+		this.sprite = new Sprite(new Image("coward.png"),currPos);
 	}
 	
 	/*

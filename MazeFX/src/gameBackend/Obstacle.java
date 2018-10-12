@@ -1,9 +1,12 @@
 package gameBackend;
 
+import application.Sprite;
+
 public abstract class Obstacle {
 	
 	protected CoOrd co_ord;
 	private char icon;
+	protected Sprite sprite;
 	
 	public Obstacle(int x, int y, char c) {
 		this.co_ord = new CoOrd(x, y, 0);
@@ -12,6 +15,10 @@ public abstract class Obstacle {
 	
 	public CoOrd getCoordinates() {
 		return co_ord;
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 	
 	public char getIcon() {

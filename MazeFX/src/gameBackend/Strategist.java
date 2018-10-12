@@ -1,9 +1,13 @@
 package gameBackend;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class Strategist extends Enemy implements Distance {
 	
 	public Strategist(CoOrd currPos) {
 		super(currPos, 'S');
+		this.sprite = new Sprite(new Image("strategist.png"),currPos);
 	}
 	
 	/*

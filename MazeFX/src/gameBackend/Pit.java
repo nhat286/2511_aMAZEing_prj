@@ -1,9 +1,13 @@
 package gameBackend;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class Pit extends Obstacle {
 	
 	public Pit(int x, int y) {
 		super(x, y, 'B');
+		this.sprite = new Sprite(new Image("shaft.png"),co_ord);
 	}
 	
 	/**

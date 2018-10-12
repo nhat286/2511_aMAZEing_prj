@@ -31,6 +31,7 @@ public class GameplayStage extends Application {
 	static ArrayList<String> input;
 	static Scene playScene;
 	static GraphicsContext gc;
+	static double refreshTime = 0.016;
 	
 	@Override
 	public void start(Stage playStage) {
@@ -38,16 +39,16 @@ public class GameplayStage extends Application {
         playScene = new Scene(root);
         playStage.setScene(playScene);
         
-        Canvas canvas = new Canvas( 512, 512 );
+        MazeSystem ms = new MazeSystem();
+        ms.level1Initiate();
+        int mazeSize = ms.getMap_size();
+        
+        Canvas canvas = new Canvas(mazeSize*32, mazeSize*32);
         root.getChildren().add( canvas );
         
         gc = canvas.getGraphicsContext2D();
         
-        Character player = new Character(1, 1, 100);
-        Sprite s = new Sprite();
-        s.setImage(new Image( "human_new.png" ));
-        s.setPosition(0,0);
-        player.setSprite(s);
+//        Character player = new Character(15, 15, 100);
         
         root.setStyle("-fx-background-image: url(\"dirt_0_new.png\"); " +
                 "-fx-background-position: center center; " +
@@ -59,7 +60,7 @@ public class GameplayStage extends Application {
 //        final long timeStart = System.currentTimeMillis();
         long lastNanoTime = System.nanoTime();
         KeyFrame kf = new KeyFrame(
-            Duration.seconds(0.016),
+            Duration.seconds(refreshTime),
             new EventHandler<ActionEvent>()
             {
                 public void handle(ActionEvent ae)
@@ -67,24 +68,25 @@ public class GameplayStage extends Application {
                     //double t = (System.nanoTime() - lastNanoTime) / 1000000000.0; 
 
                 	// Clear the canvas
-                    gc.clearRect(0, 0, 512,512);
+//                    gc.clearRect(0, 0, 512,512);
                     
-                    player.getSprite().setVelocity(0,0);
-                    if (input.contains("LEFT"))
-                        player.getSprite().addVelocity(-player.getVelocity(),0);
-                    else if (input.contains("RIGHT"))
-                        player.getSprite().addVelocity(player.getVelocity(),0);
-                    else if (input.contains("UP"))
-                        player.getSprite().addVelocity(0,-player.getVelocity());
-                    else if (input.contains("DOWN"))
-                        player.getSprite().addVelocity(0,player.getVelocity());
-        	        player.getSprite().update(0.016);
-        	        
-        	        
-        	        
-                    // background image clears canvas
-
-                    player.getSprite().render(gc);
+//                    player.getSprite().setVelocity(0,0);
+//                    if (input.contains("LEFT"))
+//                        player.getSprite().addVelocity(-player.getVelocity(),0);
+//                    else if (input.contains("RIGHT"))
+//                        player.getSprite().addVelocity(player.getVelocity(),0);
+//                    else if (input.contains("UP"))
+//                        player.getSprite().addVelocity(0,-player.getVelocity());
+//                    else if (input.contains("DOWN"))
+//                        player.getSprite().addVelocity(0,player.getVelocity());
+//        	        player.getSprite().update(0.016);
+//        	        
+//        	        
+//        	        
+//                    // background image clears canvas
+//
+//                    player.getSprite().render(gc);
+                    ms.update(input,gc,refreshTime);
                     
                 }
             });
@@ -96,6 +98,7 @@ public class GameplayStage extends Application {
         gameLoop.play();
         
         playStage.show();
+        playStage.setMinHeight(playStage.getHeight());
 	}
 	
 	public static void main(String[] args) {

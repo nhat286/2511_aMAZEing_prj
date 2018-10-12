@@ -1,5 +1,8 @@
 package gameBackend;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class Hound extends Enemy implements Distance{
 	
 	CoOrd hunterCoOrd;
@@ -7,6 +10,7 @@ public class Hound extends Enemy implements Distance{
 	public Hound(CoOrd currPos) {
 		super(currPos, 'D');
 		this.hunterCoOrd = null;
+		this.sprite = new Sprite(new Image("hound.png"),currPos);
 	}
 	
 	public void linkHunter(CoOrd hunterCoOrd) {

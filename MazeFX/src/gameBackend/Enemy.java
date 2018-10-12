@@ -1,10 +1,13 @@
 package gameBackend;
 
+import application.Sprite;
+
 public abstract class Enemy {
 	
 	private CoOrd currPos;
 	private char icon;
 	private char direction;
+	protected Sprite sprite;
 			
 	public Enemy(CoOrd currPos, char icon) {
 		this.currPos = currPos;
@@ -40,4 +43,8 @@ public abstract class Enemy {
 	}
 	
 	public abstract Enemy copy();
+
+	public Sprite getSprite() {
+		return this.sprite;
+	}
 }

@@ -1,9 +1,13 @@
 package gameBackend;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class Hunter extends Enemy implements Distance {
 	
 	public Hunter(CoOrd currPos) {
 		super(currPos, 'H');
+		this.sprite = new Sprite(new Image("hunter.png"),currPos);
 	}
 	
 	/*

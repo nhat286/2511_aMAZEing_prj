@@ -1,8 +1,10 @@
 package gameBackend;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import javafx.scene.canvas.GraphicsContext;
 import kyle_maze.EnemyStat;
 import kyle_maze.InventoryMenu;
 import kyle_maze.ItemStat;
@@ -864,6 +866,41 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		}
 		sc.close();
 		System.out.println("Exitting...");
+	}
+	
+	public void update(ArrayList<String> input, GraphicsContext gc, double refreshTime ) {
+		gc.clearRect(0, 0, map_size*32,map_size*32);
+		//Update the player on canvas
+		user.getSprite().setVelocity(0,0);
+        if (input.contains("LEFT"))
+            user.getSprite().setVelocity(-user.getVelocity(),0);
+        else if (input.contains("RIGHT"))
+            user.getSprite().setVelocity(user.getVelocity(),0);
+        else if (input.contains("UP"))
+            user.getSprite().setVelocity(0,-user.getVelocity());
+        else if (input.contains("DOWN"))
+            user.getSprite().setVelocity(0,user.getVelocity());
+        user.getSprite().update(0.016);
+        user.setCoordinates((int) user.getSprite().getPositionX()/32,
+        		(int) user.getSprite().getPositionY()/32);
+        System.out.println(String.format("%d %d",user.getCoordinates().getX(),user.getCoordinates().getY()));
+        user.getSprite().render(gc);
+        
+        //Update the obstacles on canvas
+        ArrayList<Obstacle> obstacleList = this.curr.getObstacles();
+        for (Obstacle o : obstacleList) {
+			o.getSprite().render(gc);
+		}
+        
+        //Update the Enemies on canvas
+        ArrayList<Enemy> enemyList = this.curr.getEnemies();
+        for (Enemy e : enemyList) {
+			e.getSprite().render(gc);
+		} 
+	}
+
+	public int getMap_size() {
+		return map_size;
 	}
 
 }

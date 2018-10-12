@@ -18,6 +18,8 @@ public class Maze {
 	private ArrayList<Exit> exits;
 	private ArrayList<Key> keys;
 	private int goal;
+	
+
 	private int current_cond;
 	/*
 	 * Win Condition (can be a combination):
@@ -522,5 +524,55 @@ public class Maze {
 			copy.keys.add(new_copy);
 		}
 	}
+	
+	public ArrayList<Obstacle> getObstacles() {
+		return obstacles;
+	}
+
+	public Character getPlayer() {
+		return player;
+	}
+
+	public ArrayList<Weapon> getWeapon_drops() {
+		return weapon_drops;
+	}
+
+	public ArrayList<Arrow> getAvailable_arrows() {
+		return available_arrows;
+	}
+
+	public ArrayList<Bomb> getAvailable_bombs() {
+		return available_bombs;
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
+	public ArrayList<Potions> getPotion_drops() {
+		return potion_drops;
+	}
+
+	public ArrayList<FloorSwitch> getSwitches() {
+		return switches;
+	}
+
+	public ArrayList<Treasure> getLoots() {
+		return loots;
+	}
+
+	public ArrayList<Exit> getExits() {
+		return exits;
+	}
+
+	public ArrayList<Key> getKeys() {
+		return keys;
+	}
+
+	public int getGoal() {
+		return goal;
+	}
+	
+	
 
 }

@@ -3,6 +3,7 @@ package gameBackend;
 import java.util.ArrayList;
 
 import application.Sprite;
+import javafx.scene.image.Image;
 
 public class Character {
 	
@@ -21,6 +22,7 @@ public class Character {
 		this.equip_weapon = null;
 		this.active_potions = new ArrayList<Potions>();
 		this.holding_key = null;
+		this.sprite = new Sprite(new Image("human_new.png"),co_ord);
 	}
 	
 	public CoOrd getCoordinates() {
