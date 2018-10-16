@@ -1,6 +1,5 @@
 package eric;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -211,6 +210,12 @@ public class MazeSystem {
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new InvincibilityPotion(-2,-2));
+		
+		// random weapon equipped to character
+		this.user.equipWeapon(new Sword(-2, -2));
+//		Weapon w3 = new Arrow(-2, -2, this.user);
+//		this.curr.addWeaponDrop(w3);
+//		this.user.equipWeapon(w3);
 	}
 	
 	/**
@@ -234,7 +239,7 @@ public class MazeSystem {
 		this.curr.addObstacle(o4);
 		Obstacle o5 = new FloorSwitch(9, 11);
 		this.curr.addObstacle(o5);
-		Obstacle o6 = new Boulder(2, 5);
+		Obstacle o6 = new Boulder(3, 5);
 		this.curr.addObstacle(o6);
 		Obstacle o7 = new Boulder(15, 6);
 		this.curr.addObstacle(o7);
@@ -244,6 +249,16 @@ public class MazeSystem {
 		this.curr.addWeaponDrop(ar);
 		Weapon bm = new Bomb(12, 9, this.user.getCoordinates());
 		this.curr.addWeaponDrop(bm);
+		
+		// random weapon equipped to character
+//		Weapon tmp = new Bomb(-2, -2, this.user.getCoordinates());
+//		Weapon tmp = new Arrow(-2, -2, this.user);
+//		this.curr.addWeaponDrop(tmp);
+//		this.user.equipWeapon(tmp);
+		
+		// randomly use potion since the start
+//		this.user.equipPotion(new HoverPotion(-2, -2));
+//		this.user.equipPotion(new InvincibilityPotion(-2, -2));
 	}
 	
 	/**
@@ -362,17 +377,9 @@ public class MazeSystem {
 				break;
 			case GAME_COMPLETE:
 				return OUTCOME.WIN;
-			case HOVER:
-				break;
 			case MOVE:
 				break;
 			case NOTHING:
-				break;
-			case PICK_UP_ITEM:
-				break;
-			case PICK_UP_POTION:
-				break;
-			case PICK_UP_WEAPON:
 				break;
 			case PUSH_BOULDER:
 				Boulder b = (Boulder) ahead;
@@ -608,7 +615,7 @@ public class MazeSystem {
 		int y = sc.nextInt();
 		if (x < 1 || y < 1 || x > this.map_size - 1 || y > this.map_size - 1)
 			return null;
-		return new CoOrd(x, y);
+		return new CoOrd(x, y, 0);
 	}
 	
 	/**
@@ -780,134 +787,129 @@ public class MazeSystem {
 		return copy;
 	}
 	
-	/**
-	 * MAIN function to run the game
-	 * @param args
-	 * @throws InterruptedException
-	 */
-	public static void main(String[] args) throws InterruptedException {
-		MazeSystem sys = new MazeSystem();
-		
-		/*
-		 * Game default: MazeRunner goal + 20x20 maze + character (1, 1)
-		 * Logic for system would be:
-		 * Play game:
-		 * 		while game not end {
-		 * 			get info and coords from user
-		 * 			get/update behaviours and stats
-		 * 			updateMap();
-		 * 		}
-		 * 
-		 * Design map:
-		 * 		get size and win conditions
-		 * 		loop to add or change new entities
-		 * 		play -> do play game logic
-		 */
-		char input = '.';
-		Scanner sc = new Scanner(System.in);
-		while (input != 'q') {
-			clearScreen();
-			System.out.println("******aMAZEing******");
-			System.out.println("Press y to start!");
-			System.out.println("Press q to quit!");
-			System.out.println("Press m to design your own maze!");
-			input = sc.next().charAt(0);
-			switch (input) {
-			case 'y':
-				System.out.println("Choose your level:");
-				System.out.println("\tLevel 1: Kill all enemies!");
-				System.out.println("\tLevel 2: Solve the mysterious puzzle!");
-				System.out.println("\tLevel 3: Find the hidden treasures!");
-				System.out.print("Type level number> ");
-				int lv = sc.nextInt();
-				while (lv < 0 || lv > 3) {
-					System.out.println("Can't setup maze, not found level!");
-					System.out.print("Type level number> ");
-					lv = sc.nextInt();
-				}
-				OUTCOME result;
-				/*if(sys.pause == 0) {
-					sys.gameInitiate();
-				}*/
-				do {
-					switch (lv) {
-					case 1:
-						sys.level1Initiate();
-						break;
-					case 2:
-						sys.level2Initiate();
-						break;
-					case 3:
-						sys.leve3Initiate();
-						break;
-					}
-					result = sys.gameLoop(sc);
-					if (result == OUTCOME.LOSE) {
-						clearScreen();
-						System.out.println("\t\tOH NO YOU DIE! RESTARTING");
-						Thread.sleep(1000);
-					} else if (result == OUTCOME.WIN) {
-						clearScreen();
-						System.out.println("CONGRATULATIONS! YOU WIN!!!");
-						System.out.println("Press any key to continue");
-						try {
-							System.in.read();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						break;
-					}
-				} while (result != OUTCOME.QUIT);
-				break;
-			case 'm':
-				System.out.println("Design time!");
-				sys.design(sc);
-				break;
-			case 'q':
-				System.out.println("Thank you for playing!");
-				break;
-			default:
-				System.out.println("Unknown option?");
-			}
-		}
-		sc.close();
-		System.out.println("Exitting...");
-	}
-
-	public void update(ArrayList<String> input, GraphicsContext gc, double refreshTime ) {
-		gc.clearRect(0, 0, map_size*32,map_size*32);
-		//Update the player on canvas
-		user.getSprite().setVelocity(0,0);
-        if (input.contains("LEFT"))
-            user.getSprite().setVelocity(-user.getVelocity(),0);
-        else if (input.contains("RIGHT"))
-            user.getSprite().setVelocity(user.getVelocity(),0);
-        else if (input.contains("UP"))
-            user.getSprite().setVelocity(0,-user.getVelocity());
-        else if (input.contains("DOWN"))
-            user.getSprite().setVelocity(0,user.getVelocity());
-        user.getSprite().update(0.016);
-        user.setCoordinates((int) user.getSprite().getPositionX()/32,
-        		(int) user.getSprite().getPositionY()/32);
-        System.out.println(String.format("%d %d",user.getCoordinates().getX(),user.getCoordinates().getY()));
-        user.getSprite().render(gc);
-        
-        //Update the obstacles on canvas
-        ArrayList<Obstacle> obstacleList = this.curr.getObstacles();
-        for (Obstacle o : obstacleList) {
-			o.getSprite().render(gc);
-		}
-        
-        //Update the Enemies on canvas
-        ArrayList<Enemy> enemyList = this.curr.getEnemies();
-        for (Enemy e : enemyList) {
-			e.getSprite().render(gc);
-		} 
+	public int getMapSize() {
+		return this.map_size;
 	}
 	
-	public int getMapSize() {
-		return map_size;
+	/*
+	 * Integrate old gameLoop with graphics and javafx
+	 */
+	public OUTCOME gameLoop(ArrayList<String> input, GraphicsContext gc, double refreshTime) {
+		this.map = drawMap();
+		this.curr.updateMap(map, gc);
+		gc.clearRect(0, 0, map_size*32,map_size*32);
+		this.user.getSprite().setVelocity(0,0);
+		
+		CoOrd in_front = this.user.getInfront();
+		Object ahead = this.curr.getEntity(in_front);
+		Object under = this.curr.getEntity(this.user.getCoordinates());
+		ACTION outcome = ACTION.NOTHING;
+		/**
+		 * Basic movement with arrow keys
+		 */
+		if (input.contains("LEFT")) {
+			//if(user.getSprite().getPositionX()%32 <= user.getVelocity()*refreshTime) 
+	        		user.setCoordinates((int) (user.getSprite().getPositionX())/32,
+	        				(int) (user.getSprite().getPositionY())/32);
+			outcome = this.user.move('<', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+		} else if (input.contains("DOWN")) {
+			//if(user.getSprite().getPositionY()%32 >= 32-user.getVelocity()*refreshTime*2)
+	        	user.setCoordinates((int) (user.getSprite().getPositionX())/32,
+	            		(int) (user.getSprite().getPositionY())/32+1);
+			outcome = this.user.move('v', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+		} else if (input.contains("RIGHT")) {
+			//if(user.getSprite().getPositionX()%32 >= 32-user.getVelocity()*refreshTime) 
+	        	user.setCoordinates((int) (user.getSprite().getPositionX())/32+1,
+	            		(int) (user.getSprite().getPositionY())/32);
+			outcome = this.user.move('>', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+		} else if (input.contains("UP")) {
+			//if(user.getSprite().getPositionY()%32 <= user.getVelocity()*refreshTime) 
+        		user.setCoordinates((int) (user.getSprite().getPositionX())/32,
+        				(int) (user.getSprite().getPositionY())/32);
+			outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+		/**
+		 * SPACEBAR for using weapon, nothing happens if character hasn't equipped weapon
+		 * system passes the entity in front of character to assist using weapon behaviour
+		 */
+		} else if (input.contains("SPACE")) {
+			System.out.println(this.user.getCoordinates() + "---" + ahead);
+			this.user.useWeapon(ahead);
+		/**
+		 * CTRL for picking up items at the character's co-ordinates
+		 * system checks the entity at character's co-ordinates (besides character himself)
+		 * 			and calls corresponding pickup behaviour
+		 */
+		} else if (input.contains("CONTROL")) {
+			if (under instanceof Weapon) {
+				this.user.pickUpWeapon((Weapon) under);
+			} else if (under instanceof Potion) {
+				this.user.pickUpPotion((Potion) under);
+			} else if (under instanceof Treasure) {
+				((Treasure) under).pickUp();
+			} else if (under instanceof Key) {
+				this.user.setHoldingKey((Key) under);
+				((Key) under).pickUp();
+			}
+		/**
+		 * I for opening inventory menu to check what weapons and potions are available in character's bag
+		 */
+		/*
+		 * Need to pass the input string in, instead of scanner here!
+		 */
+		} else if (input.contains("I")) {
+			InventoryMenu iM = new InventoryMenu(this.user, null);
+			iM.display();
+		/**
+		 * ESC for pausing the game and opening menu options
+		 */
+		} else if (input.contains("ESCAPE")) {
+			if (this.pauseGame(null) == 0) {
+				return OUTCOME.QUIT;
+			}
+		} else if (input.contains("Q")) {
+			return OUTCOME.QUIT;
+		}
+		
+		/**
+		 * Check for outcome from character's action (move) and handle logic of the game
+		 * If character tries to move onto a boulder entity, push boulder behaviour is checked and called
+		 */
+		switch (outcome) {
+		case DIE:
+			return OUTCOME.LOSE;
+		case DESTROY:
+			break;
+		case GAME_COMPLETE:
+			return OUTCOME.WIN;
+		case MOVE:
+			break;
+		case NOTHING:
+			break;
+		case PUSH_BOULDER:
+			Boulder b = (Boulder) ahead;
+			CoOrd next_to = b.getInfront(this.user.getIcon());
+			if (b.push_boulder(this.user.getIcon(), this.map[next_to.getX()][next_to.getY()],
+					this.curr.getEntity(next_to), this.map_size) != ACTION.NOTHING) {
+				this.user.move(this.user.getIcon(), ' ', null, this.map_size);
+			}
+			break;
+		default:
+			break;
+		}
+		/**
+		 * After each character's action, render the map to update all entities
+		 */
+		this.user.getSprite().update(refreshTime);
+		this.map = drawMap();
+		this.curr.updateMap(map, gc);
+		//this.printMap();
+		if (this.curr.checkGoal() == this.curr.getWinCond())
+			return OUTCOME.WIN;
+		else if (this.curr.checkGoal() == -1)
+			return OUTCOME.LOSE;
+		
+		
+		return OUTCOME.NOTHING;
 	}
 
 }

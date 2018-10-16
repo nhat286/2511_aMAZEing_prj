@@ -1,6 +1,8 @@
 package niriksha;
 
+import application.Sprite;
 import eric.CoOrd;
+import javafx.scene.image.Image;
 
 public class Boulder extends Obstacle {
 	
@@ -10,6 +12,7 @@ public class Boulder extends Obstacle {
 	public Boulder(int x, int y) {
 		super(x, y, 'O');
 		this.on_switch = false;
+		this.setSprite(new Sprite(new Image("boulder.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -71,18 +74,23 @@ public class Boulder extends Obstacle {
 	 * @return boulder is moved
 	 */
 	public void moveCoOrd(char movement, int border) {
-		if (movement == '<') {
+		if (movement == '^') {
 			this.getCoordinates().moveLeft();
-		} 
-		else if (movement == '>') {
-			this.getCoordinates().moveRight(border);
-		} 
-		else if (movement == '^') {
-			this.getCoordinates().moveUp();
+			//this.getCoordinates().moveLeft(this.getSprite());
 		} 
 		else if (movement == 'v') {
+			this.getCoordinates().moveRight(border);
+			//this.getCoordinates().moveRight(border, this.getSprite());
+		} 
+		else if (movement == '<') {
+			this.getCoordinates().moveUp();
+			//this.getCoordinates().moveUp(this.getSprite());
+		} 
+		else if (movement == '>') {
 			this.getCoordinates().moveDown(border);
+			//this.getCoordinates().moveDown(border, this.getSprite());
 		}
+		this.getSprite().setPosition(this.getCoordinates().getX() * 32, this.getCoordinates().getY() * 32);
 	}
 	
 	/**
@@ -109,10 +117,15 @@ public class Boulder extends Obstacle {
 	 */
 	public CoOrd getInfront(char direction) {
 		CoOrd co = new CoOrd(this.getCoordinates().getX(), this.getCoordinates().getY());
-		if (direction == '^') co.setXY(co.getX() - 1, co.getY());
-		else if (direction == 'v') co.setXY(co.getX() + 1, co.getY());
-		else if (direction == '<') co.setXY(co.getX(), co.getY() - 1);
-		else if (direction == '>') co.setXY(co.getX(), co.getY() + 1);
+//		if (direction == '^') co.setXY(co.getX() - 1, co.getY());
+//		else if (direction == 'v') co.setXY(co.getX() + 1, co.getY());
+//		else if (direction == '<') co.setXY(co.getX(), co.getY() - 1);
+//		else if (direction == '>') co.setXY(co.getX(), co.getY() + 1);
+		
+		if (direction == '<') co.setXY(co.getX() - 1, co.getY());
+		else if (direction == '>') co.setXY(co.getX() + 1, co.getY());
+		else if (direction == '^') co.setXY(co.getX(), co.getY() - 1);
+		else if (direction == 'v') co.setXY(co.getX(), co.getY() + 1);
 		return co;
 	}
 	

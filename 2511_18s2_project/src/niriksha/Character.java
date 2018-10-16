@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import application.Sprite;
 import eric.CoOrd;
+import eric.DIRECTION;
 import javafx.scene.image.Image;
 
 public class Character {
@@ -12,8 +13,7 @@ public class Character {
 	private CoOrd co_ord;
 	private Inventory bag;
 	private char icon;
-	//private direction d;
-	//private enum direction {UP, RIGHT, DOWN, LEFT}; 
+	private DIRECTION d;
 	private Weapon equip_weapon;
 	private ArrayList<Potion> active_potions;
 	private Key holding_key;
@@ -28,7 +28,7 @@ public class Character {
 		this.co_ord = new CoOrd(x, y);
 		this.bag = new Inventory();
 		this.icon = 'v';
-		//this.d = direction.DOWN;
+		this.d = DIRECTION.DOWN;
 		this.equip_weapon = null;
 		this.active_potions = new ArrayList<Potion>();
 		this.holding_key = null;
@@ -38,6 +38,7 @@ public class Character {
 		this.co_ord = new CoOrd(x, y, vel);
 		this.bag = new Inventory();
 		this.icon = 'v';
+		this.d = DIRECTION.DOWN;
 		this.equip_weapon = null;
 		this.active_potions = new ArrayList<Potion>();
 		this.holding_key = null;
@@ -90,17 +91,21 @@ public class Character {
 	 */
 	public void moveCoOrd(char movement, int border) {
 		if (movement == '<') {
-			if (this.icon != '<') this.icon = '<';
-			else this.co_ord.moveLeft();
+			if (this.icon != '<') { this.icon = '<'; this.d = DIRECTION.UP; }
+			else //this.co_ord.moveLeft();
+				this.co_ord.moveLeft(this.sprite);
 		} else if (movement == '>') {
-			if (this.icon != '>') this.icon = '>';
-			else this.co_ord.moveRight(border);
+			if (this.icon != '>') { this.icon = '>'; this.d = DIRECTION.DOWN; }
+			else //this.co_ord.moveRight(border);
+				this.co_ord.moveRight(border, this.sprite);
 		} else if (movement == '^') {
-			if (this.icon != '^') this.icon = '^';
-			else this.co_ord.moveUp();
+			if (this.icon != '^') { this.icon = '^'; this.d = DIRECTION.LEFT; }
+			else //this.co_ord.moveUp();
+				this.co_ord.moveUp(this.sprite);
 		} else if (movement == 'v') {
-			if (this.icon != 'v') this.icon = 'v';
-			else this.co_ord.moveDown(border);
+			if (this.icon != 'v') { this.icon = 'v'; this.d = DIRECTION.RIGHT; }
+			else //this.co_ord.moveDown(border);
+				this.co_ord.moveDown(border, this.sprite);
 		}
 	}
 	
@@ -111,10 +116,15 @@ public class Character {
 	 */
 	public CoOrd getInfront() {
 		CoOrd co = new CoOrd(this.co_ord.getX(), this.co_ord.getY());
-		if (this.icon == '^') co.setXY(co.getX() - 1, co.getY());
-		else if (this.icon == 'v') co.setXY(co.getX() + 1, co.getY());
-		else if (this.icon == '<') co.setXY(co.getX(), co.getY() - 1);
-		else if (this.icon == '>') co.setXY(co.getX(), co.getY() + 1);
+//		if (this.icon == '^') co.setXY(co.getX() - 1, co.getY());
+//		else if (this.icon == 'v') co.setXY(co.getX() + 1, co.getY());
+//		else if (this.icon == '<') co.setXY(co.getX(), co.getY() - 1);
+//		else if (this.icon == '>') co.setXY(co.getX(), co.getY() + 1);
+		
+		if (this.icon == '<') co.setXY(co.getX() - 1, co.getY());
+		else if (this.icon == '>') co.setXY(co.getX() + 1, co.getY());
+		else if (this.icon == '^') co.setXY(co.getX(), co.getY() - 1);
+		else if (this.icon == 'v') co.setXY(co.getX(), co.getY() + 1);
 		return co;
 	}
 	
@@ -182,7 +192,7 @@ public class Character {
 	 * @param potion name
 	 */
 	public void equipPotion(Potion p) {
-		this.current_state = p.potion_effect(this);
+		this.current_state = p.potionEffect(this);
 	}
 	
 	public boolean weaponEquipped() {
@@ -222,7 +232,7 @@ public class Character {
 	}
 	
 	public Sprite getSprite() {
-		return sprite;
+		return this.sprite;
 	}
 
 	public void setSprite(Sprite sprite) {

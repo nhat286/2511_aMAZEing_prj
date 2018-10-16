@@ -3,6 +3,9 @@ package niriksha;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class InvincibilityPotion extends Potion {
 	
 	private boolean used;
@@ -13,10 +16,11 @@ public class InvincibilityPotion extends Potion {
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
 		this.used = false;
+		this.setSprite(new Sprite(new Image("brilliant_blue_new.png"), this.getCoordinates()));
 	}
 
 	@Override
-	public STATE potion_effect(Character c) {
+	public STATE potionEffect(Character c) {
 		
 		this.current = c;
 		this.old_state = c.getState();
@@ -41,7 +45,10 @@ public class InvincibilityPotion extends Potion {
 		public void run() {
 			used = true;
 			invincibility_timer.cancel();
-			current.setState(old_state);
+			if (current.getState() instanceof HoverInvincibleCharacter)
+				current.setState(new HoverCharacter(current));
+			else
+				current.setState(old_state);
         }
 	}
 	

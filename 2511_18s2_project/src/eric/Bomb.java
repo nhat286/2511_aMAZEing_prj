@@ -3,7 +3,9 @@ package eric;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import application.Sprite;
 import jae.Enemy;
+import javafx.scene.image.Image;
 import niriksha.Boulder;
 import niriksha.Weapon;
 import niriksha.ACTION;
@@ -27,6 +29,7 @@ public class Bomb extends Weapon {
 		this.lit = false;
 		this.explode = false;
 		this.user = user;
+		this.setSprite(new Sprite(new Image("bomb_unlit.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -41,7 +44,8 @@ public class Bomb extends Weapon {
 			this.lit = true;
 			this.setCoordinates(this.user.getX(), this.user.getY());
 			this.invincibility_timer = new Timer();
-			this.invincibility_timer.schedule(new timing(), 1000*5);
+			this.setSprite(new Sprite(new Image("bomb_lit_1.png"), this.getCoordinates()));
+			invincibility_timer.schedule(new tick2(), 1000);
 		}
 		if (this.explode) {
 			this.invincibility_timer.purge();
@@ -58,11 +62,32 @@ public class Bomb extends Weapon {
 		return ACTION.NOTHING;
 	}
 	
-	class timing extends TimerTask {
+	class explode extends TimerTask {
 		public void run() {
 			explode = true;
 			invincibility_timer.cancel();
         }
+	}
+	
+	class tick2 extends TimerTask {
+		public void run() {
+			setSprite(new Sprite(new Image("bomb_lit_2.png"), getCoordinates()));
+			invincibility_timer.schedule(new tick3(), 1000);
+		}
+	}
+	
+	class tick3 extends TimerTask {
+		public void run() {
+			setSprite(new Sprite(new Image("bomb_lit_3.png"), getCoordinates()));
+			invincibility_timer.schedule(new tick4(), 1000);
+		}
+	}
+	
+	class tick4 extends TimerTask {
+		public void run() {
+			setSprite(new Sprite(new Image("bomb_lit_4.png"), getCoordinates()));
+			invincibility_timer.schedule(new explode(), 100);
+		}
 	}
 	
 	/**

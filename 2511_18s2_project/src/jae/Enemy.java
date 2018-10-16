@@ -55,6 +55,7 @@ public abstract class Enemy implements Distance {
 	
 	public void enemyDies() {
 		this.currPos.setXY(-1, -1);
+		this.sprite = null;
 	}
 	
 	public char getIcon() {

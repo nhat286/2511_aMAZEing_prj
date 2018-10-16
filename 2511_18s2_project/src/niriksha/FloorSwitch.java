@@ -1,5 +1,8 @@
 package niriksha;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class FloorSwitch extends Obstacle {
 	
 	private boolean trigger;
@@ -7,6 +10,7 @@ public class FloorSwitch extends Obstacle {
 	public FloorSwitch(int x, int y) {
 		super(x, y, 'I');
 		this.trigger = false;
+		this.setSprite(new Sprite(new Image("pressure_plate.png"), this.getCoordinates()));
 	}
 	
 	/**

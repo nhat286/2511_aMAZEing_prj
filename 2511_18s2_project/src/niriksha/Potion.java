@@ -1,19 +1,26 @@
 package niriksha;
 
+import application.Sprite;
 import eric.CoOrd;
 
 public abstract class Potion {
-//	public enum action {
-//		INVINCIBLE, HOVER, NOTHING;
-//	}
 	
 	private CoOrd co_ord;
 	private char icon;
+	private Sprite sprite;
 	
 	public Potion(int x, int y, char c) {
 		//this.co_ord = new CoOrd(x, y);
 		this.co_ord = new CoOrd(x, y, 0);
 		this.icon = c;
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+	
+	public void setSprite(Sprite s) {
+		this.sprite = s;
 	}
 
 	public CoOrd getCoordinates() {
@@ -31,7 +38,7 @@ public abstract class Potion {
 	/**
 	 * Effect of the potion is induced
 	 */
-	public abstract STATE potion_effect(Character c);
+	public abstract STATE potionEffect(Character c);
 	
 	/**
 	 * Destroys potion by setting their coordinates outside of the maze

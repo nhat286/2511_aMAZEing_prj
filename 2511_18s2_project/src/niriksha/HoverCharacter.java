@@ -33,7 +33,7 @@ public class HoverCharacter implements STATE {
 				
 				// door
 				case 'E':
-					if (((Door) object).isDoor_open()) {
+					if (((Door) object).isDoorOpen()) {
 						this.current.moveCoOrd(direction, border);
 						return ACTION.MOVE;
 					}

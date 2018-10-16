@@ -18,6 +18,7 @@ import niriksha.Obstacle;
 import niriksha.Pit;
 import jae.Enemy;
 import jae.Hound;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Maze {
 	
@@ -109,7 +110,7 @@ public class Maze {
 		this.updateCharacterBag();
 		CoOrd player = this.player.getCoordinates();
 		boolean invincible = (this.player.getState() instanceof InvincibleCharacter ||
-				this.player.getState() instanceof HoverInvincibleCharacter);
+								this.player.getState() instanceof HoverInvincibleCharacter);
 		
 		entity = null;
 		Iterator<Potion> pt_iter = this.potion_drops.iterator();
@@ -263,6 +264,200 @@ public class Maze {
 		}
 		
 		map[player.getX()][player.getY()] = this.player.getIcon();
+	}
+	
+	/*
+	 * updateMap with graphics rendering!!!
+	 */
+	public void updateMap(char[][] map, GraphicsContext gc) {
+		CoOrd entity = null;
+		this.updateCharacterBag();
+		CoOrd player = this.player.getCoordinates();
+		boolean invincible = (this.player.getState() instanceof InvincibleCharacter ||
+								this.player.getState() instanceof HoverInvincibleCharacter);
+		
+		entity = null;
+		Iterator<Potion> pt_iter = this.potion_drops.iterator();
+		while (pt_iter.hasNext()) {
+			Potion p = pt_iter.next();
+			entity = p.getCoordinates();
+			if (entity.getX() < 0) pt_iter.remove();
+			else {
+				map[entity.getX()][entity.getY()] = p.getIcon();
+				p.getSprite().render(gc);
+			}
+		}
+		
+		entity = null;
+		Iterator<Weapon> wp_iter = this.weapon_drops.iterator();
+		while (wp_iter.hasNext()) {
+			Weapon w = wp_iter.next();
+			entity = w.getCoordinates();
+			if (entity.getX() < 0) {
+				wp_iter.remove();
+			}
+			else {
+				map[entity.getX()][entity.getY()] = w.getIcon();
+				w.getSprite().render(gc);
+			}
+		}
+		
+		entity = null;
+		Iterator<Treasure> ts_iter = this.loots.iterator();
+		while (ts_iter.hasNext()) {
+			Treasure t = ts_iter.next();
+			entity = t.getCoordinates();
+			if (entity.getX() < 0) ts_iter.remove();
+			else {
+				map[entity.getX()][entity.getY()] = t.getIcon();
+				t.getSprite().render(gc);
+			}
+		}
+		
+		entity = null;
+		Iterator<Key> k_iter = this.keys.iterator();
+		while (k_iter.hasNext()) {
+			Key k = k_iter.next();
+			entity = k.getCoordinates();
+			if (entity.getX() == -1) k_iter.remove();
+			else if (entity.getX() >= 0) {
+				map[entity.getX()][entity.getY()] = k.getIcon();
+				k.getSprite().render(gc);
+			}
+		}
+		
+		entity = null;
+		Iterator<Exit> ex_iter = this.exits.iterator();
+		while (ex_iter.hasNext()) {
+			Exit ex = ex_iter.next();
+			entity = ex.getCoordinates();
+			if (entity.getX() == -1) ex_iter.remove();
+			else if (entity.getX() >= 0) {
+				map[entity.getX()][entity.getY()] = ex.getIcon();
+				ex.getSprite().render(gc);
+			}
+		}
+		
+		entity = null;
+		Iterator<Bomb> b_iter = this.available_bombs.iterator();
+		while (b_iter.hasNext()) {
+			Bomb b = b_iter.next();
+			if (b.isLit()) {
+				if (b.isExploded()) {
+					CoOrd on_top = new CoOrd(b.getCoordinates().getX(), b.getCoordinates().getY());
+					if (!invincible && on_top.equals(player))
+						this.current_cond = -1;
+					Object ontop = this.getEntity(on_top);
+					b.weapon_action(ontop);
+					
+					CoOrd next_to = new CoOrd(b.getCoordinates().getX() - 1, b.getCoordinates().getY());
+					if (!invincible && next_to.equals(player))
+						this.current_cond = -1;
+					Object near = this.getEntity(next_to);
+					b.weapon_action(near);
+					
+					next_to.setXY(b.getCoordinates().getX() + 1, b.getCoordinates().getY());
+					if (!invincible && next_to.equals(player))
+						this.current_cond = -1;
+					near = this.getEntity(next_to);
+					b.weapon_action(near);
+					
+					next_to.setXY(b.getCoordinates().getX(), b.getCoordinates().getY() - 1);
+					if (!invincible && next_to.equals(player))
+						this.current_cond = -1;
+					near = this.getEntity(next_to);
+					b.weapon_action(near);
+					
+					next_to.setXY(b.getCoordinates().getX(), b.getCoordinates().getY() + 1);
+					if (!invincible && next_to.equals(player))
+						this.current_cond = -1;
+					near = this.getEntity(next_to);
+					b.weapon_action(near);
+					b.destroyWeapon();
+				} else {
+					b.weapon_action(null);
+				}
+			}
+			entity = b.getCoordinates();
+			if (entity.getX() == -1) b_iter.remove();
+			else if (entity.getX() >= 0) {
+				map[entity.getX()][entity.getY()] = b.getIcon();
+				b.getSprite().render(gc);
+			}
+		}
+		
+		entity = null;
+		Iterator<Arrow> a_iter = this.available_arrows.iterator();
+		while (a_iter.hasNext()) {
+			Arrow a = a_iter.next();
+			if (a.isUsed()) {
+				CoOrd in_front = new CoOrd(a.getInfront().getX(), a.getInfront().getY());
+				if (a.moving(getEntity(in_front), map.length) == 1) {
+					map[in_front.getX()][in_front.getY()] = ' ';
+				}
+				if (a.getCoordinates().getX() >= 0) {
+					CoOrd on_top = new CoOrd(a.getCoordinates().getX(), a.getCoordinates().getY());
+					if (a.moving(getEntity(on_top), map.length) == 1) {
+						map[on_top.getX()][on_top.getY()] = ' ';
+					}
+				}
+			}
+			entity = a.getCoordinates();
+			if (entity.getX() == -1) a_iter.remove();
+			else if (entity.getX() >= 0) {
+				map[entity.getX()][entity.getY()] = a.getIcon();
+				a.getSprite().update(0.01);
+				a.getSprite().render(gc);
+			}
+		}
+		
+		entity = null;
+		Iterator<Enemy> e_iter = this.enemies.iterator();
+		while (e_iter.hasNext()) {
+			Enemy e = e_iter.next();
+			entity = e.getCurrPos();
+			if (entity.getX() == -1) e_iter.remove();
+			else if (entity.getX() >= 0) {
+				e.enemyMovement(this.player, map.length);
+				if (e.getCurrPos().equals(player)) {
+					if (!invincible)
+						this.current_cond = -1;
+					else {
+						e.enemyDies();
+						e_iter.remove();
+						continue;
+					}
+				}
+				boolean die = false;
+				for (Obstacle o : this.obstacles) {
+					if (o instanceof Pit && e.getCurrPos().equals(((Pit) o).getCoordinates())) {
+						e_iter.remove();
+						die = true;
+					}
+				}
+				if (!die) {
+					map[entity.getX()][entity.getY()] = e.getIcon();
+					e.getSprite().update(0.01);
+					e.getSprite().render(gc);
+				}
+			}
+		}
+		
+		entity = null;
+		Iterator<Obstacle> o_iter = this.obstacles.iterator();
+		while (o_iter.hasNext()) {
+			Obstacle o = o_iter.next();
+			entity = o.getCoordinates();
+			if (entity.getX() < 0) o_iter.remove();
+			else if (map[entity.getX()][entity.getY()] != '%') {
+				map[entity.getX()][entity.getY()] = o.getIcon();
+				o.getSprite().update(0.016);
+				o.getSprite().render(gc);
+			}
+		}
+		
+		map[player.getX()][player.getY()] = this.player.getIcon();
+		this.player.getSprite().render(gc);
 	}
 	
 	/**
@@ -493,45 +688,45 @@ public class Maze {
 		return this.enemies;
 	}
 	
-	public ArrayList<Obstacle> getObstacles() {
-		return this.obstacles;
-	}
-
-	public Character getPlayer() {
-		return this.player;
-	}
-
-	public ArrayList<Weapon> getWeaponDrops() {
-		return this.weapon_drops;
-	}
-
-	public ArrayList<Arrow> getAvailableArrows() {
-		return this.available_arrows;
-	}
-
-	public ArrayList<Bomb> getAvailableBombs() {
-		return this.available_bombs;
-	}
-
-	public ArrayList<Potion> getPotionDrops() {
-		return this.potion_drops;
-	}
-
-	public ArrayList<FloorSwitch> getSwitches() {
-		return this.switches;
-	}
-
-	public ArrayList<Treasure> getLoots() {
-		return this.loots;
-	}
-
-	public ArrayList<Exit> getExits() {
-		return this.exits;
-	}
-
-	public ArrayList<Key> getKeys() {
-		return this.keys;
-	}
+//	public ArrayList<Obstacle> getObstacles() {
+//		return this.obstacles;
+//	}
+//
+//	public Character getPlayer() {
+//		return this.player;
+//	}
+//
+//	public ArrayList<Weapon> getWeaponDrops() {
+//		return this.weapon_drops;
+//	}
+//
+//	public ArrayList<Arrow> getAvailableArrows() {
+//		return this.available_arrows;
+//	}
+//
+//	public ArrayList<Bomb> getAvailableBombs() {
+//		return this.available_bombs;
+//	}
+//
+//	public ArrayList<Potion> getPotionDrops() {
+//		return this.potion_drops;
+//	}
+//
+//	public ArrayList<FloorSwitch> getSwitches() {
+//		return this.switches;
+//	}
+//
+//	public ArrayList<Treasure> getLoots() {
+//		return this.loots;
+//	}
+//
+//	public ArrayList<Exit> getExits() {
+//		return this.exits;
+//	}
+//
+//	public ArrayList<Key> getKeys() {
+//		return this.keys;
+//	}
 	
 	public void copyMaze(Maze copy, Maze old) {
 

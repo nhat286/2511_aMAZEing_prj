@@ -30,20 +30,12 @@ public class Coward extends Enemy {
 	public boolean specialMovement(Character target, int border) {
 		CoOrd me = this.getCurrPos();
 		CoOrd ch = target.getCoordinates();
-		if (me.getX() == ch.getX() && Math.abs(me.getY() - ch.getY()) == 1) {
-			if (this.getDirection() != '^')
-				this.setDirection('^');
-			else
-				this.getCurrPos().moveUp();
-		} else if (me.getY() == ch.getY() && Math.abs(me.getX() - ch.getX()) == 1) {
-			if (this.getDirection() != '<')
-				this.setDirection('<');
-			else
-				this.getCurrPos().moveLeft();
-		} else {
-			return true;
+		if ((me.getX() == ch.getX() && Math.abs(me.getY() - ch.getY()) == 1) ||
+				(me.getY() == ch.getY() && Math.abs(me.getX() - ch.getX()) == 1)) {
+			moveAway(this, ch, border);
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**

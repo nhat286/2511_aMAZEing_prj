@@ -1,5 +1,7 @@
 package eric;
 
+import application.Sprite;
+
 public class CoOrd {
 	private int x;
 	private int y;
@@ -20,12 +22,23 @@ public class CoOrd {
 		return this.baseVel;
 	}
 	
+	public void setVelocity(int vel) {
+		this.baseVel = vel;
+	}
+	
 	/**
 	 * Sets the coordinate of object one position to the left
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveLeft() {
-		if (this.y > 1) this.y--;
+		if (this.y > 0) this.y--;
+	}
+	
+	public void moveLeft(Sprite s) {
+		if (this.x > 0) s.setVelocity(-baseVel, 0);
+		//if (this.y > 0) this.y--;
+		this.setXY((int) (s.getPositionX())/32,
+				(int) (s.getPositionY())/32);
 	}
 	
 	/**
@@ -33,7 +46,14 @@ public class CoOrd {
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveRight(int border) {
-		if (this.y < border - 2) this.y++;
+		if (this.y < border - 1) this.y++;
+	}
+	
+	public void moveRight(int border, Sprite s) {
+		if (this.x < border - 1) s.setVelocity(baseVel, 0);
+		//if (this.y < border - 1) this.y++;
+		this.setXY((int) (s.getPositionX())/32+1,
+				(int) (s.getPositionY())/32);
 	}
 	
 	/**
@@ -41,7 +61,14 @@ public class CoOrd {
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveUp() {
-		if (this.x > 1) this.x--;
+		if (this.x > 0) this.x--;
+	}
+	
+	public void moveUp(Sprite s) {
+		if (this.y > 0) s.setVelocity(0, -baseVel);
+		//if (this.x > 1) this.x--;
+		this.setXY((int) (s.getPositionX())/32,
+				(int) (s.getPositionY())/32);
 	}
 	
 	/**
@@ -49,7 +76,14 @@ public class CoOrd {
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveDown(int border) {
-		if (this.x < border - 2) this.x++;
+		if (this.x < border - 1) this.x++;
+	}
+	
+	public void moveDown(int border, Sprite s) {
+		if (this.y < border - 1) s.setVelocity(0, +baseVel);
+		//if (this.x < border - 1) this.x++;
+		this.setXY((int) (s.getPositionX())/32,
+				(int) (s.getPositionY())/32+1);
 	}
 	
 	public int getX() {
@@ -85,5 +119,10 @@ public class CoOrd {
 		CoOrd co = (CoOrd) arg0;
 		if (co.x == this.x && co.y == this.y) return true;
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "x: " + this.x + ", y: " + this.y;
 	}
 }

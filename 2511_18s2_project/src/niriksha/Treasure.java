@@ -1,6 +1,8 @@
 package niriksha;
 
+import application.Sprite;
 import eric.CoOrd;
+import javafx.scene.image.Image;
 
 public class Treasure {
 	
@@ -8,12 +10,18 @@ public class Treasure {
 	private CoOrd co_ord;
 	private char icon;
 	private boolean picked_up;
+	private Sprite sprite;
 	
 	public Treasure(int x, int y) {
 		//this.co_ord = new CoOrd(x, y);
 		this.co_ord = new CoOrd(x, y, 0);
 		this.icon = '$';
 		this.picked_up = false;
+		this.sprite = new Sprite(new Image("gold_pile.png"), this.getCoordinates());
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 	
 	/**

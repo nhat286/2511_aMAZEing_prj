@@ -7,19 +7,23 @@ public interface Distance {
 		CoOrd me = self.getCurrPos();
 		int x_difference = me.getX() - target.getX();
 		if (x_difference < 0) {
-			goDown(self, border);
+			//goDown(self, border);
+			goRight(self, border);
 			return;
 		} else if (x_difference > 0) {
-			goUp(self);
+			//goUp(self);
+			goLeft(self);
 			return;
 		}
 		
 		int y_difference = me.getY() - target.getY();
 		if (y_difference < 0) {
-			goRight(self, border);
+			//goRight(self, border);
+			goDown(self, border);
 			return;
 		} else if (y_difference > 0) {
-			goLeft(self);
+			//goLeft(self);
+			goUp(self);
 			return;
 		}
 	}
@@ -33,7 +37,8 @@ public interface Distance {
 		if (self.getDirection() != '<')
 			self.setDirection('<');
 		else
-			self.getCurrPos().moveLeft();
+			//self.getCurrPos().moveLeft();
+			self.getCurrPos().moveLeft(self.getSprite());
 	}
 	
 	/**
@@ -45,7 +50,8 @@ public interface Distance {
 		if (self.getDirection() != '^')
 			self.setDirection('^');
 		else
-			self.getCurrPos().moveUp();
+			//self.getCurrPos().moveUp();
+			self.getCurrPos().moveUp(self.getSprite());
 	}
 	
 	/**
@@ -58,7 +64,8 @@ public interface Distance {
 		if (self.getDirection() != '>')
 			self.setDirection('>');
 		else
-			self.getCurrPos().moveRight(border);
+			//self.getCurrPos().moveRight(border);
+			self.getCurrPos().moveRight(border, self.getSprite());
 	}
 	
 	/**
@@ -71,7 +78,8 @@ public interface Distance {
 		if (self.getDirection() != 'v')
 			self.setDirection('v');
 		else
-			self.getCurrPos().moveDown(border);
+			//self.getCurrPos().moveDown(border);
+			self.getCurrPos().moveDown(border, self.getSprite());
 	}
 	
 	/**
@@ -85,37 +93,49 @@ public interface Distance {
 		if (me.getX() < target.getX()) {
 			if (me.getY() < target.getY()) {
 				if (me.getY() > 1) {
-					goLeft(self);
-				} else if (me.getX() > 1) {
+					//goLeft(self);
 					goUp(self);
+				} else if (me.getX() > 1) {
+					//goUp(self);
+					goLeft(self);
 				} else {
-					goRight(self, border);
+					//goRight(self, border);
+					goDown(self, border);
 				}
 			} else {
 				if (me.getY() < border - 2) {
-					goRight(self, border);
+					//goRight(self, border);
+					goDown(self, border);
 				} else if (me.getX() > 1) {
-					goUp(self);
-				} else {
+					//goUp(self);
 					goLeft(self);
+				} else {
+					//goLeft(self);
+					goUp(self);
 				}
 			}
 		} else {
 			if (me.getY() < target.getY()) {
 				if (me.getY() > 1) {
-					goLeft(self);
+					//goLeft(self);
+					goUp(self);
 				} else if (me.getX() < border - 2) {
-					goDown(self, border);
-				} else {
+					//goDown(self, border);
 					goRight(self, border);
+				} else {
+					//goRight(self, border);
+					goDown(self, border);
 				}
 			} else {
-				if (me.getY() < border - 1) {
-					goRight(self, border);
-				} else if (me.getX() < border - 2) {
+				if (me.getY() < border - 2) {
+					//goRight(self, border);
 					goDown(self, border);
+				} else if (me.getX() < border - 2) {
+					//goDown(self, border);
+					goRight(self, border);
 				} else {
-					goLeft(self);
+					//goLeft(self);
+					goUp(self);
 				}
 			}
 		}

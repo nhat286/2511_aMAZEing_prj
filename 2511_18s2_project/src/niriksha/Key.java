@@ -1,18 +1,26 @@
 package niriksha;
 
+import application.Sprite;
 import eric.CoOrd;
+import javafx.scene.image.Image;
 
 public class Key {
 	 
 	private CoOrd co_ord;
 	private char icon;
 	private Door door;
+	private Sprite sprite;
 	
 	public Key(int x, int y) {
 		//this.co_ord = new CoOrd(x, y);
 		this.co_ord = new CoOrd(x, y, 0);
 		this.icon = '&';
 		this.door = null;
+		this.sprite = new Sprite(new Image("key.png"), this.getCoordinates());
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 
 	/**

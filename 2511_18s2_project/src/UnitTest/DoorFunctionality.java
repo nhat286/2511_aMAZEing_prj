@@ -44,13 +44,13 @@ class DoorFunctionality {
 	@Test
 	void testisDoor_open() {
 		door = new Door(4, 4);
-		assertEquals(door.isDoor_open(), false);
+		assertEquals(door.isDoorOpen(), false);
 	}
 		
 	@Test
 	void testopenDoor() {
 		door.openDoor();
-		assertEquals(door.isDoor_open(), true);
+		assertEquals(door.isDoorOpen(), true);
 	}
 	
 	@Test

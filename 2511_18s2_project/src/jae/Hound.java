@@ -44,27 +44,35 @@ public class Hound extends Enemy {
 		 */
 		if (this.hunterCoOrd.getY() < ch.getY()) {
 			if (me.getY() < ch.getY()) {
-				this.getCurrPos().moveRight(border);
+				//goRight(this, border);
+				goDown(this, border);
 			} else if (me.getY() > ch.getY()) {
-				this.getCurrPos().moveLeft();
+				//goLeft(this);
+				goUp(this);
 			}
 		} else if (this.hunterCoOrd.getY() > ch.getY()) {
 			if (me.getY() > ch.getY()) {
-				this.getCurrPos().moveLeft();
+				//goLeft(this);
+				goUp(this);
 			} else if (me.getY() < ch.getY()) {
-				this.getCurrPos().moveRight(border);
+				//goRight(this, border);
+				goDown(this, border);
 			}
 		} else if (this.hunterCoOrd.getX() < ch.getX()) {
 			if (me.getX() < ch.getX()) {
-				this.getCurrPos().moveDown(border);
+				//goDown(this, border);
+				goRight(this, border);
 			} else if (me.getX() > ch.getX()) {
-				this.getCurrPos().moveUp();
+				//goUp(this);
+				goLeft(this);
 			}
 		} else if (this.hunterCoOrd.getX() > ch.getX()) {
 			if (me.getX() < ch.getX()) {
-				this.getCurrPos().moveDown(border);
+				//goDown(this, border);
+				goRight(this, border);
 			} else if (me.getX() > ch.getX()) {
-				this.getCurrPos().moveUp();
+				//goUp(this);
+				goLeft(this);
 			}
 		}
 		return false;

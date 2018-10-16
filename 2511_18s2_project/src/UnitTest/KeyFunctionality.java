@@ -57,7 +57,7 @@ class KeyFunctionality {
 		key = new Key(4, 4);
 		key.linkDoor(door1);
 		assertEquals(key.checkDoor(door1), true);
-		assertEquals(door1.isDoor_open(),true);		
+		assertEquals(door1.isDoorOpen(),true);		
 	}
 	
 	@Test

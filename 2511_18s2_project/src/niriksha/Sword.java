@@ -1,6 +1,8 @@
 package niriksha;
 
+import application.Sprite;
 import jae.Enemy;
+import javafx.scene.image.Image;
 
 public class Sword extends Weapon {
 
@@ -9,6 +11,7 @@ public class Sword extends Weapon {
 	public Sword(int x, int y) {
 		super(x, y, 'T');
 		this.durability = 5;
+		this.setSprite(new Sprite(new Image("greatsword_1_new.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -40,8 +43,6 @@ public class Sword extends Weapon {
 			return ACTION.DIE;
 		}
 		
-		// decrease as sword is used even if it did nothing;
-		decreaseDurability();
 		return ACTION.NOTHING;
 	}
 

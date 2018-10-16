@@ -1,8 +1,10 @@
 
 package niriksha;
 
+import application.Sprite;
 import eric.CoOrd;
 import jae.Enemy;
+import javafx.scene.image.Image;
 
 public class Arrow extends Weapon {
 	
@@ -14,6 +16,7 @@ public class Arrow extends Weapon {
 		super(x, y, '%');
 		this.user = user;
 		this.used = false;
+		this.setSprite(new Sprite(new Image("arrow.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -26,7 +29,25 @@ public class Arrow extends Weapon {
 	public ACTION weapon_action(Object object) {
 		this.direction = this.user.getIcon();
 		this.setCoordinates(this.user.getCoordinates().getX(), this.user.getCoordinates().getY());
-		used = true;
+		this.getCoordinates().setVelocity(50);
+		switch (this.direction) {
+		case '>':
+			this.setSprite(new Sprite(new Image("arrow_flying_1e.png"), this.getCoordinates()));
+			break;
+		case '<':
+			this.setSprite(new Sprite(new Image("arrow_flying_1w.png"), this.getCoordinates()));
+			break;
+		case '^':
+			this.setSprite(new Sprite(new Image("arrow_flying_1n.png"), this.getCoordinates()));
+			break;
+		case 'v':
+			this.setSprite(new Sprite(new Image("arrow_flying_1s.png"), this.getCoordinates()));
+			break;
+		default:
+			this.setSprite(new Sprite(new Image("arrow.png"), this.getCoordinates()));
+			break;
+		}
+		this.used = true;
 
 		return ACTION.NOTHING;
 	}
@@ -58,22 +79,30 @@ public class Arrow extends Weapon {
 		case '>':
 			if (this.getCoordinates().getY() == border - 1)
 				this.destroyWeapon();
-			else this.getCoordinates().moveRight(border);
+			else {//this.getCoordinates().moveRight(border);
+				this.getCoordinates().moveRight(border, this.getSprite());
+			}
 			break;
 		case '<':
 			if (this.getCoordinates().getY() == 1)
 				this.destroyWeapon();
-			else this.getCoordinates().moveLeft();
+			else {//this.getCoordinates().moveLeft();
+				this.getCoordinates().moveLeft(this.getSprite());
+			}
 			break;
 		case '^':
 			if (this.getCoordinates().getX() == 1)
 				this.destroyWeapon();
-			else this.getCoordinates().moveUp();
+			else {//this.getCoordinates().moveUp();
+				this.getCoordinates().moveUp(this.getSprite());
+			}
 			break;
 		case 'v':
 			if (this.getCoordinates().getX() == border - 1)
 				this.destroyWeapon();
-			else this.getCoordinates().moveDown(border);
+			else {//this.getCoordinates().moveDown(border);
+				this.getCoordinates().moveDown(border, this.getSprite());
+			}
 			break;
 		}
 		return 0;

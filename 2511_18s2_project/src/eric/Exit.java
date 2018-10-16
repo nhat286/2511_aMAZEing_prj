@@ -1,13 +1,22 @@
 package eric;
 
+import application.Sprite;
+import javafx.scene.image.Image;
+
 public class Exit {
 	private CoOrd co_ord;
 	private char icon;
+	private Sprite sprite;
 	
 	public Exit(int x, int y) {
 		//this.co_ord = new CoOrd(x, y);
 		this.co_ord = new CoOrd(x, y, 0);
 		this.icon = 'F';
+		this.sprite = new Sprite(new Image("exit.png"), this.getCoordinates());
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 	
 	public CoOrd getCoordinates() {

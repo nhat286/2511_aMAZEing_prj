@@ -1,6 +1,7 @@
 
 package niriksha;
 
+import application.Sprite;
 import eric.CoOrd;
 
 public abstract class Weapon {
@@ -8,12 +9,21 @@ public abstract class Weapon {
 	private CoOrd getCoordinates;
 	private boolean picked_up;
 	private char direction;
+	private Sprite sprite;
 		 
 	public Weapon(int x, int y, char c) {
 		//this.getCoordinates = new CoOrd(x, y);
 		this.getCoordinates = new CoOrd(x, y, 0);
 		this.picked_up = false;
 		this.direction = c;
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
+	}
+	
+	public void setSprite(Sprite s) {
+		this.sprite = s;
 	}
 
 	public CoOrd getCoordinates() {
@@ -25,7 +35,7 @@ public abstract class Weapon {
 	}
 
 	public boolean isPicked_up() {
-		return picked_up;
+		return this.picked_up;
 	}
 
 	public void setCoordinates(int x, int y) {
