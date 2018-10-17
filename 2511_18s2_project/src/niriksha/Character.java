@@ -17,6 +17,7 @@ public class Character {
 	private Weapon equip_weapon;
 	private Key holding_key;
 	private Sprite sprite;
+	private Sprite direction;
 	
 	/**
 	 * Constructor to instantiate a new character object, by default player always face downwards
@@ -31,6 +32,7 @@ public class Character {
 		this.equip_weapon = null;
 		this.holding_key = null;
 		this.sprite = new Sprite(new Image("human_new.png"), co_ord);
+		this.direction = new Sprite(new Image("dir_south_1.png"), new CoOrd(x, y + 1));
 	}
 	
 	public void setState(STATE value) {  
@@ -79,19 +81,41 @@ public class Character {
 	 */
 	public void moveCoOrd(char movement, int border) {
 		if (movement == '<') {
-			if (this.icon != '<') { this.icon = '<'; this.d = DIRECTION.UP; }
+			if (this.icon != '<') { this.icon = '<'; this.d = DIRECTION.LEFT; }
 			else this.co_ord.moveLeft();
 		} else if (movement == '>') {
-			if (this.icon != '>') { this.icon = '>'; this.d = DIRECTION.DOWN; }
+			if (this.icon != '>') { this.icon = '>'; this.d = DIRECTION.RIGHT; }
 			else this.co_ord.moveRight(border);
 		} else if (movement == '^') {
-			if (this.icon != '^') { this.icon = '^'; this.d = DIRECTION.LEFT; }
+			if (this.icon != '^') { this.icon = '^'; this.d = DIRECTION.UP; }
 			else this.co_ord.moveUp();
 		} else if (movement == 'v') {
-			if (this.icon != 'v') { this.icon = 'v'; this.d = DIRECTION.RIGHT; }
+			if (this.icon != 'v') { this.icon = 'v'; this.d = DIRECTION.DOWN; }
 			else this.co_ord.moveDown(border);
 		}
 		this.sprite.setPosition(this.co_ord.getX() * 32, this.co_ord.getY() * 32);
+	}
+	
+	public Sprite getDirection() {
+		switch (this.d) {
+		case UP:
+			this.direction.setImage(new Image("dir_north_1.png"));
+			this.direction.setPosition(this.co_ord.getX() * 32, (this.co_ord.getY() - 1) * 32);
+			break;
+		case DOWN:
+			this.direction.setImage(new Image("dir_south_1.png"));
+			this.direction.setPosition(this.co_ord.getX() * 32, (this.co_ord.getY() + 1) * 32);
+			break;
+		case LEFT:
+			this.direction.setImage(new Image("dir_west_1.png"));
+			this.direction.setPosition((this.co_ord.getX() - 1) * 32, this.co_ord.getY() * 32);
+			break;
+		case RIGHT:
+			this.direction.setImage(new Image("dir_east_1.png"));
+			this.direction.setPosition((this.co_ord.getX() + 1) * 32, this.co_ord.getY() * 32);
+			break;
+		}
+		return this.direction;
 	}
 	
 	/**

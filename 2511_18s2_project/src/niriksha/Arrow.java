@@ -32,16 +32,16 @@ public class Arrow extends Weapon {
 		this.getCoordinates().setVelocity(150);
 		switch (this.direction) {
 		case '>':
-			this.setSprite(new Sprite(new Image("arrow_flying_1e.png"), this.getCoordinates()));
+			this.getSprite().setImage(new Image("arrow_flying_1e.png"));
 			break;
 		case '<':
-			this.setSprite(new Sprite(new Image("arrow_flying_1w.png"), this.getCoordinates()));
+			this.getSprite().setImage(new Image("arrow_flying_1w.png"));
 			break;
 		case '^':
-			this.setSprite(new Sprite(new Image("arrow_flying_1n.png"), this.getCoordinates()));
+			this.getSprite().setImage(new Image("arrow_flying_1n.png"));
 			break;
 		case 'v':
-			this.setSprite(new Sprite(new Image("arrow_flying_1s.png"), this.getCoordinates()));
+			this.getSprite().setImage(new Image("arrow_flying_1s.png"));
 			break;
 		default:
 			this.setSprite(new Sprite(new Image("arrow.png"), this.getCoordinates()));

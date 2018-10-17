@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml">
+   <children>
+      <Pane layoutY="2.0" prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Button layoutX="61.0" layoutY="119.0" mnemonicParsing="false" onAction="#handleStartButton" prefHeight="67.0" prefWidth="479.0" text="Start" />
+            <Button layoutX="61.0" layoutY="200.0" mnemonicParsing="false" onAction="#handleQuitButton" prefHeight="67.0" prefWidth="479.0" text="Quit" />
+            <Button layoutX="61.0" layoutY="284.0" mnemonicParsing="false" onAction="#handleDesignButton" prefHeight="67.0" prefWidth="479.0" text="Design Mode" />
+            <Label layoutX="203.0" layoutY="14.0" prefHeight="104.0" prefWidth="221.0" text="    DUNGEON MASTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

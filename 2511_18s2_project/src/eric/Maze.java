@@ -450,6 +450,7 @@ public class Maze {
 		
 		map[player.getX()][player.getY()] = this.player.getIcon();
 		this.player.getSprite().render(gc);
+		this.player.getDirection().render(gc);
 	}
 	
 	/**

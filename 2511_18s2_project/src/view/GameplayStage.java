@@ -1,4 +1,4 @@
-package application;
+package view;
 
 import eric.*;
 
@@ -6,12 +6,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import application.MainMenuController;
+import application.Screen;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,13 +27,12 @@ public class GameplayStage {
 	private Stage s;
 	
 	private static ArrayList<String> input;
-	private double refreshTime;
+	private static double refreshTime = 0.016;
 	private Map<Integer, Runnable> lv;
 	private int maze_lv;
 	
-	public GameplayStage(Stage s, double t, int lv) {
+	public GameplayStage(Stage s, int lv) {
 		this.s = s;
-		this.refreshTime = t;
 		this.maze_lv = lv;
 	}
 	
@@ -41,10 +43,7 @@ public class GameplayStage {
 		lv.put(3, () -> ms.level3Initiate());
 	}
 	
-	public void start() {
-		Pane root = new Pane();
-		Scene playScene = new Scene(root);
-		s.setScene(playScene);
+	public void start(){
 		
 		MazeSystem ms = new MazeSystem();
 		this.makeLevelHashmap(ms);
@@ -52,7 +51,10 @@ public class GameplayStage {
 		int mazeSize = ms.getMapSize();
 		
 		Canvas canvas = new Canvas(mazeSize*32, mazeSize*32);
-		root.getChildren().add( canvas );
+		
+		Parent root = new Pane(canvas);
+		Scene playScene = new Scene(root);
+		this.s.setScene(playScene);
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
@@ -76,9 +78,13 @@ public class GameplayStage {
 		            		break;
 		    			case WIN:
 		    				System.out.println("Yay you win!!!");
+		    				gameLoop.stop();
 		    				return;
 		    			case QUIT:
 		    				System.out.println("Exiting ...");
+		    				gameLoop.stop();
+		    				Screen menuScreen = new Screen(s, "Main Menu Screen", "view/mainMenu.fxml");
+		    				menuScreen.start(new MainMenuController(s));
 		    				return;
 						default:
 							break;
@@ -92,9 +98,9 @@ public class GameplayStage {
 		
 		gameLoop.play();
 		
-		s.show();
-		s.setMinHeight(s.getHeight());
-		s.setMinWidth(s.getWidth());
+		this.s.setMinHeight(s.getHeight());
+		this.s.setMinWidth(s.getWidth());
+		this.s.show();
 	}
 	
 	private static void prepareActionHandlers(Scene playScene)
