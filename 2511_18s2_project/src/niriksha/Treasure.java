@@ -13,8 +13,7 @@ public class Treasure {
 	private Sprite sprite;
 	
 	public Treasure(int x, int y) {
-		//this.co_ord = new CoOrd(x, y);
-		this.co_ord = new CoOrd(x, y, 0);
+		this.co_ord = new CoOrd(x, y);
 		this.icon = '$';
 		this.picked_up = false;
 		this.sprite = new Sprite(new Image("gold_pile.png"), this.getCoordinates());

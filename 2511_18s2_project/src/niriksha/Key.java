@@ -12,8 +12,7 @@ public class Key {
 	private Sprite sprite;
 	
 	public Key(int x, int y) {
-		//this.co_ord = new CoOrd(x, y);
-		this.co_ord = new CoOrd(x, y, 0);
+		this.co_ord = new CoOrd(x, y);
 		this.icon = '&';
 		this.door = null;
 		this.sprite = new Sprite(new Image("key.png"), this.getCoordinates());

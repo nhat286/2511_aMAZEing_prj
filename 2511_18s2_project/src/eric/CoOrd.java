@@ -31,12 +31,12 @@ public class CoOrd {
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveLeft() {
-		if (this.y > 0) this.y--;
+		if (this.x > 0) this.x--;
 	}
 	
 	public void moveLeft(Sprite s) {
 		if (this.x > 0) s.setVelocity(-baseVel, 0);
-		//if (this.y > 0) this.y--;
+		
 		this.setXY((int) (s.getPositionX())/32,
 				(int) (s.getPositionY())/32);
 	}
@@ -46,12 +46,12 @@ public class CoOrd {
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveRight(int border) {
-		if (this.y < border - 1) this.y++;
+		if (this.x < border - 1) this.x++;
 	}
 	
 	public void moveRight(int border, Sprite s) {
 		if (this.x < border - 1) s.setVelocity(baseVel, 0);
-		//if (this.y < border - 1) this.y++;
+		
 		this.setXY((int) (s.getPositionX())/32+1,
 				(int) (s.getPositionY())/32);
 	}
@@ -61,12 +61,12 @@ public class CoOrd {
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveUp() {
-		if (this.x > 0) this.x--;
+		if (this.y > 0) this.y--;
 	}
 	
 	public void moveUp(Sprite s) {
 		if (this.y > 0) s.setVelocity(0, -baseVel);
-		//if (this.x > 1) this.x--;
+		
 		this.setXY((int) (s.getPositionX())/32,
 				(int) (s.getPositionY())/32);
 	}
@@ -76,12 +76,12 @@ public class CoOrd {
 	 * Doesn't allow moving onto or beyond maze border
 	 */
 	public void moveDown(int border) {
-		if (this.x < border - 1) this.x++;
+		if (this.y < border - 1) this.y++;
 	}
 	
 	public void moveDown(int border, Sprite s) {
-		if (this.y < border - 1) s.setVelocity(0, +baseVel);
-		//if (this.x < border - 1) this.x++;
+		if (this.y < border - 1) s.setVelocity(0, baseVel);
+		
 		this.setXY((int) (s.getPositionX())/32,
 				(int) (s.getPositionY())/32+1);
 	}

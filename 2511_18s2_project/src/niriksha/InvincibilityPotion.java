@@ -49,6 +49,7 @@ public class InvincibilityPotion extends Potion {
 				current.setState(new HoverCharacter(current));
 			else
 				current.setState(old_state);
+			destroyPotion();
         }
 	}
 	

@@ -3,6 +3,9 @@ package application;
 import eric.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -21,13 +24,21 @@ public class GameplayStage {
 	private Stage s;
 	
 	private static ArrayList<String> input;
-	//static Scene playScene;
-	//private static GraphicsContext gc;
 	private double refreshTime;
+	private Map<Integer, Runnable> lv;
+	private int maze_lv;
 	
-	public GameplayStage(Stage s, double t) {
+	public GameplayStage(Stage s, double t, int lv) {
 		this.s = s;
 		this.refreshTime = t;
+		this.maze_lv = lv;
+	}
+	
+	public void makeLevelHashmap(MazeSystem ms) {
+		this.lv = new HashMap<>();
+		lv.put(1, () -> ms.level1Initiate());
+		lv.put(2, () -> ms.level2Initiate());
+		lv.put(3, () -> ms.level3Initiate());
 	}
 	
 	public void start() {
@@ -36,9 +47,8 @@ public class GameplayStage {
 		s.setScene(playScene);
 		
 		MazeSystem ms = new MazeSystem();
-		//ms.level1Initiate();
-		ms.level2Initiate();
-		//ms.leve3Initiate();
+		this.makeLevelHashmap(ms);
+		this.lv.get(this.maze_lv).run();
 		int mazeSize = ms.getMapSize();
 		
 		Canvas canvas = new Canvas(mazeSize*32, mazeSize*32);
@@ -62,9 +72,7 @@ public class GameplayStage {
 		        	switch (ms.gameLoop(input, gc, refreshTime)) {
 		    			case LOSE:
 		            		System.out.println("Oh no you died. Restarting...");
-		    				//ms.level1Initiate();
-		            		ms.level2Initiate();
-		    				//ms.leve3Initiate();
+		    				lv.get(maze_lv).run();
 		            		break;
 		    			case WIN:
 		    				System.out.println("Yay you win!!!");

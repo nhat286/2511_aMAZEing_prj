@@ -10,8 +10,7 @@ public abstract class Obstacle {
 	private Sprite sprite;
 	
 	public Obstacle(int x, int y, char c) {
-		//this.co_ord = new CoOrd(x, y);
-		this.co_ord = new CoOrd(x, y, 0);
+		this.co_ord = new CoOrd(x, y);
 		this.icon = c;
 	}
 	

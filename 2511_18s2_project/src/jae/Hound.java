@@ -44,34 +44,26 @@ public class Hound extends Enemy {
 		 */
 		if (this.hunterCoOrd.getY() < ch.getY()) {
 			if (me.getY() < ch.getY()) {
-				//goRight(this, border);
 				goDown(this, border);
 			} else if (me.getY() > ch.getY()) {
-				//goLeft(this);
 				goUp(this);
 			}
 		} else if (this.hunterCoOrd.getY() > ch.getY()) {
 			if (me.getY() > ch.getY()) {
-				//goLeft(this);
 				goUp(this);
 			} else if (me.getY() < ch.getY()) {
-				//goRight(this, border);
 				goDown(this, border);
 			}
 		} else if (this.hunterCoOrd.getX() < ch.getX()) {
 			if (me.getX() < ch.getX()) {
-				//goDown(this, border);
 				goRight(this, border);
 			} else if (me.getX() > ch.getX()) {
-				//goUp(this);
 				goLeft(this);
 			}
 		} else if (this.hunterCoOrd.getX() > ch.getX()) {
 			if (me.getX() < ch.getX()) {
-				//goDown(this, border);
 				goRight(this, border);
 			} else if (me.getX() > ch.getX()) {
-				//goUp(this);
 				goLeft(this);
 			}
 		}

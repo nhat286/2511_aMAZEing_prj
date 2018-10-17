@@ -7,7 +7,7 @@ import niriksha.HoverInvincibleCharacter;
 import niriksha.InvincibleCharacter;
 
 public abstract class Enemy implements Distance {
-	private CoOrd currPos; //position of the enemy
+	private CoOrd currPos;
 	private char icon;
 	private char direction;
 	private Sprite sprite;

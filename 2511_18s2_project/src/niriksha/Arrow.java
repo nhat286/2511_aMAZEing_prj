@@ -29,7 +29,7 @@ public class Arrow extends Weapon {
 	public ACTION weapon_action(Object object) {
 		this.direction = this.user.getIcon();
 		this.setCoordinates(this.user.getCoordinates().getX(), this.user.getCoordinates().getY());
-		this.getCoordinates().setVelocity(50);
+		this.getCoordinates().setVelocity(150);
 		switch (this.direction) {
 		case '>':
 			this.setSprite(new Sprite(new Image("arrow_flying_1e.png"), this.getCoordinates()));
@@ -79,28 +79,28 @@ public class Arrow extends Weapon {
 		case '>':
 			if (this.getCoordinates().getY() == border - 1)
 				this.destroyWeapon();
-			else {//this.getCoordinates().moveRight(border);
+			else {
 				this.getCoordinates().moveRight(border, this.getSprite());
 			}
 			break;
 		case '<':
 			if (this.getCoordinates().getY() == 1)
 				this.destroyWeapon();
-			else {//this.getCoordinates().moveLeft();
+			else {
 				this.getCoordinates().moveLeft(this.getSprite());
 			}
 			break;
 		case '^':
 			if (this.getCoordinates().getX() == 1)
 				this.destroyWeapon();
-			else {//this.getCoordinates().moveUp();
+			else {
 				this.getCoordinates().moveUp(this.getSprite());
 			}
 			break;
 		case 'v':
 			if (this.getCoordinates().getX() == border - 1)
 				this.destroyWeapon();
-			else {//this.getCoordinates().moveDown(border);
+			else {
 				this.getCoordinates().moveDown(border, this.getSprite());
 			}
 			break;

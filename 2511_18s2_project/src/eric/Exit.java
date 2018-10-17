@@ -9,8 +9,7 @@ public class Exit {
 	private Sprite sprite;
 	
 	public Exit(int x, int y) {
-		//this.co_ord = new CoOrd(x, y);
-		this.co_ord = new CoOrd(x, y, 0);
+		this.co_ord = new CoOrd(x, y);
 		this.icon = 'F';
 		this.sprite = new Sprite(new Image("exit.png"), this.getCoordinates());
 	}

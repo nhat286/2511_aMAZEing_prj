@@ -27,19 +27,6 @@ public class Strategist extends Enemy {
 	@Override
 	public boolean specialMovement(Character target, int border) {
 		CoOrd ch = new CoOrd(target.getCoordinates().getX(), target.getCoordinates().getY());
-//		if (target.getIcon() == '<') {
-//			//ch.moveLeft(this.getSprite());
-//			ch.moveLeft();
-//		} else if (target.getIcon() == '>') {
-//			//ch.moveRight(border, this.getSprite());
-//			ch.moveRight(border);
-//		} else if (target.getIcon() == '^') {
-//			//ch.moveUp(this.getSprite());
-//			ch.moveUp();
-//		} else if (target.getIcon() == 'v') {
-//			//ch.moveDown(border, this.getSprite());
-//			ch.moveDown(border);
-//		}
 		if (target.getIcon() == '^') {
 			ch.moveLeft();
 		} else if (target.getIcon() == 'v') {

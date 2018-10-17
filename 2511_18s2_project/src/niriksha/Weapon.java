@@ -12,8 +12,7 @@ public abstract class Weapon {
 	private Sprite sprite;
 		 
 	public Weapon(int x, int y, char c) {
-		//this.getCoordinates = new CoOrd(x, y);
-		this.getCoordinates = new CoOrd(x, y, 0);
+		this.getCoordinates = new CoOrd(x, y);
 		this.picked_up = false;
 		this.direction = c;
 	}

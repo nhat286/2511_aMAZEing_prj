@@ -15,7 +15,7 @@ public class Main extends Application {
         
         //BasicScreen bs = new BasicScreen(primaryStage, "Video Rental", "application/home.fxml");
         //bs.start(new HomeController(bs.getStage()));
-		GameplayStage gs = new GameplayStage(primaryStage, 0.016);
+		GameplayStage gs = new GameplayStage(primaryStage, 0.016, 2);
 		gs.start();
 	}
 	

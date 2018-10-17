@@ -10,8 +10,7 @@ public abstract class Potion {
 	private Sprite sprite;
 	
 	public Potion(int x, int y, char c) {
-		//this.co_ord = new CoOrd(x, y);
-		this.co_ord = new CoOrd(x, y, 0);
+		this.co_ord = new CoOrd(x, y);
 		this.icon = c;
 	}
 	

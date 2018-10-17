@@ -39,6 +39,7 @@ public class MazeSystem {
 	private char[][] map;
 	private Maze curr;
 	private Character user;
+	private static String buffer_cmd = null;
 	
 	public MazeSystem() {		
 		//drawMap();
@@ -54,8 +55,7 @@ public class MazeSystem {
 		this.map_size = size;
 		this.curr = new Maze(goal);
 		this.map = new char[size][size];
-		//this.user = new Character(1, 1);
-		this.user = new Character(1, 1, 300);
+		this.user = new Character(1, 1);
 		this.user.setState((STATE) new NormalCharacter(this.user));
 		this.curr.addCharacter(this.user);
 		for (int i = 0; i < size; i++) {
@@ -111,13 +111,13 @@ public class MazeSystem {
 		if (this.user.weaponEquipped()) {
 			System.out.println("\tCurrently equip " + this.user.getEquippedWeapon().getType());
 		}
-		if (this.user.getActivePotion().size() > 0) {
-			System.out.print("\tCurrently activate:");
-			for (Potion p : this.user.getActivePotion()) {
-				System.out.print(" " + p.getType());
-			}
-			System.out.print("\n");
-		}
+//		if (this.user.getActivePotion().size() > 0) {
+//			System.out.print("\tCurrently activate:");
+//			for (Potion p : this.user.getActivePotion()) {
+//				System.out.print(" " + p.getType());
+//			}
+//			System.out.print("\n");
+//		}
 		System.out.println("Press p to pause the game and open menu!");
 		for (int i = 0; i < this.map_size; i++) {
 			for (int j = 0; j < this.map_size; j++) {
@@ -252,9 +252,9 @@ public class MazeSystem {
 		
 		// random weapon equipped to character
 //		Weapon tmp = new Bomb(-2, -2, this.user.getCoordinates());
-//		Weapon tmp = new Arrow(-2, -2, this.user);
-//		this.curr.addWeaponDrop(tmp);
-//		this.user.equipWeapon(tmp);
+		Weapon tmp = new Arrow(-2, -2, this.user);
+		this.curr.addWeaponDrop(tmp);
+		this.user.equipWeapon(tmp);
 		
 		// randomly use potion since the start
 //		this.user.equipPotion(new HoverPotion(-2, -2));
@@ -266,7 +266,7 @@ public class MazeSystem {
 	 * The maze can also be completed by only finding the exit without passing other goals
 	 * Contains doors, a key, and an exit
 	 */
-	public void leve3Initiate() {
+	public void level3Initiate() {
 		this.start(20, Maze.RUNNER + Maze.COLLECTOR + Maze.DETECTIVE);
 		
 		Door d1 = new Door(5, 8);
@@ -795,6 +795,8 @@ public class MazeSystem {
 	 * Integrate old gameLoop with graphics and javafx
 	 */
 	public OUTCOME gameLoop(ArrayList<String> input, GraphicsContext gc, double refreshTime) {
+		if (input.size() <= 0)
+			buffer_cmd = null;
 		this.map = drawMap();
 		this.curr.updateMap(map, gc);
 		gc.clearRect(0, 0, map_size*32,map_size*32);
@@ -807,67 +809,57 @@ public class MazeSystem {
 		/**
 		 * Basic movement with arrow keys
 		 */
-		if (input.contains("LEFT")) {
-			//if(user.getSprite().getPositionX()%32 <= user.getVelocity()*refreshTime) 
-	        		user.setCoordinates((int) (user.getSprite().getPositionX())/32,
-	        				(int) (user.getSprite().getPositionY())/32);
-			outcome = this.user.move('<', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-		} else if (input.contains("DOWN")) {
-			//if(user.getSprite().getPositionY()%32 >= 32-user.getVelocity()*refreshTime*2)
-	        	user.setCoordinates((int) (user.getSprite().getPositionX())/32,
-	            		(int) (user.getSprite().getPositionY())/32+1);
-			outcome = this.user.move('v', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-		} else if (input.contains("RIGHT")) {
-			//if(user.getSprite().getPositionX()%32 >= 32-user.getVelocity()*refreshTime) 
-	        	user.setCoordinates((int) (user.getSprite().getPositionX())/32+1,
-	            		(int) (user.getSprite().getPositionY())/32);
-			outcome = this.user.move('>', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-		} else if (input.contains("UP")) {
-			//if(user.getSprite().getPositionY()%32 <= user.getVelocity()*refreshTime) 
-        		user.setCoordinates((int) (user.getSprite().getPositionX())/32,
-        				(int) (user.getSprite().getPositionY())/32);
-			outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-		/**
-		 * SPACEBAR for using weapon, nothing happens if character hasn't equipped weapon
-		 * system passes the entity in front of character to assist using weapon behaviour
-		 */
-		} else if (input.contains("SPACE")) {
-			System.out.println(this.user.getCoordinates() + "---" + ahead);
-			this.user.useWeapon(ahead);
-		/**
-		 * CTRL for picking up items at the character's co-ordinates
-		 * system checks the entity at character's co-ordinates (besides character himself)
-		 * 			and calls corresponding pickup behaviour
-		 */
-		} else if (input.contains("CONTROL")) {
-			if (under instanceof Weapon) {
-				this.user.pickUpWeapon((Weapon) under);
-			} else if (under instanceof Potion) {
-				this.user.pickUpPotion((Potion) under);
-			} else if (under instanceof Treasure) {
-				((Treasure) under).pickUp();
-			} else if (under instanceof Key) {
-				this.user.setHoldingKey((Key) under);
-				((Key) under).pickUp();
-			}
-		/**
-		 * I for opening inventory menu to check what weapons and potions are available in character's bag
-		 */
-		/*
-		 * Need to pass the input string in, instead of scanner here!
-		 */
-		} else if (input.contains("I")) {
-			InventoryMenu iM = new InventoryMenu(this.user, null);
-			iM.display();
-		/**
-		 * ESC for pausing the game and opening menu options
-		 */
-		} else if (input.contains("ESCAPE")) {
-			if (this.pauseGame(null) == 0) {
+		if (input.size() > 0 && !input.get(0).equals(buffer_cmd)) {
+			buffer_cmd = input.get(0);
+			if (input.contains("LEFT")) {
+				outcome = this.user.move('<', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			} else if (input.contains("DOWN")) {
+				outcome = this.user.move('v', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			} else if (input.contains("RIGHT")) { 
+				outcome = this.user.move('>', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			} else if (input.contains("UP")) { 
+				outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			/**
+			 * SPACEBAR for using weapon, nothing happens if character hasn't equipped weapon
+			 * system passes the entity in front of character to assist using weapon behaviour
+			 */
+			} else if (input.contains("SPACE")) {
+				this.user.useWeapon(ahead);
+			/**
+			 * CTRL for picking up items at the character's co-ordinates
+			 * system checks the entity at character's co-ordinates (besides character himself)
+			 * 			and calls corresponding pickup behaviour
+			 */
+			} else if (input.contains("CONTROL")) {
+				if (under instanceof Weapon) {
+					this.user.pickUpWeapon((Weapon) under);
+				} else if (under instanceof Potion) {
+					this.user.pickUpPotion((Potion) under);
+				} else if (under instanceof Treasure) {
+					((Treasure) under).pickUp();
+				} else if (under instanceof Key) {
+					this.user.setHoldingKey((Key) under);
+					((Key) under).pickUp();
+				}
+			/**
+			 * I for opening inventory menu to check what weapons and potions are available in character's bag
+			 */
+			/*
+			 * Need to pass the input string in, instead of scanner here!
+			 */
+			} else if (input.contains("I")) {
+				InventoryMenu iM = new InventoryMenu(this.user, null);
+				iM.display();
+			/**
+			 * ESC for pausing the game and opening menu options
+			 */
+			} else if (input.contains("ESCAPE")) {
+				if (this.pauseGame(null) == 0) {
+					return OUTCOME.QUIT;
+				}
+			} else if (input.contains("Q")) {
 				return OUTCOME.QUIT;
 			}
-		} else if (input.contains("Q")) {
-			return OUTCOME.QUIT;
 		}
 		
 		/**

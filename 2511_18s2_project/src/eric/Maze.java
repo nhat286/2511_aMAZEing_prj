@@ -89,14 +89,6 @@ public class Maze {
 				pt.remove();
 			}
 		}
-		
-		Iterator<Potion> active = this.player.getActivePotion().iterator();
-		while (active.hasNext()) {
-			Potion p = active.next();
-			if (p.getCoordinates().getX() == -1) {
-				active.remove();
-			}
-		}
 	}
 	
 	/**

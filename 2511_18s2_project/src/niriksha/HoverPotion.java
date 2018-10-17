@@ -20,6 +20,7 @@ public class HoverPotion extends Potion {
 	 */
 	@Override
 	public STATE potionEffect(Character c) {
+		this.destroyPotion();
 		if (c.getState() instanceof InvincibleCharacter) {
 			return (STATE) new HoverInvincibleCharacter(c);
 		}

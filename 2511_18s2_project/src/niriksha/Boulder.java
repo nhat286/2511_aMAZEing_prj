@@ -74,21 +74,17 @@ public class Boulder extends Obstacle {
 	 * @return boulder is moved
 	 */
 	public void moveCoOrd(char movement, int border) {
-		if (movement == '^') {
+		if (movement == '<') {
 			this.getCoordinates().moveLeft();
-			//this.getCoordinates().moveLeft(this.getSprite());
-		} 
-		else if (movement == 'v') {
-			this.getCoordinates().moveRight(border);
-			//this.getCoordinates().moveRight(border, this.getSprite());
-		} 
-		else if (movement == '<') {
-			this.getCoordinates().moveUp();
-			//this.getCoordinates().moveUp(this.getSprite());
 		} 
 		else if (movement == '>') {
+			this.getCoordinates().moveRight(border);
+		} 
+		else if (movement == '^') {
+			this.getCoordinates().moveUp();
+		} 
+		else if (movement == 'v') {
 			this.getCoordinates().moveDown(border);
-			//this.getCoordinates().moveDown(border, this.getSprite());
 		}
 		this.getSprite().setPosition(this.getCoordinates().getX() * 32, this.getCoordinates().getY() * 32);
 	}

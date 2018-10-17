@@ -1,6 +1,6 @@
 package niriksha;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 import application.Sprite;
 import eric.CoOrd;
@@ -15,7 +15,6 @@ public class Character {
 	private char icon;
 	private DIRECTION d;
 	private Weapon equip_weapon;
-	private ArrayList<Potion> active_potions;
 	private Key holding_key;
 	private Sprite sprite;
 	
@@ -30,17 +29,6 @@ public class Character {
 		this.icon = 'v';
 		this.d = DIRECTION.DOWN;
 		this.equip_weapon = null;
-		this.active_potions = new ArrayList<Potion>();
-		this.holding_key = null;
-	}
-	
-	public Character(int x, int y, int vel) {
-		this.co_ord = new CoOrd(x, y, vel);
-		this.bag = new Inventory();
-		this.icon = 'v';
-		this.d = DIRECTION.DOWN;
-		this.equip_weapon = null;
-		this.active_potions = new ArrayList<Potion>();
 		this.holding_key = null;
 		this.sprite = new Sprite(new Image("human_new.png"), co_ord);
 	}
@@ -92,21 +80,18 @@ public class Character {
 	public void moveCoOrd(char movement, int border) {
 		if (movement == '<') {
 			if (this.icon != '<') { this.icon = '<'; this.d = DIRECTION.UP; }
-			else //this.co_ord.moveLeft();
-				this.co_ord.moveLeft(this.sprite);
+			else this.co_ord.moveLeft();
 		} else if (movement == '>') {
 			if (this.icon != '>') { this.icon = '>'; this.d = DIRECTION.DOWN; }
-			else //this.co_ord.moveRight(border);
-				this.co_ord.moveRight(border, this.sprite);
+			else this.co_ord.moveRight(border);
 		} else if (movement == '^') {
 			if (this.icon != '^') { this.icon = '^'; this.d = DIRECTION.LEFT; }
-			else //this.co_ord.moveUp();
-				this.co_ord.moveUp(this.sprite);
+			else this.co_ord.moveUp();
 		} else if (movement == 'v') {
 			if (this.icon != 'v') { this.icon = 'v'; this.d = DIRECTION.RIGHT; }
-			else //this.co_ord.moveDown(border);
-				this.co_ord.moveDown(border, this.sprite);
+			else this.co_ord.moveDown(border);
 		}
+		this.sprite.setPosition(this.co_ord.getX() * 32, this.co_ord.getY() * 32);
 	}
 	
 	/**
@@ -213,14 +198,6 @@ public class Character {
 	 */
 	public void destroyCharacter(Character player) {
 		player = null;
-	}
-	
-	/**
-	 * Get potions that are being used by character
-	 * @return list of active potions being used by character
-	 */
-	public ArrayList<Potion> getActivePotion() {
-		return this.active_potions;
 	}
 	
 	public Inventory getBag() {
