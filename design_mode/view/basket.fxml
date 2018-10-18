@@ -1,0 +1,2483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="735.0" prefWidth="971.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="arrow" fitHeight="46.0" fitWidth="61.0" layoutX="9.0" layoutY="10.0" onDragDetected="#DragDetectArrow" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/arrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="target1" fitHeight="21.0" fitWidth="18.0" layoutX="114.0" layoutY="513.0" onDragDropped="#DragDrop" onDragOver="#DragOver" pickOnBounds="true" />
+      <ImageView fx:id="bomb" layoutX="73.0" layoutY="17.0" onDragDetected="#DragDetectBomb" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/bomb_unlit.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="sword" layoutX="114.0" layoutY="17.0" onDragDetected="#DragDetectSword" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/greatsword_1_new.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="invincibility_potion" layoutX="57.0" layoutY="77.0" onDragDetected="#DragDetectInvincibility" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/brilliant_blue_new.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="hover_potion" layoutX="16.0" layoutY="77.0" onDragDetected="#DragDetectHover" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/bubbly.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="hunter" layoutX="57.0" layoutY="137.0" onDragDetected="#DragDetectHunter" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/hunter.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="strategist" layoutX="16.0" layoutY="137.0" onDragDetected="#DragDetectStrategist" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/strategist.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="coward" layoutX="98.0" layoutY="137.0" onDragDetected="#DragDetectCoward" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/coward.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="hound" layoutX="130.0" layoutY="137.0" onDragDetected="#DragDetectHound" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/hound.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="boulder" layoutX="16.0" layoutY="207.0" onDragDetected="#DragDetectBoulder" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/boulder.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="treasure" layoutX="16.0" layoutY="251.0" onDragDetected="#DragDetectTreasure" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/gold_pile.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="close_door" layoutX="114.0" layoutY="207.0" onDragDetected="#DragDetectCloseDoor" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/closed_door.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="exit" layoutX="57.0" layoutY="251.0" onDragDetected="#DragDetectExit" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/exit.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="open_door" layoutX="57.0" layoutY="207.0" onDragDetected="#DragDetectOpenDoor" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/open_door.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="pit" layoutX="154.0" layoutY="207.0" onDragDetected="#DragDetectPit" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/shaft.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="key" layoutX="98.0" layoutY="251.0" onDragDetected="#DragDetectKey" preserveRatio="true">
+         <image>
+            <Image url="@../../Images/key.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="floor_switch" layoutX="138.0" layoutY="251.0" onDragDetected="#DragDetectFloorSwitch">
+         <image>
+            <Image url="@../../Images/pressure_plate.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="wall" layoutX="16.0" layoutY="296.0" onDragDetected="#DragDetectWall">
+         <image>
+            <Image url="@../../Images/brick_brown_0.png" />
+         </image>
+      </ImageView>
+      <GridPane fx:id="target" alignment="CENTER" gridLinesVisible="true" layoutX="263.0" layoutY="20.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onDragDropped="#DragDrop" onDragOver="#DragOver" prefHeight="690.0" prefWidth="690.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="21" GridPane.rowIndex="21">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/brick_brown_0.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="6" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="7" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="20">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="18">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="19">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="17">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="16">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="15">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="8" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="9" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="10" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="11" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="12" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="13" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="14" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="6">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="7">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="15" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="16" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="18" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="8">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="10">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="9">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="11">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="12">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="20" GridPane.rowIndex="13">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView preserveRatio="true" GridPane.columnIndex="19" GridPane.rowIndex="14">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/dirt_0_new.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="character" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../../../DesignModeGame/Images/human_new.png" />
+               </image>
+            </ImageView>
+         </children>
+      </GridPane>
+      <Text layoutX="75.0" layoutY="528.0" strokeType="OUTSIDE" strokeWidth="0.0" text="here" />
+      <ImageView fx:id="target11" layoutX="69.0" layoutY="378.0">
+         <image>
+            <Image url="@../../Images/dirt_0_new.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
