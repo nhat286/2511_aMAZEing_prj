@@ -2,8 +2,6 @@ package kyle_maze;
 
 import java.io.IOException;
 
-//import eric.MazeSystem;
-
 public interface Menu {
 
 	public default void displayMenu() throws IOException {

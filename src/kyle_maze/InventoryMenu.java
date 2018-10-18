@@ -8,7 +8,7 @@ import java.util.Scanner;
 //import jae.Enemy;
 import niriksha.Character;
 import niriksha.Inventory;
-import niriksha.Potions;
+import niriksha.Potion;
 import niriksha.Weapon;
 
 public class InventoryMenu implements Menu{
@@ -19,12 +19,18 @@ public class InventoryMenu implements Menu{
 		this.character = cha;
 		this.sc = sc;
 	}
-
+	
 	/* (non-Javadoc)
 	 * Overided default method to display items remaining in inventory and provide 
 	 * handle to use or drop them.
 	 * 
 	 * @see kyle_maze.Menu#displayMenu()
+	 */
+	/**
+	 * Prints the inventory menu of the game
+	 * 
+	 * Prints the information of the Inventory and 
+	 * 		   allows the player to use items available in their inventory
 	 */
 	@Override
 	public void display() {
@@ -32,7 +38,7 @@ public class InventoryMenu implements Menu{
 		String selected;
 
 		ArrayList<Weapon> weaponList = inventory.getWeaponList();
-		ArrayList<Potions> potionList = inventory.getPotionList();
+		ArrayList<Potion> potionList = inventory.getPotionList();
 		ArrayList<String> currList = new ArrayList<String>();
 		
 		HashMap<String, Integer> weaponHash = new HashMap<>();
@@ -52,7 +58,7 @@ public class InventoryMenu implements Menu{
 				weaponHash.put(o.getType(), new Integer(weaponHash.get(o.getType()).intValue() + 1));
 			}
 			
-			for (Potions o : potionList) {
+			for (Potion o : potionList) {
 				if (!potionHash.containsKey(o.getType())) {
 					potionHash.put(o.getType(), new Integer(0));
 				}
@@ -96,7 +102,7 @@ public class InventoryMenu implements Menu{
 						System.out.println("e: Equip, d: drop");
 						inputAct = sc.next().charAt(0);
 						if(inputAct == 'e')
-							character.equipWeapon(selected);
+							character.equipWeapon(w);
 						if(inputAct == 'd')
 							inventory.deleteWeapon(w);
 						break;
@@ -111,12 +117,12 @@ public class InventoryMenu implements Menu{
 					break;
 				}
 				selected = currList.get(inputIndex);
-				for(Potions p : potionList) {
+				for(Potion p : potionList) {
 					if(p.getType().equals(selected)) {
 						System.out.println("e: Use, d: drop");
 						inputAct = sc.next().charAt(0);
 						if(inputAct == 'e')
-							character.equipPotion(selected);
+							character.equipPotion(p);
 						if(inputAct == 'd')
 							inventory.deletePotion(p);
 						break;

@@ -1,79 +1,82 @@
 package niriksha;
-/*
+
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class InvincibilityPotion extends Potions {
+import application.Sprite;
+import javafx.scene.image.Image;
 
+public class InvincibilityPotion extends Potion {
+	
 	private boolean used;
-	Timer time_limit;
+	private Timer invincibility_timer;
+	private STATE old_state;
+	private Character current;
 
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
 		this.used = false;
-		//this.time_limit = new Timer();
-	}
-	
-	// only destroy enemy if potion hasn't been used
-	public action potion_effect() {
-		this.time_limit = new Timer();
-		if (this.used == false) {
-			this.used = true;
-			this.time_limit.schedule(new timing(), 1000 * 10);
-			this.setCoordinates(-1, -1);
-			return action.INVINCIBLE;
-		}
-		
-		return action.NOTHING;
-	}
-	
-	// start/stop timer
-	class timing extends TimerTask {
-		public void run() {
-            time_limit.cancel();
-        }
+		this.setSprite(new Sprite(new Image("brilliant_blue_new.png"), this.getCoordinates()));
 	}
 
+	@Override
+	public STATE potionEffect(Character c) {
+		
+		this.current = c;
+		this.old_state = c.getState();
+		
+		if (this.used == false) {
+			if (c.getState() instanceof HoverCharacter) {
+				c.setState((STATE) new HoverInvincibleCharacter(c));
+			}
+			else {
+				c.setState((STATE) new InvincibleCharacter(c));
+			}
+			this.invincibility_timer = new Timer();
+			this.invincibility_timer.schedule(new timing(), 1000*10);
+			if (this.used)
+				this.invincibility_timer.purge();
+		}
+		return c.getState();
+		
+	}
+	
+	class timing extends TimerTask {
+		public void run() {
+			used = true;
+			invincibility_timer.cancel();
+			if (current.getState() instanceof HoverInvincibleCharacter)
+				current.setState(new HoverCharacter(current));
+			else
+				current.setState(old_state);
+			destroyPotion();
+        }
+	}
+	
+	// getter and setter methods 
+	
 	public boolean isUsed() {
 		return used;
 	}
 	
-	public Timer getTime_limit() {
-		return this.time_limit;
-	}
-	
-	
-//	@Override
-//	public int special_effect(Object o) {
-//		action = 2;
-//		return action;
-//	}
-//	
-//	public int special_effect(Enemy e) {
-//		e.destroyEnemy();
-//		action = 1;
-//		return action;
-//	}
-//	
-//	public int special_effect(Weapon w) {
-//		if (((w.getClass()).toString()).equals("Bomb")) {
-//			action = 0;
-//			return action;
-//		}
-//		action = 2;
-//		return action;
-//	}
-	
+	/**
+	 * Returns the type of potion 
+	 * 
+	 * @return type of potion
+	 */
 	@Override
 	public String getType() {
 		return "InvincibilityPotion";
 	}
 	
+	/**
+	 * Creates a copy of this invincibility potion
+	 * 
+	 * @return copy of this invincibility potion
+	 */
 	@Override
-	public Potions copy() {
+	public Potion copy() {
 		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}
 
 }
-
-*/

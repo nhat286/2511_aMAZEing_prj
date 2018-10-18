@@ -1,7 +1,5 @@
 package kyle_maze;
 
-import java.io.IOException;
-
 import eric.Maze;
 
 public class Rules implements Menu{
@@ -15,13 +13,13 @@ public class Rules implements Menu{
 	 * @param maze
 	 */
 	public Rules(Maze maze){
-		rules = new String [4];
+		rules = new String [5];
 		rules[0] = "Find the exit door.";
 		rules[1] = "Collect all treasures.";
 		rules[2] = "Kill all enemies.";
 		rules[3] = "Find keys to open locked doors.";
 		rules[4] = "Solve the puzzles.";
-		goal = maze.getWinCond();
+		this.goal = maze.getWinCond();
 	}
 	
 	/* (non-Javadoc)

@@ -1,20 +1,33 @@
 package niriksha;
 
+import application.Sprite;
 import eric.CoOrd;
+import javafx.scene.image.Image;
 
 public class Key {
 	 
 	private CoOrd co_ord;
 	private char icon;
-	Door door;
+	private Door door;
+	private Sprite sprite;
 	
 	public Key(int x, int y) {
 		this.co_ord = new CoOrd(x, y);
 		this.icon = '&';
 		this.door = null;
+		this.sprite = new Sprite(new Image("key.png"), this.getCoordinates());
+	}
+	
+	public Sprite getSprite() {
+		return this.sprite;
 	}
 
-	// check if door is the one assigned to this key - if it is open the door 
+	/**
+	 * Determines if the door is assigned to be opened by this key
+	 * 
+	 * @param Door
+	 * @return true if door is opened and is assigned to this key, false otherwise
+	 */ 
 	public boolean checkDoor(Door d) {
 		if (this.door != null && this.door.equals(d)) {
 			d.openDoor();
@@ -43,15 +56,27 @@ public class Key {
 	public void setCoordinates(int x, int y) {
 		this.co_ord.setXY(x, y);
 	}
-	
+	/**
+	 * Pickup which remove its appearance from the map
+	 */
 	public void pickUp() {
 		this.setCoordinates(-2, -2);
 	}
 	
+	/**
+	 * Returns the type of object 
+	 * 
+	 * @return type of object
+	 */
 	public String getType() {
 		return "Key";
 	}
 	
+	/**
+	 * Creates a copy of this key
+	 * 
+	 * @return copy of this key
+	 */
 	public Key copy() {
 		return new Key(this.getCoordinates().getX(), this.getCoordinates().getY());
 	}

@@ -1,7 +1,5 @@
 package kyle_maze;
 
-import java.io.IOException;
-
 import eric.Maze;
 
 public class SaveLoad implements Menu{

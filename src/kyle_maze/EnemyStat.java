@@ -1,11 +1,9 @@
 package kyle_maze;
-import java.io.IOException;
+
 import java.util.HashMap;
-//import java.util.Map;
 import java.util.Map.Entry;
 
 import eric.Maze;
-//import jae.Enemy;
 
 public class EnemyStat implements Menu{
 	
@@ -31,14 +29,16 @@ public class EnemyStat implements Menu{
 		EnemyDescript[3] = "Strategist: "
 				+ "The Strategist could read your mind "
 				+ "and move towards where you want to go.";
-		enemyHash = getEnemyHash(maze);
+		this.enemyHash = getEnemyHash(maze);
 	}
-	
 	
 	/* (non-Javadoc)
 	 * Overided default method to print enemy statistics from hashmap
 	 * 
 	 * @see kyle_maze.Menu#displayMenu()
+	 */
+	/**
+	 * Prints the Enemy statistics
 	 */
 	@Override
 	public void display() {

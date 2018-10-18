@@ -1,58 +1,45 @@
 package eric;
 
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.KeyEvent;
-//import java.awt.event.KeyListener;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
-//import java.util.Timer;
-//import java.util.TimerTask;
-//import java.util.concurrent.Executors;
-//import java.util.concurrent.ScheduledExecutorService;
-//import java.util.concurrent.TimeUnit;
-
-//import javax.swing.JFrame;
-//import javax.swing.JTextField;
 
 import niriksha.Character;
 import niriksha.Door;
 import niriksha.FloorSwitch;
 import niriksha.HoverPotion;
-//import niriksha.InvincibilityPotion;
 import niriksha.Key;
+import niriksha.NormalCharacter;
 import niriksha.Obstacle;
 import niriksha.Pit;
-import niriksha.Potions;
+import niriksha.Potion;
+import niriksha.STATE;
+import niriksha.InvincibilityPotion;
 import niriksha.Sword;
 import niriksha.Treasure;
 import niriksha.Wall;
 import niriksha.Weapon;
 import niriksha.ACTION;
 import niriksha.Arrow;
-//import niriksha.Bomb;
 import niriksha.Boulder;
 import jae.Coward;
 import jae.Enemy;
 import jae.Hound;
 import jae.Hunter;
 import jae.Strategist;
+import javafx.scene.canvas.GraphicsContext;
 import kyle_maze.EnemyStat;
 import kyle_maze.InventoryMenu;
 import kyle_maze.ItemStat;
 import kyle_maze.Rules;
 import kyle_maze.SaveLoad;
 
-public class MazeSystem {//extends TimerTask implements KeyListener, ActionListener {
+public class MazeSystem {
 
 	private int map_size;
 	private char[][] map;
 	private Maze curr;
-	//private Timer clock;
 	private Character user;
-	//private static char keyPressed;
-	//private int pause;
-	//private ScheduledExecutorService executor;
+	private static String buffer_cmd = null;
 	
 	public MazeSystem() {		
 		//drawMap();
@@ -69,6 +56,7 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		this.curr = new Maze(goal);
 		this.map = new char[size][size];
 		this.user = new Character(1, 1);
+		this.user.setState((STATE) new NormalCharacter(this.user));
 		this.curr.addCharacter(this.user);
 		for (int i = 0; i < size; i++) {
 			this.curr.addObstacle(new Wall(0, i));
@@ -78,8 +66,6 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 			this.curr.addObstacle(new Wall(i, 0));
 			this.curr.addObstacle(new Wall(i, size - 1));
 		}
-		//this.keyPressed = '.';
-		//this.pause = 0;
 	}
 	
 	/**
@@ -123,15 +109,15 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 			System.out.println("\tSolve the puzzle to complete the maze!");
 		System.out.println("Press i to check inventory!");
 		if (this.user.weaponEquipped()) {
-			System.out.println("\tCurrently equip " + this.user.equip_weapon.getType());
+			System.out.println("\tCurrently equip " + this.user.getEquippedWeapon().getType());
 		}
-		if (this.user.getActivePotion().size() > 0) {
-			System.out.print("\tCurrently activate:");
-			for (Potions p : this.user.getActivePotion()) {
-				System.out.print(" " + p.getType());
-			}
-			System.out.print("\n");
-		}
+//		if (this.user.getActivePotion().size() > 0) {
+//			System.out.print("\tCurrently activate:");
+//			for (Potion p : this.user.getActivePotion()) {
+//				System.out.print(" " + p.getType());
+//			}
+//			System.out.print("\n");
+//		}
 		System.out.println("Press p to pause the game and open menu!");
 		for (int i = 0; i < this.map_size; i++) {
 			for (int j = 0; j < this.map_size; j++) {
@@ -140,14 +126,6 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 			System.out.print("\n");
 		}
 	}
-	
-	/**
-	 * Method to signal pause option
-	 * @param pause to tell system to pause the game
-	 */
-//	public void setPause(int pause) {
-// 		this.pause = pause;
-//	}
 	
 	/**
 	 * Method to print out menu options when game is paused
@@ -169,24 +147,24 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 			switch(sc.nextInt()) {
 			case 1:
 				EnemyStat es = new EnemyStat(this.curr);
-				es.displayMenu();
+				es.display();
 				break;
 			case 2:
-				ItemStat is = new ItemStat();
-				is.displayMenu();
+				ItemStat is = new ItemStat(this.curr);
+				is.display();
 				break;
 			case 3:
-				Rules rl = new Rules(curr);
-				rl.displayMenu();
+				Rules rl = new Rules(this.curr);
+				rl.display();
 				break;
 			case 4:
 				SaveLoad save = new SaveLoad(this.curr);
-				save.displayMenu();
+				save.display();
 				save.SaveGame();
 				break;
 			case 5:
 				SaveLoad load = new SaveLoad(this.curr);
-				load.displayMenu();
+				load.display();
 				load.LoadGame();
 				break;
 			case 6:
@@ -210,14 +188,18 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 	public void level1Initiate() {
 		this.start(20, Maze.SLAYER);
 		
-		Enemy e1 = new Hunter(new CoOrd(3, 4));
+		//Enemy e1 = new Hunter(new CoOrd(3, 4));
+		Enemy e1 = new Hunter(new CoOrd(3, 4, 50));
 		this.curr.addEnemy(e1);
-		Enemy e2 = new Strategist(new CoOrd(7, 12));
+		//Enemy e2 = new Strategist(new CoOrd(7, 12));
+		Enemy e2 = new Strategist(new CoOrd(7, 12, 50));
 		this.curr.addEnemy(e2);
-		Enemy e3 = new Hound(new CoOrd(11, 17));
+		//Enemy e3 = new Hound(new CoOrd(11, 17));
+		Enemy e3 = new Hound(new CoOrd(11, 17, 50));
 		((Hound) e3).linkHunter(e1.getCurrPos());
 		this.curr.addEnemy(e3);
-		Enemy e4 = new Coward(new CoOrd(16, 2));
+		//Enemy e4 = new Coward(new CoOrd(16, 2));
+		Enemy e4 = new Coward(new CoOrd(16, 2, 50));
 		this.curr.addEnemy(e4);
 		Obstacle o1 = new Pit(10, 10);
 		this.curr.addObstacle(o1);
@@ -228,6 +210,12 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new HoverPotion(-2,-2));
 		this.user.pickUpPotion(new InvincibilityPotion(-2,-2));
+		
+		// random weapon equipped to character
+		this.user.equipWeapon(new Sword(-2, -2));
+//		Weapon w3 = new Arrow(-2, -2, this.user);
+//		this.curr.addWeaponDrop(w3);
+//		this.user.equipWeapon(w3);
 	}
 	
 	/**
@@ -243,15 +231,15 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		this.curr.addObstacle(o2);
 		Obstacle o3 = new Pit(3, 8);
 		this.curr.addObstacle(o3);
-		Potions p1 = new HoverPotion(8, 14);
+		Potion p1 = new HoverPotion(8, 14);
 		this.curr.addPotion(p1);
-		Potions p2 = new InvincibilityPotion(4, 5);
+		Potion p2 = new InvincibilityPotion(4, 5);
 		this.curr.addPotion(p2);
 		Obstacle o4 = new FloorSwitch(3, 2);
 		this.curr.addObstacle(o4);
 		Obstacle o5 = new FloorSwitch(9, 11);
 		this.curr.addObstacle(o5);
-		Obstacle o6 = new Boulder(2, 5);
+		Obstacle o6 = new Boulder(3, 5);
 		this.curr.addObstacle(o6);
 		Obstacle o7 = new Boulder(15, 6);
 		this.curr.addObstacle(o7);
@@ -261,6 +249,21 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		this.curr.addWeaponDrop(ar);
 		Weapon bm = new Bomb(12, 9, this.user.getCoordinates());
 		this.curr.addWeaponDrop(bm);
+		
+		// random weapon equipped to character
+//		Weapon tmp = new Bomb(-2, -2, this.user.getCoordinates());
+		Weapon tmp = new Arrow(-2, -2, this.user);
+		this.curr.addWeaponDrop(tmp);
+		this.user.equipWeapon(tmp);
+		this.user.pickUpPotion(new InvincibilityPotion(-1,-1));
+		this.user.pickUpPotion(new InvincibilityPotion(-1,-1));
+		this.user.pickUpPotion(new HoverPotion(-1,-1));
+		this.user.pickUpPotion(new HoverPotion(-1,-1));
+		
+		
+		// randomly use potion since the start
+//		this.user.equipPotion(new HoverPotion(-2, -2));
+//		this.user.equipPotion(new InvincibilityPotion(-2, -2));
 	}
 	
 	/**
@@ -268,7 +271,7 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 	 * The maze can also be completed by only finding the exit without passing other goals
 	 * Contains doors, a key, and an exit
 	 */
-	public void leve3Initiate() {
+	public void level3Initiate() {
 		this.start(20, Maze.RUNNER + Maze.COLLECTOR + Maze.DETECTIVE);
 		
 		Door d1 = new Door(5, 8);
@@ -299,10 +302,6 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 	 * 							QUIT if player chooses to quit the maze 
 	 */
 	public OUTCOME gameLoop(Scanner sc) {
-		/*executor = Executors.newSingleThreadScheduledExecutor();
-		long delay  = 100L;
-	    long period = 100L;
-	    executor.scheduleAtFixedRate(this, delay, period, TimeUnit.MILLISECONDS);*/
 		this.map = drawMap();
 		this.curr.updateMap(map);
 	    this.printMap();
@@ -343,12 +342,12 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 			case 'j':
 				if (under instanceof Weapon) {
 					this.user.pickUpWeapon((Weapon) under);
-				} else if (under instanceof Potions) {
-					this.user.pickUpPotion((Potions) under);
+				} else if (under instanceof Potion) {
+					this.user.pickUpPotion((Potion) under);
 				} else if (under instanceof Treasure) {
 					((Treasure) under).pickUp();
 				} else if (under instanceof Key) {
-					this.user.setHolding_key((Key) under);
+					this.user.setHoldingKey((Key) under);
 					((Key) under).pickUp();
 				}
 				break;
@@ -357,7 +356,7 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 			 */
 			case 'i':
 				InventoryMenu iM = new InventoryMenu(this.user, sc);
-				iM.displayMenu();
+				iM.display();
 				break;
 			/**
 			 * p for pausing the game and opening menu options
@@ -383,23 +382,15 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 				break;
 			case GAME_COMPLETE:
 				return OUTCOME.WIN;
-			case HOVER:
-				break;
 			case MOVE:
 				break;
 			case NOTHING:
-				break;
-			case PICK_UP_ITEM:
-				break;
-			case PICK_UP_POTION:
-				break;
-			case PICK_UP_WEAPON:
 				break;
 			case PUSH_BOULDER:
 				Boulder b = (Boulder) ahead;
 				CoOrd next_to = b.getInfront(this.user.getIcon());
 				if (b.push_boulder(this.user.getIcon(), this.map[next_to.getX()][next_to.getY()],
-						this.curr.getEntity(next_to), this.map_size) != Boulder.action.NOTHING) {
+						this.curr.getEntity(next_to), this.map_size) != ACTION.NOTHING) {
 					this.user.move(this.user.getIcon(), ' ', null, this.map_size);
 				}
 				break;
@@ -527,8 +518,8 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 						} else {
 							if (o instanceof Weapon) {
 								((Weapon) o).setCoordinates(move.getX(), move.getY());
-							} else if (o instanceof Potions) {
-								((Potions) o).setCoordinates(move.getX(), move.getY());
+							} else if (o instanceof Potion) {
+								((Potion) o).setCoordinates(move.getX(), move.getY());
 							} else if (o instanceof Enemy) {
 								((Enemy) o).setCurrPos(move);
 							} else if (o instanceof Obstacle) {
@@ -546,8 +537,8 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 						if (designAdd(sc, move)) {
 							if (o instanceof Weapon) {
 								((Weapon) o).destroyWeapon();
-							} else if (o instanceof Potions) {
-								((Potions) o).destroyPotion();
+							} else if (o instanceof Potion) {
+								((Potion) o).destroyPotion();
 							} else if (o instanceof Enemy) {
 								((Enemy) o).enemyDies();
 							} else if (o instanceof Obstacle) {
@@ -629,7 +620,7 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		int y = sc.nextInt();
 		if (x < 1 || y < 1 || x > this.map_size - 1 || y > this.map_size - 1)
 			return null;
-		return new CoOrd(x, y);
+		return new CoOrd(x, y, 0);
 	}
 	
 	/**
@@ -777,8 +768,8 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		
 		if (o instanceof Weapon) {
 			((Weapon) o).destroyWeapon();
-		} else if (o instanceof Potions) {
-			((Potions) o).destroyPotion();
+		} else if (o instanceof Potion) {
+			((Potion) o).destroyPotion();
 		} else if (o instanceof Enemy) {
 			((Enemy) o).enemyDies();
 		} else if (o instanceof Obstacle) {
@@ -801,197 +792,125 @@ public class MazeSystem {//extends TimerTask implements KeyListener, ActionListe
 		return copy;
 	}
 	
-	/**
-	 * MAIN function to run the game
-	 * @param args
-	 * @throws InterruptedException
+	public int getMapSize() {
+		return this.map_size;
+	}
+	
+	/*
+	 * Integrate old gameLoop with graphics and javafx
 	 */
-	public static void main(String[] args) throws InterruptedException {
-		MazeSystem sys = new MazeSystem();
-		
-		/*
-		 * Game default: MazeRunner goal + 20x20 maze + character (1, 1)
-		 * Logic for system would be:
-		 * Play game:
-		 * 		while game not end {
-		 * 			get info and coords from user
-		 * 			get/update behaviours and stats
-		 * 			updateMap();
-		 * 		}
-		 * 
-		 * Design map:
-		 * 		get size and win conditions
-		 * 		loop to add or change new entities
-		 * 		play -> do play game logic
-		 */
-		/*
-		JTextField textField = new JTextField();
-	    textField.addKeyListener(sys);
-	    JFrame jframe = new JFrame();
-	    jframe.add(textField);
-	    jframe.setSize(200, 150);
-	    jframe.setVisible(true);
-		*/
-		char input = '.';
-		Scanner sc = new Scanner(System.in);
-		while (input != 'q') {
-			clearScreen();
-			System.out.println("******aMAZEing******");
-			System.out.println("Press y to start!");
-			System.out.println("Press q to quit!");
-			System.out.println("Press m to design your own maze!");
-			input = sc.next().charAt(0);
-			switch (input) {
-			case 'y':
-				System.out.println("Choose your level:");
-				System.out.println("\tLevel 1: Kill all enemies!");
-				System.out.println("\tLevel 2: Solve the mysterious puzzle!");
-				System.out.println("\tLevel 3: Find the hidden treasures!");
-				System.out.print("Type level number> ");
-				int lv = sc.nextInt();
-				while (lv < 0 || lv > 3) {
-					System.out.println("Can't setup maze, not found level!");
-					System.out.print("Type level number> ");
-					lv = sc.nextInt();
-				}
-				OUTCOME result;
-				/*if(sys.pause == 0) {
-					sys.gameInitiate();
-				}*/
-				do {
-					switch (lv) {
-					case 1:
-						sys.level1Initiate();
-						break;
-					case 2:
-						sys.level2Initiate();
-						break;
-					case 3:
-						sys.leve3Initiate();
-						break;
-					}
-					result = sys.gameLoop(sc);
-					if (result == OUTCOME.LOSE) {
-						clearScreen();
-						System.out.println("\t\tOH NO YOU DIE! RESTARTING");
-						Thread.sleep(1000);
-					} else if (result == OUTCOME.WIN) {
-						clearScreen();
-						System.out.println("CONGRATULATIONS! YOU WIN!!!");
-						System.out.println("Press any key to continue");
-						try {
-							System.in.read();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						break;
-					}
-				} while (result != OUTCOME.QUIT);
-				break;
-			case 'm':
-				System.out.println("Design time!");
-				sys.design(sc);
-				break;
-			case 'q':
-				System.out.println("Thank you for playing!");
-				break;
-			default:
-				System.out.println("Unknown option?");
-			}
-		}
-		sc.close();
-		System.out.println("Exitting...");
-	}
-
-	/*@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		//System.out.println("Pressed: " + arg0.getKeyChar());
-		keyPressed = arg0.getKeyChar();
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		//System.out.println("Released: " + arg0.getKeyChar());
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	public OUTCOME gameLoop(ArrayList<String> input, GraphicsContext gc, double refreshTime) {
+		if (input.size() <= 0)
+			buffer_cmd = null;
+		this.map = drawMap();
+		this.curr.updateMap(map, gc);
+		gc.clearRect(0, 0, map_size*32,map_size*32);
+		this.user.getSprite().setVelocity(0,0);
 		
 		CoOrd in_front = this.user.getInfront();
-		Object o = this.curr.getEntity(in_front);
+		Object ahead = this.curr.getEntity(in_front);
+		Object under = this.curr.getEntity(this.user.getCoordinates());
 		ACTION outcome = ACTION.NOTHING;
-		switch (keyPressed) {
-		case 'a':
-			outcome = this.user.move('<', this.map[in_front.getX()][in_front.getY()], o, this.map_size);
-			break;
-		case 's':
-			outcome = this.user.move('v', this.map[in_front.getX()][in_front.getY()], o, this.map_size);
-			break;
-		case 'd':
-			outcome = this.user.move('>', this.map[in_front.getX()][in_front.getY()], o, this.map_size);
-			break;
-		case 'w':
-			outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], o, this.map_size);
-			break;
-		case ' ':
-			this.user.useWeapon(o);
-			break;
-		case 'j':
-			if (o instanceof Weapon) {
-				this.user.pickUpWeapon((Weapon) o);
-				((Weapon) o).setCoordinates(-2, -2);
+		/**
+		 * Basic movement with arrow keys
+		 */
+		if (input.size() > 0 && !input.get(0).equals(buffer_cmd)) {
+			buffer_cmd = input.get(0);
+			if (input.contains("LEFT")) {
+				outcome = this.user.move('<', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			} else if (input.contains("DOWN")) {
+				outcome = this.user.move('v', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			} else if (input.contains("RIGHT")) { 
+				outcome = this.user.move('>', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			} else if (input.contains("UP")) { 
+				outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
+			/**
+			 * SPACEBAR for using weapon, nothing happens if character hasn't equipped weapon
+			 * system passes the entity in front of character to assist using weapon behaviour
+			 */
+			} else if (input.contains("A")) {
+				this.user.useWeapon(ahead);
+			/**
+			 * CTRL for picking up items at the character's co-ordinates
+			 * system checks the entity at character's co-ordinates (besides character himself)
+			 * 			and calls corresponding pickup behaviour
+			 */
+			} else if (input.contains("CONTROL")) {
+				if (under instanceof Weapon) {
+					this.user.pickUpWeapon((Weapon) under);
+				} else if (under instanceof Potion) {
+					this.user.pickUpPotion((Potion) under);
+				} else if (under instanceof Treasure) {
+					((Treasure) under).pickUp();
+				} else if (under instanceof Key) {
+					this.user.setHoldingKey((Key) under);
+					((Key) under).pickUp();
+				}
+			/**
+			 * I for opening inventory menu to check what weapons and potions are available in character's bag
+			 */
+			/*
+			 * Need to pass the input string in, instead of scanner here!
+			 */
+			} else if (input.contains("I")) {
+				InventoryMenu iM = new InventoryMenu(this.user, null);
+				iM.display();
+			/**
+			 * ESC for pausing the game and opening menu options
+			 */
+			} else if (input.contains("ESCAPE")) {
+				if (this.pauseGame(null) == 0) {
+					return OUTCOME.QUIT;
+				}
+			} else if (input.contains("Q")) {
+				return OUTCOME.QUIT;
 			}
-			else if (o instanceof Potions) {
-				this.user.pickUpPotion((Potions) o);
-				((Potions) o).setCoordinates(-2, -2);
-			}
-			break;
-		default:
-			break;
 		}
 		
+		/**
+		 * Check for outcome from character's action (move) and handle logic of the game
+		 * If character tries to move onto a boulder entity, push boulder behaviour is checked and called
+		 */
 		switch (outcome) {
 		case DIE:
+			return OUTCOME.LOSE;
 		case DESTROY:
 			break;
 		case GAME_COMPLETE:
-		case HOVER:
-			break;
+			return OUTCOME.WIN;
 		case MOVE:
 			break;
 		case NOTHING:
 			break;
-		case PICK_UP_ITEM:
-			break;
-		case PICK_UP_POTION:
-			break;
-		case PICK_UP_WEAPON:
-			break;
 		case PUSH_BOULDER:
+			Boulder b = (Boulder) ahead;
+			CoOrd next_to = b.getInfront(this.user.getIcon());
+			if (b.push_boulder(this.user.getIcon(), this.map[next_to.getX()][next_to.getY()],
+					this.curr.getEntity(next_to), this.map_size) != ACTION.NOTHING) {
+				this.user.move(this.user.getIcon(), ' ', null, this.map_size);
+			}
 			break;
 		default:
 			break;
 		}
-		this.printMap();
-		keyPressed = '.';
+		/**
+		 * After each character's action, render the map to update all entities
+		 */
+		this.user.getSprite().update(refreshTime);
+		this.map = drawMap();
+		this.curr.updateMap(map, gc);
+		//this.printMap();
+		if (this.curr.checkGoal() == this.curr.getWinCond())
+			return OUTCOME.WIN;
+		else if (this.curr.checkGoal() == -1)
+			return OUTCOME.LOSE;
 		
-	}*/
+		
+		return OUTCOME.NOTHING;
+	}
 
+	public Character getUser() {
+		return user;
+	}
+	
 }

@@ -1,6 +1,8 @@
 package niriksha;
 
+import application.Sprite;
 import jae.Enemy;
+import javafx.scene.image.Image;
 
 public class Sword extends Weapon {
 
@@ -9,55 +11,60 @@ public class Sword extends Weapon {
 	public Sword(int x, int y) {
 		super(x, y, 'T');
 		this.durability = 5;
+		this.setSprite(new Sprite(new Image("greatsword_1_new.png"), this.getCoordinates()));
 	}
 	
-	private void decrease_durability() {
+	/**
+	 * Decreases durability of the sword
+	 * 
+	 */
+	private void decreaseDurability() {
 		this.durability = this.durability - 1;
 	}
 	
+	/**
+	 * Enemy is destroyed with the sword if it is right in front of the character 
+	 * 
+	 * @param object in front of character
+	 * @return destroy enemy or character dies if durability of sword is zero or nothing happens
+	 */
 	@Override
-	public action weapon_action(Object object) {
+	public ACTION weapon_action(Object object) {
 		
 		if (this.durability > 0 && object instanceof Enemy) {
-			decrease_durability();
+			decreaseDurability();
 			((Enemy) object).enemyDies();
 			if (this.durability == 0)
-				this.setCoordinates(-1, -1);
-			return action.DESTROY;
+				this.destroyWeapon();
+			return ACTION.DESTROY;
 		}
 		
 		else if (this.durability == 0 && object instanceof Enemy) {
-			return action.DIE;
+			return ACTION.DIE;
 		}
 		
-		// decrease as sword is used even if it did nothing;
-		decrease_durability();
-		return action.NOTHING;
+		return ACTION.NOTHING;
 	}
 
 	public int getDurability() {
-		return durability;
+		return this.durability;
 	}
 	
+	/**
+	 * Returns the type of weapon 
+	 * 
+	 * @return type of weapon
+	 */
 	@Override
 	public String getType() {
 		return "Sword";
 	}
 	
-	
-	/*@Override
-	public int action() {
-		if (durability>=0) {
-			e.destroyEnemy();
-			decrease_durability();
-			action = 1;
-		}
-		else {
-			action = 0;
-		}
-		return action;
-	}*/
-	
+	/**
+	 * Creates a copy of this sword
+	 * 
+	 * @return copy of this sword
+	 */
 	@Override
 	public Weapon copy() {
 		return new Sword(this.getCoordinates().getX(), this.getCoordinates().getY());

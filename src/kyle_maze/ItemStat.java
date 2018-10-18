@@ -1,6 +1,5 @@
 package kyle_maze;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -16,7 +15,7 @@ public class ItemStat implements Menu{
 	 * Initiate the item descriptions
 	 */
 	public ItemStat(Maze maze){
-		ItemDescript = new String [4];
+		ItemDescript = new String [7];
 		ItemDescript[0] = "Hover Potion: "
 				+ "This potion could make you hovering until you are dead or you win the game."
 				+ "It is useful to hover through pits.";
@@ -40,11 +39,13 @@ public class ItemStat implements Menu{
 		weaponHash = maze.weaponStat();
 	}
 	
-	
 	/* (non-Javadoc)
 	 * Display item descriptions
 	 * 
 	 * @see kyle_maze.Menu#displayMenu()
+	 */
+	/**
+	 * Prints the Item statistics
 	 */
 	@Override
 	public void display() {
