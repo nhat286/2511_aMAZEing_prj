@@ -1,4 +1,4 @@
-package controller;
+package design_mode;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

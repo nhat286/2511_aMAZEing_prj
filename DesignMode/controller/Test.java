@@ -1,4 +1,4 @@
-package controller;
+package design_mode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -285,7 +285,7 @@ public class Test extends Controller {
 	
 	@FXML
 	private void DragOver(DragEvent event) {
-		System.out.println("DragOver");
+		System.out.println("DragOver"+event.getX()+" "+event.getY());
 		if (event.getDragboard().hasImage()) {
 			event.acceptTransferModes(TransferMode.ANY);
 		}
@@ -310,7 +310,7 @@ public class Test extends Controller {
 		Image img = event.getDragboard().getImage();
 		ImageView pic = new ImageView();
 		pic.setImage(img);
-		target.add(pic, 3, 3);
+		target.add(pic, (int)event.getX()/32, (int)event.getY()/32+1);
 	}
 	
 	@FXML
@@ -323,17 +323,17 @@ public class Test extends Controller {
 
 
 
-/*@FXML 
-private void DragDrop(DragEvent event) throws FileNotFoundException {
-	System.out.println("DragDrop");
-	List<File> files = event.getDragboard().getFiles();
-	Image img = new Image(new FileInputStream(files.get(0)));
-	imageView.setImage(img);
-}*/
-/*@FXML
-private void DragOver(DragEvent event) {
-	System.out.println("DragOver");
-	if (event.getDragboard().hasFiles()) {
-		event.acceptTransferModes(TransferMode.ANY);
-	}
-}*/
+//@FXML 
+//private void DragDrop(DragEvent event) throws FileNotFoundException {
+//	System.out.println("DragDrop");
+//	List<File> files = event.getDragboard().getFiles();
+//	Image img = new Image(new FileInputStream(files.get(0)));
+//	imageView.setImage(img);
+//}
+//@FXML
+//private void DragOver(DragEvent event) {
+//	System.out.println("DragOver");
+//	if (event.getDragboard().hasFiles()) {
+//		event.acceptTransferModes(TransferMode.ANY);
+//	}
+//}

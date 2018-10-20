@@ -1,4 +1,4 @@
-package controller;
+package design_mode;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

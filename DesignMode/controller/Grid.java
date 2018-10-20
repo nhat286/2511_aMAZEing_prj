@@ -1,10 +1,11 @@
-package controller;
+package design_mode;
 
 import java.io.FileInputStream;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -231,7 +232,7 @@ public class Grid extends Application{
 	    gridPane.setOnDragOver(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
 	            if (event.getDragboard().hasImage()) {
-	            	System.out.println("DragOver");
+	            	System.out.println("DragOver"+event.getX()/32+event.getY()/32);
 	                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 	            }
 	            event.consume();
@@ -271,7 +272,7 @@ public class Grid extends Application{
 				
 	}
 	
-	/*public void handle(DragEvent event) {
+	public void handle(DragEvent event) {
 	    //Data dropped
 	    //If there is an image on the dragboard, read it and use it
 	    Dragboard db = event.getDragboard();
@@ -296,7 +297,7 @@ public class Grid extends Application{
 	    event.setDropCompleted(success);
 
 	    event.consume();
-	}*/
+	}
 	
 	public static void main(String args[]){ 
 	      launch(args); 
