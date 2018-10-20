@@ -6,6 +6,10 @@ import javafx.scene.image.Image;
 
 public class Boulder extends Obstacle {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1799498590372763810L;
 	private boolean on_switch;
 	private FloorSwitch f_s;
 	
@@ -143,5 +147,10 @@ public class Boulder extends Obstacle {
 	@Override
 	public Obstacle copy() {
 		return new Boulder(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("boulder.png"));
 	}
 }

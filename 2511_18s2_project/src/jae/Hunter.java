@@ -7,6 +7,11 @@ import niriksha.Character;
 
 public class Hunter extends Enemy {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7934917464551359312L;
+
 	public Hunter(CoOrd currPos) {
 		super(currPos, 'H');
 		this.setSprite(new Sprite(new Image("hunter.png"), currPos));
@@ -46,6 +51,11 @@ public class Hunter extends Enemy {
 	@Override
 	public Enemy copy() {
 		return new Hunter(this.getCurrPos());
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("hunter.png"));
 	}
 }
 

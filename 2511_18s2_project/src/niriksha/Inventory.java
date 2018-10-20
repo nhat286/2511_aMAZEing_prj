@@ -1,10 +1,15 @@
 package niriksha;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Inventory {
+public class Inventory implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6407195838124302149L;
 	private ArrayList<Weapon> weapon_list;
 	private ArrayList<Potion> potion_list;
 	

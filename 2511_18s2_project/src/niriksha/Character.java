@@ -1,5 +1,7 @@
 package niriksha;
 
+import java.io.Serializable;
+
 //import java.util.ArrayList;
 
 import application.Sprite;
@@ -7,8 +9,12 @@ import eric.CoOrd;
 import eric.DIRECTION;
 import javafx.scene.image.Image;
 
-public class Character {
+public class Character implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -363394217808269290L;
 	private STATE current_state;
 	private CoOrd co_ord;
 	private Inventory bag;
@@ -163,6 +169,7 @@ public class Character {
 	public void equipWeapon(Weapon w) {
 		if (this.equip_weapon == null) {
 			this.equip_weapon = w;
+			//w.setUser(this);
 		}
 	}
 	
@@ -236,8 +243,12 @@ public class Character {
 		return this.sprite;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+//	public void setSprite(Sprite sprite) {
+//		this.sprite = sprite;
+//	}
+	
+	public void updateImage() {
+		this.sprite.setImage(new Image("human_new.png"));
 	}
 
 }

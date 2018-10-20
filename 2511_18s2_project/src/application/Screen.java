@@ -30,10 +30,10 @@ public class Screen {
         this.fxmlLoader.setController(mainMenuControl);
         try {
             Parent root = this.fxmlLoader.load();
-            Scene sc = new Scene(root);
+            Scene sc = new Scene(root, 600, 400);
             this.stage.setScene(sc);
-            this.stage.setMinHeight(300);
-    		this.stage.setMinWidth(600);
+            //this.stage.setMinHeight(300);
+    		//this.stage.setMinWidth(600);
             this.stage.show();
         } catch (IOException e) {
             e.printStackTrace();

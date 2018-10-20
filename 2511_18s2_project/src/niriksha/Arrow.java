@@ -8,6 +8,10 @@ import javafx.scene.image.Image;
 
 public class Arrow extends Weapon {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7359828319916554948L;
 	private Character user;
 	private char direction;
 	private boolean used;
@@ -29,6 +33,7 @@ public class Arrow extends Weapon {
 	public ACTION weapon_action(Object object) {
 		this.direction = this.user.getIcon();
 		this.setCoordinates(this.user.getCoordinates().getX(), this.user.getCoordinates().getY());
+		this.getSprite().setPosition(this.getCoordinates().getX() * 32, this.getCoordinates().getY() * 32);
 		this.getCoordinates().setVelocity(150);
 		switch (this.direction) {
 		case '>':
@@ -70,7 +75,8 @@ public class Arrow extends Weapon {
 				((Enemy) object).enemyDies();
 				this.destroyWeapon();
 				return 1;
-			} else if (object instanceof Obstacle && !(object instanceof Pit)) {
+			} else if (object instanceof Obstacle && !(object instanceof Pit) &&
+					!(object instanceof FloorSwitch)) {
 				this.destroyWeapon();
 				return 0;
 			}
@@ -140,5 +146,10 @@ public class Arrow extends Weapon {
 	@Override
 	public Weapon copy() {
 		return new Arrow(this.getCoordinates().getX(), this.getCoordinates().getY(), this.user);
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("arrow.png"));
 	}
 }

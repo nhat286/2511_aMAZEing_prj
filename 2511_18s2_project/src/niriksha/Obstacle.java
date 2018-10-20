@@ -1,10 +1,16 @@
 package niriksha;
 
+import java.io.Serializable;
+
 import application.Sprite;
 import eric.CoOrd;
 
-public abstract class Obstacle {
+public abstract class Obstacle implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3084850466334631756L;
 	private CoOrd co_ord;
 	private char icon;
 	private Sprite sprite;
@@ -48,6 +54,7 @@ public abstract class Obstacle {
 	 * @return copy of the obstacle
 	 */
 	public abstract Obstacle copy();
+	public abstract void updateImage();
 	
 	public Sprite getSprite() {
 		return this.sprite;

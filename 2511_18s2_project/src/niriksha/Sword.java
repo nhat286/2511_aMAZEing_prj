@@ -6,6 +6,10 @@ import javafx.scene.image.Image;
 
 public class Sword extends Weapon {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4117935552171454648L;
 	private int durability;
 
 	public Sword(int x, int y) {
@@ -68,6 +72,11 @@ public class Sword extends Weapon {
 	@Override
 	public Weapon copy() {
 		return new Sword(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("greatsword_1_new.png"));
 	}
 
 }

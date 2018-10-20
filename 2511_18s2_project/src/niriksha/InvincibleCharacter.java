@@ -1,7 +1,15 @@
 package niriksha;
 
-public class InvincibleCharacter implements STATE {
+import java.io.Serializable;
 
+import jae.Enemy;
+
+public class InvincibleCharacter implements STATE, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6968055375371459964L;
 	private Character current;
 
 	public InvincibleCharacter(Character c) {
@@ -20,6 +28,7 @@ public class InvincibleCharacter implements STATE {
 				case 'S':
 				case 'D':
 				case 'C':
+					((Enemy) object).enemyDies();
 					return ACTION.DESTROY;
 					
 					

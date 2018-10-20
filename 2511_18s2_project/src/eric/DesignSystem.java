@@ -33,7 +33,7 @@ import kyle_maze.ItemStat;
 import kyle_maze.Rules;
 import kyle_maze.SaveLoad;
 
-public class MazeSystem {
+public class DesignSystem {
 
 	private int map_size;
 	private char[][] map;
@@ -41,7 +41,7 @@ public class MazeSystem {
 	private Character user;
 	private static String buffer_cmd = null;
 	
-	public MazeSystem() {		
+	public DesignSystem() {		
 		//drawMap();
 	}
 	
@@ -53,7 +53,7 @@ public class MazeSystem {
 	 */
 	public void start(int size, int goal) {
 		this.map_size = size;
-		this.curr = new Maze(goal);
+		this.curr = new Maze(size, goal);
 		this.map = new char[size][size];
 		this.user = new Character(1, 1);
 		this.user.setState((STATE) new NormalCharacter(this.user));
@@ -111,13 +111,6 @@ public class MazeSystem {
 		if (this.user.weaponEquipped()) {
 			System.out.println("\tCurrently equip " + this.user.getEquippedWeapon().getType());
 		}
-//		if (this.user.getActivePotion().size() > 0) {
-//			System.out.print("\tCurrently activate:");
-//			for (Potion p : this.user.getActivePotion()) {
-//				System.out.print(" " + p.getType());
-//			}
-//			System.out.print("\n");
-//		}
 		System.out.println("Press p to pause the game and open menu!");
 		for (int i = 0; i < this.map_size; i++) {
 			for (int j = 0; j < this.map_size; j++) {
@@ -158,14 +151,14 @@ public class MazeSystem {
 				rl.display();
 				break;
 			case 4:
-				SaveLoad save = new SaveLoad(this.curr);
+				SaveLoad save = new SaveLoad();
 				save.display();
-				save.SaveGame();
+				save.saveGame(this.curr, 0);
 				break;
 			case 5:
-				SaveLoad load = new SaveLoad(this.curr);
+				SaveLoad load = new SaveLoad();
 				load.display();
-				load.LoadGame();
+				load.loadGame(0);
 				break;
 			case 6:
 				option = 1;
@@ -178,114 +171,6 @@ public class MazeSystem {
 			}
 		}
 		return option;
-	}
-	
-	/**
-	 * Method to create a maze with goal to destroy all enemies to win
-	 * Contains all types of enemy, with arrow and sword as weapon drops on the map, and a pit
-	 * Character's bag already contains HoverPotion and InvincibilityPotion
-	 */
-	public void level1Initiate() {
-		this.start(20, Maze.SLAYER);
-		
-		//Enemy e1 = new Hunter(new CoOrd(3, 4));
-		Enemy e1 = new Hunter(new CoOrd(3, 4, 50));
-		this.curr.addEnemy(e1);
-		//Enemy e2 = new Strategist(new CoOrd(7, 12));
-		Enemy e2 = new Strategist(new CoOrd(7, 12, 50));
-		this.curr.addEnemy(e2);
-		//Enemy e3 = new Hound(new CoOrd(11, 17));
-		Enemy e3 = new Hound(new CoOrd(11, 17, 50));
-		((Hound) e3).linkHunter(e1.getCurrPos());
-		this.curr.addEnemy(e3);
-		//Enemy e4 = new Coward(new CoOrd(16, 2));
-		Enemy e4 = new Coward(new CoOrd(16, 2, 50));
-		this.curr.addEnemy(e4);
-		Obstacle o1 = new Pit(10, 10);
-		this.curr.addObstacle(o1);
-		Weapon w1 = new Sword(8, 1);
-		this.curr.addWeaponDrop(w1);
-		Weapon w2 = new Arrow(5, 1, this.user);
-		this.curr.addWeaponDrop(w2);
-		this.user.pickUpPotion(new HoverPotion(-2,-2));
-		this.user.pickUpPotion(new HoverPotion(-2,-2));
-		this.user.pickUpPotion(new InvincibilityPotion(-2,-2));
-		
-		// random weapon equipped to character
-		this.user.equipWeapon(new Sword(-2, -2));
-//		Weapon w3 = new Arrow(-2, -2, this.user);
-//		this.curr.addWeaponDrop(w3);
-//		this.user.equipWeapon(w3);
-	}
-	
-	/**
-	 * A method to create a map with goal to activate all floor switches to win
-	 * Contains boulders and switches to interact, pits, and arrow, bomb
-	 */
-	public void level2Initiate() {
-		this.start(17, Maze.BRAINER);
-		
-		Obstacle o1 = new Pit(10, 10);
-		this.curr.addObstacle(o1);
-		Obstacle o2 = new Pit(13, 4);
-		this.curr.addObstacle(o2);
-		Obstacle o3 = new Pit(3, 8);
-		this.curr.addObstacle(o3);
-		Potion p1 = new HoverPotion(8, 14);
-		this.curr.addPotion(p1);
-		Potion p2 = new InvincibilityPotion(4, 5);
-		this.curr.addPotion(p2);
-		Obstacle o4 = new FloorSwitch(3, 2);
-		this.curr.addObstacle(o4);
-		Obstacle o5 = new FloorSwitch(9, 11);
-		this.curr.addObstacle(o5);
-		Obstacle o6 = new Boulder(3, 5);
-		this.curr.addObstacle(o6);
-		Obstacle o7 = new Boulder(15, 6);
-		this.curr.addObstacle(o7);
-		Obstacle o8 = new Boulder(7, 13);
-		this.curr.addObstacle(o8);
-		Weapon ar = new Arrow(6, 4, this.user);
-		this.curr.addWeaponDrop(ar);
-		Weapon bm = new Bomb(12, 9, this.user.getCoordinates());
-		this.curr.addWeaponDrop(bm);
-		
-		// random weapon equipped to character
-//		Weapon tmp = new Bomb(-2, -2, this.user.getCoordinates());
-		Weapon tmp = new Arrow(-2, -2, this.user);
-		this.curr.addWeaponDrop(tmp);
-		this.user.equipWeapon(tmp);
-		
-		// randomly use potion since the start
-//		this.user.equipPotion(new HoverPotion(-2, -2));
-//		this.user.equipPotion(new InvincibilityPotion(-2, -2));
-	}
-	
-	/**
-	 * A method to create a map with goal to collect treasures and find the exit to win
-	 * The maze can also be completed by only finding the exit without passing other goals
-	 * Contains doors, a key, and an exit
-	 */
-	public void level3Initiate() {
-		this.start(20, Maze.RUNNER + Maze.COLLECTOR + Maze.DETECTIVE);
-		
-		Door d1 = new Door(5, 8);
-		this.curr.addObstacle(d1);
-		Exit e = new Exit(18, 18);
-		this.curr.addExit(e);
-		for (int i = 14; i < this.map_size - 1; i++) {
-			if (i == 17) continue;
-			this.curr.addObstacle(new Wall(16, i));
-		}
-		Door d2 = new Door(16, 17);
-		this.curr.addObstacle(d2);
-		this.curr.addObstacle(new Wall(17, 14));
-		this.curr.addObstacle(new Wall(18, 14));
-		Key k1 = new Key(4, 7);
-		k1.linkDoor(d2);
-		this.curr.addKey(k1);
-		this.curr.addTreasure(new Treasure(11, 7));
-		this.curr.addTreasure(new Treasure(8, 15));
 	}
 	
 	/**
@@ -473,7 +358,7 @@ public class MazeSystem {
 			case 'p':
 				System.out.print("Test the design now? (y/n) > ");
 				if (sc.next().charAt(0) == 'y') {
-					MazeSystem test_design = designNewMaze(this);
+					DesignSystem test_design = designNewMaze(this);
 					OUTCOME result = test_design.gameLoop(sc);
 					if (result == OUTCOME.LOSE) {
 						clearScreen();
@@ -779,8 +664,8 @@ public class MazeSystem {
 		return true;
 	}
 	
-	public MazeSystem designNewMaze(MazeSystem old) {
-		MazeSystem copy = new MazeSystem();
+	public DesignSystem designNewMaze(DesignSystem old) {
+		DesignSystem copy = new DesignSystem();
 		copy.start(old.map_size, old.curr.getWinCond());
 		copy.curr.resetCharCoOrd(old.user.getCoordinates().getX(), old.user.getCoordinates().getY());
 		old.curr.copyMaze(copy.curr, old.curr);
@@ -790,118 +675,4 @@ public class MazeSystem {
 	public int getMapSize() {
 		return this.map_size;
 	}
-	
-	/*
-	 * Integrate old gameLoop with graphics and javafx
-	 */
-	public OUTCOME gameLoop(ArrayList<String> input, GraphicsContext gc, double refreshTime) {
-		if (input.size() <= 0)
-			buffer_cmd = null;
-		this.map = drawMap();
-		this.curr.updateMap(map, gc);
-		gc.clearRect(0, 0, map_size*32,map_size*32);
-		this.user.getSprite().setVelocity(0,0);
-		
-		CoOrd in_front = this.user.getInfront();
-		Object ahead = this.curr.getEntity(in_front);
-		Object under = this.curr.getEntity(this.user.getCoordinates());
-		ACTION outcome = ACTION.NOTHING;
-		/**
-		 * Basic movement with arrow keys
-		 */
-		if (input.size() > 0 && !input.get(0).equals(buffer_cmd)) {
-			buffer_cmd = input.get(0);
-			if (input.contains("LEFT")) {
-				outcome = this.user.move('<', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-			} else if (input.contains("DOWN")) {
-				outcome = this.user.move('v', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-			} else if (input.contains("RIGHT")) { 
-				outcome = this.user.move('>', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-			} else if (input.contains("UP")) { 
-				outcome = this.user.move('^', this.map[in_front.getX()][in_front.getY()], ahead, this.map_size);
-			/**
-			 * SPACEBAR for using weapon, nothing happens if character hasn't equipped weapon
-			 * system passes the entity in front of character to assist using weapon behaviour
-			 */
-			} else if (input.contains("SPACE")) {
-				this.user.useWeapon(ahead);
-			/**
-			 * CTRL for picking up items at the character's co-ordinates
-			 * system checks the entity at character's co-ordinates (besides character himself)
-			 * 			and calls corresponding pickup behaviour
-			 */
-			} else if (input.contains("CONTROL")) {
-				if (under instanceof Weapon) {
-					this.user.pickUpWeapon((Weapon) under);
-				} else if (under instanceof Potion) {
-					this.user.pickUpPotion((Potion) under);
-				} else if (under instanceof Treasure) {
-					((Treasure) under).pickUp();
-				} else if (under instanceof Key) {
-					this.user.setHoldingKey((Key) under);
-					((Key) under).pickUp();
-				}
-			/**
-			 * I for opening inventory menu to check what weapons and potions are available in character's bag
-			 */
-			/*
-			 * Need to pass the input string in, instead of scanner here!
-			 */
-			} else if (input.contains("I")) {
-				InventoryMenu iM = new InventoryMenu(this.user, null);
-				iM.display();
-			/**
-			 * ESC for pausing the game and opening menu options
-			 */
-			} else if (input.contains("ESCAPE")) {
-				if (this.pauseGame(null) == 0) {
-					return OUTCOME.QUIT;
-				}
-			} else if (input.contains("Q")) {
-				return OUTCOME.QUIT;
-			}
-		}
-		
-		/**
-		 * Check for outcome from character's action (move) and handle logic of the game
-		 * If character tries to move onto a boulder entity, push boulder behaviour is checked and called
-		 */
-		switch (outcome) {
-		case DIE:
-			return OUTCOME.LOSE;
-		case DESTROY:
-			break;
-		case GAME_COMPLETE:
-			return OUTCOME.WIN;
-		case MOVE:
-			break;
-		case NOTHING:
-			break;
-		case PUSH_BOULDER:
-			Boulder b = (Boulder) ahead;
-			CoOrd next_to = b.getInfront(this.user.getIcon());
-			if (b.push_boulder(this.user.getIcon(), this.map[next_to.getX()][next_to.getY()],
-					this.curr.getEntity(next_to), this.map_size) != ACTION.NOTHING) {
-				this.user.move(this.user.getIcon(), ' ', null, this.map_size);
-			}
-			break;
-		default:
-			break;
-		}
-		/**
-		 * After each character's action, render the map to update all entities
-		 */
-		this.user.getSprite().update(refreshTime);
-		this.map = drawMap();
-		this.curr.updateMap(map, gc);
-		//this.printMap();
-		if (this.curr.checkGoal() == this.curr.getWinCond())
-			return OUTCOME.WIN;
-		else if (this.curr.checkGoal() == -1)
-			return OUTCOME.LOSE;
-		
-		
-		return OUTCOME.NOTHING;
-	}
-
 }

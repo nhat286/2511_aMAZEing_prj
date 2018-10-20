@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 
 public class HoverPotion extends Potion {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1562680067914774885L;
 	private boolean used;
 	
 	public HoverPotion(int x, int y) {
@@ -51,5 +55,10 @@ public class HoverPotion extends Potion {
 	@Override
 	public Potion copy() {
 		return new HoverPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("bubbly.png"));
 	}
 }

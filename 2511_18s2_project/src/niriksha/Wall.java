@@ -5,6 +5,11 @@ import javafx.scene.image.Image;
 
 public class Wall extends Obstacle {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2623939476923194533L;
+
 	public Wall(int x, int y) {
 		super(x, y, '#');
 		this.setSprite(new Sprite(new Image("brick_brown_0.png"), this.getCoordinates()));
@@ -28,6 +33,11 @@ public class Wall extends Obstacle {
 	@Override
 	public Obstacle copy() {
 		return new Wall(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("brick_brown_0.png"));
 	}
 
 }

@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 
 public class FloorSwitch extends Obstacle {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6220047871914284403L;
 	private boolean trigger;
 	
 	public FloorSwitch(int x, int y) {
@@ -51,5 +55,10 @@ public class FloorSwitch extends Obstacle {
 	@Override
 	public Obstacle copy() {
 		return new FloorSwitch(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("pressure_plate.png"));
 	}
 }

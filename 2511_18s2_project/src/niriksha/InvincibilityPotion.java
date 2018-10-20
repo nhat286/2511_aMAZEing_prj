@@ -8,6 +8,10 @@ import javafx.scene.image.Image;
 
 public class InvincibilityPotion extends Potion {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7626372691307995377L;
 	private boolean used;
 	private Timer invincibility_timer;
 	private STATE old_state;
@@ -77,6 +81,11 @@ public class InvincibilityPotion extends Potion {
 	@Override
 	public Potion copy() {
 		return new InvincibilityPotion(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("brilliant_blue_new.png"));
 	}
 
 }

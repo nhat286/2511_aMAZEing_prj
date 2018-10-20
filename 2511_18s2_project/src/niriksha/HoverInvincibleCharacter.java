@@ -1,7 +1,13 @@
 package niriksha;
 
-public class HoverInvincibleCharacter implements STATE  {
+import java.io.Serializable;
 
+public class HoverInvincibleCharacter implements STATE, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8672248424249790463L;
 	private Character current;
 	
 	public HoverInvincibleCharacter(Character c) {

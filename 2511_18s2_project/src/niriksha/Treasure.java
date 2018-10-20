@@ -1,11 +1,17 @@
 package niriksha;
 
+import java.io.Serializable;
+
 import application.Sprite;
 import eric.CoOrd;
 import javafx.scene.image.Image;
 
-public class Treasure {
+public class Treasure implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4425517989124883585L;
 	//private static int points = 0;
 	private CoOrd co_ord;
 	private char icon;
@@ -82,5 +88,9 @@ public class Treasure {
 	 */
 	public Treasure copy() {
 		return new Treasure(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	public void updateImage() {
+		this.getSprite().setImage(new Image("gold_pile.png"));
 	}
 }
