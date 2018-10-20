@@ -1,8 +1,14 @@
 package eric;
 
+import java.io.Serializable;
+
 import application.Sprite;
 
-public class CoOrd {
+public class CoOrd implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1434518340659530098L;
 	private int x;
 	private int y;
 	private int baseVel;

@@ -1,7 +1,13 @@
 package niriksha;
 
-public class NormalCharacter implements STATE {
+import java.io.Serializable;
+
+public class NormalCharacter implements STATE, Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8341330114209135103L;
 	private Character current;
 
 	public NormalCharacter(Character c) {

@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 
 public class Door extends Obstacle {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8171995417755992212L;
 	private boolean door_open;
 	
 	public Door(int x, int y) {
@@ -43,5 +47,13 @@ public class Door extends Obstacle {
 	@Override
 	public Obstacle copy() {
 		return new Door(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	@Override
+	public void updateImage() {
+		if (this.isDoorOpen())
+			this.getSprite().setImage(new Image("open_door.png"));
+		else
+			this.getSprite().setImage(new Image("closed_door.png"));
 	}
 }

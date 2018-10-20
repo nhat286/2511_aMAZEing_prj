@@ -10,6 +10,11 @@ import application.Sprite;
 
 public class Coward extends Enemy {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4573904191602388796L;
+
 	public Coward(CoOrd currPos) {
 		super(currPos, 'C');
 		this.setSprite(new Sprite(new Image("coward.png"), currPos));
@@ -55,6 +60,11 @@ public class Coward extends Enemy {
 	@Override
 	public Enemy copy() {
 		return new Coward(this.getCurrPos());
+	}
+
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("coward.png"));
 	}
 }
 

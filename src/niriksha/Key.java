@@ -1,11 +1,17 @@
 package niriksha;
 
+import java.io.Serializable;
+
 import application.Sprite;
 import eric.CoOrd;
 import javafx.scene.image.Image;
 
-public class Key {
+public class Key implements Serializable {
 	 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2972232956767401283L;
 	private CoOrd co_ord;
 	private char icon;
 	private Door door;
@@ -79,6 +85,10 @@ public class Key {
 	 */
 	public Key copy() {
 		return new Key(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	public void updateImage() {
+		this.getSprite().setImage(new Image("key.png"));
 	}
 
 }

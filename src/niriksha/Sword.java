@@ -6,12 +6,16 @@ import javafx.scene.image.Image;
 
 public class Sword extends Weapon {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4117935552171454648L;
 	private int durability;
 
 	public Sword(int x, int y) {
 		super(x, y, 'T');
 		this.durability = 5;
-		this.setSprite(new Sprite(new Image("greatsword_1_new.png"), this.getCoordinates()));
+		this.setSprite(new Sprite(new Image("Sword.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -68,6 +72,11 @@ public class Sword extends Weapon {
 	@Override
 	public Weapon copy() {
 		return new Sword(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("Sword.png"));
 	}
 
 }

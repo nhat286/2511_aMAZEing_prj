@@ -1,12 +1,18 @@
 package jae;
 
+import java.io.Serializable;
+
 import application.Sprite;
 import eric.CoOrd;
 import niriksha.Character;
 import niriksha.HoverInvincibleCharacter;
 import niriksha.InvincibleCharacter;
 
-public abstract class Enemy implements Distance {
+public abstract class Enemy implements Distance, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5897941209661989811L;
 	private CoOrd currPos;
 	private char icon;
 	private char direction;
@@ -52,6 +58,7 @@ public abstract class Enemy implements Distance {
 	
 	public abstract boolean specialMovement(Character target, int border);
 	public abstract String getEnemyType();
+	public abstract void updateImage();
 	
 	public void enemyDies() {
 		this.currPos.setXY(-1, -1);

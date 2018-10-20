@@ -1,9 +1,15 @@
 package eric;
 
+import java.io.Serializable;
+
 import application.Sprite;
 import javafx.scene.image.Image;
 
-public class Exit {
+public class Exit implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8871561013670161293L;
 	private CoOrd co_ord;
 	private char icon;
 	private Sprite sprite;
@@ -46,5 +52,9 @@ public class Exit {
 	 */
 	public Exit copy() {
 		return new Exit(this.co_ord.getX(), this.co_ord.getY());
+	}
+	
+	public void updateImage() {
+		this.sprite.setImage(new Image("exit.png"));
 	}
 }

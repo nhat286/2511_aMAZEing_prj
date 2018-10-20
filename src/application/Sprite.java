@@ -1,14 +1,20 @@
 package application;
 
+import java.io.Serializable;
+
 import eric.CoOrd;
 
 import javafx.scene.image.Image;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.geometry.Rectangle2D;
 
-public class Sprite
+public class Sprite implements Serializable
 {
-    private Image image;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1787878761826756062L;
+	private transient Image image;
     private double positionX;
     private double positionY;    
     private double velocityX;

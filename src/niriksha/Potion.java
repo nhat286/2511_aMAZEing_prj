@@ -1,10 +1,16 @@
 package niriksha;
 
+import java.io.Serializable;
+
 import application.Sprite;
 import eric.CoOrd;
 
-public abstract class Potion {
+public abstract class Potion implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8120486319551535524L;
 	private CoOrd co_ord;
 	private char icon;
 	private Sprite sprite;
@@ -38,6 +44,7 @@ public abstract class Potion {
 	 * Effect of the potion is induced
 	 */
 	public abstract STATE potionEffect(Character c);
+	public abstract void updateImage();
 	
 	/**
 	 * Destroys potion by setting their coordinates outside of the maze

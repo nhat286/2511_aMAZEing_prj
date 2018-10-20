@@ -12,6 +12,10 @@ import niriksha.ACTION;
 
 public class Bomb extends Weapon {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2275509551314743094L;
 	private boolean lit;
 	private boolean explode;
 	private CoOrd user;
@@ -116,5 +120,10 @@ public class Bomb extends Weapon {
 	@Override
 	public Weapon copy() {
 		return new Bomb(this.getCoordinates().getX(), this.getCoordinates().getY(), this.user);
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("bomb_unlit.png"));
 	}
 }

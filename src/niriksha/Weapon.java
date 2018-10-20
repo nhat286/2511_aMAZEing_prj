@@ -1,11 +1,17 @@
 
 package niriksha;
 
+import java.io.Serializable;
+
 import application.Sprite;
 import eric.CoOrd;
 
-public abstract class Weapon {
+public abstract class Weapon implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1772584854179669877L;
 	private CoOrd getCoordinates;
 	private boolean picked_up;
 	private char direction;
@@ -47,6 +53,7 @@ public abstract class Weapon {
 	 * @param object
 	 */
 	public abstract ACTION weapon_action(Object object);
+	public abstract void updateImage();
 	
 	/**
 	 * Destroys weapons by setting their coordinates outside of the maze

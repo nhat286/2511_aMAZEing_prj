@@ -1,5 +1,6 @@
 package eric;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,8 +21,13 @@ import jae.Enemy;
 import jae.Hound;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Maze {
+public class Maze implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2896057514750759863L;
+	private int size;
 	private Character player;
 	private ArrayList<Weapon> weapon_drops;
 	private ArrayList<Arrow> available_arrows;
@@ -53,7 +59,8 @@ public class Maze {
 	 * Constructor to instantiate a new maze, with all information of entities on the map
 	 * @param winning_goal goal of the maze to win if pass all (or some) conditions
 	 */
-	public Maze(int winning_goal) {
+	public Maze(int size, int winning_goal) {
+		this.size = size;
 		this.weapon_drops = new ArrayList<Weapon>();
 		this.available_arrows = new ArrayList<Arrow>();
 		this.available_bombs = new ArrayList<Bomb>();
@@ -379,31 +386,6 @@ public class Maze {
 		}
 		
 		entity = null;
-		Iterator<Arrow> a_iter = this.available_arrows.iterator();
-		while (a_iter.hasNext()) {
-			Arrow a = a_iter.next();
-			if (a.isUsed()) {
-				CoOrd in_front = new CoOrd(a.getInfront().getX(), a.getInfront().getY());
-				if (a.moving(getEntity(in_front), map.length) == 1) {
-					map[in_front.getX()][in_front.getY()] = ' ';
-				}
-				if (a.getCoordinates().getX() >= 0) {
-					CoOrd on_top = new CoOrd(a.getCoordinates().getX(), a.getCoordinates().getY());
-					if (a.moving(getEntity(on_top), map.length) == 1) {
-						map[on_top.getX()][on_top.getY()] = ' ';
-					}
-				}
-			}
-			entity = a.getCoordinates();
-			if (entity.getX() == -1) a_iter.remove();
-			else if (entity.getX() >= 0) {
-				map[entity.getX()][entity.getY()] = a.getIcon();
-				a.getSprite().update(0.01);
-				a.getSprite().render(gc);
-			}
-		}
-		
-		entity = null;
 		Iterator<Enemy> e_iter = this.enemies.iterator();
 		while (e_iter.hasNext()) {
 			Enemy e = e_iter.next();
@@ -441,15 +423,68 @@ public class Maze {
 			Obstacle o = o_iter.next();
 			entity = o.getCoordinates();
 			if (entity.getX() < 0) o_iter.remove();
-			else if (map[entity.getX()][entity.getY()] != '%') {
+			else {//if (map[entity.getX()][entity.getY()] != '%') {
 				map[entity.getX()][entity.getY()] = o.getIcon();
 				o.getSprite().update(0.016);
 				o.getSprite().render(gc);
 			}
 		}
 		
+		entity = null;
+		Iterator<Arrow> a_iter = this.available_arrows.iterator();
+		while (a_iter.hasNext()) {
+			Arrow a = a_iter.next();
+			if (a.isUsed()) {
+				CoOrd in_front = new CoOrd(a.getInfront().getX(), a.getInfront().getY());
+				if (a.moving(getEntity(in_front), map.length) == 1) {
+					map[in_front.getX()][in_front.getY()] = ' ';
+				}
+				if (a.getCoordinates().getX() >= 0) {
+					CoOrd on_top = new CoOrd(a.getCoordinates().getX(), a.getCoordinates().getY());
+					if (a.moving(getEntity(on_top), map.length) == 1) {
+						map[on_top.getX()][on_top.getY()] = ' ';
+					}
+				}
+			}
+			entity = a.getCoordinates();
+			if (entity.getX() == -1) a_iter.remove();
+			else if (entity.getX() >= 0) {
+				map[entity.getX()][entity.getY()] = a.getIcon();
+				a.getSprite().update(0.01);
+				a.getSprite().render(gc);
+			}
+		}
+		
 		map[player.getX()][player.getY()] = this.player.getIcon();
 		this.player.getSprite().render(gc);
+		this.player.getDirection().render(gc);
+	}
+	
+	/**
+	 * Update all images for entities
+	 */
+	public void updateImage() {
+		this.getUser().updateImage();
+		for (Weapon w : this.weapon_drops)
+			w.updateImage();
+		for (Arrow a : this.available_arrows)
+			a.updateImage();
+		for (Bomb b : this.available_bombs)
+			b.updateImage();
+		for (Enemy e : this.enemies)
+			e.updateImage();
+		for (Obstacle o : this.obstacles)
+			o.updateImage();
+		for (Potion p : this.potion_drops)
+			p.updateImage();
+		for (FloorSwitch fs : this.switches)
+			fs.updateImage();
+		for (Treasure t : this.loots)
+			t.updateImage();
+		for (Exit x : this.exits)
+			x.updateImage();
+		for (Key k : this.keys)
+			k.updateImage();
 	}
 	
 	/**
@@ -620,6 +655,14 @@ public class Maze {
 		return this.goal;
 	}
 	
+	public int getSize() {
+		return this.size;
+	}
+	
+	public Character getUser() {
+		return this.player;
+	}
+	
 	/**
 	 * Method to keep track of player's current state according to the winning goal of the maze
 	 * @return the current condition of the player, or -1 if character dies, or 0 if not satisfy goal(s)
@@ -708,17 +751,17 @@ public class Maze {
 //		return this.switches;
 //	}
 //
-//	public ArrayList<Treasure> getLoots() {
-//		return this.loots;
-//	}
+	public ArrayList<Treasure> getLoots() {
+		return this.loots;
+	}
 //
 //	public ArrayList<Exit> getExits() {
 //		return this.exits;
 //	}
 //
-//	public ArrayList<Key> getKeys() {
-//		return this.keys;
-//	}
+	public ArrayList<Key> getKeys() {
+		return this.keys;
+	}
 	
 	public void copyMaze(Maze copy, Maze old) {
 

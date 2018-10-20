@@ -6,6 +6,10 @@ import javafx.scene.image.Image;
 import niriksha.Character;
 
 public class Hound extends Enemy {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6208486806048683423L;
 	CoOrd hunterCoOrd;
 	
 	public Hound(CoOrd currPos) {
@@ -87,6 +91,11 @@ public class Hound extends Enemy {
 	@Override
 	public Enemy copy() {
 		return new Hound(this.getCurrPos());
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("hound.png"));
 	}
 }
 

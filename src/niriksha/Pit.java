@@ -5,6 +5,11 @@ import javafx.scene.image.Image;
 
 public class Pit extends Obstacle {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1602300405835683465L;
+
 	public Pit(int x, int y) {
 		super(x, y, 'B');
 		this.setSprite(new Sprite(new Image("shaft.png"), this.getCoordinates()));
@@ -28,5 +33,10 @@ public class Pit extends Obstacle {
 	@Override
 	public Obstacle copy() {
 		return new Pit(this.getCoordinates().getX(), this.getCoordinates().getY());
+	}
+	
+	@Override
+	public void updateImage() {
+		this.getSprite().setImage(new Image("shaft.png"));
 	}
 }
