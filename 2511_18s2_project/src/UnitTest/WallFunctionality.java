@@ -11,7 +11,7 @@ import niriksha.Wall;
 
 class WallFunctionality {
 	
-	static Wall wall = new Wall(4, 4);
+	static Wall wall = new Wall(4, 4, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {

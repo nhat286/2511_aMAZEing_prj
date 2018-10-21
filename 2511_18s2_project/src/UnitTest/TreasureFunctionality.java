@@ -16,7 +16,7 @@ class TreasureFunctionality {
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		//t.setCoordinates(4, 4);
-		t = new Treasure(4, 4);
+		t = new Treasure(4, 4, 0);
 	}
 
 	@AfterAll

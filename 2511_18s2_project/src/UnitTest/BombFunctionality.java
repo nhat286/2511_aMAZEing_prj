@@ -14,7 +14,7 @@ import eric.Bomb;
 
 class BombFunctionality {
 	
-	static Bomb bomb = new Bomb(3, 5, null);
+	static Bomb bomb = new Bomb(3, 5, null, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -51,24 +51,21 @@ class BombFunctionality {
 	
 	@Test
 	void testisLit() {
-		bomb = new Bomb(4, 5, new CoOrd(5,5));
+		bomb = new Bomb(4, 5, new CoOrd(5,5), 0);
 		CoOrd co_ord = new CoOrd(6,3);
-		Enemy e = new Hunter(co_ord);
+		Enemy e = new Hunter(co_ord, 0);
 		assertEquals(bomb.isLit(), false);
-		bomb.weapon_action(e);
+		bomb.weapon_action(e, 0);
 		assertEquals(bomb.isLit(), true);
 	}
 	
 	@Test
 	void testweapon_action() {
 		CoOrd co_ord = new CoOrd(6,3);
-		Enemy e = new Hunter(co_ord);
-		bomb = new Bomb(4, 5, new CoOrd(5,5));
-		assertEquals(bomb.weapon_action(e), ACTION.NOTHING);
-		assertEquals(bomb.weapon_action(e), ACTION.NOTHING);
-		assertEquals(bomb.weapon_action(e), ACTION.NOTHING);
-		assertEquals(bomb.weapon_action(e), ACTION.NOTHING);
-		assertEquals(bomb.weapon_action(e), ACTION.DESTROY);
+		Enemy e = new Hunter(co_ord, 0);
+		bomb = new Bomb(4, 5, new CoOrd(5,5), 0);
+		assertEquals(bomb.weapon_action(e, 0), ACTION.NOTHING);
+		assertEquals(bomb.weapon_action(e, 0), ACTION.DESTROY);
 	}
 	
 	@Test

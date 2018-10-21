@@ -13,8 +13,8 @@ import niriksha.Character;
 public class HunterFunctionality {
 	
 	static CoOrd currPos = new CoOrd(3,5);
-	static Hunter h = new Hunter(currPos);
-	static Character user = new Character(5,5);
+	static Hunter h = new Hunter(currPos, 0);
+	static Character user = new Character(5,5,0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -27,19 +27,9 @@ public class HunterFunctionality {
 	
 	@Test
 	void testenemyMovement() {
-		CoOrd c = new CoOrd(4,5);
+		CoOrd c = new CoOrd(3,5);
 		h.enemyMovement(user, 10);
 		assertEquals(h.getCurrPos(), c);
-	}
-	
-	@Test
-	void testmoveCloser() {
-		CoOrd c = new CoOrd(3,5);
-		CoOrd c2 = new CoOrd(4,5);
-		h.setCurrPos(c);
-		h.setDirection('v');
-		h.moveCloser(h.getCurrPos(), user.getCoordinates(), 10);
-		assertEquals(h.getCurrPos(), c2);
 	}
 	
 	@Test

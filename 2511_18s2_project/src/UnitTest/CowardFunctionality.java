@@ -14,8 +14,8 @@ import niriksha.InvincibilityPotion;
 public class CowardFunctionality {
 	
 	static CoOrd currPos = new CoOrd(3,5);
-	static Coward c = new Coward(currPos);
-	static Character user = new Character(3, 9);
+	static Coward c = new Coward(currPos, 0);
+	static Character user = new Character(3, 9, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -41,24 +41,11 @@ public class CowardFunctionality {
 		user.setCoordinates(3, 3);
 		InvincibilityPotion i = new InvincibilityPotion(0,0);
 		user.pickUpPotion(i);
-		user.equipPotion("InvincibilityPotion");
+		user.equipPotion(i);
 		c.enemyMovement(user,10);
 		c.enemyMovement(user,10);
 		assertEquals(c.getCurrPos(), c2);
 		
-	}
-	
-	@Test
-	void testmoveCloser() {
-		CoOrd c1 = new CoOrd(4,3);
-		CoOrd c2 = new CoOrd(4,4);
-		
-		// tests with y-difference
-		c.setCurrPos(c1);
-		c.setDirection('>');
-		user.setCoordinates(4, 8);
-		c.moveCloser(c.getCurrPos(), user.getCoordinates(), 10);
-		assertEquals(c.getCurrPos(), c2);
 	}
 	
 	@Test

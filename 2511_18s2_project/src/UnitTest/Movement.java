@@ -11,7 +11,7 @@ import niriksha.Character;
 
 class Movement {
 	
-	static Character user = new Character(0, 0);
+	static Character user = new Character(0, 0, 0);
 	//static CoOrd testChar;
 	
 	@BeforeAll
@@ -33,41 +33,41 @@ class Movement {
 	@Test
 	void testMoveRight() throws Exception {
 		setUpBeforeClass();
-		CoOrd co_ord = new CoOrd(0,1);
+		CoOrd co_ord = new CoOrd(1,0);
 		CoOrd change_direction = new CoOrd(0, 0);
-		user.moveCoOrd('>', 10);
+		user.moveCoOrd('>', 10, 0);
 		assertEquals(user.getCoordinates(), change_direction);
-		user.moveCoOrd('>', 10);
+		user.moveCoOrd('>', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 		//Moved to border
-		user.moveCoOrd('>', 2);
+		user.moveCoOrd('>', 2, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 
 	@Test
 	void testMoveLeft() throws Exception {
 		setUpBeforeClass();
-		CoOrd co_ord = new CoOrd(0,2);
-		user = new Character(0, 2);
-		user.moveCoOrd('<', 10);
+		CoOrd co_ord = new CoOrd(0, 2);
+		user = new Character(0, 2, 0);
+		user.moveCoOrd('<', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
-		user.moveCoOrd('<', 10);
-		assertEquals(user.getCoordinates(), new CoOrd(0,1));
+		user.moveCoOrd('<', 10, 0);
+		assertEquals(user.getCoordinates(), new CoOrd(0,2));
 		//Moved to border
-		user.moveCoOrd('<', 10);
-		assertEquals(user.getCoordinates(), new CoOrd(0,1));
+		user.moveCoOrd('<', 10, 0);
+		assertEquals(user.getCoordinates(), new CoOrd(0,2));
 		
 	}
 	
 	@Test
 	void testMoveDown() throws Exception {
 		setUpBeforeClass();
-		CoOrd co_ord = new CoOrd(1,0);
-		user = new Character(0, 0);
-		user.moveCoOrd('v', 10);
+		CoOrd co_ord = new CoOrd(0,1);
+		user = new Character(0, 0, 0);
+		user.moveCoOrd('v', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 		//Moved to border
-		user.moveCoOrd('v', 2);
+		user.moveCoOrd('v', 2, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 	}
 	
@@ -75,13 +75,13 @@ class Movement {
 	void testMoveUp() throws Exception {
 		setUpBeforeClass();
 		CoOrd co_ord = new CoOrd(2,0);
-		user = new Character(2, 0);
-		user.moveCoOrd('^', 10);
+		user = new Character(2, 0, 0);
+		user.moveCoOrd('^', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
-		user.moveCoOrd('^', 10);
-		assertEquals(user.getCoordinates(), new CoOrd(1,0));
-		user.moveCoOrd('^', 10);
-		assertEquals(user.getCoordinates(), new CoOrd(1,0));
+		user.moveCoOrd('^', 10, 0);
+		assertEquals(user.getCoordinates(), new CoOrd(2,0));
+		user.moveCoOrd('^', 10, 0);
+		assertEquals(user.getCoordinates(), new CoOrd(2,0));
 	}
 
 	@Test

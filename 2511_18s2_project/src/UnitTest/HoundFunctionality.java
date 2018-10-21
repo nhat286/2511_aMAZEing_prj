@@ -15,9 +15,9 @@ public class HoundFunctionality {
 	
 	static CoOrd houndPos = new CoOrd(0,0);
 	static CoOrd hunterPos = new CoOrd(7,5);
-	static Hound h = new Hound(houndPos);
-	static Hunter hunter = new Hunter(hunterPos);
-	static Character user = new Character(5,5);
+	static Hound h = new Hound(houndPos,0);
+	static Hunter hunter = new Hunter(hunterPos,0);
+	static Character user = new Character(5,5,0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -53,21 +53,10 @@ public class HoundFunctionality {
 	@Test
 	void testenemyMovement() {
 		CoOrd c = new CoOrd(3,5);
-		CoOrd c2 = new CoOrd(4,5);
 		h.setCurrPos(c);
 		h.enemyMovement(user, 10);
-		assertEquals(h.getCurrPos(), c2);
+		assertEquals(h.getCurrPos(), c);
 		
-	}
-	
-	@Test
-	void testmoveCloser() {
-		CoOrd c = new CoOrd(3,5);
-		CoOrd c2 = new CoOrd(4,5);
-		h.setCurrPos(c);
-		h.setDirection('v');
-		h.moveCloser(h.getCurrPos(), user.getCoordinates(), 10);
-		assertEquals(h.getCurrPos(), c2);
 	}
 	
 	@Test

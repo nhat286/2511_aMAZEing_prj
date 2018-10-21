@@ -11,7 +11,7 @@ import niriksha.Door;
 
 class DoorFunctionality {
 	
-	static Door door = new Door(4, 4);
+	static Door door = new Door(4, 4, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -43,13 +43,13 @@ class DoorFunctionality {
 	
 	@Test
 	void testisDoor_open() {
-		door = new Door(4, 4);
+		door = new Door(4, 4, 0);
 		assertEquals(door.isDoorOpen(), false);
 	}
 		
 	@Test
 	void testopenDoor() {
-		door.openDoor();
+		door.openDoor(0);
 		assertEquals(door.isDoorOpen(), true);
 	}
 	

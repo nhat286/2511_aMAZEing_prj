@@ -13,8 +13,8 @@ import niriksha.Character;
 public class StrategistFunctionality {
 	
 	static CoOrd currPos = new CoOrd(3,5);
-	static Strategist s = new Strategist(currPos);
-	static Character user = new Character(5,5);
+	static Strategist s = new Strategist(currPos, 0);
+	static Character user = new Character(5,5,0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -27,19 +27,9 @@ public class StrategistFunctionality {
 	
 	@Test
 	void testenemyMovement() {
-		CoOrd c = new CoOrd(4,5);
+		CoOrd c = new CoOrd(3,5);
 		s.enemyMovement(user, 10);
 		assertEquals(s.getCurrPos(), c);
-	}
-	
-	@Test
-	void testmoveCloser() {
-		CoOrd c = new CoOrd(3,5);
-		CoOrd c2 = new CoOrd(4,5);
-		s.setCurrPos(c);
-		s.setDirection('v');
-		s.moveCloser(s.getCurrPos(), user.getCoordinates(), 10);
-		assertEquals(s.getCurrPos(), c2);
 	}
 	
 	@Test

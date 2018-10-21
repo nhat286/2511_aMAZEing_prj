@@ -10,7 +10,7 @@ import eric.CoOrd;
 import niriksha.Pit;
 
 class PitFunctionality {
-static Pit pit = new Pit(4, 4);
+static Pit pit = new Pit(4, 4, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {

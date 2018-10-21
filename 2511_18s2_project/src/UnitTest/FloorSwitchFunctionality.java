@@ -11,7 +11,7 @@ import niriksha.FloorSwitch;
 
 class FloorSwitchFunctionality {
 	
-	static FloorSwitch f_s = new FloorSwitch(4, 4);
+	static FloorSwitch f_s = new FloorSwitch(4, 4, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {

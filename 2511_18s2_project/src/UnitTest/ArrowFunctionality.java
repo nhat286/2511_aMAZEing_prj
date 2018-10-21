@@ -14,9 +14,9 @@ import niriksha.Character;
 
 class ArrowFunctionality {
 	
-	static Arrow arrow = new Arrow(1, 1, null);
-	static Arrow arrow2 = new Arrow(3, 5, null);
-	static Arrow arrow3 = new Arrow(0, 0, null);
+	static Arrow arrow = new Arrow(1, 1, null, 0);
+	static Arrow arrow2 = new Arrow(3, 5, null, 0);
+	static Arrow arrow3 = new Arrow(0, 0, null, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -30,7 +30,7 @@ class ArrowFunctionality {
 	@Test
 	void testgetCoordinates() {
 		CoOrd co_ord = new CoOrd(1,1);
-		arrow = new Arrow(1, 1, null);
+		arrow = new Arrow(1, 1, null, 0);
 		assertEquals(arrow.getCoordinates(), co_ord);
 	}
 	
@@ -61,17 +61,17 @@ class ArrowFunctionality {
 	@Test
 	void testweapon_action() {
 		CoOrd co_ord = new CoOrd(6,3);
-		Enemy e = new Hunter(co_ord);
-		arrow2 = new Arrow(0, 0, new Character(1,1));
-		assertEquals(arrow2.weapon_action(e), ACTION.NOTHING);
+		Enemy e = new Hunter(co_ord, 0);
+		arrow2 = new Arrow(0, 0, null, 0);
+		assertEquals(arrow2.weapon_action(e, 0), ACTION.NOTHING);
 	}
 	
 	@Test
 	void test_moving() {
 		CoOrd co_ord = new CoOrd(6,3);
-		Enemy e = new Hunter(co_ord);
-		arrow2 = new Arrow(0, 0, new Character(3,3));
-		assertEquals(arrow2.weapon_action(e), ACTION.NOTHING);
+		Enemy e = new Hunter(co_ord, 0);
+		arrow2 = new Arrow(0, 0, null, 0);
+		assertEquals(arrow2.weapon_action(e, 0), ACTION.NOTHING);
 		assertEquals(arrow2.moving(null, 10),0);
 		assertEquals(arrow2.getCoordinates(),new CoOrd(4,3));
 		assertEquals(arrow2.moving(e, 10),1);

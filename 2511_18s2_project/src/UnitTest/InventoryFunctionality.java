@@ -20,15 +20,15 @@ import niriksha.Weapon;
 public class InventoryFunctionality {
 	
 	static Inventory bag = new Inventory();
-	static Character user = new Character(0, 0);
-	static Arrow a1 = new Arrow(1, 1, user);
-	static Arrow a2 = new Arrow(2, 1, user);
-	static Sword s1 = new Sword(1, 2);
-	static Sword s2 = new Sword(2, 2);
-	static HoverPotion h1 = new HoverPotion(1,3);
-	static HoverPotion h2 = new HoverPotion(3,1);
-	static InvincibilityPotion i1 = new InvincibilityPotion(1,4);
-	static InvincibilityPotion i2 = new InvincibilityPotion(4,1);
+	static Character user = new Character(0, 0, 0);
+	static Arrow a1 = new Arrow(1, 1, user, 0);
+	static Arrow a2 = new Arrow(2, 1, user, 0);
+	static Sword s1 = new Sword(1, 2, 0);
+	static Sword s2 = new Sword(2, 2, 0);
+	static HoverPotion h1 = new HoverPotion(1,3, 0);
+	static HoverPotion h2 = new HoverPotion(3,1, 0);
+	static InvincibilityPotion i1 = new InvincibilityPotion(1,4, 0);
+	static InvincibilityPotion i2 = new InvincibilityPotion(4,1, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {

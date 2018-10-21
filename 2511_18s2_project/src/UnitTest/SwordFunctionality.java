@@ -14,8 +14,8 @@ import niriksha.Sword;
 
 class SwordFunctionality {
 	
-	static Sword sword = new Sword(3, 3);
-	static Sword sword2 = new Sword(3, 5);
+	static Sword sword = new Sword(3, 3, 0);
+	static Sword sword2 = new Sword(3, 5, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -60,20 +60,20 @@ class SwordFunctionality {
 	@Test
 	void testweapon_action() {
 		CoOrd co_ord = new CoOrd(6,3);
-		Enemy e = new Hunter(co_ord);
+		Enemy e = new Hunter(co_ord, 0);
 		assertEquals(sword2.weapon_action(e), ACTION.DESTROY);
 	}
 	
 	@Test
 	void testgetDurability() {
-		sword2 = new Sword(3, 3);
+		sword2 = new Sword(3, 3, 0);
 		assertEquals(sword2.getDurability(), 5);
 	}
 	
 	@Test
 	void testEndofDurability() {
 		CoOrd co_ord = new CoOrd(6,3);
-		Enemy e = new Hunter(co_ord);
+		Enemy e = new Hunter(co_ord, 0);
 		assertEquals(sword2.getDurability(), 4);
 		sword2.weapon_action(e);
 		assertEquals(sword2.getDurability(), 3);

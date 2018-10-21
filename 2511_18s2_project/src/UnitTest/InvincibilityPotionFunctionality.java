@@ -7,12 +7,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import eric.CoOrd;
+import niriksha.Character;
 import niriksha.InvincibilityPotion;
 import niriksha.Potion;
 
 class InvincibilityPotionFunctionality {
 	
-	static InvincibilityPotion potion = new InvincibilityPotion(1, 1);
+	static InvincibilityPotion potion = new InvincibilityPotion(1, 1, 0);
+	static Character user = new Character(1, 1, 0);
 		
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -26,7 +28,7 @@ class InvincibilityPotionFunctionality {
 	@Test
 	void testgetCoordinates() {
 		CoOrd co_ord = new CoOrd(1,1);
-		potion = new InvincibilityPotion(1, 1);
+		potion = new InvincibilityPotion(1, 1, 0);
 		assertEquals(potion.getCoordinates(), co_ord);
 	}
 	
@@ -44,13 +46,8 @@ class InvincibilityPotionFunctionality {
 	
 	@Test
 	void testpotion_effect() {
-		assertEquals(potion.potion_effect(), Potion.action.INVINCIBLE);
-		assertEquals(potion.potion_effect(), Potion.action.INVINCIBLE);
-		assertEquals(potion.potion_effect(), Potion.action.INVINCIBLE);
-		assertEquals(potion.potion_effect(), Potion.action.INVINCIBLE);
-		assertEquals(potion.potion_effect(), Potion.action.INVINCIBLE);
-		assertEquals(potion.potion_effect(), Potion.action.INVINCIBLE);
-		assertEquals(potion.potion_effect(), Potion.action.NOTHING);
+		assertEquals(potion.potionEffect(user), "InvincibilityCharacter");
+		assertEquals(potion.potionEffect(user), "InvincibilityCharacter");
 	}
 	
 	void testisUsed() {

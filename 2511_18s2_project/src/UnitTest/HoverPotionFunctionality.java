@@ -8,12 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import eric.CoOrd;
 import niriksha.ACTION;
+import niriksha.Character;
 import niriksha.HoverPotion;
 import niriksha.Potion;
 
 class HoverPotionFunctionality {
 	
-	static HoverPotion potion = new HoverPotion(1, 1);
+	static HoverPotion potion = new HoverPotion(1, 1, 0);
+	static Character user = new Character(1, 1, 0);
+	static Character user2 = new Character(2, 1, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -26,7 +29,7 @@ class HoverPotionFunctionality {
 	
 	@Test
 	void testgetCoordinates() {
-		HoverPotion potion = new HoverPotion(1, 1);
+		HoverPotion potion = new HoverPotion(1, 1, 0);
 		CoOrd co_ord = new CoOrd(1,1);
 		assertEquals(potion.getCoordinates(), co_ord);
 	}
@@ -45,14 +48,14 @@ class HoverPotionFunctionality {
 	
 	@Test
 	void testpotion_effect() {
-		HoverPotion potion = new HoverPotion(1, 1);
-		assertEquals(potion.potion_effect(), Potion.action.HOVER);
+		HoverPotion potion = new HoverPotion(1, 1, 0);
+		assertEquals(potion.potionEffect(user), "HoverCharacter");
 	}
 	
 	@Test
 	void testisUsed() {
-		HoverPotion potion = new HoverPotion(1, 1);
-		assertEquals(potion.potion_effect(), Potion.action.HOVER);
+		HoverPotion potion = new HoverPotion(2, 2, 0);
+		assertEquals(potion.potionEffect(user2), "HoverCharacter");
 		assertEquals(potion.isUsed(), true);
 	}
 	

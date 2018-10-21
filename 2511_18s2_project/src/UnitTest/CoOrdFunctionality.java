@@ -11,7 +11,7 @@ import niriksha.Character;
 
 class CoOrdFunctionality {
 	
-	static Character user = new Character(0, 0);
+	static Character user = new Character(0, 0, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -31,9 +31,9 @@ class CoOrdFunctionality {
 	@Test
 	void testMoveRight() throws Exception {
 		setUpBeforeClass();
-		CoOrd co_ord = new CoOrd(0,1);
-		user.moveCoOrd('>', 10);
-		user.moveCoOrd('>', 10);
+		CoOrd co_ord = new CoOrd(1,0);
+		user.moveCoOrd('>', 10, 0);
+		user.moveCoOrd('>', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 		user.setCoordinates(0, 0);
 	}
@@ -41,15 +41,15 @@ class CoOrdFunctionality {
 	@Test
 	void testMoveLeft() {
 		CoOrd co_ord = new CoOrd(0,0);
-		user.moveCoOrd('<', 10);
+		user.moveCoOrd('<', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 		user.setCoordinates(0, 0);
 	}
 	
 	@Test
 	void testMoveDown() {
-		CoOrd co_ord = new CoOrd(1,0);
-		user.moveCoOrd('v', 10);
+		CoOrd co_ord = new CoOrd(0,1);
+		user.moveCoOrd('v', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 		user.setCoordinates(0, 0);
 	}
@@ -57,7 +57,7 @@ class CoOrdFunctionality {
 	@Test
 	void testMoveUp() {
 		CoOrd co_ord = new CoOrd(0,0);
-		user.moveCoOrd('^', 10);
+		user.moveCoOrd('^', 10, 0);
 		assertEquals(user.getCoordinates(), co_ord);
 		user.setCoordinates(0, 0);
 	}

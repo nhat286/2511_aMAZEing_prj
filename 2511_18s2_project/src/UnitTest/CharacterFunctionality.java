@@ -21,19 +21,19 @@ import niriksha.Sword;
 
 public class CharacterFunctionality {
 	
-	static Character user = new Character(0, 0);
-	static Character user2 = new Character(1, 0);
-	static Character user3 = new Character(5, 0);
-	static Character user4 = new Character(6, 0);
-	static Character user5 = new Character(7, 0);
-	static Character user6 = new Character(8, 0);
-	static Key key = new Key(4, 4);
-	static CoOrd currPos = new CoOrd(0,1);
-	static Coward c = new Coward(currPos);
-	static Sword s = new Sword(9,10);
-	static HoverPotion hp = new HoverPotion(10,10);
-	static InvincibilityPotion ip = new InvincibilityPotion(10,10);
-	static Pit p = new Pit(2,0);
+	static Character user = new Character(0, 0, 0);
+	static Character user2 = new Character(1, 0, 0);
+	static Character user3 = new Character(5, 0, 0);
+	static Character user4 = new Character(6, 0, 0);
+	static Character user5 = new Character(7, 0, 0);
+	static Character user6 = new Character(8, 0, 0);
+	static Key key = new Key(4, 4, 0);
+	static CoOrd currPos = new CoOrd(0, 1);
+	static Coward c = new Coward(currPos, 0);
+	static Sword s = new Sword(9, 10, 0);
+	static HoverPotion hp = new HoverPotion(10, 10, 0);
+	static InvincibilityPotion ip = new InvincibilityPotion(10, 10, 0);
+	static Pit p = new Pit(2,0, 0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -83,31 +83,31 @@ public class CharacterFunctionality {
 		assertEquals(user.move('>', 'C', c, 10), ACTION.NOTHING);
 		assertEquals(user.move('>', 'C', c, 10), ACTION.DIE);
 		user2.pickUpPotion(hp);
-		user2.equipPotion("HoverPotion");
-		assertEquals(user2.move('v', 'B', p, 10), ACTION.HOVER);
+		user2.equipPotion(hp);
+		assertEquals(user2.move('v', 'B', p, 10), ACTION.MOVE);
 		assertEquals(user2.move('v', ' ', null, 10), ACTION.MOVE);
 		user2.setCoordinates(1, 0);
 	}
 	
 	@Test
 	void testmoveCoOrd() {
-		CoOrd co_ord = new CoOrd(4,2);
+		CoOrd co_ord = new CoOrd(3,3);
 		user2.setCoordinates(3, 2);
-		user2.moveCoOrd('v', 10);
+		user2.moveCoOrd('v', 10, 0);
 		assertEquals(user2.getCoordinates(), co_ord);
 	}
 	
 	@Test
 	void testgetInfront() throws Exception {
 		setUpBeforeClass();
-		CoOrd co_ord = new CoOrd(4,2);
+		CoOrd co_ord = new CoOrd(3,3);
 		user2.setCoordinates(3, 2);
 		assertEquals(user2.getInfront(), co_ord);
 	}
 	
 	@Test
 	void testpickUpWeapon() {
-		user3 = new Character(6, 0);
+		user3 = new Character(6, 0, 0);
 		user3.pickUpWeapon(s);
 		assertEquals(user3.getBag().getNoWeapons(), 1);
 		user3.removeEquipped();
@@ -116,7 +116,7 @@ public class CharacterFunctionality {
 	@Test
 	void testequipWeapon() {
 		user3.pickUpWeapon(s);
-		user3.equipWeapon("Sword");
+		user3.equipWeapon(s);
 		assertEquals(user3.weaponEquipped(), true);
 		user3.removeEquipped();
 	}
@@ -124,7 +124,7 @@ public class CharacterFunctionality {
 	@Test
 	void testuseWeapon() {
 		user3.pickUpWeapon(s);
-		user3.equipWeapon("Sword");
+		user3.equipWeapon(s);
 //		assertEquals(user3.useWeapon(c), 1);
 	}
 	
@@ -137,14 +137,14 @@ public class CharacterFunctionality {
 	@Test
 	void testequipPotion() {
 		user4.pickUpPotion(hp);
-		user4.equipPotion("HoverPotion");
-		assertEquals(user4.getActivePotion().size(), 1);
+		user4.equipPotion(hp);
+		assertEquals(user4.getState(), 1);
 	}
 	
 	@Test
 	void testweaponEquipped() {
 		user4.pickUpWeapon(s);
-		user4.equipWeapon("Sword");
+		user4.equipWeapon(s);
 		assertEquals(user4.weaponEquipped(), true);
 		user4.removeEquipped();
 		
@@ -153,7 +153,7 @@ public class CharacterFunctionality {
 	@Test
 	void testremoveEquipped() {
 		user4.pickUpWeapon(s);
-		user4.equipWeapon("Sword");
+		user4.equipWeapon(s);
 		assertEquals(user4.weaponEquipped(), true);
 		user4.removeEquipped();
 		assertEquals(user4.weaponEquipped(), false);
@@ -162,18 +162,6 @@ public class CharacterFunctionality {
 	@Test
 	void testgetIcon() {
 		assertEquals(user4.getIcon(), 'v');
-	}
-	
-	@Test
-	void testgetActivePotion() {
-		ArrayList<Potion> a = new ArrayList<Potion>();
-		a.add(hp);
-		a.add(ip);
-		user5.pickUpPotion(hp);
-		user5.pickUpPotion(ip);
-		user5.equipPotion("HoverPotion");
-		user5.equipPotion("InvincibilityPotion");
-		assertEquals(user5.getActivePotion(), a);
 	}
 	
 }

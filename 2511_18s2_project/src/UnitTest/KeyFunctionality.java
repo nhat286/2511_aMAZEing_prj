@@ -12,9 +12,9 @@ import niriksha.Key;
 
 class KeyFunctionality {
 	
-	static Door door1 = new Door(6,5);
-	static Door door2 = new Door(4,5);
-	static Key key = new Key(4, 4);
+	static Door door1 = new Door(6,5,0);
+	static Door door2 = new Door(4,5,0);
+	static Key key = new Key(4, 4,0);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -47,16 +47,16 @@ class KeyFunctionality {
 	@Test
 	void testcheckDoor() {
 		key.linkDoor(door1);
-		assertEquals(key.checkDoor(door2), false);
-		assertEquals(key.checkDoor(door1), true);
+		assertEquals(key.checkDoor(door2,0), false);
+		assertEquals(key.checkDoor(door1,0), true);
 		assertEquals(key.getCoordinates(), new CoOrd(-1,-1));
 	}
 	
 	@Test
 	void testopenDoor() {
-		key = new Key(4, 4);
+		key = new Key(4, 4, 0);
 		key.linkDoor(door1);
-		assertEquals(key.checkDoor(door1), true);
+		assertEquals(key.checkDoor(door1,0), true);
 		assertEquals(door1.isDoorOpen(),true);		
 	}
 	
