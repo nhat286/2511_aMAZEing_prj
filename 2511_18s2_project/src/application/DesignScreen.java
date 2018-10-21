@@ -61,6 +61,8 @@ public class DesignScreen extends Application{
 	
 	GridPane side = new GridPane();
 	
+	int[][] duplicate = new int[25][25];
+	
 	GridPane gridPane = new GridPane();  
 	private PlaySystem ms;
 	private Maze designedMaze;
@@ -145,6 +147,14 @@ public class DesignScreen extends Application{
 		gridPane.setMinHeight(32*numRows);
 		gridPane.setMaxWidth(32*numCols); 
 		gridPane.setMaxHeight(32*numRows);
+		
+	// duplicate of grid
+				
+		for (int i=0; i<numRows; i++) {
+		 	for (int j=0; j<numCols; j++) {
+		 		duplicate[i][j] = 0;
+		 	}
+		}
 			
         // ground
      		for (int i=0; i<numRows; i++) {
@@ -610,7 +620,10 @@ public class DesignScreen extends Application{
 	    		
 	    		addEntity(ms.getMaze(), (int)(event.getX()/32), (int)event.getY()/32, event.getDragboard().getString());
 	    		System.out.println("in");
-	    		gridPane.add(pic, (int)(event.getX()/32), (int)event.getY()/32);
+	    		if (duplicate[(int) event.getY()/32][(int) event.getX()/32] == 0) {
+	    			gridPane.add(pic, (int)(event.getX()/32), (int)event.getY()/32);
+		    		duplicate[(int) event.getY()/32][(int) event.getX()/32] = 1;
+	    		}
 	    		
 	    		//mapString.add(event.getDragboard().getString()+" "+(int)event.getX()/32+" "+(int)event.getY()/32);
 	    		
