@@ -71,6 +71,12 @@ public class DesignScreen extends Application{
     private ImageView door_by_key_IV;
     private ArrayList<Door> door_by_key_object;
     private ArrayList<Key> key_to_door_object;
+    private ImageView hunterIV;
+    private ArrayList<Hunter> hunterList;
+    private ArrayList<Hound> houndList;
+    private int houndFlag = 0;
+    private int keyFlag = 0;
+    
     
     private addEntity add = new addEntity();
 
@@ -270,6 +276,8 @@ public class DesignScreen extends Application{
 		side.add(key, 0, 10);
 		
 		door_by_key_IV = new ImageView(new Image("closed_door.png"));
+		hunterIV = new ImageView(new Image("hunter.png"));
+		
 		key.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -277,8 +285,22 @@ public class DesignScreen extends Application{
 					side.add(door_by_key_IV, 3, 10);
 				door_by_key_object.add(new Door(3,3));
 				key_to_door_object.add(new Key(4,4));
+				keyFlag = 1;
 				key_to_door_object.get(key_to_door_object.size()-1)
 					.linkDoor(door_by_key_object.get(key_to_door_object.size()-1));
+			}
+		});
+		
+		hunterList = new ArrayList<Hunter>();
+		houndList = new ArrayList<Hound>();
+		hound.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(!side.getChildren().contains(hunterIV))
+					side.add(hunterIV, 3, 8);
+				hunterList.add(new Hunter(new CoOrd(3,3),50));
+				houndList.add(new Hound(new CoOrd(3,3),50));
+				houndFlag = 1;
 			}
 		});
 		
@@ -575,6 +597,18 @@ public class DesignScreen extends Application{
 	        }
 	    });
 	    
+	    hunterIV.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = key.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(hunterIV.getImage());
+	            content.putString("HunterByHound");
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
 	    gridPane.setOnDragOver(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
 	            if (event.getDragboard().hasImage()) {
@@ -739,7 +773,15 @@ public class DesignScreen extends Application{
 		} else if (type.equals("Hunter")) {
 			m.addEnemy(add.addHt(new CoOrd(x, y, 50)));
 		} else if (type.equals("Hound")) {
-			m.addEnemy(add.addHd(new CoOrd(x, y, 50)));
+			if(houndFlag == 0)
+				m.addEnemy(add.addHd(new CoOrd(x, y, 50)));
+			else {
+				houndList.get(houndList.size()-1).setCurrPos(new CoOrd(x,y));
+				houndList.get(houndList.size()-1).linkHunter(hunterList.get(hunterList.size()-1).getCurrPos());
+				m.addEnemy(houndList.get(houndList.size()-1));
+				houndFlag = 0;
+				System.out.println("in");
+			}
 		} else if (type.equals("Strategist")) {
 			m.addEnemy(add.addSt(new CoOrd(x, y, 50)));
 		} else if (type.equals("Boulder")) {
@@ -755,11 +797,12 @@ public class DesignScreen extends Application{
 		} else if (type.equals("CloseDoor")) {
 			m.addObstacle(add.addDr(new CoOrd(x, y)));
 		} else if (type.equals("Key")) {
-			if(key_to_door_object==null)
+			if(keyFlag == 0)
 				m.addKey(add.addKy(new CoOrd(x, y)));
 			else {
 				key_to_door_object.get(key_to_door_object.size()-1).setCoordinates(x, y);
 				m.addKey(key_to_door_object.get(key_to_door_object.size()-1));
+				keyFlag = 0;
 				System.out.println("in");
 			}
 		} else if (type.equals("Treasure")) {
@@ -771,10 +814,11 @@ public class DesignScreen extends Application{
 		}else if (type.equals("DoorByKey")) {
 			door_by_key_object.get(door_by_key_object.size()-1).setCoordinates(x, y);
 			//System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
-			m.addObstacle(door_by_key_object.get(door_by_key_object.size()-1));
-			door_by_key_object = null;
-			
-			
+			m.addObstacle(door_by_key_object.get(door_by_key_object.size()-1));	
+		}else if (type.equals("HunterByHound")) {
+			hunterList.get(hunterList.size()-1).setCurrPos(new CoOrd(x,y));
+			//System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
+			m.addEnemy(hunterList.get(hunterList.size()-1));	
 		}
 	}
 	

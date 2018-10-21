@@ -107,5 +107,6 @@ public class Hound extends Enemy {
 	public void updateImage() {
 		this.getSprite().setImage(new Image("hound.png"));
 	}
+	
 }
 
