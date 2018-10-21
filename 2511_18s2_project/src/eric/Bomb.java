@@ -37,6 +37,20 @@ public class Bomb extends Weapon {
 	}
 	
 	/**
+	 * for testing purposes only 
+	 * @param x
+	 * @param y
+	 * @param user
+	 * @param i
+	 */
+	public Bomb(int x, int y, CoOrd user, int i) {
+		super(x, y, 'Q');
+		this.lit = false;
+		this.explode = false;
+		this.user = user;
+	}
+	
+	/**
 	 * Lit of the bomb when called, and keep counting down until it explodes
 	 * 		which destroys objects near it (passed in by Maze)
 	 * @param object the object next to bomb to be destroyed
@@ -49,6 +63,34 @@ public class Bomb extends Weapon {
 			this.setCoordinates(this.user.getX(), this.user.getY());
 			this.invincibility_timer = new Timer();
 			this.setSprite(new Sprite(new Image("bomb_lit_1.png"), this.getCoordinates()));
+			invincibility_timer.schedule(new tick2(), 1000);
+		}
+		if (this.explode) {
+			this.invincibility_timer.purge();
+			if (object != null) {
+			if (object instanceof Boulder) {
+				((Boulder) object).destroyObstacle();
+				return ACTION.DESTROY;
+			} else if (object instanceof Enemy) {
+				((Enemy) object).enemyDies();
+				return ACTION.DESTROY;
+			}
+		}
+		}
+		return ACTION.NOTHING;
+	}
+	
+	/**
+	 * for testing purposes only
+	 * @param object
+	 * @param i
+	 * @return
+	 */
+	public ACTION weapon_action(Object object, int i) {
+		if (this.lit == false) {
+			this.lit = true;
+			this.setCoordinates(this.user.getX(), this.user.getY());
+			this.invincibility_timer = new Timer();
 			invincibility_timer.schedule(new tick2(), 1000);
 		}
 		if (this.explode) {
