@@ -1,10 +1,24 @@
 package application;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import eric.Bomb;
+import eric.CoOrd;
+import eric.Exit;
 import eric.Maze;
 import eric.PlaySystem;
+import eric.SaveLoad;
+import jae.Coward;
+import jae.Hound;
+import jae.Hunter;
+import jae.Strategist;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +41,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import niriksha.Arrow;
+import niriksha.Boulder;
+import niriksha.Door;
+import niriksha.FloorSwitch;
+import niriksha.HoverPotion;
+import niriksha.InvincibilityPotion;
+import niriksha.Key;
+import niriksha.Pit;
+import niriksha.Sword;
+import niriksha.Treasure;
+import niriksha.Wall;
 
 public class DesignScreen extends Application{
 	
@@ -54,6 +79,8 @@ public class DesignScreen extends Application{
 	@Override
 	public void start(Stage stage) {
 		this.stage = stage;
+		stage.setMinHeight(0);
+		stage.setMinWidth(0);
 		root.setPadding(new Insets(10, 20, 10, 20));
 		
 		//side.setGridLinesVisible(true);
@@ -65,6 +92,7 @@ public class DesignScreen extends Application{
 		
 		gridPane.setGridLinesVisible(true);
 		//gridPane.setPadding(new Insets(20, 20, 20, 20));
+		
 		
 		// setting up side
 		final int side_col = 4;
@@ -84,11 +112,14 @@ public class DesignScreen extends Application{
 		// setting up gridPane
         // max is 25*25
         // min is
-		
+        mapString = new ArrayList<String>();
+        
+        readSavedDesign();
         
         ms = new PlaySystem();
         ms.start(numCols, Maze.RUNNER);
-        mapString = new ArrayList<String>();
+        
+        
         
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
@@ -138,7 +169,7 @@ public class DesignScreen extends Application{
 			gridPane.add(border, i, numCols-1);
 		}
 		
-		
+		addSavedDesign();
 		
 		// character on the maze
 		Image chara = new Image("human_new.png");
@@ -242,7 +273,10 @@ public class DesignScreen extends Application{
 		play.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	ms.initializeDesign(mapString);
+		    	mapString.add(((Integer)numCols).toString());
 		    	//GameplayStage gs = new GameplayStage(stage,ms);
+		    	SaveLoad sl = new SaveLoad("design");
+		    	sl.saveDesign(mapString);
 		    	GameplayStage gs = new GameplayStage(stage);
 		    	gs.designMaze(ms);
 		    	gs.start();
@@ -252,12 +286,16 @@ public class DesignScreen extends Application{
 		setSizeT.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	int size = Integer.parseInt(setSizeT.getText());
+		    	
 		    	if(size <=0 || size > 25) return;
 		    	DesignScreen g = new DesignScreen(size);
+		    	mapString = new ArrayList<String>();
+		    	mapString.add(((Integer)size).toString());
+		    	SaveLoad sl = new SaveLoad("design");
+		    	sl.saveDesign(mapString);
 		    	try {
 					g.start(stage);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 		    }
@@ -552,18 +590,102 @@ public class DesignScreen extends Application{
 	    return result;
 	}
 	
-//	public static void main(String args[]){ 
-//	      launch(args); 
-//	}
+	private void readSavedDesign() {
+		SaveLoad sl = new SaveLoad("design");
+		// Load string map
+		mapString = sl.loadDesign();
+		if(mapString == null) return;
+		// get the size
+		numCols = Integer.parseInt(mapString.get(mapString.size()-1)) ;
+		numRows = numCols;
+		mapString.remove(mapString.size()-1);
+		
+	}
+	
+	private void addSavedDesign() {
+		// get the entities
+		ImageView imv;
+		for (String str : mapString) {
+			String[] substr = str.split(" ");
+			switch(substr[0]) {
+			case "Arrow":
+				imv = new ImageView("Arrow.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Bomb":
+				imv = new ImageView("Bomb.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Sword":
+				imv = new ImageView("Sword.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "HoverPotion":
+				imv = new ImageView("HoverPotion.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "InvincibilityPotion":
+				imv = new ImageView("InvincibilityPotion.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Coward":
+				imv = new ImageView("Coward.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Hunter":
+				imv = new ImageView("Hunter.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Strategist":
+				imv = new ImageView("Strategist.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Hound":
+				imv = new ImageView("Hound.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Boulder":
+				imv = new ImageView("Boulder.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break; 
+			case "Pit":
+				imv = new ImageView("shaft.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "FloorSwitch":
+				imv = new ImageView("pressure_plate.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Wall":
+				imv = new ImageView("brick_brown_0.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Exit":
+				imv = new ImageView("exit.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "CloseDoor":
+				imv = new ImageView("closed_door.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "OpenDoor":
+				imv = new ImageView("open_door.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Key":
+				imv = new ImageView("key.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			case "Treasure":
+				imv = new ImageView("treasure.png");
+				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
+				break;
+			default:
+				break;
+			}
+		}
+	}
 
 }
 
-/*arrow.setOnDragDone(new EventHandler<DragEvent>() {
-public void handle(DragEvent event) {
-    if (event.getTransferMode() == TransferMode.MOVE) {
-    	System.out.println("DragDone");
-    }
-    event.consume();
-}
-});*/
 

@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+
+import application.DesignScreen;
 
 public class SaveLoad {
 	
@@ -21,6 +24,10 @@ public class SaveLoad {
 			this.log_count = 0;
 			this.updateStat();
 		}
+	}
+	
+	public SaveLoad(String d) {
+		;
 	}
 	
 	public int getSavedSlots() {
@@ -52,7 +59,7 @@ public class SaveLoad {
 	         out.writeObject(m);
 	         out.close();
 	         fileOut.close();
-	         if (this.log_count < 3) {
+	         if (this.log_count < 4) {
 	        	 this.log_count = id + 1;
 	        	 this.updateStat();
 	         }
@@ -73,6 +80,35 @@ public class SaveLoad {
 			e1.printStackTrace();
 			System.out.println("Can't make new file");
 		}
+	}
+	
+	public ArrayList<String> loadDesign() {
+		try {
+	         FileInputStream fileIn = new FileInputStream("design/design.ser");
+	         ObjectInputStream in = new ObjectInputStream(fileIn);
+	         ArrayList<String> load = (ArrayList<String>) in.readObject();
+	         in.close();
+	         fileIn.close();
+	         return load;
+	      } catch (IOException i) {
+	         i.printStackTrace();
+	         return null;
+	      } catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void saveDesign(ArrayList<String> mapString) {
+		try {
+	         FileOutputStream fileOut = new FileOutputStream("design/design.ser");
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(mapString);
+	         out.close();
+	         fileOut.close();       
+	      } catch (IOException i) {
+	         i.printStackTrace();
+	      }
 	}
 	
 }
