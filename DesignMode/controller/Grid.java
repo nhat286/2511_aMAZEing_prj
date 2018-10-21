@@ -1,8 +1,9 @@
-package design_mode;
+package controller;
 
 import java.io.FileInputStream;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -44,9 +45,7 @@ public class Grid extends Application{
 		side.setPadding(new Insets(10, 20, 20, 20));
 		
 		gridPane.setGridLinesVisible(true);
-		gridPane.setMinWidth(600); 
-		gridPane.setMinHeight(600);
-		gridPane.setPadding(new Insets(10, 20, 20, 20));
+		//gridPane.setPadding(new Insets(20, 20, 20, 20));
 		
 		// setting up side
 		final int side_col = 4;
@@ -61,27 +60,33 @@ public class Grid extends Application{
             rowConst.setPercentHeight(50);
             side.getRowConstraints().add(rowConst);         
         }
+        
 		
 		// setting up gridPane
         // max is 25*25
         // min is
-		final int numCols = 25;
-        final int numRows = 25;
+		final int numCols = 10;
+        final int numRows = 10;
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
-            colConst.setPercentWidth(35);
+            colConst.setPercentWidth(32);
             gridPane.getColumnConstraints().add(colConst);
         }
         for (int i = 0; i < numRows; i++) {
             RowConstraints rowConst = new RowConstraints();
-            rowConst.setPercentHeight(35);
+            rowConst.setPercentHeight(32);
             gridPane.getRowConstraints().add(rowConst);         
         }
+        
+        gridPane.setMinWidth(32*numCols); 
+		gridPane.setMinHeight(32*numRows);
+		gridPane.setMaxWidth(32*numCols); 
+		gridPane.setMaxHeight(32*numRows);
 			
         // ground
      		for (int i=0; i<numRows; i++) {
      			for (int j=0; j<numCols; j++) {
-     				Image dirt = new Image(new FileInputStream("Images/dirt_0_new.png"), 34, 34, false, false);
+     				Image dirt = new Image(new FileInputStream("Images/dirt_0_new.png"));//, 29.5, 29.5, false, false);
      				ImageView ground = new ImageView(dirt);
      				gridPane.add(ground, j, i);
      			}
@@ -89,22 +94,22 @@ public class Grid extends Application{
         
         // border around grid
 		for (int i=0; i<numRows; i++) {
-			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"), 34, 34, false, false);
+			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"));//, 29.5, 29.5, false, false);
 			ImageView border = new ImageView(border_wall);
 			gridPane.add(border, 0, i);
 		}
 		for (int i=0; i<numRows; i++) {
-			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"), 34, 34, false, false);
+			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"));//, 29.5, 29.5, false, false);
 			ImageView border = new ImageView(border_wall);
 			gridPane.add(border, numRows-1, i);
 		}
 		for (int i=0; i<numCols; i++) {
-			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"), 34, 34, false, false);
+			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"));//, 29.5, 29.5, false, false);
 			ImageView border = new ImageView(border_wall);
 			gridPane.add(border, i, 0);
 		}
 		for (int i=0; i<numCols; i++) {
-			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"), 34, 34, false, false);
+			Image border_wall = new Image(new FileInputStream("Images/brick_brown_0.png"));//, 29.5, 29.5, false, false);
 			ImageView border = new ImageView(border_wall);
 			gridPane.add(border, i, numCols-1);
 		}
@@ -208,6 +213,12 @@ public class Grid extends Application{
 		Button play = new Button("Play");
 		side.add(play, 0, 12);
 		
+		gridPane.setOnMouseMoved(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				System.out.println("(x: " + event.getX() + ", y: " + event.getY() + ")");
+			}
+		});
 		
 	    //Displaying the contents of the stage
 		root.setLeft(side);
@@ -229,10 +240,200 @@ public class Grid extends Application{
 	        }
 	    });
 	    
+	    bomb.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = bomb.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(bomb.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    sword.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = sword.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(sword.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    hover.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = hover.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(hover.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    invincibility.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = invincibility.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(invincibility.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    coward.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = coward.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(coward.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    hunter.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = hunter.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(hunter.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    strategist.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = strategist.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(strategist.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    hound.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = hound.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(hound.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    boulder.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = boulder.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(boulder.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    pit.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = pit.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(pit.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    floor_switch.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = floor_switch.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(floor_switch.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    wall.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = wall.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(wall.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    exit.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = exit.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(exit.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    open_door.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = open_door.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(open_door.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    close_door.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = close_door.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(close_door.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    
+	    key.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = key.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(key.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    treasure.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = treasure.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(treasure.getImage());
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
+	    
+	    
+	    
 	    gridPane.setOnDragOver(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
 	            if (event.getDragboard().hasImage()) {
-	            	System.out.println("DragOver"+event.getX()/32+event.getY()/32);
+	            	System.out.println("DragOver");
 	                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 	            }
 	            event.consume();
@@ -253,57 +454,46 @@ public class Grid extends Application{
 	    
 	    gridPane.setOnDragDropped(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
+	       
 	        	Image img = event.getDragboard().getImage();
 	    		ImageView pic = new ImageView();
 	    		pic.setImage(img);
 	    		
-	    		gridPane.add(pic, 5, 5);
+	    		//if (getNodeByRowColumnIndex((int) event.getY()/32, (int) event.getX()/32, gridPane) != null) {
+	    			gridPane.add(pic, (int)(event.getX()/32), (int)event.getY()/32);
+	    		//}
+	    		
 	         }
-	    });
-	    
-	    arrow.setOnDragDone(new EventHandler<DragEvent>() {
-	        public void handle(DragEvent event) {
-	            if (event.getTransferMode() == TransferMode.MOVE) {
-	            	System.out.println("DragDone");
-	            }
-	            event.consume();
-	        }
 	    });
 				
 	}
 	
-	public void handle(DragEvent event) {
-	    //Data dropped
-	    //If there is an image on the dragboard, read it and use it
-	    Dragboard db = event.getDragboard();
-	    boolean success = false;
-	    Node node = event.getPickResult().getIntersectedNode();
-	    if(node != gridPane && db.hasImage()){
+	public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+	    Node result = null;
+	    ObservableList<Node> childrens = gridPane.getChildren();
 
-	        Integer cIndex = gridPane.getColumnIndex(node);
-	        Integer rIndex = gridPane.getRowIndex(node);
-	        int x = cIndex == null ? 0 : cIndex;
-	        int y = rIndex == null ? 0 : rIndex;
-	        //target.setText(db.getImage()); --- must be changed to target.add(source, col, row)
-	        //target.add(source, 5, 5, 1, 1);
-	        //Places at 0,0 - will need to take coordinates once that is implemented
-	        ImageView image = new ImageView(db.getImage());
-
-	        // TODO: set image size; use correct column/row span
-	        gridPane.add(image, x, y, 1, 1);
-	        success = true;
+	    for (Node node : childrens) {
+	        if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+	            result = node;
+	            break;
+	        }
 	    }
-	    //let the source know whether the image was successfully transferred and used
-	    event.setDropCompleted(success);
 
-	    event.consume();
+	    return result;
 	}
 	
 	public static void main(String args[]){ 
 	      launch(args); 
 	}
-	
-	
-	
 
+}
+
+/*arrow.setOnDragDone(new EventHandler<DragEvent>() {
+public void handle(DragEvent event) {
+    if (event.getTransferMode() == TransferMode.MOVE) {
+    	System.out.println("DragDone");
+    }
+    event.consume();
+}
+});*/
 }
