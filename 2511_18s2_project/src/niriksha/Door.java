@@ -17,6 +17,17 @@ public class Door extends Obstacle {
 		this.setSprite(new Sprite(new Image("closed_door.png"), this.getCoordinates()));
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public Door(int x, int y, int i) {
+		super(x, y, 'E');
+		this.door_open = false;
+	}
+	
 	public boolean isDoorOpen() {
 		return this.door_open;
 	}
@@ -27,6 +38,14 @@ public class Door extends Obstacle {
 	public void openDoor() {
 		this.door_open = true;
 		this.setSprite(new Sprite(new Image("open_door.png"), this.getCoordinates()));
+	}
+	
+	/**
+	 * for testing purposes only
+	 * @param i
+	 */
+	public void openDoor(int i) {
+		this.door_open = true;
 	}
 	
 	/**

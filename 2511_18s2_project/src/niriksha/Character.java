@@ -41,6 +41,21 @@ public class Character implements Serializable {
 		this.direction = new Sprite(new Image("dir_south_1.png"), new CoOrd(x, y + 1));
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public Character(int x, int y, int i) {
+		this.co_ord = new CoOrd(x, y);
+		this.bag = new Inventory();
+		this.icon = 'v';
+		this.d = DIRECTION.DOWN;
+		this.equip_weapon = null;
+		this.holding_key = null;
+	}
+	
 	public void setState(STATE value) {  
         this.current_state = value;  
     }
@@ -100,6 +115,22 @@ public class Character implements Serializable {
 			else this.co_ord.moveDown(border);
 		}
 		this.sprite.setPosition(this.co_ord.getX() * 32, this.co_ord.getY() * 32);
+	}
+	
+	public void moveCoOrd(char movement, int border, int i) {
+		if (movement == '<') {
+			if (this.icon != '<') { this.icon = '<'; this.d = DIRECTION.LEFT; }
+			else this.co_ord.moveLeft();
+		} else if (movement == '>') {
+			if (this.icon != '>') { this.icon = '>'; this.d = DIRECTION.RIGHT; }
+			else this.co_ord.moveRight(border);
+		} else if (movement == '^') {
+			if (this.icon != '^') { this.icon = '^'; this.d = DIRECTION.UP; }
+			else this.co_ord.moveUp();
+		} else if (movement == 'v') {
+			if (this.icon != 'v') { this.icon = 'v'; this.d = DIRECTION.DOWN; }
+			else this.co_ord.moveDown(border);
+		}
 	}
 	
 	public Sprite getDirection() {

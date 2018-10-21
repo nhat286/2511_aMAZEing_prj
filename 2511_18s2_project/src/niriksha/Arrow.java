@@ -24,6 +24,17 @@ public class Arrow extends Weapon {
 	}
 	
 	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 */
+	public Arrow(int x, int y, Character user, int i) {
+		super(x, y, '%');
+		this.user = user;
+		this.used = false;
+	}
+	
+	/**
 	 * Sets coordinates of the arrow in the direction of the object   
 	 * 
 	 * @param object in front of character
@@ -53,6 +64,19 @@ public class Arrow extends Weapon {
 			break;
 		}
 		this.used = true;
+
+		return ACTION.NOTHING;
+	}
+	
+	/**
+	 * for testing purposes only
+	 * @param object
+	 * @return
+	 */
+	public ACTION weapon_action(Object object, int i) {
+		this.direction = this.user.getIcon();
+		this.setCoordinates(this.user.getCoordinates().getX(), this.user.getCoordinates().getY());
+		used = true;
 
 		return ACTION.NOTHING;
 	}

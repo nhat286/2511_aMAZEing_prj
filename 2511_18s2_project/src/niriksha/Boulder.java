@@ -20,6 +20,17 @@ public class Boulder extends Obstacle {
 	}
 	
 	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public Boulder(int x, int y, int i) {
+		super(x, y, 'O');
+		this.on_switch = false;
+	}
+	
+	/**
 	 *  Boulder is pushed by the character
 	 *  
 	 *  @param direction of movement, the object in front of boulder, 
@@ -51,6 +62,42 @@ public class Boulder extends Obstacle {
 			default:
 				this.toggleSwitch(null);
 				moveCoOrd(direction, border);
+				return ACTION.MOVE;
+		}
+	}
+	
+	/**
+	 * for testing purposes only
+	 * @param direction
+	 * @param type
+	 * @param object
+	 * @param border
+	 * @param i
+	 * @return
+	 */
+	public ACTION push_boulder(char direction, char type, Object object, int border, int i) {
+		switch (type) {
+			case '#':
+			case 'O':
+			case 'E':
+			case 'F':
+				this.toggleSwitch(null);
+				return ACTION.NOTHING;
+			
+			// floor switch
+			case 'I':
+				moveCoOrd(direction, border, i);
+				this.toggleSwitch((FloorSwitch) object);
+				return ACTION.MOVE;
+			
+			// pit
+			case 'B':
+				this.toggleSwitch(null);
+				this.destroyObstacle();
+				return ACTION.DESTROYED;
+			default:
+				this.toggleSwitch(null);
+				moveCoOrd(direction, border, i);
 				return ACTION.MOVE;
 		}
 	}
@@ -91,6 +138,22 @@ public class Boulder extends Obstacle {
 			this.getCoordinates().moveDown(border);
 		}
 		this.getSprite().setPosition(this.getCoordinates().getX() * 32, this.getCoordinates().getY() * 32);
+	}
+	
+	public void moveCoOrd(char movement, int border, int i) {
+		if (movement == '<') {
+			this.getCoordinates().moveLeft();
+		} 
+		else if (movement == '>') {
+			this.getCoordinates().moveRight(border);
+		} 
+		else if (movement == '^') {
+			this.getCoordinates().moveUp();
+		} 
+		else if (movement == 'v') {
+			this.getCoordinates().moveDown(border);
+		}
+	
 	}
 	
 	/**

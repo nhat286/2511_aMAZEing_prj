@@ -24,6 +24,18 @@ public class Key implements Serializable {
 		this.sprite = new Sprite(new Image("Key.png"), this.getCoordinates());
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public Key(int x, int y, int i) {
+		this.co_ord = new CoOrd(x, y);
+		this.icon = '&';
+		this.door = null;
+	}
+	
 	public Sprite getSprite() {
 		return this.sprite;
 	}
@@ -37,6 +49,21 @@ public class Key implements Serializable {
 	public boolean checkDoor(Door d) {
 		if (this.door != null && this.door.equals(d)) {
 			d.openDoor();
+			this.setCoordinates(-1, -1);
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * for testing purposes only
+	 * @param d
+	 * @param i
+	 * @return
+	 */
+	public boolean checkDoor(Door d, int i) {
+		if (this.door != null && this.door.equals(d)) {
+			d.openDoor(i);
 			this.setCoordinates(-1, -1);
 			return true;
 		}

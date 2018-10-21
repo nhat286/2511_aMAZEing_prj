@@ -16,6 +16,16 @@ public class Wall extends Obstacle {
 	}
 	
 	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public Wall(int x, int y, int i) {
+		super(x, y, '#');
+	}
+	
+	/**
 	 * Returns the type of obstacle 
 	 * 
 	 * @return type of obstacle

@@ -18,6 +18,17 @@ public class HoverPotion extends Potion {
 	}
 	
 	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public HoverPotion(int x, int y, int i) {
+		super(x, y, '~');
+		this.used = false;
+	}
+	
+	/**
 	 * Allows character to hover over pits
 	 * 
 	 * @return hover if potion available for use else no effect takes place

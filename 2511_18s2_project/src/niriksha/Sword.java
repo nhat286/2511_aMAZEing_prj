@@ -19,6 +19,17 @@ public class Sword extends Weapon {
 	}
 	
 	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public Sword(int x, int y, int i) {
+		super(x, y, 'T');
+		this.durability = 5;
+	}
+	
+	/**
 	 * Decreases durability of the sword
 	 * 
 	 */

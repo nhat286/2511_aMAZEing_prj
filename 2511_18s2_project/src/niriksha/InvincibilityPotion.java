@@ -22,6 +22,17 @@ public class InvincibilityPotion extends Potion {
 		this.used = false;
 		this.setSprite(new Sprite(new Image("InvincibilityPotion.png"), this.getCoordinates()));
 	}
+	
+	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public InvincibilityPotion(int x, int y, int i) {
+		super(x, y, '!');
+		this.used = false;
+	}
 
 	@Override
 	public STATE potionEffect(Character c) {

@@ -18,6 +18,17 @@ public class FloorSwitch extends Obstacle {
 	}
 	
 	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public FloorSwitch(int x, int y, int i) {
+		super(x, y, 'I');
+		this.trigger = false;
+	}
+	
+	/**
 	 * Activates floorswitch
 	 * 
 	 */

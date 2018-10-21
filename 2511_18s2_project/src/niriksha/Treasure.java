@@ -25,6 +25,18 @@ public class Treasure implements Serializable {
 		this.sprite = new Sprite(new Image("Treasure.png"), this.getCoordinates());
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param x
+	 * @param y
+	 * @param i
+	 */
+	public Treasure(int x, int y, int i) {
+		this.co_ord = new CoOrd(x, y);
+		this.icon = '$';
+		this.picked_up = false;
+	}
+	
 	public Sprite getSprite() {
 		return this.sprite;
 	}
