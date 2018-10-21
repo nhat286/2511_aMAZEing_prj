@@ -131,10 +131,6 @@ public class Character implements Serializable {
 	 */
 	public CoOrd getInfront() {
 		CoOrd co = new CoOrd(this.co_ord.getX(), this.co_ord.getY());
-//		if (this.icon == '^') co.setXY(co.getX() - 1, co.getY());
-//		else if (this.icon == 'v') co.setXY(co.getX() + 1, co.getY());
-//		else if (this.icon == '<') co.setXY(co.getX(), co.getY() - 1);
-//		else if (this.icon == '>') co.setXY(co.getX(), co.getY() + 1);
 		
 		if (this.icon == '<') co.setXY(co.getX() - 1, co.getY());
 		else if (this.icon == '>') co.setXY(co.getX() + 1, co.getY());
@@ -167,10 +163,9 @@ public class Character implements Serializable {
 	 * @param weapon name
 	 */
 	public void equipWeapon(Weapon w) {
-		if (this.equip_weapon == null) {
+		//if (this.equip_weapon == null) {
 			this.equip_weapon = w;
-			//w.setUser(this);
-		}
+		//}
 	}
 	
 	/**
@@ -242,13 +237,13 @@ public class Character implements Serializable {
 	public Sprite getSprite() {
 		return this.sprite;
 	}
-
-//	public void setSprite(Sprite sprite) {
-//		this.sprite = sprite;
-//	}
 	
 	public void updateImage() {
 		this.sprite.setImage(new Image("human_new.png"));
+		for (Weapon w : this.bag.getWeaponList())
+			w.updateImage();
+		for (Potion p : this.bag.getPotionList())
+			p.updateImage();
 	}
 
 }

@@ -21,7 +21,7 @@ public class Key implements Serializable {
 		this.co_ord = new CoOrd(x, y);
 		this.icon = '&';
 		this.door = null;
-		this.sprite = new Sprite(new Image("key.png"), this.getCoordinates());
+		this.sprite = new Sprite(new Image("Key.png"), this.getCoordinates());
 	}
 	
 	public Sprite getSprite() {
@@ -88,7 +88,7 @@ public class Key implements Serializable {
 	}
 	
 	public void updateImage() {
-		this.getSprite().setImage(new Image("key.png"));
+		this.getSprite().setImage(new Image("Key.png"));
 	}
 
 }

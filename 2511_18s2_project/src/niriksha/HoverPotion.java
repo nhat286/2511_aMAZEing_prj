@@ -14,7 +14,7 @@ public class HoverPotion extends Potion {
 	public HoverPotion(int x, int y) {
 		super(x, y, '~');
 		this.used = false;
-		this.setSprite(new Sprite(new Image("bubbly.png"), this.getCoordinates()));
+		this.setSprite(new Sprite(new Image("HoverPotion.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -59,6 +59,6 @@ public class HoverPotion extends Potion {
 
 	@Override
 	public void updateImage() {
-		this.getSprite().setImage(new Image("bubbly.png"));
+		this.getSprite().setImage(new Image("HoverPotion.png"));
 	}
 }

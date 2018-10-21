@@ -32,21 +32,28 @@ public class GameplayStage {
 	private int maze_lv;
 	private Timeline gameLoop;
 	private PlaySystem ms;
-	private boolean load_game = false;
+	private int load_game = -1;
+	private boolean design = false;
+	private SaveLoad load_feature;
 	
 	public GameplayStage(Stage s) {
 		this.s = s;
+		this.load_feature = new SaveLoad();
 	}
 	
 	public void setLevel(int lv) {
 		this.maze_lv = lv;
-		//this.makeLevelHashmap(ms);
-		//this.lv.get(this.maze_lv).run();
 	}
 	
-	public void loadGame(PlaySystem p) {
-		this.ms = p;
-		this.load_game = true;
+	public void designMaze(PlaySystem ps) {
+		this.ms = ps;
+		this.design = true;
+	}
+	
+	public void loadGame(int id) {
+		this.ms = new PlaySystem();
+		this.ms.setMaze(this.load_feature.loadGame(id));
+		this.load_game = id;
 	}
 	
 	public void makeLevelHashmap(PlaySystem ms) {
@@ -58,7 +65,7 @@ public class GameplayStage {
 	
 	public void start(){
 		
-		if (!this.load_game) {
+		if (this.load_game == -1 && !design) {
 			this.ms = new PlaySystem();
 			this.makeLevelHashmap(ms);
 			this.lv.get(this.maze_lv).run();
@@ -71,8 +78,9 @@ public class GameplayStage {
 		Canvas canvas = new Canvas(mazeSize*32, mazeSize*32);
 		VBox die_prompt = getDiePrompt();
 		VBox win_prompt = getWinPrompt();
+		VBox load_prompt = getLoadPrompt();
 		
-		Pane root = new Pane(canvas, menuButton, die_prompt, win_prompt);
+		Pane root = new Pane(canvas, menuButton, die_prompt, win_prompt, load_prompt);
 		Scene playScene = new Scene(root, mazeSize*32, mazeSize*32);
 		this.s.setScene(playScene);
 		
@@ -84,7 +92,6 @@ public class GameplayStage {
 		        m.start();
 		    }
 		});
-		//menuButton.setStyle("-fx-background-color: transparent;");
 		
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
@@ -105,12 +112,18 @@ public class GameplayStage {
 		    			case LOSE:
 		            		System.out.println("Oh no you died. Restarting...");
 		            		gameLoop.stop();
-		            		die_prompt.setVisible(true);
+		            		if (load_game == -1)
+		            			die_prompt.setVisible(true);
+		            		else
+		            			load_prompt.setVisible(true);
 		            		break;
 		    			case WIN:
 		    				System.out.println("Yay you win!!!");
 		    				gameLoop.stop();
-		    				win_prompt.setVisible(true);
+		    				if (load_game == -1)
+		    					win_prompt.setVisible(true);
+		    				else
+		    					load_prompt.setVisible(true);
 		    				return;
 		    			case QUIT:
 		    				System.out.println("Exiting ...");
@@ -188,8 +201,8 @@ public class GameplayStage {
 		    	start();
 		    }
 		});
-		die_prompt.getChildren().add(quitButton);
 		die_prompt.getChildren().add(restartButton);
+		die_prompt.getChildren().add(quitButton);
 		
 		quitButton.setStyle("-fx-font-size: 20;");
 		restartButton.setStyle("-fx-font-size: 20;");
@@ -220,8 +233,8 @@ public class GameplayStage {
 		    	start();
 		    }
 		});
-		win_prompt.getChildren().add(quitButton);
 		win_prompt.getChildren().add(nextButton);
+		win_prompt.getChildren().add(quitButton);
 		
 		quitButton.setStyle("-fx-font-size: 20;");
 		nextButton.setStyle("-fx-font-size: 20;");
@@ -229,6 +242,39 @@ public class GameplayStage {
 		win_prompt.setVisible(false);
 		
 		return win_prompt;
+	}
+	
+	private VBox getLoadPrompt() {
+		VBox load_prompt = new VBox();
+		load_prompt.setAlignment(Pos.CENTER);
+		load_prompt.setSpacing(20);
+		
+		Button quitButton = new Button("Back to Home Menu");
+		quitButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent e) {
+		    	homeMenu(s);
+		    }
+		});
+		Button reloadButton = new Button("Reload saved level");
+		reloadButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent e) {
+		    	load_prompt.setVisible(false);
+		    	ms = new PlaySystem();
+		    	ms.setMaze(load_feature.loadGame(load_game));
+		    	start();
+		    }
+		});
+		load_prompt.getChildren().add(reloadButton);
+		load_prompt.getChildren().add(quitButton);
+		
+		quitButton.setStyle("-fx-font-size: 20;");
+		reloadButton.setStyle("-fx-font-size: 20;");
+		
+		load_prompt.setVisible(false);
+		
+		return load_prompt;
 	}
 	
 	private static void homeMenu(Stage s) {

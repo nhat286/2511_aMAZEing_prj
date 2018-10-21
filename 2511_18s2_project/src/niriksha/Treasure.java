@@ -22,7 +22,7 @@ public class Treasure implements Serializable {
 		this.co_ord = new CoOrd(x, y);
 		this.icon = '$';
 		this.picked_up = false;
-		this.sprite = new Sprite(new Image("gold_pile.png"), this.getCoordinates());
+		this.sprite = new Sprite(new Image("Treasure.png"), this.getCoordinates());
 	}
 	
 	public Sprite getSprite() {
@@ -91,6 +91,6 @@ public class Treasure implements Serializable {
 	}
 	
 	public void updateImage() {
-		this.getSprite().setImage(new Image("gold_pile.png"));
+		this.getSprite().setImage(new Image("Treasure.png"));
 	}
 }

@@ -13,14 +13,14 @@ public class InvincibilityPotion extends Potion {
 	 */
 	private static final long serialVersionUID = 7626372691307995377L;
 	private boolean used;
-	private Timer invincibility_timer;
+	private transient Timer invincibility_timer;
 	private STATE old_state;
 	private Character current;
 
 	public InvincibilityPotion(int x, int y) {
 		super(x, y, '!');
 		this.used = false;
-		this.setSprite(new Sprite(new Image("brilliant_blue_new.png"), this.getCoordinates()));
+		this.setSprite(new Sprite(new Image("InvincibilityPotion.png"), this.getCoordinates()));
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class InvincibilityPotion extends Potion {
 
 	@Override
 	public void updateImage() {
-		this.getSprite().setImage(new Image("brilliant_blue_new.png"));
+		this.getSprite().setImage(new Image("InvincibilityPotion.png"));
 	}
 
 }

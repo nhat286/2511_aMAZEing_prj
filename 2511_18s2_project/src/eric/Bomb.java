@@ -19,7 +19,7 @@ public class Bomb extends Weapon {
 	private boolean lit;
 	private boolean explode;
 	private CoOrd user;
-	private Timer invincibility_timer;
+	private transient Timer invincibility_timer;
 	
 	/**
 	 * Constructor to instantiate a bomb object
@@ -33,7 +33,7 @@ public class Bomb extends Weapon {
 		this.lit = false;
 		this.explode = false;
 		this.user = user;
-		this.setSprite(new Sprite(new Image("bomb_unlit.png"), this.getCoordinates()));
+		this.setSprite(new Sprite(new Image("Bomb.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -124,6 +124,6 @@ public class Bomb extends Weapon {
 	
 	@Override
 	public void updateImage() {
-		this.getSprite().setImage(new Image("bomb_unlit.png"));
+		this.getSprite().setImage(new Image("Bomb.png"));
 	}
 }

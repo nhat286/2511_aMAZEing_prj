@@ -24,7 +24,7 @@ public class Screen {
         return this.stage;
     }
 
-    public void start(MainMenuController mainMenuControl) {
+    public void start(Controller mainMenuControl) {
     	
         this.stage.setTitle(this.screenTitle);
         this.fxmlLoader.setController(mainMenuControl);

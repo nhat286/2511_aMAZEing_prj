@@ -20,7 +20,7 @@ public class Arrow extends Weapon {
 		super(x, y, '%');
 		this.user = user;
 		this.used = false;
-		this.setSprite(new Sprite(new Image("arrow.png"), this.getCoordinates()));
+		this.setSprite(new Sprite(new Image("Arrow.png"), this.getCoordinates()));
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class Arrow extends Weapon {
 			this.getSprite().setImage(new Image("arrow_flying_1s.png"));
 			break;
 		default:
-			this.setSprite(new Sprite(new Image("arrow.png"), this.getCoordinates()));
+			this.setSprite(new Sprite(new Image("Arrow.png"), this.getCoordinates()));
 			break;
 		}
 		this.used = true;
@@ -150,6 +150,22 @@ public class Arrow extends Weapon {
 	
 	@Override
 	public void updateImage() {
-		this.getSprite().setImage(new Image("arrow.png"));
+		switch (this.direction) {
+		case '>':
+			this.getSprite().setImage(new Image("arrow_flying_1e.png"));
+			break;
+		case '<':
+			this.getSprite().setImage(new Image("arrow_flying_1w.png"));
+			break;
+		case '^':
+			this.getSprite().setImage(new Image("arrow_flying_1n.png"));
+			break;
+		case 'v':
+			this.getSprite().setImage(new Image("arrow_flying_1s.png"));
+			break;
+		default:
+			this.setSprite(new Sprite(new Image("Arrow.png"), this.getCoordinates()));
+			break;
+		}
 	}
 }
