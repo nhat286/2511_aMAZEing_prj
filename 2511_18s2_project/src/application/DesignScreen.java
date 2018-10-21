@@ -12,6 +12,7 @@ import eric.Maze;
 import eric.PlaySystem;
 import eric.SaveLoad;
 import jae.Coward;
+import jae.Enemy;
 import jae.Hound;
 import jae.Hunter;
 import jae.Strategist;
@@ -23,10 +24,13 @@ import niriksha.FloorSwitch;
 import niriksha.HoverPotion;
 import niriksha.InvincibilityPotion;
 import niriksha.Key;
+import niriksha.Obstacle;
 import niriksha.Pit;
+import niriksha.Potion;
 import niriksha.Sword;
 import niriksha.Treasure;
 import niriksha.Wall;
+import niriksha.Weapon;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -59,11 +63,14 @@ public class DesignScreen extends Application{
 	
 	GridPane gridPane = new GridPane();  
 	private PlaySystem ms;
-	private ArrayList<String> mapString;
+	private Maze designedMaze;
 	private Stage stage;
 	private int numCols = 10;
     private int numRows = 10;
     private TextField setSizeT;
+    private ImageView door_by_key_IV;
+    private Door door_by_key_object;
+    private Key key_to_door_object;
     
     private addEntity add = new addEntity();
 
@@ -86,7 +93,7 @@ public class DesignScreen extends Application{
 		side.setMinHeight(500);
 		side.setMinWidth(200);
 		side.setMaxHeight(500);
-		side.setMaxWidth(200);
+		side.setMaxWidth(250);
 		side.setPadding(new Insets(10, 20, 20, 20));
 		
 		gridPane.setGridLinesVisible(true);
@@ -114,7 +121,7 @@ public class DesignScreen extends Application{
         
         ms = new PlaySystem();
         ms.start(numCols, Maze.RUNNER);
-        mapString = new ArrayList<String>();
+//        mapString = new ArrayList<String>();
         
         readSavedDesign();
         
@@ -166,7 +173,7 @@ public class DesignScreen extends Application{
 			gridPane.add(border, i, numCols-1);
 		}
 		
-		
+		addDesignToGrid();
 		
 		// character on the maze
 		Image chara = new Image("human_new.png");
@@ -258,25 +265,43 @@ public class DesignScreen extends Application{
 		ImageView key = new ImageView(key1);
 		side.add(key, 0, 10);
 		
+		door_by_key_IV = new ImageView(new Image("closed_door.png"));
+		key.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if(!side.getChildren().contains(door_by_key_IV))
+					side.add(door_by_key_IV, 3, 10);
+				door_by_key_object = new Door(-2,-2);
+				key_to_door_object = new Key(-2,-2);
+				key_to_door_object.linkDoor(door_by_key_object);
+			}
+		});
+		
 		Image treasure1 = new Image("Treasure.png");
 		ImageView treasure = new ImageView(treasure1);
 		side.add(treasure, 1, 10);
 	       
 		setSizeT = new TextField();
 		Button play = new Button("Play");
+		Button save = new Button("Save");
 		side.add(setSizeT, 0, 12,2,1);
+		side.add(save, 2, 12);
 		side.add(play, 3, 12);
 		
 		play.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
-		    	ms.initializeDesign(mapString);
-		    	mapString.add(((Integer)numCols).toString());
-		    	//GameplayStage gs = new GameplayStage(stage,ms);
 		    	SaveLoad sl = new SaveLoad("design");
-		    	sl.saveDesign(mapString);
+		    	sl.saveDesign(ms.getMaze());
 		    	GameplayStage gs = new GameplayStage(stage);
 		    	gs.designMaze(ms);
 		    	gs.start();
+		    }
+		});
+		
+		save.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	SaveScreen s = new SaveScreen(stage, ms, scene, new SaveLoad());
+		    	s.start();
 		    }
 		});
 		
@@ -286,10 +311,12 @@ public class DesignScreen extends Application{
 		    	
 		    	if(size <=0 || size > 25) return;
 		    	DesignScreen g = new DesignScreen(size);
-		    	mapString = new ArrayList<String>();
-		    	mapString.add(((Integer)size).toString());
+
+		    	//mapString = new ArrayList<String>();
+		    	//mapString.add(((Integer)size).toString());
+		    	ms = new PlaySystem();
 		    	SaveLoad sl = new SaveLoad("design");
-		    	sl.saveDesign(mapString);
+		    	sl.saveDesign(ms.getMaze());
 		    	try {
 					g.start(stage);
 				} catch (Exception e1) {
@@ -531,7 +558,17 @@ public class DesignScreen extends Application{
 	        }
 	    });
 	    
-	    
+	    door_by_key_IV.setOnDragDetected(new EventHandler<MouseEvent>() {
+	        public void handle(MouseEvent event) {
+	        	System.out.println("DragDetected");
+	            Dragboard db = key.startDragAndDrop(TransferMode.ANY);
+	            ClipboardContent content = new ClipboardContent();
+	            content.putImage(door_by_key_IV.getImage());
+	            content.putString("DoorByKey");
+	            db.setContent(content);
+	            event.consume();
+	        }
+	    });
 	    
 	    gridPane.setOnDragOver(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
@@ -542,7 +579,7 @@ public class DesignScreen extends Application{
 	            event.consume();
 	        }
 	    });
-	    
+
 	    gridPane.setOnDragEntered(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
 	           //System.out.println("DragEntered");
@@ -563,12 +600,13 @@ public class DesignScreen extends Application{
 	    		pic.setImage(img);
 	    		
 	    		System.out.println(event.getDragboard().getString());
+	    		if(event.getDragboard().getString().equals("DoorByKey"))
+	    			side.getChildren().remove(door_by_key_IV);
 	    		addEntity(ms.getMaze(), (int)(event.getX()/32), (int)event.getY()/32, event.getDragboard().getString());
 	    		
-	    		//if (getNodeByRowColumnIndex((int) event.getY()/32, (int) event.getX()/32, gridPane) != null) {
-	    			gridPane.add(pic, (int)(event.getX()/32), (int)event.getY()/32);
-	    		//}
-	    		mapString.add(event.getDragboard().getString()+" "+(int)event.getX()/32+" "+(int)event.getY()/32);
+	    		gridPane.add(pic, (int)(event.getX()/32), (int)event.getY()/32);
+	    		
+	    		//mapString.add(event.getDragboard().getString()+" "+(int)event.getX()/32+" "+(int)event.getY()/32);
 	    		
 	         }
 	    });
@@ -591,14 +629,13 @@ public class DesignScreen extends Application{
 	
 	private void readSavedDesign() {
 		SaveLoad sl = new SaveLoad("design");
-		// Load string map
-		mapString = sl.loadDesign();
-		if(mapString == null) return;
+		// Load maze
+		designedMaze= sl.loadDesign();
+		if(designedMaze == null) return;
 		// get the size
-		numCols = Integer.parseInt(mapString.get(mapString.size()-1)) ;
+		numCols = designedMaze.getSize();
 		numRows = numCols;
-		mapString.remove(mapString.size()-1);
-		
+		ms.setMaze(designedMaze);
 	}
 	
 	public class addEntity {
@@ -711,27 +748,128 @@ public class DesignScreen extends Application{
 		} else if (type.equals("CloseDoor")) {
 			m.addObstacle(add.addDr(new CoOrd(x, y)));
 		} else if (type.equals("Key")) {
-			m.addKey(add.addKy(new CoOrd(x, y)));
+			if(key_to_door_object==null)
+				m.addKey(add.addKy(new CoOrd(x, y)));
+			else {
+				key_to_door_object.setCoordinates(x, y);
+				m.addKey(key_to_door_object);
+				key_to_door_object = null;
+				System.out.println("in");
+			}
 		} else if (type.equals("Treasure")) {
 			m.addTreasure(add.addTs(new CoOrd(x, y)));
 		} else if (type.equals("OpenDoor")) {
 			Door d = add.addDr(new CoOrd(x, y));
 			d.openDoor();
 			m.addObstacle(d);
+		}else if (type.equals("DoorByKey")) {
+			door_by_key_object.setCoordinates(x, y);
+			m.addObstacle(door_by_key_object);
+			door_by_key_object = null;
+			System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
 		}
 	}
-//	public static void main(String args[]){ 
-//	      launch(args); 
-//	}
+	
+	private void addDesignToGrid() {
+		ImageView imv;
+		for(Enemy e : ms.getMaze().getEnemies()) {
+			switch(e.getEnemyType()) {
+			case "Coward":
+				imv = new ImageView("Coward.png");
+				gridPane.add(imv, e.getCurrPos().getX(),e.getCurrPos().getY());
+				break;
+			case "Hunter":
+				imv = new ImageView("Hunter.png");
+				gridPane.add(imv, e.getCurrPos().getX(),e.getCurrPos().getY());
+				break;
+			case "Strategist":
+				imv = new ImageView("Strategist.png");
+				gridPane.add(imv, e.getCurrPos().getX(),e.getCurrPos().getY());
+				break;
+			case "Hound":
+				imv = new ImageView("Hound.png");
+				gridPane.add(imv, e.getCurrPos().getX(),e.getCurrPos().getY());
+				break;
+			default:
+				break;
+			}
+		}
+		for(Key k: ms.getMaze().getKeys()) {
+			imv = new ImageView("key.png");
+			gridPane.add(imv, k.getCoordinates().getX(), k.getCoordinates().getY());
+			break;
+		}
+		for(Treasure t: ms.getMaze().getLoots()) {
+			imv = new ImageView("treasure.png");
+			gridPane.add(imv, t.getCoordinates().getX(), t.getCoordinates().getY());
+			break;
+		}
+		for(Obstacle o:ms.getMaze().getObstacles()) {
+			switch(o.getType()) {
+			case "Boulder":
+				imv = new ImageView("Boulder.png");
+				gridPane.add(imv, o.getCoordinates().getX(),o.getCoordinates().getY());
+				break; 
+			case "Pit":
+				imv = new ImageView("shaft.png");
+				gridPane.add(imv, o.getCoordinates().getX(),o.getCoordinates().getY());
+				break;
+			case "Wall":
+				imv = new ImageView("brick_brown_0.png");
+				gridPane.add(imv, o.getCoordinates().getX(),o.getCoordinates().getY());
+				break;
+			case "Door":
+				if(((Door)o).isDoorOpen()) imv = new ImageView("open_door.png");
+				else imv = new ImageView("closed_door.png");
+				gridPane.add(imv, o.getCoordinates().getX(),o.getCoordinates().getY());
+				break;
+			default:
+				break;
+			}
+		}
+		for(Potion p:ms.getMaze().getPotionDrops()) {
+			switch(p.getType()) {
+			case "HoverPotion":
+				imv = new ImageView("HoverPotion.png");
+				gridPane.add(imv, p.getCoordinates().getX(), p.getCoordinates().getY());
+				break;
+			case "InvincibilityPotion":
+				imv = new ImageView("InvincibilityPotion.png");
+				gridPane.add(imv, p.getCoordinates().getX(), p.getCoordinates().getY());
+				break;
+			default:
+				break;
+			}
+		}
+		for(FloorSwitch f:ms.getMaze().getSwitches()) {
+			imv = new ImageView("pressure_plate.png");
+			gridPane.add(imv, f.getCoordinates().getX(),f.getCoordinates().getY());
+			break;
+		}
+		for(Weapon w:ms.getMaze().getWeaponDrops()) {
+			switch(w.getType()) {
+			case "Arrow":
+				imv = new ImageView("Arrow.png");
+				gridPane.add(imv, w.getCoordinates().getX(), w.getCoordinates().getY());
+				break;
+			case "Bomb":
+				imv = new ImageView("Bomb.png");
+				gridPane.add(imv, w.getCoordinates().getX(), w.getCoordinates().getY());
+				break;
+			case "Sword":
+				imv = new ImageView("Sword.png");
+				gridPane.add(imv, w.getCoordinates().getX(), w.getCoordinates().getY());
+				break;
+			default:
+				break;
+			}
+		}
+		for(Exit e:ms.getMaze().getExits()) {
+			imv = new ImageView("exit.png");
+			gridPane.add(imv, e.getCoordinates().getX(), e.getCoordinates().getY());
+			break;
+		}
+	}
 
 }
-
-/*arrow.setOnDragDone(new EventHandler<DragEvent>() {
-public void handle(DragEvent event) {
-    if (event.getTransferMode() == TransferMode.MOVE) {
-    	System.out.println("DragDone");
-    }
-    event.consume();
-}
-});*/
 

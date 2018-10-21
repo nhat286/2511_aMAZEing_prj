@@ -33,6 +33,12 @@ public class SaveScreen {
 		this.gameLoop = gameLoop;
 		this.save_feature = save;
 	}
+	public SaveScreen(Stage s, PlaySystem ms, Scene design, SaveLoad save) {
+		this.s = s;
+		this.ms = ms;
+		this.ps = design;
+		this.save_feature = save;
+	}
 	
 	public void start() {
 		VBox root = new VBox();
@@ -43,15 +49,25 @@ public class SaveScreen {
 		root.setSpacing(20);
 		Scene saveScene = new Scene(root,ms.getMapSize()*32,ms.getMapSize()*32);
 		s.setScene(saveScene);
-		
-		Button returnButton = new Button("Return to game");
-		returnButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override public void handle(ActionEvent e) {
-		        s.setScene(ps);
-		        s.show();
-		        gameLoop.play();
-		    }
-		});
+		Button returnButton;
+		if(gameLoop != null) {
+			returnButton = new Button("Return to game");
+			returnButton.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override public void handle(ActionEvent e) {
+			        s.setScene(ps);
+			        s.show();
+			        gameLoop.play();
+			    }
+			});
+		} else {
+			returnButton = new Button("Return to design");
+			returnButton.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override public void handle(ActionEvent e) {
+			        s.setScene(ps);
+			        s.show();
+			    }
+			});
+		}
 		
 		String label = "";
 		if (this.save_feature.getSavedSlots() > 0)

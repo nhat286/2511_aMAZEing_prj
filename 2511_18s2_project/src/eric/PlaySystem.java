@@ -356,89 +356,89 @@ public class PlaySystem {
 		return map;
 	}
 	
-	public void initializeDesign(ArrayList<String> mapString){
-		System.out.println(mapString.toString());
-		for (String str : mapString) {
-			String[] substr = str.split(" ");
-			switch(substr[0]) {
-			case "Arrow":
-				this.curr.addWeaponDrop(new Arrow(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2]),this.getUser()));
-				break;
-			case "Bomb":
-				this.curr.addWeaponDrop(new Bomb(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2]),this.user.getCoordinates()));
-				break;
-			case "Sword":
-				this.curr.addWeaponDrop(new Sword(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "HoverPotion":
-				this.curr.addPotion(new HoverPotion(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "InvincibilityPotion":
-				this.curr.addPotion(new InvincibilityPotion(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "Coward":
-				this.curr.addEnemy(new Coward(new CoOrd(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2]),50)));
-				break;
-			case "Hunter":
-				this.curr.addEnemy(new Hunter(new CoOrd(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2]),50)));
-				break;
-			case "Strategist":
-				this.curr.addEnemy(new Strategist(new CoOrd(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2]),50)));
-				break;
-			case "Hound":
-				this.curr.addEnemy(new Hound(new CoOrd(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2]),50)));
-				break;
-			case "Boulder":
-				this.curr.addObstacle(new Boulder(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break; 
-			case "Pit":
-				this.curr.addObstacle(new Pit(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "FloorSwitch":
-				this.curr.addObstacle(new FloorSwitch(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "Wall":
-				this.curr.addObstacle(new Wall(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "Exit":
-				this.curr.addExit(new Exit(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "CloseDoor":
-				this.curr.addObstacle(new Door(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "OpenDoor":
-				Door d = new Door(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2]));
-				d.openDoor();
-				this.curr.addObstacle(d);
-				break;
-			case "Key":
-				this.curr.addKey(new Key(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			case "Treasure":
-				this.curr.addTreasure(new Treasure(Integer.parseInt(substr[1]),
-						Integer.parseInt(substr[2])));
-				break;
-			default:
-				break;
-			}
-		}
-	}
+//	public void initializeDesign(ArrayList<String> mapString){
+//		System.out.println(mapString.toString());
+//		for (String str : mapString) {
+//			String[] substr = str.split(" ");
+//			switch(substr[0]) {
+//			case "Arrow":
+//				this.curr.addWeaponDrop(new Arrow(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2]),this.getUser()));
+//				break;
+//			case "Bomb":
+//				this.curr.addWeaponDrop(new Bomb(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2]),this.user.getCoordinates()));
+//				break;
+//			case "Sword":
+//				this.curr.addWeaponDrop(new Sword(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "HoverPotion":
+//				this.curr.addPotion(new HoverPotion(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "InvincibilityPotion":
+//				this.curr.addPotion(new InvincibilityPotion(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "Coward":
+//				this.curr.addEnemy(new Coward(new CoOrd(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2]),50)));
+//				break;
+//			case "Hunter":
+//				this.curr.addEnemy(new Hunter(new CoOrd(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2]),50)));
+//				break;
+//			case "Strategist":
+//				this.curr.addEnemy(new Strategist(new CoOrd(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2]),50)));
+//				break;
+//			case "Hound":
+//				this.curr.addEnemy(new Hound(new CoOrd(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2]),50)));
+//				break;
+//			case "Boulder":
+//				this.curr.addObstacle(new Boulder(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break; 
+//			case "Pit":
+//				this.curr.addObstacle(new Pit(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "FloorSwitch":
+//				this.curr.addObstacle(new FloorSwitch(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "Wall":
+//				this.curr.addObstacle(new Wall(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "Exit":
+//				this.curr.addExit(new Exit(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "CloseDoor":
+//				this.curr.addObstacle(new Door(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "OpenDoor":
+//				Door d = new Door(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2]));
+//				d.openDoor();
+//				this.curr.addObstacle(d);
+//				break;
+//			case "Key":
+//				this.curr.addKey(new Key(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			case "Treasure":
+//				this.curr.addTreasure(new Treasure(Integer.parseInt(substr[1]),
+//						Integer.parseInt(substr[2])));
+//				break;
+//			default:
+//				break;
+//			}
+//		}
+//	}
 
 }

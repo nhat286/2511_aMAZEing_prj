@@ -562,17 +562,17 @@ public class Maze implements Serializable {
 		return this.enemies;
 	}
 	
-//	public ArrayList<Obstacle> getObstacles() {
-//		return this.obstacles;
-//	}
+	public ArrayList<Obstacle> getObstacles() {
+		return this.obstacles;
+	}
 //
 //	public Character getPlayer() {
 //		return this.player;
 //	}
 //
-//	public ArrayList<Weapon> getWeaponDrops() {
-//		return this.weapon_drops;
-//	}
+	public ArrayList<Weapon> getWeaponDrops() {
+		return this.weapon_drops;
+	}
 //
 //	public ArrayList<Arrow> getAvailableArrows() {
 //		return this.available_arrows;
@@ -582,21 +582,21 @@ public class Maze implements Serializable {
 //		return this.available_bombs;
 //	}
 //
-//	public ArrayList<Potion> getPotionDrops() {
-//		return this.potion_drops;
-//	}
-//
-//	public ArrayList<FloorSwitch> getSwitches() {
-//		return this.switches;
-//	}
+	public ArrayList<Potion> getPotionDrops() {
+		return this.potion_drops;
+	}
+
+	public ArrayList<FloorSwitch> getSwitches() {
+		return this.switches;
+	}
 
 	public ArrayList<Treasure> getLoots() {
 		return this.loots;
 	}
 
-//	public ArrayList<Exit> getExits() {
-//		return this.exits;
-//	}
+	public ArrayList<Exit> getExits() {
+		return this.exits;
+	}
 
 	public ArrayList<Key> getKeys() {
 		return this.keys;

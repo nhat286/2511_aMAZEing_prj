@@ -80,11 +80,11 @@ public class SaveLoad {
 		}
 	}
 	
-	public ArrayList<String> loadDesign() {
+	public Maze loadDesign() {
 		try {
 	         FileInputStream fileIn = new FileInputStream("design/design.ser");
 	         ObjectInputStream in = new ObjectInputStream(fileIn);
-	         ArrayList<String> load = (ArrayList<String>) in.readObject();
+	         Maze load = (Maze) in.readObject();
 	         in.close();
 	         fileIn.close();
 	         return load;
@@ -97,11 +97,11 @@ public class SaveLoad {
 		}
 	}
 	
-	public void saveDesign(ArrayList<String> mapString) {
+	public void saveDesign(Maze mz) {
 		try {
 	         FileOutputStream fileOut = new FileOutputStream("design/design.ser");
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-	         out.writeObject(mapString);
+	         out.writeObject(mz);
 	         out.close();
 	         fileOut.close();       
 	      } catch (IOException i) {
