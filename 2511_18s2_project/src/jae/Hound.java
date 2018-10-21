@@ -108,5 +108,11 @@ public class Hound extends Enemy {
 		this.getSprite().setImage(new Image("hound.png"));
 	}
 	
+	@Override
+	public void setCurrPos(CoOrd currPos) {
+		super.setCurrPos(currPos);
+		this.setSprite(new Sprite(new Image("hound.png"), currPos));
+	}
+	
 }
 

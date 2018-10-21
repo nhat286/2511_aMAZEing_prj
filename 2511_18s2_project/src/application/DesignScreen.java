@@ -789,7 +789,7 @@ public class DesignScreen extends Application{
 			if(houndFlag == 0)
 				m.addEnemy(add.addHd(new CoOrd(x, y, 50)));
 			else {
-				houndList.get(houndList.size()-1).setCurrPos(new CoOrd(x,y));
+				houndList.get(houndList.size()-1).setCurrPos(new CoOrd(x,y,50));
 				houndList.get(houndList.size()-1).linkHunter(hunterList.get(hunterList.size()-1).getCurrPos());
 				m.addEnemy(houndList.get(houndList.size()-1));
 				houndFlag = 0;
@@ -829,7 +829,7 @@ public class DesignScreen extends Application{
 			//System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
 			m.addObstacle(door_by_key_object.get(door_by_key_object.size()-1));	
 		}else if (type.equals("HunterByHound")) {
-			hunterList.get(hunterList.size()-1).setCurrPos(new CoOrd(x,y));
+			hunterList.get(hunterList.size()-1).setCurrPos(new CoOrd(x,y,50));
 			//System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
 			m.addEnemy(hunterList.get(hunterList.size()-1));	
 		}

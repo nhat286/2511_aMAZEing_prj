@@ -66,5 +66,11 @@ public class Hunter extends Enemy {
 	public void updateImage() {
 		this.getSprite().setImage(new Image("hunter.png"));
 	}
+	
+	@Override
+	public void setCurrPos(CoOrd currPos) {
+		super.setCurrPos(currPos);
+		this.setSprite(new Sprite(new Image("hunter.png"), currPos));
+	}
 }
 
