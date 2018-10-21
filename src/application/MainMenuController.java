@@ -56,7 +56,10 @@ public class MainMenuController extends Controller{
     }
 	
 	@FXML
-    public void handleDesignButton() {
+    public void handleDesignButton() throws Exception {
 		System.out.println("clicked design");
+		DesignScreen ds = new DesignScreen();
+		ds.start(this.getS());
+		
     }
 }

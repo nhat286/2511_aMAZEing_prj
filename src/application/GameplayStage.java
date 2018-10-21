@@ -38,6 +38,11 @@ public class GameplayStage {
 		this.s = s;
 	}
 	
+	public GameplayStage(Stage s, PlaySystem ms) {
+		this.s = s;
+		this.ms = ms;
+	}
+	
 	public void setLevel(int lv) {
 		this.maze_lv = lv;
 		//this.makeLevelHashmap(ms);
@@ -58,7 +63,7 @@ public class GameplayStage {
 	
 	public void start(){
 		
-		if (!this.load_game) {
+		if (!this.load_game&&this.ms==null) {
 			this.ms = new PlaySystem();
 			this.makeLevelHashmap(ms);
 			this.lv.get(this.maze_lv).run();
