@@ -69,8 +69,8 @@ public class DesignScreen extends Application{
     private int numRows = 10;
     private TextField setSizeT;
     private ImageView door_by_key_IV;
-    private Door door_by_key_object;
-    private Key key_to_door_object;
+    private ArrayList<Door> door_by_key_object;
+    private ArrayList<Key> key_to_door_object;
     
     private addEntity add = new addEntity();
 
@@ -122,6 +122,10 @@ public class DesignScreen extends Application{
         ms = new PlaySystem();
         ms.start(numCols, Maze.RUNNER);
 //        mapString = new ArrayList<String>();
+        
+        door_by_key_object = new ArrayList<Door>();
+        key_to_door_object = new ArrayList<Key>();
+        
         
         readSavedDesign();
         
@@ -271,9 +275,10 @@ public class DesignScreen extends Application{
 			public void handle(MouseEvent event) {
 				if(!side.getChildren().contains(door_by_key_IV))
 					side.add(door_by_key_IV, 3, 10);
-				door_by_key_object = new Door(-2,-2);
-				key_to_door_object = new Key(-2,-2);
-				key_to_door_object.linkDoor(door_by_key_object);
+				door_by_key_object.add(new Door(3,3));
+				key_to_door_object.add(new Key(4,4));
+				key_to_door_object.get(key_to_door_object.size()-1)
+					.linkDoor(door_by_key_object.get(key_to_door_object.size()-1));
 			}
 		});
 		
@@ -753,9 +758,8 @@ public class DesignScreen extends Application{
 			if(key_to_door_object==null)
 				m.addKey(add.addKy(new CoOrd(x, y)));
 			else {
-				key_to_door_object.setCoordinates(x, y);
-				m.addKey(key_to_door_object);
-				key_to_door_object = null;
+				key_to_door_object.get(key_to_door_object.size()-1).setCoordinates(x, y);
+				m.addKey(key_to_door_object.get(key_to_door_object.size()-1));
 				System.out.println("in");
 			}
 		} else if (type.equals("Treasure")) {
@@ -765,9 +769,9 @@ public class DesignScreen extends Application{
 			d.openDoor();
 			m.addObstacle(d);
 		}else if (type.equals("DoorByKey")) {
-			door_by_key_object.setCoordinates(x, y);
-			System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
-			m.addObstacle(door_by_key_object.copy());
+			door_by_key_object.get(door_by_key_object.size()-1).setCoordinates(x, y);
+			//System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
+			m.addObstacle(door_by_key_object.get(door_by_key_object.size()-1));
 			door_by_key_object = null;
 			
 			

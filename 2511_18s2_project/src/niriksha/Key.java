@@ -88,6 +88,7 @@ public class Key implements Serializable {
 	
 	public void setCoordinates(int x, int y) {
 		this.co_ord.setXY(x, y);
+		this.sprite = new Sprite(new Image("Key.png"), this.getCoordinates());
 	}
 	/**
 	 * Pickup which remove its appearance from the map
@@ -111,7 +112,9 @@ public class Key implements Serializable {
 	 * @return copy of this key
 	 */
 	public Key copy() {
-		return new Key(this.getCoordinates().getX(), this.getCoordinates().getY());
+		Key k = new Key(this.getCoordinates().getX(), this.getCoordinates().getY());
+		k.linkDoor(this.getDoorLinked());
+		return k;
 	}
 	
 	public void updateImage() {

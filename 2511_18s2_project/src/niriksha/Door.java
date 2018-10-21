@@ -69,6 +69,12 @@ public class Door extends Obstacle {
 	}
 	
 	@Override
+	public void setCoordinates(int x, int y) {
+		super.setCoordinates(x, y);
+		this.setSprite(new Sprite(new Image("closed_door.png"), this.getCoordinates()));
+	}
+	
+	@Override
 	public void updateImage() {
 		if (this.isDoorOpen())
 			this.getSprite().setImage(new Image("open_door.png"));
