@@ -716,6 +716,7 @@ public class DesignScreen extends Application{
 	}
 	
 	private void addEntity(Maze m, int x, int y, String type) {
+		System.out.println("in"+type);
 		if (type.equals("Character")) {
 			m.addCharacter(add.addChar(new CoOrd(x, y)));
 		} else if (type.equals("Arrow")) {
@@ -765,9 +766,11 @@ public class DesignScreen extends Application{
 			m.addObstacle(d);
 		}else if (type.equals("DoorByKey")) {
 			door_by_key_object.setCoordinates(x, y);
-			m.addObstacle(door_by_key_object);
-			door_by_key_object = null;
 			System.out.println("in"+" "+door_by_key_object.getCoordinates().toString()+" "+y);
+			m.addObstacle(door_by_key_object.copy());
+			door_by_key_object = null;
+			
+			
 		}
 	}
 	

@@ -64,7 +64,8 @@ public class GameplayStage {
 	}
 	
 	public void start(){
-		
+		s.setMinHeight(0);
+		s.setMinWidth(0);
 		if (this.load_game == -1 && !design) {
 			this.ms = new PlaySystem();
 			this.makeLevelHashmap(ms);

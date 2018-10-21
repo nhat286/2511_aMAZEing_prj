@@ -41,8 +41,6 @@ public class MenuScreen {
 		//root.setPadding(new Insets(10,10,10,10));;
 		root.setSpacing(20);
 		Scene menuScene = new Scene(root,ms.getMapSize()*32,ms.getMapSize()*32);
-		s.setMinHeight(600);
-		s.setMinWidth(600);
 		s.setScene(menuScene);
 		//FontLoader fontLoader = Toolkit.getToolkit().getFontLoader();
 		//double buttonWidth;
