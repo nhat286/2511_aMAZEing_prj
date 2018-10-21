@@ -56,7 +56,7 @@ public class GameplayStage {
 		this.load_game = id;
 	}
 	
-	public void makeLevelHashmap(PlaySystem ms) {
+	private void makeLevelHashmap(PlaySystem ms) {
 		this.lv = new HashMap<>();
 		lv.put(1, () -> ms.level1Initiate());
 		lv.put(2, () -> ms.level2Initiate());
@@ -79,6 +79,7 @@ public class GameplayStage {
 		VBox die_prompt = getDiePrompt();
 		VBox win_prompt = getWinPrompt();
 		VBox load_prompt = getLoadPrompt();
+		VBox design_prompt = getDesignPrompt();
 		
 		Pane root = new Pane(canvas, menuButton, die_prompt, win_prompt, load_prompt);
 		Scene playScene = new Scene(root, mazeSize*32, mazeSize*32);
@@ -275,6 +276,39 @@ public class GameplayStage {
 		load_prompt.setVisible(false);
 		
 		return load_prompt;
+	}
+	
+	private VBox getDesignPrompt() {
+		VBox design_prompt = new VBox();
+		design_prompt.setAlignment(Pos.CENTER);
+		design_prompt.setSpacing(20);
+		
+		Button backButton = new Button("Back to Design");
+		backButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent e) {
+		    	homeMenu(s);
+		    }
+		});
+		Button replayButton = new Button("Replay design maze");
+		replayButton.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override
+		    public void handle(ActionEvent e) {
+		    	design_prompt.setVisible(false);
+		    	ms = new PlaySystem();
+		    	ms.setMaze(load_feature.loadGame(load_game));
+		    	start();
+		    }
+		});
+		design_prompt.getChildren().add(replayButton);
+		design_prompt.getChildren().add(backButton);
+		
+		backButton.setStyle("-fx-font-size: 20;");
+		replayButton.setStyle("-fx-font-size: 20;");
+		
+		design_prompt.setVisible(false);
+		
+		return design_prompt;
 	}
 	
 	private static void homeMenu(Stage s) {

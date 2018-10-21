@@ -7,8 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-import application.DesignScreen;
-
 public class SaveLoad {
 	
 	private int log_count;
@@ -26,10 +24,10 @@ public class SaveLoad {
 		}
 	}
 	
-	public SaveLoad(String d) {
+	public SaveLoad(String string) {
 		;
 	}
-	
+
 	public int getSavedSlots() {
 		return this.log_count;
 	}
@@ -59,7 +57,7 @@ public class SaveLoad {
 	         out.writeObject(m);
 	         out.close();
 	         fileOut.close();
-	         if (this.log_count < 4) {
+	         if (this.log_count < 3) {
 	        	 this.log_count = id + 1;
 	        	 this.updateStat();
 	         }

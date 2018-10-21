@@ -1,13 +1,9 @@
 package application;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import eric.Bomb;
 import eric.CoOrd;
@@ -19,6 +15,18 @@ import jae.Coward;
 import jae.Hound;
 import jae.Hunter;
 import jae.Strategist;
+import niriksha.Arrow;
+import niriksha.Boulder;
+import niriksha.Character;
+import niriksha.Door;
+import niriksha.FloorSwitch;
+import niriksha.HoverPotion;
+import niriksha.InvincibilityPotion;
+import niriksha.Key;
+import niriksha.Pit;
+import niriksha.Sword;
+import niriksha.Treasure;
+import niriksha.Wall;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,17 +49,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import niriksha.Arrow;
-import niriksha.Boulder;
-import niriksha.Door;
-import niriksha.FloorSwitch;
-import niriksha.HoverPotion;
-import niriksha.InvincibilityPotion;
-import niriksha.Key;
-import niriksha.Pit;
-import niriksha.Sword;
-import niriksha.Treasure;
-import niriksha.Wall;
 
 public class DesignScreen extends Application{
 	
@@ -67,6 +64,8 @@ public class DesignScreen extends Application{
 	private int numCols = 10;
     private int numRows = 10;
     private TextField setSizeT;
+    
+    private addEntity add = new addEntity();
 
     public DesignScreen() {
 	}
@@ -93,7 +92,6 @@ public class DesignScreen extends Application{
 		gridPane.setGridLinesVisible(true);
 		//gridPane.setPadding(new Insets(20, 20, 20, 20));
 		
-		
 		// setting up side
 		final int side_col = 4;
         final int side_row = 13;
@@ -112,14 +110,13 @@ public class DesignScreen extends Application{
 		// setting up gridPane
         // max is 25*25
         // min is
-        mapString = new ArrayList<String>();
-        
-        readSavedDesign();
+		
         
         ms = new PlaySystem();
         ms.start(numCols, Maze.RUNNER);
+        mapString = new ArrayList<String>();
         
-        
+        readSavedDesign();
         
         for (int i = 0; i < numCols; i++) {
             ColumnConstraints colConst = new ColumnConstraints();
@@ -169,7 +166,7 @@ public class DesignScreen extends Application{
 			gridPane.add(border, i, numCols-1);
 		}
 		
-		addSavedDesign();
+		
 		
 		// character on the maze
 		Image chara = new Image("human_new.png");
@@ -539,7 +536,7 @@ public class DesignScreen extends Application{
 	    gridPane.setOnDragOver(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
 	            if (event.getDragboard().hasImage()) {
-	            	System.out.println("DragOver");
+	            	//System.out.println("DragOver");
 	                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 	            }
 	            event.consume();
@@ -548,13 +545,13 @@ public class DesignScreen extends Application{
 	    
 	    gridPane.setOnDragEntered(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
-	           System.out.println("DragEntered");
+	           //System.out.println("DragEntered");
 	        }
 	    });
 	    
 	    gridPane.setOnDragExited(new EventHandler<DragEvent>() {
 	        public void handle(DragEvent event) {
-	        	System.out.println("DragExited");
+	        	//System.out.println("DragExited");
 	        }
 	    });
 	    
@@ -565,6 +562,8 @@ public class DesignScreen extends Application{
 	    		ImageView pic = new ImageView();
 	    		pic.setImage(img);
 	    		
+	    		System.out.println(event.getDragboard().getString());
+	    		addEntity(ms.getMaze(), (int)(event.getX()/32), (int)event.getY()/32, event.getDragboard().getString());
 	    		
 	    		//if (getNodeByRowColumnIndex((int) event.getY()/32, (int) event.getX()/32, gridPane) != null) {
 	    			gridPane.add(pic, (int)(event.getX()/32), (int)event.getY()/32);
@@ -602,90 +601,137 @@ public class DesignScreen extends Application{
 		
 	}
 	
-	private void addSavedDesign() {
-		// get the entities
-		ImageView imv;
-		for (String str : mapString) {
-			String[] substr = str.split(" ");
-			switch(substr[0]) {
-			case "Arrow":
-				imv = new ImageView("Arrow.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Bomb":
-				imv = new ImageView("Bomb.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Sword":
-				imv = new ImageView("Sword.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "HoverPotion":
-				imv = new ImageView("HoverPotion.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "InvincibilityPotion":
-				imv = new ImageView("InvincibilityPotion.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Coward":
-				imv = new ImageView("Coward.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Hunter":
-				imv = new ImageView("Hunter.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Strategist":
-				imv = new ImageView("Strategist.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Hound":
-				imv = new ImageView("Hound.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Boulder":
-				imv = new ImageView("Boulder.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break; 
-			case "Pit":
-				imv = new ImageView("shaft.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "FloorSwitch":
-				imv = new ImageView("pressure_plate.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Wall":
-				imv = new ImageView("brick_brown_0.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Exit":
-				imv = new ImageView("exit.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "CloseDoor":
-				imv = new ImageView("closed_door.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "OpenDoor":
-				imv = new ImageView("open_door.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Key":
-				imv = new ImageView("key.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			case "Treasure":
-				imv = new ImageView("treasure.png");
-				gridPane.add(imv, Integer.parseInt(substr[1]), Integer.parseInt(substr[2]));
-				break;
-			default:
-				break;
-			}
+	public class addEntity {
+	 
+	    public Character addChar(CoOrd co) {
+	    	return new Character(co.getX(), co.getY());
+	    }
+	    
+	    public Arrow addAr(CoOrd co, Character c) {
+	    	return new Arrow(co.getX(), co.getY(), c);
+	    }
+	    
+	    public Bomb addBm(CoOrd co, CoOrd player) {
+	    	return new Bomb(co.getX(), co.getY(), player);
+	    }
+	    
+	    public Sword addSw(CoOrd co) {
+	    	return new Sword(co.getX(), co.getY());
+	    }
+	    
+	    public HoverPotion addHP(CoOrd co) {
+	    	return new HoverPotion(co.getX(), co.getY());
+	    }
+	    
+	    public InvincibilityPotion addIP(CoOrd co) {
+	    	return new InvincibilityPotion(co.getX(), co.getY());
+	    }
+	    
+	    public Coward addCw(CoOrd co) {
+	    	return new Coward(co);
+	    }
+	    
+	    public Hunter addHt(CoOrd co) {
+	    	return new Hunter(co);
+	    }
+	    
+	    public Strategist addSt(CoOrd co) {
+	    	return new Strategist(co);
+	    }
+	    
+	    public Hound addHd(CoOrd co) {
+	    	return new Hound(co);
+	    }
+	    
+	    public Boulder addBd(CoOrd co) {
+	    	return new Boulder(co.getX(), co.getY());
+	    }
+	    
+	    public Pit addPt(CoOrd co) {
+	    	return new Pit(co.getX(), co.getY());
+	    }
+	    
+	    public FloorSwitch addFs(CoOrd co) {
+	    	return new FloorSwitch(co.getX(), co.getY());
+	    }
+	    
+	    public Wall addWl(CoOrd co) {
+	    	return new Wall(co.getX(), co.getY());
+	    }
+	    
+	    public Exit addEx(CoOrd co) {
+	    	return new Exit(co.getX(), co.getY());
+	    }
+	    
+	    public Door addDr(CoOrd co) {
+	    	return new Door(co.getX(), co.getY());
+	    }
+	    
+	    public Key addKy(CoOrd co) {
+	    	return new Key(co.getX(), co.getY());
+	    }
+	    
+	    public Treasure addTs(CoOrd co) {
+	    	return new Treasure(co.getX(), co.getY());
+	    }
+	 
+	}
+	
+	private void addEntity(Maze m, int x, int y, String type) {
+		if (type.equals("Character")) {
+			m.addCharacter(add.addChar(new CoOrd(x, y)));
+		} else if (type.equals("Arrow")) {
+			m.addWeaponDrop(add.addAr(new CoOrd(x, y), m.getUser()));
+		} else if (type.equals("Bomb")) {
+			m.addWeaponDrop(add.addBm(new CoOrd(x, y), m.getUser().getCoordinates()));
+		} else if (type.equals("Sword")) {
+			m.addWeaponDrop(add.addSw(new CoOrd(x, y)));
+		} else if (type.equals("HoverPotion")) {
+			m.addPotion(add.addHP(new CoOrd(x, y)));
+		} else if (type.equals("InvincibilityPotion")) {
+			m.addPotion(add.addIP(new CoOrd(x, y)));
+		} else if (type.equals("Coward")) {
+			m.addEnemy(add.addCw(new CoOrd(x, y, 50)));
+		} else if (type.equals("Hunter")) {
+			m.addEnemy(add.addHt(new CoOrd(x, y, 50)));
+		} else if (type.equals("Hound")) {
+			m.addEnemy(add.addHd(new CoOrd(x, y, 50)));
+		} else if (type.equals("Strategist")) {
+			m.addEnemy(add.addSt(new CoOrd(x, y, 50)));
+		} else if (type.equals("Boulder")) {
+			m.addObstacle(add.addBd(new CoOrd(x, y)));
+		} else if (type.equals("Pit")) {
+			m.addObstacle(add.addPt(new CoOrd(x, y)));
+		} else if (type.equals("FloorSwitch")) {
+			m.addObstacle(add.addFs(new CoOrd(x, y)));
+		} else if (type.equals("Wall")) {
+			m.addObstacle(add.addWl(new CoOrd(x, y)));
+		} else if (type.equals("Exit")) {
+			m.addExit(add.addEx(new CoOrd(x, y)));
+		} else if (type.equals("CloseDoor")) {
+			m.addObstacle(add.addDr(new CoOrd(x, y)));
+		} else if (type.equals("Key")) {
+			m.addKey(add.addKy(new CoOrd(x, y)));
+		} else if (type.equals("Treasure")) {
+			m.addTreasure(add.addTs(new CoOrd(x, y)));
+		} else if (type.equals("OpenDoor")) {
+			Door d = add.addDr(new CoOrd(x, y));
+			d.openDoor();
+			m.addObstacle(d);
 		}
 	}
+//	public static void main(String args[]){ 
+//	      launch(args); 
+//	}
 
 }
 
+/*arrow.setOnDragDone(new EventHandler<DragEvent>() {
+public void handle(DragEvent event) {
+    if (event.getTransferMode() == TransferMode.MOVE) {
+    	System.out.println("DragDone");
+    }
+    event.consume();
+}
+});*/
 
