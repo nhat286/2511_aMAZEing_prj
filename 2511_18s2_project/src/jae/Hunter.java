@@ -17,6 +17,15 @@ public class Hunter extends Enemy {
 		this.setSprite(new Sprite(new Image("hunter.png"), currPos));
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param currPo
+	 * @param i
+	 */
+	public Hunter(CoOrd currPo, int i) {
+		super(currPo, 'H');
+	}
+	
 	/*
 	 * Hunter moves closer based on the movement of the character
 	 *  

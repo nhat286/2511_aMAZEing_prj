@@ -18,6 +18,16 @@ public class Hound extends Enemy {
 		this.setSprite(new Sprite(new Image("hound.png"), currPos));
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param currPos
+	 * @param i
+	 */
+	public Hound(CoOrd currPos, int i) {
+		super(currPos, 'D');
+		this.hunterCoOrd = null;
+	}
+	
 	public void linkHunter(CoOrd hunterCoOrd) {
 		this.hunterCoOrd = hunterCoOrd;
 	}

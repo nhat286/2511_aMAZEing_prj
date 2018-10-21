@@ -17,6 +17,15 @@ public class Strategist extends Enemy {
 		this.setSprite(new Sprite(new Image("strategist.png"), currPos));
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param currPos
+	 * @param i
+	 */
+	public Strategist(CoOrd currPos, int i) {
+		super(currPos, 'S');
+	}
+	
 	/*
 	 * Strategist moves closer based on the predicted movement of the character
 	 *  

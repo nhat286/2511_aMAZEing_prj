@@ -20,6 +20,15 @@ public class Coward extends Enemy {
 		this.setSprite(new Sprite(new Image("coward.png"), currPos));
 	}
 	
+	/**
+	 * for testing purposes only
+	 * @param currPos
+	 * @param i
+	 */
+	public Coward(CoOrd currPos, int i) {
+		super(currPos, 'C');
+	}
+	
 	/*
 	 * Coward acts similar to a Hunter but moves away from the character when it's close
 	 *  
